@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'frontend',
+    title: 'SRPCO',
     htmlAttrs: {
       lang: 'en'
     },
@@ -22,6 +22,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/check-view.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -29,22 +30,35 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    'nuxt-graphql-request'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/apollo'
   ],
-  apollo: {
-    clientConfigs: {
+  graphql: {
+    /**
+     * An Object of your GraphQL clients
+     */
+    clients: {
       default: {
-        httpEndpoint: process.env.BACKEND_URL || 'http://localhost:1337/graphql'
+        /**
+         * The client endpoint url
+         */
+        endpoint: process.env.BACKEND_URL || 'http://localhost:1339/graphql',
+        /**
+         * Per-client options overrides
+         * See: https://github.com/prisma-labs/graphql-request#passing-more-options-to-fetch
+         */
+        options: {}
       }
-    }
+      // ...your other clients
+    },
+    options: {},
+    useFetchPolyfill: true,
+    includeNodeModules: true
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
