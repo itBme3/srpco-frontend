@@ -22,6 +22,7 @@ import {
   mapMutations,
   mapActions
 } from 'vuex'
+import { $graph } from '~/utils/graphql/init'
 
 export default {
   data () {
@@ -31,6 +32,7 @@ export default {
     }
   },
   async created () {
+    console.log({ $graph })
     await this.getEntries()
   },
   methods: {

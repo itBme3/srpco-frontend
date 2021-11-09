@@ -22,7 +22,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/check-view.js'
+    '~/plugins/check-view.js',
+    '~/plugins/graphql-accessor.ts'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

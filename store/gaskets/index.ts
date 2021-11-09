@@ -1,22 +1,23 @@
-import { gql } from 'nuxt-graphql-request'
+// import { gql } from 'graphql-request'
+// import { entryFields } from '~/utils/graphql/fragments/entries'
+import { EntryCollectionType } from '~/models/entry.model'
+import { defaultCollectionVariables, getCollection } from '~/utils/graphql/requests/collection'
 
 export const state = () => ({
-  sort: 'published_at:ASC',
-  where: { published_at_null: false },
-  limit: 10,
+  ...defaultCollectionVariables,
   entries: [],
   canLoadMore: true
 })
 
 export const mutations = {
-  setEntries (state, val) {
+  setEntries (state:any, val:any) {
     state.entries = val
     return state
   },
-  setCanLoadMore (state, val) {
+  setCanLoadMore (state:any, val:any) {
     state.canLoadMore = val
   },
-  setParams (state, params) {
+  setParams (state:any, params:any) {
     if (typeof params !== 'object' || !Object.keys(params).length) {
       return null
     }
@@ -26,49 +27,25 @@ export const mutations = {
   }
 }
 
-const ENTRY_FIELDS = gql`
-    fragment EntryFields on Gasket {
-        id
-        slug
-        title   
-    }
-`
+function getQueryParamsFromState (state:any): {[key:string]: any} {
+  return Object.keys(state).reduce((acc, key) => {
+    return ['entries', 'canLoadMore'].includes(key)
+      ? acc
+      : { ...acc, [key]: state[key] }
+  }, {})
+}
 
-export const actions = {
-  async get ({ state, commit }) {
-    const query = gql`
-          query ($where: JSON, $sort: String, $limit: Int) {
-            gaskets(where: $where, sort: $sort, limit: $limit) {
-                ...EntryFields
-            }
-          }
-          ${ENTRY_FIELDS}
-        `
-    const variables = (() => {
-      const { where, sort, limit } = state
-      return { where, sort, limit }
-    })()
-    const entries = await this.$graphql.default.request(query, variables)
-      .then(res => res.gaskets)
+export const actions: any = {
+  async get ({ state, commit }:any) {
+    const entries = await getCollection(EntryCollectionType.GASKETS, getQueryParamsFromState(state))
+      .then((res:any) => res.gaskets)
     commit('setEntries', entries)
     commit('setCanLoadMore', entries.length === state.limit)
     return entries
   },
-  async more ({ state, commit }) {
-    const query = gql`
-          query ($where: JSON, $sort: String, $limit: Int, $start: Int) {
-            gaskets(where: $where, sort: $sort, limit: $limit, start: $start) {
-              ...EntryFields
-            }
-          }
-          ${ENTRY_FIELDS}
-        `
-    const variables = (() => {
-      const { where, sort, limit } = state
-      return { where, sort, limit, start: state.entries.length }
-    })()
-    const entries = await this.$graphql.default.request(query, variables)
-      .then(res => res.gaskets)
+  async more ({ state, commit }:any) {
+    const entries = await getCollection(EntryCollectionType.GASKETS, { ...getQueryParamsFromState(state), start: state.entries.length })
+      .then((res:any) => res.gaskets)
     const allEntries = [...state.entries, ...entries]
     commit('setEntries', allEntries)
     commit('setCanLoadMore', entries.length === state.limit)
