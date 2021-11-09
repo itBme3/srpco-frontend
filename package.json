@@ -16,7 +16,9 @@
     "core-js": "^3.15.1",
     "graphql": "^16.0.1",
     "nuxt": "^2.15.7",
-    "vue-check-view": "^0.3.0"
+    "vue-check-view": "^0.3.0",
+    "vue-debounce": "^3.0.1",
+    "vue-tailwind": "^2.5.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",

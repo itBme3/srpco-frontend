@@ -22,7 +22,7 @@ export enum EntryType {
       SOLUTION = 'solution',
 }
 
-export enum EntryCollectionType {
+export enum CollectionType {
       GASKETS = 'gaskets',
       APPLICATIONS = 'applications',
       MATERIALS = 'materials',
@@ -71,7 +71,7 @@ export interface EntryItem {
       updated_at?: string;
       published_at?: string | null;
       type?: EntryType;
-      collectionType?: EntryCollectionType;
+      collectionType?: CollectionType;
       name?: string;
       description?: string | null;
       content?: string | null;

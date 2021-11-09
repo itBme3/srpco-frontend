@@ -2,10 +2,10 @@
 import { gql } from 'graphql-request'
 import { defaultCollectionVariables } from '../requests/collection'
 import { queryVariables } from './variables'
-import { EntryCollectionType, EntryType } from '~/models/entry.model'
+import { CollectionType, EntryType } from '~/models/entry.model'
 import { entryFields } from '~/utils/graphql/fragments/entries'
 
-export const entryQuery = (data: { queryParams: { [key: string]: any }, entryType?: EntryType, collectionType?: EntryCollectionType, fieldFragments?: string }) => {
+export const entryQuery = (data: { queryParams: { [key: string]: any }, entryType?: EntryType, collectionType?: CollectionType, fieldFragments?: string }) => {
   const { queryParams, fieldFragments = null } = data
   const entryType: string | null = !!data?.entryType?.length
     ? data.entryType

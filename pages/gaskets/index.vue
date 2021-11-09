@@ -1,14 +1,24 @@
 <template>
   <div>
     <pre>{{ canLoadMore }}</pre>
-    <pre v-if="!!entries">
-                <code v-for="entry in entries" :key="entry.id">
-                {{ JSON.stringify(entry, null, 2) }}
-                </code>
-            </pre>
+    <client-only>
+      <BaseCollection
+        v-if="!!entries"
+        :collection-type="'gaskets'"
+        :entries="entries"
+        :card-style="'overlay'"
+        :classes="{
+          container: ['custom', 'container'],
+          card: ['custom', 'card'],
+          grid: ['custom', 'grid'],
+          searchBar: ['custom', 'searchBar']
+        }"
+        @search="updateSearch"
+      />
+    </client-only>
     <button
       v-if="canLoadMore === true"
-      v-view="visblilityHandler"
+      view="visblilityHandler"
       class="rounded hover:bg-green-500 bg-blue-500 uppercase text-white px-5 py-3 w-auto min-w-auto block"
       @click="getMore()"
     >
@@ -31,7 +41,7 @@ export default {
       canLoadMore: false
     }
   },
-  async created () {
+  async mounted () {
     console.log({ $graph })
     await this.getEntries()
   },
@@ -51,13 +61,23 @@ export default {
       this.canLoadMore = this.$store.state.gaskets.canLoadMore
     },
     ...mapMutations({
-      setParams: 'gaskets/setParams'
+      setParams: 'gaskets/setParams',
+      setSearch: 'gaskets/setSearch'
     }),
     visblilityHandler (e) {
       if (e.percentInView > 0.9) {
         this.canLoadMore = false
         this.getMore().catch(console.error)
       }
+    },
+    async updateSearch (q) {
+      const { path, hash, query, params } = this.$route
+      this.$router.push({ path, hash, query: { ...query, q }, params })
+      // console.log({state: this.$store.state, val: q})
+      console.log(q)
+      this.setSearch(q)
+      return await this.getEntries().catch(console.error)
+      // return await this.getEntries()
     }
   }
 }
