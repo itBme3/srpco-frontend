@@ -1,0 +1,50 @@
+import { gql } from 'graphql-request'
+
+export const navigationQuery = gql`
+      query {
+      navigation(publicationState: LIVE) {
+            links {
+                  text link
+                  icon openNewTab
+                  nested { link text icon openNewTab }
+            }
+      }
+}`
+
+export const footerQuery = gql`
+      query {
+            footer(publicationState: LIVE) {
+                  blocks {
+                  ... on ComponentNavigationLink {
+                  title
+                  titleLink
+                  links {
+                        text
+                        link
+                  }
+                  }
+                  ... on ComponentNavigationContent {
+                              title
+                              content
+                        }
+                  }
+            }
+      }`
+
+export const siteInfoQuery = gql`
+  query {
+    global(publicationState: LIVE) {
+      siteName
+      defaultSeo {
+        title
+        description
+        image {
+          url
+          formats
+          mime
+          alternativeText
+        }
+      }
+    }
+  }
+`

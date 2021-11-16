@@ -23,10 +23,12 @@ export interface Media {
 export type EntryMedia = Media | number | null;
 
 export interface MediaFormats {
-      thumbnail: MediaFormat;
-      medium?: MediaFormat;
-      small: MediaFormat;
-      large?: MediaFormat;
+      [key:string]: MediaFormat;
+      // thumbnail?: MediaFormat;
+      // medium?: MediaFormat;
+      // small?: MediaFormat;
+      // large?: MediaFormat;
+      // xsmall?: MediaFormat;
 }
 
 export enum MediaEXT {

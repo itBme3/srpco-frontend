@@ -1,3 +1,5 @@
+import { Media, MediaFormat } from '~/models/media.model'
+
 /* eslint-disable no-extra-boolean-cast */
 export const handleize = (strng:string, reaplceSpacesWith: string = '-'):string => {
   return strng.toLowerCase().trim().replace(/ /g, reaplceSpacesWith).replace(/[^a-z0-9]+/g, reaplceSpacesWith).replace(/-$/, '').replace(/^-/, '').replace(/--/, reaplceSpacesWith)
@@ -95,4 +97,27 @@ export const setObjectValue = (keyString: string, value: any, objct: any) => {
     objct[keys[0]][keys[1]][keys[2]][keys[3]][keys[4]] = { ...objct[keys[0]][keys[1]][keys[2]][keys[3]][keys[4]], [keys[5]]: value }
     return objct
   }
+}
+
+export const getThumbImageUrl = (image: any, el:any):MediaFormat | Media | undefined => {
+  const width = el?.offsetWidth
+  const height = el?.offsetHeight
+  if (!!!image.formats) {
+    return image
+  }
+  const formatsArray:MediaFormat[] = Object.keys(image.formats).reduce((acc:MediaFormat[], key:string) => {
+    return [...acc, image.formats[key]]
+  }, [])
+  if (!!!width || !!!height) {
+    return formatsArray.sort(sortCompare('width', 'desc')).pop()
+  }
+  const smallestSize: MediaFormat | undefined = formatsArray
+    .filter((f: MediaFormat) => f.width > width && f.height > height)
+    .sort(sortCompare(width > height ? 'width' : 'height', 'desc'))
+    .pop()
+
+  if (typeof smallestSize === 'undefined' || typeof smallestSize.url === 'undefined') {
+    return image
+  }
+  return smallestSize
 }

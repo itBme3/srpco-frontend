@@ -12,7 +12,9 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image', href: '/favicon.png' },
+      { rel: 'stylesheet', href: '/style.css' },
+      { rel: 'stylesheet', href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?y9ss9k' }
     ]
   },
 
@@ -64,5 +66,9 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    apiUrl: process.env.API_URL || 'http://localhost:1339'
   }
 }

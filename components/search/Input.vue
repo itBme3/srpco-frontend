@@ -1,6 +1,7 @@
 <template>
   <div :class="'block w-full p-0 rounded focus-within:shadow-lg' + !!classes.wrapper && Array.isArray(classes.wrapper) ? ' ' + classes.wrapper.join(' ') : ''">
-    <BaseInput
+    <InputBase
+      v-model="searchValue"
       type="'search'"
       :autocomplete="autocomplete"
       :classes="classes"
@@ -9,16 +10,20 @@
       :tabindex="tabindex"
       :name="name"
       :variant="variant"
-      :variants="{
-        global: {
-          classes: ''
-        },
-        secondary: {
-          classes: 'text-sm'
-        }
-      }"
+      :focused="focusInput"
       @input="$emit('input', $event)"
     />
+    <button
+      class="px-3 py-2 w-auto h-auto flex items-center content-center"
+      @click="searchValue.length > 0 ? $emit('clear', '') : focusInput = true;
+      searchValue.length > 0 && !!!focusInput ? searchValue = '' : ''
+      "
+    >
+      <Icon
+        :icon-name="searchValue.length > 0 ? 'close' : 'search'"
+        class="m-auto"
+      />
+    </button>
   </div>
 </template>
 
@@ -30,12 +35,8 @@ enum SearchInputVariant {
   SMALL = 'small',
 }
 
-const x = {
+export default {
   props: {
-    classes: {
-      type: [String, Object, Array],
-      default: ''
-    },
     placeholder: {
       type: String,
       default: 'search...'
@@ -60,14 +61,24 @@ const x = {
       type: String as () => SearchInputVariant,
       default: SearchInputVariant.DEFAULT
     },
-    searchValue: {
+    search: {
       type: String,
       default: ''
+    },
+    classes: {
+      type: Object as () => { [key:string]: string[] },
+      default () {
+        return {
+          wrapper: []
+        }
+      }
     }
   },
-  data () {
+  data ({ _props }:any) {
     return {
-      fixedClasses: 'border-0 ring-non outline-none focus:border-0 focus:outline-none focus:ring-none, active:border-0 active:outline-none active:ring-none'
+      focusInput: false,
+      fixedClasses: 'border-0 ring-non outline-none focus:border-0 focus:outline-none focus:ring-none, active:border-0 active:outline-none active:ring-none',
+      searchValue: _props?.search?.length > 0 ? _props.search : ''
     }
   },
   watch: {
@@ -75,13 +86,8 @@ const x = {
       return e
     }
   },
-  // created () {
-  //   this.searchValueFromQuery()
-  // },
   methods: {
     updateSearch (val:string) {
-      // this.searchValue = val
-      // console.log(val)
       return val
     }
     // searchValueFromQuery () {
@@ -89,5 +95,4 @@ const x = {
     // }
   }
 }
-export default { ...x }
 </script>

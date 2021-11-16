@@ -16,7 +16,7 @@ export const entryFields: any = (entryType: EntryType, fragmentType: string = 'd
       collectionItem: `
         ${fields.join(' ')}
         ${[EntryType.MATERIAL, EntryType.APPLICATION].includes(entryType)
-          ? 'gaskets { id slug title collectionType }'
+          ? 'gaskets (limit: 3, sort: "order:ASC") { id slug title collectionType }'
           : ''}
         ${mediaKey} {
           ${mediaFields(entryType === EntryType.DATASHEET ? 'tiny' : 'default')}

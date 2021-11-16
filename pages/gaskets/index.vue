@@ -1,7 +1,7 @@
+
 <template>
   <div>
     <pre>{{ canLoadMore }}</pre>
-    <client-only>
       <BaseCollection
         v-if="!!entries"
         :collection-type="'gaskets'"
@@ -15,7 +15,6 @@
         }"
         @search="updateSearch"
       />
-    </client-only>
     <button
       v-if="canLoadMore === true"
       view="visblilityHandler"
@@ -32,18 +31,21 @@ import {
   mapMutations,
   mapActions
 } from 'vuex'
-import { $graph } from '~/utils/graphql/init'
-
+import { getMetaTags } from '~/utils/seo'
+/* eslint-disable no-extra-boolean-cast */
 export default {
+  async asyncData ({ store }) {
+    const { dispatch } = store
+    await dispatch('gaskets/get')
+    const entries = store.state.gaskets.entries
+    const canLoadMore = store.state.gaskets.canLoadMore
+    return { entries, canLoadMore }
+  },
   data () {
     return {
-      entries: this.$store.state.gaskets.entries,
-      canLoadMore: false
+      entries: !!this?.$store?.state?.gaskets.entries ? !!this?.$store?.state?.gaskets.entries : null,
+      canLoadMore: !!this?.$store?.state?.gaskets.canLoadMore ? !!this?.$store?.state?.gaskets.canLoadMore : null
     }
-  },
-  async mounted () {
-    console.log({ $graph })
-    await this.getEntries()
   },
   methods: {
     ...mapActions({
@@ -67,17 +69,22 @@ export default {
     visblilityHandler (e) {
       if (e.percentInView > 0.9) {
         this.canLoadMore = false
-        this.getMore().catch(console.error)
+        this.getMore()
+          .catch(console.error)
       }
     },
     async updateSearch (q) {
       const { path, hash, query, params } = this.$route
       this.$router.push({ path, hash, query: { ...query, q }, params })
-      // console.log({state: this.$store.state, val: q})
-      console.log(q)
       this.setSearch(q)
-      return await this.getEntries().catch(console.error)
-      // return await this.getEntries()
+      return await this.getEntries()
+        .catch(console.error)
+    },
+    header () {
+      return {
+        title: 'Custom Gaskets',
+        meta: getMetaTags({ metaTitle: 'Custom Gaskets', metaDescription: '' })
+      }
     }
   }
 }

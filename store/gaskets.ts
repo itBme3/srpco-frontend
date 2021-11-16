@@ -11,7 +11,6 @@ export const state = () => ({
   search: ''
 })
 
-
 export const mutations = {
   setEntries (state:any, val:any) {
     state.entries = val
@@ -77,44 +76,3 @@ export const actions: any = {
     return allEntries
   }
 }
-
-// export const mutations = {
-//   getQueryParams (state, params) {
-//     const queryKeys = ['where', 'sort', 'limit']
-//     const queryParams = typeof params === 'object' && Object.keys(params).length > 0 ? params : state
-//     console.log(state)
-//     return queryKeys.reduce((acc, key) => {
-//       acc[key] = typeof queryParams !== 'undefined' && typeof queryParams[key] !== 'undefined' ? queryParams[key] : state[key]
-//       if (!!acc && acc[key] !== state[key]) {
-//         state[key] = acc[key]
-//       }
-//       return acc
-//     }, {})
-//   },
-//   async get (state, params) {
-//     const queryParams = mutations.getQueryParams(typeof params !== 'undefined' ? params : state.params)
-//     console.log(queryParams)
-//     const query = gql`
-//       query Gaskets($where: JSON, $sort: String, $limit: Int) {
-//         gaskets(where: $where, sort: $sort, limit: $limit) {
-//             id
-//         }
-//       }`
-//     state.entries = await this.$graphql.default.request(query, queryParams)
-//     return state.entries
-//   }
-//   // async more (params = state.params) {
-//   //   const query = gql`
-//   //     query Gaskets($params: {where: Json, limit: Int, sort: String}) {
-//   //       gaskets(${{ ...params }}) {
-//   //           id
-//   //       }
-//   //     }`
-//   //   const variables = { params: mutations.queryParams({ ...params, start: state.entries.length }) }
-//   //   return await this.$graphql.default.request(query, variables)
-//   //     .then((more) => {
-//   //       more.forEach(d => !state.entries.map(e => e.id).includes(d.id) ? state.entries.push(d) : '')
-//   //       return state.entries
-//   //     })
-//   // }
-// }
