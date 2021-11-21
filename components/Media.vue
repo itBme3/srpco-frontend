@@ -1,10 +1,19 @@
 <template>
-  <div>
+  <div
+    :style="{ height: imgHeight, backgroundImage: isBackground ? 'url(' + imgSrc + ')' : 'none' }"
+    class="overflow-hidden relative flex items-center content-center"
+  >
     <img
       v-if="imgSrc !== null"
       :src="imgSrc"
+      class="w-full h-auto relative z-0"
+      :class="{ 'opacity-0': isBackground }"
       @load="imageLoaded"
     >
+    <div
+      v-if="overlay"
+      class="overlay absolute -inset-1 z-1"
+      :class="{['' + overlayClasses + '']: overlayClasses !== null && typeof overlayClasses === 'string'}"></div>
   </div>
 </template>
 
@@ -16,13 +25,27 @@ export default {
     media: {
       type: Object,
       default: () => null
+    },
+    ratio: {
+      type: String,
+      default: 'auto'
+    },
+    isBackground: {
+      type: Boolean,
+      default: false
+    },
+    overlay: {
+      type: Boolean,
+      default: false
+    },
+    overlayClasses: {
+      type: String,
+      default: null
     }
   },
   data () {
-    console.log('DATA: ', this.media)
-    const imgSrc = this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
-    console.log({imgSrc})
-    return { imgSrc }
+    const imgSrc = typeof this.imgSrc !== 'undefined' ? this.imgSrc : this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
+    return { imgSrc, imgHeight: 'auto' }
   },
   mounted () {
     this.setImgSrc()
@@ -32,11 +55,16 @@ export default {
     window.removeEventListener('resize', this.setImgSrc)
   },
   methods: {
-    imageLoaded (e) {
-      console.log('LOADED: ', e)
+    imageLoaded () {
+      this.setImgSrc()
     },
     setImgSrc () {
-      this.imgSrc = this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
+      this.setImgHeight()
+      const imgSrc = this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
+      if (this.imgSrc === imgSrc) {
+        return
+      };
+      this.imgSrc = imgSrc
     },
     getImgSrc (media, el) {
       if (media === null) {
@@ -47,7 +75,31 @@ export default {
         return null
       }
       return getStrapiMedia(thumb.url)
+    },
+    setImgHeight () {
+      if (!this.ratio.includes(':') || typeof this.$el === 'undefined' || this.$el.offsetWidth < 0) {
+        return
+      }
+      const ratio = this.ratio.split(':')
+      const width = this.$el.offsetWidth
+      const height = Math.floor(width / ratio[0] * ratio[1])
+      if (height > 0) {
+        this.imgHeight = `${height}px`
+        return
+      }
+      this.imgHeight = 'auto'
     }
   }
 }
 </script>
+
+<style>
+[style*="background-image: url("] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.overlay {
+  @apply bg-gray-900 bg-opacity-10
+}
+</style>

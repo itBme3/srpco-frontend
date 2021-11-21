@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import './_typography.scss';
+@import './_blocks.scss';
 
 [class^="gicon-"]:before, [class*=" gicon-"]:before {
         position: relative;

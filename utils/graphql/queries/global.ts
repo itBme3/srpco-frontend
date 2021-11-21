@@ -31,7 +31,7 @@ export const footerQuery = gql`
             }
       }`
 
-export const siteInfoQuery = gql`
+export const globalQuery = gql`
   query {
     global(publicationState: LIVE) {
       siteName

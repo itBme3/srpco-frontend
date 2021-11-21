@@ -13,6 +13,7 @@
     "lint": "npm run lint:js"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.4.1",
     "core-js": "^3.15.1",
     "graphql": "^16.0.1",
     "nuxt": "^2.15.7",
@@ -30,8 +31,11 @@
     "eslint": "^7.29.0",
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.12.1",
+    "fibers": "^5.0.0",
     "nuxt-graphql-request": "^4.2.2",
-    "postcss": "^8.3.5"
+    "postcss": "^8.3.5",
+    "sass": "^1.43.4",
+    "sass-loader": "10"
   },
   "engines": {
     "node": ">=11"

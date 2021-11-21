@@ -1,8 +1,7 @@
 
 <template>
   <div>
-    <pre>{{ canLoadMore }}</pre>
-      <BaseCollection
+      <!-- <CollectionPage
         v-if="!!entries"
         :collection-type="'gaskets'"
         :entries="entries"
@@ -14,15 +13,13 @@
           searchBar: ['custom', 'searchBar']
         }"
         @search="updateSearch"
+      /> -->
+      <BlockCollection
+        :collectionType="'gaskets'"
+        :searchBar="false"
+        :sort="'order'"
+        :limit="10"
       />
-    <button
-      v-if="canLoadMore === true"
-      view="visblilityHandler"
-      class="rounded hover:bg-green-500 bg-blue-500 uppercase text-white px-5 py-3 w-auto min-w-auto block"
-      @click="getMore()"
-    >
-      get more
-    </button>
   </div>
 </template>
 
@@ -83,7 +80,7 @@ export default {
     header () {
       return {
         title: 'Custom Gaskets',
-        meta: getMetaTags({ metaTitle: 'Custom Gaskets', metaDescription: '' })
+        meta: getMetaTags({ title: 'Custom Gaskets', description: '' })
       }
     }
   }

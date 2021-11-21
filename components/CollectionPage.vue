@@ -17,7 +17,7 @@
         :key="entry.id"
         class="collection-entry"
       >
-        <Media :media="entry.media" />
+        <Media :is-background="true" :media="entry.media" :ratio="'2:1'" />
       </div>
     </div>
   </div>

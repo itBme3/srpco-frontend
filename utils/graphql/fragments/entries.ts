@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { gql } from 'graphql-request'
 import { capitalize } from '../../funcs'
-import { mediaFields } from './media'
+import { mediaFields } from './fields'
 import { EntryType } from '~/models/entry.model'
 
 export const entryFields: any = (entryType: EntryType, fragmentType: string = 'default', mediaKey: string = 'media', addedKeys: string[] = []) => {

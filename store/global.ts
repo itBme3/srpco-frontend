@@ -1,9 +1,9 @@
-import { getFooter, getNavigation, getSiteInfo } from '~/utils/graphql/requests/global'
+import { getFooter, getNavigation, getGlobalInfo } from '~/utils/graphql/requests/global'
 
 export const state = () => ({
   footer: null,
   navigation: null,
-  siteInfo: null
+  globalInfo: null
 })
 
 export const mutations = {
@@ -15,8 +15,8 @@ export const mutations = {
     state.footer = val
     return state
   },
-  setSiteInfo (state:any, val:any) {
-    state.siteInfo = val
+  setGlobalInfo (state:any, val:any) {
+    state.globalInfo = val
     return state
   }
 }
@@ -38,10 +38,13 @@ export const actions: any = {
         return res.footer
       })
   },
-  async getSiteInfo ({ commit }: any) {
-    return await getSiteInfo()
+  async getGlobalInfo ({ commit, state }: any) {
+    if (typeof state.globalInfo !== 'undefined') {
+      return state.globalInfo
+    }
+    return await getGlobalInfo()
       .then((res: any) => {
-        commit('global/setSiteInfo', res.global)
+        commit('global/setGlobalInfo', res.global)
         return res.global
       })
   }

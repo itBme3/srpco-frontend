@@ -13,15 +13,17 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image', href: '/favicon.png' },
-      { rel: 'stylesheet', href: '/style.css' },
       { rel: 'stylesheet', href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?y9ss9k' }
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~/assets/styles/style.scss'
   ],
-
+  tailwindCss: {
+    cssPath: '~/assets/tailwind.css'
+  },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/check-view.js',

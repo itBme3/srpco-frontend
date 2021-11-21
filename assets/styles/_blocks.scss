@@ -1,0 +1,7 @@
+.blocks {
+    @apply grid grid-cols-12 gap-4 p-4;
+  }
+.block {
+    @apply col-span-12 md:col-span-6;
+  }
+  

@@ -3,36 +3,36 @@ import { getStrapiMedia } from './medias'
 export function getMetaTags (seo) {
   const tags = []
 
-  if (seo.metaTitle) {
+  if (seo.title) {
     tags.push(
       {
         property: 'og:title',
-        content: seo.metaTitle
+        content: seo.title
       },
       {
         name: 'twitter:title',
-        content: seo.metaTitle
+        content: seo.title
       }
     )
   }
-  if (seo.metaDescription) {
+  if (seo.description) {
     tags.push(
       {
         name: 'description',
-        content: seo.metaDescription
+        content: seo.description
       },
       {
         property: 'og:description',
-        content: seo.metaDescription
+        content: seo.description
       },
       {
         name: 'twitter:description',
-        content: seo.metaDescription
+        content: seo.description
       }
     )
   }
-  if (seo.shareImage) {
-    const imageUrl = getStrapiMedia(seo.shareImage.url)
+  if (seo.image) {
+    const imageUrl = getStrapiMedia(seo.image.url)
     tags.push(
       {
         name: 'image',

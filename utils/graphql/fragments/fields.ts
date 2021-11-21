@@ -6,3 +6,10 @@ export const mediaFields = (fragmentType: 'default' | 'full' | 'tiny' = 'default
   }
   return Object.keys(fields).includes(fragmentType) ? fields[fragmentType] : fields.default
 }
+
+export const seoFields = `title
+        description
+        image {
+          url
+          formats
+        }`

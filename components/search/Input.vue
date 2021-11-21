@@ -1,5 +1,5 @@
 <template>
-  <div :class="'block w-full p-0 rounded focus-within:shadow-lg' + !!classes.wrapper && Array.isArray(classes.wrapper) ? ' ' + classes.wrapper.join(' ') : ''">
+  <div v-bind:class="{ 'block relative w-full p-0 rounded focus-within:shadow-lg': true, [classes.wrapper.join(' ')]: !!classes.wrapper && Array.isArray(classes.wrapper) }">
     <InputBase
       v-model="searchValue"
       type="'search'"
@@ -14,7 +14,8 @@
       @input="$emit('input', $event)"
     />
     <button
-      class="px-3 py-2 w-auto h-auto flex items-center content-center"
+      class="absolute top-[50%] right-0 px-3 py-2 w-auto h-auto flex items-center content-center"
+      style="transform: translateY(-50%)"
       @click="searchValue.length > 0 ? $emit('clear', '') : focusInput = true;
       searchValue.length > 0 && !!!focusInput ? searchValue = '' : ''
       "

@@ -81,32 +81,6 @@ const COLORS = {
   'purple-700': '#51219F',
   'purple-800': '#2C036F',
   'purple-900': '#19023E'
-  // dark: {
-  //   50: '#F0F2F8',
-  //   100: '#DEE0EB',
-  //   200: '#C2C4D0',
-  //   300: '#A4A6B1',
-  //   400: '#818491',
-  //   500: '#6D6D79',
-  //   600: '#565664',
-  //   700: '#41414E',
-  //   800: '#292933',
-  //   900: '#0E0E12',
-  //   DEFAULT: '#0E0E12',
-  // },
-  // light: {
-  //   50: '#FAFBFC',
-  //   100: '#F9FAFC',
-  //   200: '#F7F8FB',
-  //   300: '#F6F7FA',
-  //   400: '#F4F6FA',
-  //   500: '#F3F4F9',
-  //   DEFAULT: '#F3F4F9',
-  //   600: '#F1F3F8',
-  //   700: '#EFF0F4',
-  //   800: '#F0F2F8',
-  //   900: '#E9EAF0',
-  // },
 }
 require('dotenv').config()
 // const enablePurge = process.env.ENABLE_PURGE || false
@@ -155,13 +129,15 @@ module.exports = {
   important: true,
   mode: 'jit',
   purge: {
-    enabled: enablePurge,
+    enabled: false,
     content: [
       'components/**/*.{vue,js,ts}',
       'layouts/**/*.vue',
       'pages/**/*.vue',
       'plugins/**/*.{js,ts}',
-      'nuxt.config.{js,ts}'
+      'assets/**/*.{scss,css}',
+      'nuxt.config.{js,ts}',
+      'tailwind.config.js'
     ],
     safelist: [
       'bg-red',
@@ -224,7 +200,13 @@ module.exports = {
       'sm:col-span-9', 'md:col-span-9', 'lg:col-span-9', 'xl:col-span-9',
       'sm:col-span-10', 'md:col-span-10', 'lg:col-span-10', 'xl:col-span-10',
       'sm:col-span-11', 'md:col-span-11', 'lg:col-span-11', 'xl:col-span-11',
-      'sm:col-span-12', 'md:col-span-12', 'lg:col-span-12', 'xl:col-span-12'
+      'sm:col-span-12', 'md:col-span-12', 'lg:col-span-12', 'xl:col-span-12',
+      'text-left', 'text-right', 'text-center', 'text-base', 'text-sm', 'text-xs', 'text-tiny', 'text-base', 'text-lg', 'text-xl', 'text-2xl', 'text-3xl', 'text-4xl', 'text-5xl', 'text-6xl',
+      'sm:text-left', 'sm:text-right', 'sm:text-center', 'sm:text-base', 'sm:text-sm', 'sm:text-xs', 'sm:text-tiny', 'sm:text-base', 'sm:text-lg', 'sm:text-xl', 'sm:text-2xl', 'sm:text-3xl', 'sm:text-4xl', 'sm:text-5xl', 'sm:text-6xl',
+      'md:text-left', 'md:text-right', 'md:text-center', 'md:text-base', 'md:text-sm', 'md:text-xs', 'md:text-tiny', 'md:text-base', 'md:text-lg', 'md:text-xl', 'md:text-2xl', 'md:text-3xl', 'md:text-4xl', 'md:text-5xl', 'md:text-6xl',
+      'lg:text-left', 'lg:text-right', 'lg:text-center', 'lg:text-base', 'lg:text-sm', 'lg:text-xs', 'lg:text-tiny', 'lg:text-base', 'lg:text-lg', 'lg:text-xl', 'lg:text-2xl', 'lg:text-3xl', 'lg:text-4xl', 'lg:text-5xl', 'lg:text-6xl',
+      'xl:text-left', 'xl:text-right', 'xl:text-center', 'xl:text-base', 'xl:text-sm', 'xl:text-xs', 'xl:text-tiny', 'xl:text-base', 'xl:text-lg', 'xl:text-xl', 'xl:text-2xl', 'xl:text-3xl', 'xl:text-4xl', 'xl:text-5xl', 'xl:text-6xl',
+      'p-5'
     ]
   },
   darkMode: 'class', // or 'media' or 'class'
@@ -320,8 +302,8 @@ module.exports = {
   plugins: [
     require('postcss-import'),
     require('tailwindcss'),
-    require('autoprefixer')
-    // require('@tailwindcss/typography'),
+    require('autoprefixer'),
+    require('@tailwindcss/typography')
     // require('@tailwindcss/aspect-ratio')
   ]
 }
