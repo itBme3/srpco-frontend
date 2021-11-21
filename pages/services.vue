@@ -3,7 +3,7 @@
   <div>
     <NuxtChild :key="$route.fullPath" />
     <div
-      v-if="typeof page !== undefined"
+      v-if="page !== undefined && page !== null"
       class="page-heading flex flex-wrap items-center content-start">
       <h1
         v-if="!!page && page.title !== null"
@@ -31,8 +31,7 @@ import { globalQuery } from '~/utils/graphql/queries/global'
 /* eslint-disable no-extra-boolean-cast */
 export default {
   scrollToTop: true,
-  async asyncData (context) {
-    console.log(context)
+  async asyncData () {
     return {
       page: await getCollectionPage(CollectionType.SERVICES).then(res => res.collectionService),
       global: await $graph.request(globalQuery).then(res => res.global)

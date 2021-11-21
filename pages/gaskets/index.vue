@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div class="collection gaskets">
     <!-- <BlockCollection
       :collection-type="'gaskets'"
       :search-bar="false"
@@ -21,7 +21,6 @@ import { globalQuery } from '~/utils/graphql/queries/global'
 export default {
   async asyncData () {
     const page = await getCollectionPage(CollectionType.GASKETS).then(res => res.collectionGasket)
-    console.log({page})
     return {
       page,
       global: await $graph.request(globalQuery).then(res => res.global)

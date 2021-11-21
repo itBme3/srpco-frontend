@@ -1,15 +1,16 @@
 <template>
-  <Link
-    :link="link"
-    :open-new-tab="openNewTab === true">
-    <div
+  <div class="card flex flex-col items-start">
+    <Link
+      class="card-link"
       :class="{
-        card: true,
         'card-style-overlay': cardStyle === 'overlay',
         'card-style-media-left': cardStyle === 'mediaLeft',
         'card-style-media-right': cardStyle === 'mediaRight',
-        'card-style-media-above': cardStyle === 'mediaAbove'
+        'card-style-media-above': cardStyle === 'mediaAbove',
+        'card-more-links': Array.isArray(moreLinks) && moreLinks.length > 0
       }"
+      :link="link"
+      :open-new-tab="openNewTab === true"
     >
       <Media
         v-if="(!!media && !!media.url) || (typeof youtube === 'string' && youtube.length > 0)"
@@ -36,12 +37,17 @@
           <div
             class="card-text"
             :class="{ [textClasses]: textClasses.length > 0 }"
-            v-html="text"
+            :v-html="text"
           />
         </template>
       </div>
-    </div>
-  </Link>
+    </Link>
+    <CardMoreLinks
+      :v-if="Array.isArray(moreLinks) && moreLinks.length > 0"
+      :more-links="moreLinks"
+      class="more-links-container w-full"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -91,6 +97,15 @@ export default {
     openNewTab: {
       type: Boolean,
       default: false
+    },
+    moreLinks: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data () {
+    return {
+
     }
   }
 }
@@ -103,48 +118,51 @@ export default {
       text-align: inherit;
     }
   }
-  .card {
-     @apply flex overflow-hidden rounded bg-white shadow-md;
-  }
   .card-media, .card-content {
     @apply order-1
   }
-  .card-style {
-    &-overlay {
-      @apply relative;
-      .card-media {
-        @apply relative z-1;
-      }
-      .card-content {
-        @apply absolute top-1/2 transform -translate-y-1/2 left-4 right-4 z-10;
-      }
-      .card-title, .card-text * {
-        text-shadow: 0 0 40px rgba(0,0,0,.7);
-      }
+  .card {
+    @apply  rounded bg-white shadow-md;
+    .card-link {
+      @apply flex overflow-hidden;
     }
-    &-media {
-      &-above {
-        @apply flex-col;
+    .card-style {
+      &-overlay {
+        @apply relative;
+        .card-media {
+          @apply relative z-1;
+        }
         .card-content {
-          @apply pt-2 px-4 pb-3;
+          @apply absolute top-1/2 transform -translate-y-1/2 left-4 right-4 z-10;
+        }
+        .card-title, .card-text * {
+          text-shadow: 0 0 40px rgba(0,0,0,.7);
         }
       }
-      &-left {
-        @apply items-center content-between;
-        .card-content {
-          @apply mr-auto w-2/3 text-center;
+      &-media {
+        &-above {
+          @apply flex-col;
+          .card-content {
+            @apply pt-2 px-4 pb-3;
+          }
         }
-        .card-media {
-          @apply mr-2 w-1/3;
+        &-left {
+          @apply items-center content-between;
+          .card-content {
+            @apply mr-auto w-2/3 text-center;
+          }
+          .card-media {
+            @apply mr-2 w-1/3;
+          }
         }
-      }
-      &-right {
-        @apply items-center content-between;
-        .card-content {
-          @apply mr-auto w-2/3 text-center;
-        }
-        .card-media {
-          @apply ml-2 order-2 w-1/3;
+        &-right {
+          @apply items-center content-between;
+          .card-content {
+            @apply mr-auto w-2/3 text-center;
+          }
+          .card-media {
+            @apply ml-2 order-2 w-1/3;
+          }
         }
       }
     }

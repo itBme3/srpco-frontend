@@ -8,8 +8,8 @@
         v-debounce:400ms="(e) => e !== searchValue ? $emit('search', e) : ''"
         :autocomplete="'on'"
         :debounce-events="['input']"
-        @clear="(e) => $emit('search', '')"
         :class="{[searchBarClasses]: searchBarClasses.length > 0}"
+        @clear="(e) => $emit('search', '')"
       />
     </template>
     <div
@@ -17,24 +17,25 @@
       class="collection-entries"
       :class="{[gridClasses]: gridClasses.length > 0}"
     >
-    <template v-for="entry in entries">
-      <Card
-        :key="entry.id"
-        :card-style="cardStyle"
-        :title="entry.title"
-        :text="entry.description"
-        :media="entry.media"
-        :mediaRatio="mediaRatio"
-        :link="'/' + collectionType + '/' + entry.slug"
-        :open-new-tab="false"
-        class="collection-entry"
-        :class="{[cardClasses]: cardClasses.length > 0}"
-        :title-classes="cardTitleClasses"
-        :youtube="typeof entry.youtube === 'string' ? entry.youtube : null"
-        :text-classes="cardTextClasses"
-        :media-classes="cardMediaClasses"
-      />
-    </template>
+      <template v-for="entry in entries">
+        <Card
+          :key="entry.id"
+          :card-style="['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0 ? 'mediaLeft' : cardStyle"
+          :title="entry.title"
+          :text="entry.description"
+          :media="entry.media"
+          :media-ratio="mediaRatio"
+          :link="'/' + collectionType + '/' + entry.slug"
+          :open-new-tab="false"
+          class="collection-entry"
+          :class="{[cardClasses]: cardClasses.length > 0}"
+          :title-classes="cardTitleClasses"
+          :youtube="typeof entry.youtube === 'string' ? entry.youtube : null"
+          :text-classes="cardTextClasses"
+          :media-classes="cardMediaClasses"
+          :more-links="['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0 ? entry.gaskets : null"
+        />
+      </template>
     </div>
     <button
       v-if="canLoadMore === true"
@@ -140,7 +141,6 @@ export default {
       } else {
         this.entries = [...this.entries, ...nextEntries]
       }
-      console.log('entries: ', this.entries)
     },
     visibilityHandler (e) {
       if (e.percentInView > 0.9) {

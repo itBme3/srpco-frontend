@@ -37,7 +37,6 @@ export default {
   },
   methods: {
     getDocumentDimensions () {
-      console.log(document.documentElement.clientWidth)
       this.isMobile = document.documentElement.clientWidth < 640
       this.mobileNavOpened = false
     }

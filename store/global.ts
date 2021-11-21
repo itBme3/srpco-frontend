@@ -25,7 +25,6 @@ export const actions: any = {
   async getNavigation ({ commit }: any) {
     return await getNavigation()
       .then((res: any) => {
-        console.log({ res })
         commit('global/setNavigation', res.navigation)
         return res.navigation
       })
@@ -33,7 +32,6 @@ export const actions: any = {
   async getFooter ({ commit }: any) {
     return await getFooter()
       .then((res: any) => {
-        console.log({ res })
         commit('global/setFooter', res.footer)
         return res.footer
       })

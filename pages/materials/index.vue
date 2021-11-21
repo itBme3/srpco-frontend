@@ -1,6 +1,11 @@
 
 <template>
-  <div>
+  <div class="collection materials">
+    <PageHeading
+      v-if="page !== null && page !== undefined"
+      :title="!!page.title ? page.title : null"
+      :description="!!page.description ? page.description : null"
+    />
     <Blocks v-if="typeof page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0" :blocks="page.blocks" />
   </div>
 </template>

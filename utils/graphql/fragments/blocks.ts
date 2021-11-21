@@ -1,3 +1,4 @@
+
 import { mediaFields } from './fields'
 
 const blockSettingsFields = {
@@ -29,11 +30,28 @@ export const blockFields = {
   ComponentBlocksBlockContent: `
       title content
       ${blockSettingsFields.DEFAULT}
-      ${blockSettingsFields.card}
+  `,
+  ComponentBlocksBlockSpacer: `
+      ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlocksBlockCollection: `
       collectionType collectionSettings { sort limit }
       ${blockSettingsFields.card}
+      ${blockSettingsFields.DEFAULT}
+  `,
+  ComponentBlocksBlockServices: `
+      ${blockSettingsFields.DEFAULT}
+  `,
+  ComponentBlocksBlockResources: `
+      ${blockSettingsFields.DEFAULT}
+  `,
+  ComponentBlocksBlockMaterials: `
+      ${blockSettingsFields.DEFAULT}
+  `,
+  ComponentBlocksBlockApplications: `
+      ${blockSettingsFields.DEFAULT}
+  `,
+  ComponentBlocksBlockDatasheets: `
       ${blockSettingsFields.DEFAULT}
   `
 }

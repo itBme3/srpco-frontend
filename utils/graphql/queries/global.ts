@@ -4,9 +4,9 @@ export const navigationQuery = gql`
       query {
       navigation(publicationState: LIVE) {
             links {
-                  text link
+                  id text link
                   icon openNewTab
-                  nested { link text icon openNewTab }
+                  nested { id link text icon openNewTab }
             }
       }
 }`

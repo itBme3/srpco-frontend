@@ -37,7 +37,6 @@ export default {
       cardMedia: typeof this?.block?.cardSettings?.mediaClasses === 'string' ? this.block.cardSettings.mediaClasses : '',
       cardText: typeof this?.block?.cardSettings?.textClasses === 'string' ? this.block.cardSettings.textClasses : ''
     }
-    console.log(blockClasses)
     return {
       blockClasses, classes
     }

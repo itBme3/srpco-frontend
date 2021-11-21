@@ -1,14 +1,14 @@
 import { gql } from 'graphql-request'
 import { $graph } from '~/utils/graphql/init'
 import { EntryType } from '~/models/entry.model'
-import { entryFields } from '~/utils/graphql/fragments/entries'
+import { getEntryFields } from '~/utils/graphql/fragments/entries'
 
 export const entryBySlug = async (entryType: EntryType | null, slug: string) => {
   if (entryType === null) {
     return
   }
-  const fields = entryFields(entryType, 'page', entryType === EntryType.DATASHEET ? 'file' : 'media')
-const collectionType = `${entryType}s`
+  const fields = getEntryFields(entryType, 'page', entryType === EntryType.DATASHEET ? 'file' : 'media')
+  const collectionType = `${entryType}s`
   return await $graph.request(gql`
             query {
                   ${collectionType}(where: { slug: "${slug}" }, limit: 1) {

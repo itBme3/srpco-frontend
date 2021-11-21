@@ -3,7 +3,7 @@ import { gql } from 'graphql-request'
 import { defaultCollectionVariables } from '../requests/collection'
 import { queryVariables } from './variables'
 import { CollectionType, EntryType } from '~/models/entry.model'
-import { entryFields } from '~/utils/graphql/fragments/entries'
+import { getEntryFields } from '~/utils/graphql/fragments/entries'
 
 export const entryQuery = (data: { queryParams: { [key: string]: any }, entryType?: EntryType, collectionType?: CollectionType, fieldFragments?: string }) => {
   const { queryParams, fieldFragments = null } = data
@@ -24,7 +24,7 @@ export const entryQuery = (data: { queryParams: { [key: string]: any }, entryTyp
   const queryType = !!data?.collectionType ? collectionType : entryType
   const fields = !!fieldFragments?.length
     ? fieldFragments
-    : entryFields(entryType, !!!data.collectionType ? 'page' : 'collectionItem')
+    : getEntryFields(entryType, !!!data.collectionType ? 'page' : 'collectionItem')
   const { props, variables } = queryVariables(collectionType
     ? { ...defaultCollectionVariables, ...queryParams }
     : queryParams)

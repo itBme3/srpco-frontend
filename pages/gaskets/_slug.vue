@@ -1,20 +1,20 @@
 <template>
   <div class="single-entry gasket">
-    <div class="page-heading flex">
-      <div class="my-auto">
-        <h1>{{ page.title }}</h1>
-        <h5>{{ page.description }}</h5>
-      </div>
-      <Media
-        :media="page.media"
-      />
-    </div>
+    <PageHeading
+      v-if="page !== null"
+      :title="page.title"
+      :description="page.description"
+      :media="page.media"
+    />
     <div
       :v-if="!!page && page.content"
       class="page-content">
       <div :v-html="page.content"></div>
     </div>
-    <Blocks :blocks="page !== null && page.blocks && page.blocks.length > 0" />
+    <Blocks
+      :v-if="page !== null && page.blocks && page.blocks.length > 0"
+      :blocks="page.blocks"
+    />
   </div>
 </template>
 
