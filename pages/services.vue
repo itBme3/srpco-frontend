@@ -1,12 +1,23 @@
 
 <template>
   <div>
-    <!-- <BlockCollection
-      :collection-type="'gaskets'"
-      :search-bar="false"
-      :sort="'order'"
-      :limit="10"
-    /> -->
+    <NuxtChild :key="$route.fullPath" />
+    <div
+      v-if="typeof page !== undefined"
+      class="page-heading flex flex-wrap items-center content-start">
+      <h1
+        v-if="!!page && page.title !== null"
+        class="page-title"
+      >
+        {{ page.title }}
+      </h1>
+      <h5
+        v-if="!!page && page.description !== null"
+        class="page-description"
+      >
+        {{ page.description }}
+      </h5>
+    </div>
     <Blocks v-if="typeof page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0" :blocks="page.blocks" />
   </div>
 </template>
@@ -19,20 +30,25 @@ import { getCollectionPage } from '~/utils/graphql/requests/collection'
 import { globalQuery } from '~/utils/graphql/queries/global'
 /* eslint-disable no-extra-boolean-cast */
 export default {
-  async asyncData () {
-    const page = await getCollectionPage(CollectionType.GASKETS).then(res => res.collectionGasket)
-    console.log({page})
+  scrollToTop: true,
+  async asyncData (context) {
+    console.log(context)
     return {
-      page,
+      page: await getCollectionPage(CollectionType.SERVICES).then(res => res.collectionService),
       global: await $graph.request(globalQuery).then(res => res.global)
+    }
+  },
+  data () {
+    return {
+      active: null
     }
   },
   head () {
     const { defaultSeo, siteName } = typeof this.global === 'undefined' || this.global === null ? {} : this.global
-    const { seo } = this.page
+    const { seo = {} } = this.page
     const fullSeo = {
       ...defaultSeo,
-      ...Object.keys(seo).reduce((acc, key) => {
+      ...Object.keys(seo === null || typeof seo === 'undefined' ? {} : seo).reduce((acc, key) => {
         if (seo[key] === null || typeof seo[key] === 'undefined') {
           return acc
         }
@@ -44,6 +60,16 @@ export default {
       titleTemplate: `%s | ${siteName}`,
       title: fullSeo.title,
       meta
+    }
+  },
+  computed: {
+    modal: {
+      get () {
+        return this.active
+      },
+      set (val) {
+        this.active = val
+      }
     }
   }
 }

@@ -1,19 +1,27 @@
 <template>
   <div
-    :style="{ height: imgHeight, backgroundImage: isBackground ? 'url(' + imgSrc + ')' : 'none' }"
+    :style="{ height: imgHeight, backgroundImage: isBackground && typeof imgSrc === 'string' && imgSrc.length > 0 ? 'url(' + imgSrc + ')' : 'none' }"
     class="overflow-hidden relative flex items-center content-center"
   >
     <img
-      v-if="imgSrc !== null"
+      v-if="typeof imgSrc === 'string' && imgSrc.length > 0"
       :src="imgSrc"
       class="w-full h-auto relative z-0"
       :class="{ 'opacity-0': isBackground }"
       @load="imageLoaded"
     >
+    <MediaYoutube
+      v-else-if="typeof youtube === 'string' && youtube.length > 0"
+      :src="youtube"
+      :class="{ 'w-full my-auto height-full': true, 'relative z-0': !!!isBackground, 'absolute z-0 -inset-1': !!isBackground }"
+      :ratio="ratio"
+      :style="{ height: imgHeight }"
+    />
     <div
-      v-if="overlay"
+      v-if="overlay || (typeof youtube === 'string' && youtube.length > 0)"
       class="overlay absolute -inset-1 z-1"
-      :class="{['' + overlayClasses + '']: overlayClasses !== null && typeof overlayClasses === 'string'}"></div>
+      :class="{['' + overlayClasses + '']: overlayClasses !== null && typeof overlayClasses === 'string'}"
+    />
   </div>
 </template>
 
@@ -25,6 +33,10 @@ export default {
     media: {
       type: Object,
       default: () => null
+    },
+    youtube: {
+      type: String,
+      default: null
     },
     ratio: {
       type: String,
@@ -77,7 +89,7 @@ export default {
       return getStrapiMedia(thumb.url)
     },
     setImgHeight () {
-      if (!this.ratio.includes(':') || typeof this.$el === 'undefined' || this.$el.offsetWidth < 0) {
+      if (typeof this.ratio !== 'string' || !this.ratio.includes || !this.ratio.includes(':') || typeof this.$el === 'undefined' || this.$el.offsetWidth < 0) {
         return
       }
       const ratio = this.ratio.split(':')

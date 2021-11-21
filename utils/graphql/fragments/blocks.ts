@@ -6,9 +6,15 @@ const blockSettingsFields = {
   cardSettings {
       style cardClasses mediaClasses titleClasses textClasses
   }`,
-  collection: `collectionSettings {
-      sort limit gridClasses searchBar
-  }`
+  collection: `
+    collectionType
+    collectionSettings {
+      sort limit searchBar
+    }
+    cardSettings {
+      cardClasses mediaClasses titleClasses textClasses style
+    }
+  `
 }
 
 export const blockFields = {
@@ -27,6 +33,7 @@ export const blockFields = {
   `,
   ComponentBlocksBlockCollection: `
       collectionType collectionSettings { sort limit }
+      ${blockSettingsFields.card}
       ${blockSettingsFields.DEFAULT}
   `
 }

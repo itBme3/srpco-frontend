@@ -1,12 +1,6 @@
 
 <template>
   <div>
-    <!-- <BlockCollection
-      :collection-type="'gaskets'"
-      :search-bar="false"
-      :sort="'order'"
-      :limit="10"
-    /> -->
     <Blocks v-if="typeof page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0" :blocks="page.blocks" />
   </div>
 </template>
@@ -20,10 +14,8 @@ import { globalQuery } from '~/utils/graphql/queries/global'
 /* eslint-disable no-extra-boolean-cast */
 export default {
   async asyncData () {
-    const page = await getCollectionPage(CollectionType.GASKETS).then(res => res.collectionGasket)
-    console.log({page})
     return {
-      page,
+      page: await getCollectionPage(CollectionType.MATERIALS).then(res => res.collectionMaterial),
       global: await $graph.request(globalQuery).then(res => res.global)
     }
   },

@@ -22,7 +22,7 @@ export const entryQuery = (data: { queryParams: { [key: string]: any }, entryTyp
           : data.entryType
         : null
   const queryType = !!data?.collectionType ? collectionType : entryType
-  const RESPONSE_FIELDS = !!fieldFragments?.length
+  const fields = !!fieldFragments?.length
     ? fieldFragments
     : entryFields(entryType, !!!data.collectionType ? 'page' : 'collectionItem')
   const { props, variables } = queryVariables(collectionType
@@ -31,10 +31,9 @@ export const entryQuery = (data: { queryParams: { [key: string]: any }, entryTyp
   const query = gql`
             query (${props}) {
                   ${queryType}(${Object.keys(variables).map(k => `${k} : $${k}`).join(', ')}) {
-                  ...EntryFields
+                  ${fields}
                   }
             }
-            ${RESPONSE_FIELDS}
       `
   return { query, variables }
 }

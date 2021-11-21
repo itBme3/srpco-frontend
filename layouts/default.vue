@@ -14,7 +14,7 @@
     </div>
     <div class="site-wrapper overflow-x-hidden w-screen sm:w-[calc(100vw-90px)] sm:ml-[90px] mt-12 sm:mt-0">
       <main>
-        <Nuxt />
+        <Nuxt :key="$route.fullPath" />
       </main>
       <SiteFooter />
     </div>

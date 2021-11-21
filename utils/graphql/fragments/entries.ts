@@ -2,39 +2,55 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { gql } from 'graphql-request'
 import { capitalize } from '../../funcs'
-import { mediaFields } from './fields'
+import { mediaFields, seoFields } from './fields'
 import { EntryType } from '~/models/entry.model'
 
-export const entryFields: any = (entryType: EntryType, fragmentType: string = 'default', mediaKey: string = 'media', addedKeys: string[] = []) => {
-  const fields = ['id', 'title', 'slug', 'type', ...(Array.isArray(addedKeys) ? addedKeys : '')].filter(k => !!k?.length)
-  const fragmentFields: any = {
-    defaults: {
-      default: `
+export const entryFields = (entryType: EntryType | null | string, fragmentType: string = 'default', mediaKey: string = 'media', addedKeys: string[] = []) => {
+  if (entryType === null) {
+    return null
+  }
+  const fields = ['id', 'title', 'description', `seo { ${seoFields} }`, 'slug', 'type', ...(Array.isArray(addedKeys) ? addedKeys : '')].filter(k => !!k?.length)
+  const defaults = {
+    default: `
         ${fields.join(' ')}
         ${mediaKey} { ${mediaFields()} }
       `,
-      collectionItem: `
+    collectionItem: `
         ${fields.join(' ')}
-        ${[EntryType.MATERIAL, EntryType.APPLICATION].includes(entryType)
-          ? 'gaskets (limit: 3, sort: "order:ASC") { id slug title collectionType }'
-          : ''}
+        ${
+        [EntryType.MATERIAL, EntryType.APPLICATION].map(s => `${s}`).includes(entryType)
+          ? 'gaskets (limit: 3, sort: "order:ASC") { id slug title type }'
+          : ''
+        }
         ${mediaKey} {
           ${mediaFields(entryType === EntryType.DATASHEET ? 'tiny' : 'default')}
         }
       `,
-      page: `
-        ${fields.join(' ')}
+    page: `
+        ${fields.join(' ')} collectionType
+        tags { title slug }
         ${mediaKey} {
           ${mediaFields()}
         }
       `
-    },
+  }
+  const fragmentFields: any = {
+    defaults,
     gasket: {},
     application: {},
     material: {},
     supplier: {},
     resource: {},
-    service: {},
+    service: {
+      collectionItem: `
+        ${defaults.collectionItem}
+        youtube
+      `,
+      page: `
+        ${defaults.page}
+        youtube
+      `
+    },
     datasheet: {},
     solution: {}
   }
@@ -50,8 +66,12 @@ export const entryFields: any = (entryType: EntryType, fragmentType: string = 'd
     Object.keys(fragmentFields).includes(entryType) ? entryType : 'default',
     Object.keys(fragmentFields[entryType]).includes(fragmentType) ? fragmentType : 'default'
   ]
+  console.log('FRAGMENT TYPE: ', fragmentType)
+  if (fragmentType === 'page') {
+    return gql`${fragmentFields[keys[0]][keys[1]]}`
+  }
   return gql`
-    fragment EntryFields on ${capitalize(entryType)} {
+    ... on ${capitalize(entryType)} {
         ${fragmentFields[keys[0]][keys[1]]}
     }
   `

@@ -2,7 +2,6 @@
 <template>
   <div
     class="collection-container"
-    :class="{[containerClasses]: containerClasses.length > 0}"
   >
     <template v-if="searchBar === true">
       <SearchInput
@@ -18,21 +17,24 @@
       class="collection-entries"
       :class="{[gridClasses]: gridClasses.length > 0}"
     >
+    <template v-for="entry in entries">
       <Card
-        v-for="entry in entries"
         :key="entry.id"
         :card-style="cardStyle"
         :title="entry.title"
         :text="entry.description"
         :media="entry.media"
+        :mediaRatio="mediaRatio"
         :link="'/' + collectionType + '/' + entry.slug"
         :open-new-tab="false"
         class="collection-entry"
         :class="{[cardClasses]: cardClasses.length > 0}"
-        :title-classes="'text-xl sm:text-2xl md:text-3xl'"
+        :title-classes="cardTitleClasses"
+        :youtube="typeof entry.youtube === 'string' ? entry.youtube : null"
+        :text-classes="cardTextClasses"
+        :media-classes="cardMediaClasses"
       />
-      <!-- <Media :is-background="true" :media="entry.media" :ratio="'2:1'" />
-      </Card> -->
+    </template>
     </div>
     <button
       v-if="canLoadMore === true"
@@ -75,10 +77,12 @@ export default {
       type: Object,
       default () {
         return {
-          container: [],
-          grid: [],
-          card: [],
-          searchBar: []
+          grid: '',
+          card: '',
+          cardMedia: '',
+          cardTitle: '',
+          cardText: '',
+          searchBar: ''
         }
       }
     },
@@ -89,20 +93,28 @@ export default {
     limit: {
       type: Number,
       default: 6
+    },
+    ratio: {
+      type: String,
+      default: null
     }
   },
   data () {
-    const { card: cardClasses = '', container: containerClasses = '', grid: gridClasses = '', searchBar: searchBarClasses = '' } = Object.keys(this.classes).length > 0 ? this.classes : {}
+    const { card: cardClasses = '', cardTitle: cardTitleClasses = '', cardText: cardTextClasses = '', cardMedia: cardMediaClasses = '', grid: gridClasses = '', searchBar: searchBarClasses = '' } = Object.keys(this.classes).length > 0 ? this.classes : {}
     const collection = this?.collectionType ? this.collectionType : null
+    const mediaRatio = this.ratio !== null && this.ratio?.indexOf(':') > -1 ? this.ratio : collection === 'services' ? '16:9' : null
     return {
       entries: null,
       searchValue: '',
       canLoadMore: false,
       cardClasses,
-      containerClasses,
       gridClasses,
       searchBarClasses,
-      collection
+      collection,
+      cardTitleClasses,
+      cardTextClasses,
+      cardMediaClasses,
+      mediaRatio
     }
   },
   async fetch () {
@@ -128,6 +140,7 @@ export default {
       } else {
         this.entries = [...this.entries, ...nextEntries]
       }
+      console.log('entries: ', this.entries)
     },
     visibilityHandler (e) {
       if (e.percentInView > 0.9) {

@@ -2,12 +2,13 @@
   <Card
     :title="title"
     :text="text"
-    :media="media"
+    :media="!!media && media.url ? media : null"
     :class="{['' + cardClasses + '']: typeof cardClasses === 'string' && cardClasses.length > 0 }"
     :card-style="cardStyle"
     :title-classes="titleClasses"
     :text-classes="textClasses"
     :media-classes="mediaClasses"
+    :youtube="youtube"
     :link="link"
     :open-new-tab="openNewTab === true"
   />
@@ -42,6 +43,7 @@ export default {
       titleClasses: block?.cardSettings?.titleClasses?.length > 0 ? block.cardSettings.titleClasses : '',
       textClasses: block?.cardSettings?.textClasses?.length > 0 ? block.cardSettings.textClasses : '',
       cardClasses: block?.cardSettings?.cardClasses?.length > 0 ? block.cardSettings.cardClasses : '',
+      youtube: block?.cardClasses?.length > 0 ? block.cardClasses : null,
       openNewTab: block?.openNewTab === true
     }
   }

@@ -12,11 +12,13 @@
       }"
     >
       <Media
-        v-if="!!media && !!media.url"
+        v-if="(!!media && !!media.url) || (typeof youtube === 'string' && youtube.length > 0)"
         :media="media"
         :ratio="mediaRatio"
         :overlay="cardStyle === 'overlay'"
         :class="{ [mediaClasses]: mediaClasses.length > 0 }"
+        :is-background="['mediaLeft', 'mediaRight', 'overlay'].includes(cardStyle)"
+        :youtube="youtube"
         class="card-media"
       />
       <div
@@ -61,6 +63,10 @@ export default {
     titleClasses: {
       type: String,
       default: ''
+    },
+    youtube: {
+      type: String,
+      default: null
     },
     textClasses: {
       type: String,
