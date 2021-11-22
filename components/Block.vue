@@ -8,6 +8,14 @@
       v-if="block.__typename === 'ComponentBlocksBlockCard'"
       :block="block"
     />
+    <BlockContent
+      v-if="block.__typename === 'ComponentBlocksBlockContent'"
+      :block="block"
+    />
+    <BlockDatasheets
+      v-if="block.__typename === 'ComponentBlocksBlockDatasheets'"
+      :block="block"
+    />
     <BlockCollection
       v-if="block.__typename === 'ComponentBlocksBlockCollection'"
       :collection-type="block.collectionType"

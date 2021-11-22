@@ -8,12 +8,15 @@ query {
       title
       description
       blocks {
-        ... on ComponentBlocksBlockCard {
-          ${blockFields.ComponentBlocksBlockCard}
-        },
-        ... on ComponentBlocksBlockCollection {
-          ${blockFields.ComponentBlocksBlockCollection}
-        }
+        ${Object.keys(blockFields)
+        .filter(key => !['ComponentBlocksBlockApplications', 'ComponentBlocksBlockServices'].includes(key))
+        .reduce((acc, key: string) => {
+          return acc + `
+            ... on ${key} {
+              ${blockFields[key]}
+            }
+          `
+        }, '')}
       }
       seo {
         ${seoFields}

@@ -16,13 +16,14 @@ const settings = {
       }
     }
   },
-  't-button': {
+  'gButton': {
     component: TButton,
     props: {
       fixedClasses: 'block px-4 py-2 rounded transition duration-100 ease-in-out focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
       classes: 'bg-gray-100 text-gray-700 hover:bg-gray-800 hover:text-white font-semibold',
       variants: {
         secondary: 'bg-gray-500 bg-opacity-5 hover:bg-opacity-10 text-gray-700 hover:bg-gray-500 hover:text-800 font-semibold',
+        light: 'bg-gray-100 bg-opacity-90 text-gray-700 hover:text-800 hover:shadow-lg hover:bg-opacity-100 hover:bg-white font-semibold',
         bordered: 'text-gray-800 bg-transparent border-gray-800 border border-transparent shadow-sm hover:bg-gray-800 hover:text-white active:text-gray-200'
       }
     }

@@ -1,15 +1,21 @@
 <template>
   <div
-    :style="{ height: imgHeight, backgroundImage: isBackground && typeof imgSrc === 'string' && imgSrc.length > 0 ? 'url(' + imgSrc + ')' : 'none' }"
+    :style="{ height: imgHeight, backgroundImage: isBackground && typeof mediaSrc === 'string' && mediaSrc.length > 0 ? 'url(' + mediaSrc + ')' : 'none' }"
     class="overflow-hidden relative flex items-center content-center"
   >
-    <img
-      v-if="typeof imgSrc === 'string' && imgSrc.length > 0"
-      :src="imgSrc"
-      class="w-full h-auto relative z-0"
-      :class="{ 'opacity-0': isBackground }"
-      @load="imageLoaded"
-    >
+    <template v-if="typeof mediaSrc === 'string'">
+      <MediaPdf
+        v-if="![null, undefined].includes(media) && ![null, undefined].includes(media.mime) && media.mime.includes('pdf')"
+        :src="mediaSrc"
+      />
+      <img
+        v-else-if="mediaSrc.length > 0"
+        :src="mediaSrc"
+        class="w-full h-auto relative z-0"
+        :class="{ 'opacity-0': isBackground }"
+        @load="imageLoaded"
+      >
+    </template>
     <MediaYoutube
       v-else-if="typeof youtube === 'string' && youtube.length > 0"
       :src="youtube"
@@ -56,8 +62,8 @@ export default {
     }
   },
   data () {
-    const imgSrc = typeof this.imgSrc !== 'undefined' ? this.imgSrc : this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
-    return { imgSrc, imgHeight: 'auto' }
+    const mediaSrc = typeof this.mediaSrc !== 'undefined' ? this.mediaSrc : this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
+    return { mediaSrc, imgHeight: 'auto' }
   },
   mounted () {
     this.setImgSrc()
@@ -72,11 +78,15 @@ export default {
     },
     setImgSrc () {
       this.setImgHeight()
-      const imgSrc = this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
-      if (this.imgSrc === imgSrc) {
+      if (![null, undefined].includes(this.media) && ![null, undefined].includes(this.media.mime) && this.media.mime.includes('pdf')) {
+        this.mediaSrc = this.media.url
+        return
+      }
+      const mediaSrc = this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
+      if (this.mediaSrc === mediaSrc) {
         return
       };
-      this.imgSrc = imgSrc
+      this.mediaSrc = mediaSrc
     },
     getImgSrc (media, el) {
       if (media === null) {

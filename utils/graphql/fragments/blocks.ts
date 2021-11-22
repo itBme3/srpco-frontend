@@ -1,5 +1,6 @@
 
-import { mediaFields } from './fields'
+import { getEntryFields } from '~/utils/graphql/fragments/entries'
+import { mediaFields } from '~/utils/graphql/fragments/fields'
 
 const blockSettingsFields = {
   DEFAULT: 'id __typename blockSettings { blockClasses }',
@@ -18,17 +19,17 @@ const blockSettingsFields = {
   `
 }
 
-export const blockFields = {
+export const blockFields:{[key:string]: string} = {
   ComponentBlocksBlockCard: `
       title text link openNewTab
       media {
         ${mediaFields()}
-      },
+      }
       ${blockSettingsFields.DEFAULT}
       ${blockSettingsFields.card}
   `,
   ComponentBlocksBlockContent: `
-      title content
+      title content titleClasses contentClasses
       ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlocksBlockSpacer: `
@@ -53,5 +54,9 @@ export const blockFields = {
   `,
   ComponentBlocksBlockDatasheets: `
       ${blockSettingsFields.DEFAULT}
+      datasheets {
+        title slug collectionType type
+        file { ${mediaFields('default')} }
+      }
   `
 }

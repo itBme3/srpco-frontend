@@ -52,13 +52,14 @@ export default {
     },
     modestbranding: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   data () {
     const playVars = ['autoplay', 'controls', 'loop', 'autohide', 'showInfo', 'modestbranding'].reduce((acc, key) => {
       return { ...acc, [key]: this[key] === true ? 1 : 0 }
-    }, { list: 'SRP', listType: 'user_uploads' })
+    }, { rel: 0, list: 'UUu_bAN6SQdiSWVR5TGJ1ELQ' })
+    console.log(playVars)
     return {
       playVars,
       videoId: null,

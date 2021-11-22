@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Blocks v-if="typeof page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0" :blocks="page.blocks" />
+    <Blocks
+      v-if="page !== null && page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0"
+      :blocks="page.blocks" />
   </div>
 </template>
 
@@ -19,7 +21,10 @@ export default {
   },
   head () {
     const { defaultSeo, siteName } = typeof this.global === 'undefined' ? {} : this.global
-    const { seo } = this.page
+    let { seo } = this.page
+    if (seo === undefined || seo === null) {
+      seo = {}
+    }
     const fullSeo = {
       ...defaultSeo,
       ...Object.keys(seo).reduce((acc, key) => {

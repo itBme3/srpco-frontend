@@ -36,7 +36,7 @@
         </h2>
         <template v-if="text && text.length > 0">
           <div
-            class="card-text"
+            class="card-text text-sm opacity-60"
             :class="{ [textClasses]: textClasses.length > 0 }"
             v-html="text"
           />

@@ -3,18 +3,18 @@
     v-if="!!link && !!link.indexOf && link.indexOf('/') > -1 && newTab !== true"
     :to="link"
   >
-    <t-button :class="classes.button">
+    <gButton :class="classes.button">
       <slot />
-    </t-button>
+    </gButton>
   </nuxt-link>
   <a
     v-else
     :target="newTab === true ? '_blank' : '_self'"
     :href="link"
   >
-    <t-button :class="classes.button">
+    <gButton :class="classes.button">
       <slot />
-    </t-button>
+    </gButton>
   </a>
 </template>
 
