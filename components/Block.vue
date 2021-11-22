@@ -8,22 +8,48 @@
       v-if="block.__typename === 'ComponentBlocksBlockCard'"
       :block="block"
     />
-    <BlockContent
-      v-if="block.__typename === 'ComponentBlocksBlockContent'"
-      :block="block"
-    />
-    <BlockDatasheets
-      v-if="block.__typename === 'ComponentBlocksBlockDatasheets'"
-      :block="block"
-    />
     <BlockCollection
-      v-if="block.__typename === 'ComponentBlocksBlockCollection'"
+      v-else-if="block.__typename === 'ComponentBlocksBlockCollection'"
       :collection-type="block.collectionType"
       :limit="6"
       :sort="'published_at:ASC'"
       :card-style="!!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaAbove'"
       :classes="classes"
     />
+    <template v-else>
+      <h2
+        v-if="block.title !== null"
+        :class="{
+          'block-title': true
+        }"
+      >
+        {{ title }}
+      </h2>
+      <BlockContent
+        v-if="block.__typename === 'ComponentBlocksBlockContent'"
+        :block="block"
+      />
+      <BlockDatasheets
+        v-if="block.__typename === 'ComponentBlocksBlockDatasheets'"
+        :block="block"
+      />
+      <BlockMaterials
+        v-if="block.__typename === 'ComponentBlocksBlockMaterials'"
+        :block="block"
+      />
+      <BlockApplications
+        v-if="block.__typename === 'ComponentBlocksBlockApplications'"
+        :block="block"
+      />
+      <BlockServices
+        v-if="block.__typename === 'ComponentBlocksBlockServices'"
+        :block="block"
+      />
+      <BlockResources
+        v-if="block.__typename === 'ComponentBlocksBlockResources'"
+        :block="block"
+      />
+    </template>
   </div>
 </template>
 
@@ -46,7 +72,9 @@ export default {
       cardText: typeof this?.block?.cardSettings?.textClasses === 'string' ? this.block.cardSettings.textClasses : ''
     }
     return {
-      blockClasses, classes
+      blockClasses,
+      classes,
+      title: ![null, undefined].includes(this.block) && !this.block.__typename.includes('Card') ? this.block.title : null
     }
   }
 }

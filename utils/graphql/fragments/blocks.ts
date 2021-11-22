@@ -42,21 +42,48 @@ export const blockFields:{[key:string]: string} = {
   `,
   ComponentBlocksBlockServices: `
       ${blockSettingsFields.DEFAULT}
+      title
+      services {
+        title slug collectionType type youtube
+        media { ${mediaFields('default')} }
+      }
   `,
   ComponentBlocksBlockResources: `
       ${blockSettingsFields.DEFAULT}
+      title
+      resources {
+        title slug resourceType collectionType type
+        media { ${mediaFields('default')} }
+      }
   `,
   ComponentBlocksBlockMaterials: `
       ${blockSettingsFields.DEFAULT}
+      title
+      materials {
+        title slug collectionType type
+        media { ${mediaFields('default')} }
+      }
   `,
   ComponentBlocksBlockApplications: `
       ${blockSettingsFields.DEFAULT}
+      title
+      applications {
+        title slug collectionType type
+        media { ${mediaFields('default')} }
+      }
   `,
   ComponentBlocksBlockDatasheets: `
       ${blockSettingsFields.DEFAULT}
       datasheets {
         title slug collectionType type
         file { ${mediaFields('default')} }
+      }
+  `,
+  ComponentBlocksBlockGaskets: `
+      ${blockSettingsFields.DEFAULT}
+      gaskets {
+        title slug collectionType type
+        media { ${mediaFields('default')} }
       }
   `
 }

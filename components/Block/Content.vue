@@ -2,15 +2,6 @@
   <div
     class="block-content"
     :v-if="block !== undefined && block !== null">
-    <h2
-      v-if="title !== null && title !== undefined"
-      :class="{
-        'block-title': true,
-        [titleClasses]: typeof titleClasses === 'string' && titleClasses.length > 0
-      }"
-    >
-      {{ title }}
-    </h2>
     <div
       v-if="content !== null && content !== undefined"
       :class="{
