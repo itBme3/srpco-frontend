@@ -1,17 +1,12 @@
 <template>
-  <pdf
-    v-if="src !== null && src !== undefined"
-    :src="src"
-  />
+  <pdf :src="src" />
+  <!-- <client-only>
+  </client-only> -->
 </template>
 
-<script>
-import pdf from 'vue-pdf'
+<script lang="js">
 
 export default {
-  components: {
-    pdf
-  },
   props: {
     src: {
       type: String,

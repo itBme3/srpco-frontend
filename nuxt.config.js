@@ -29,7 +29,8 @@ export default {
     '~/plugins/check-view.js',
     '~/plugins/graphql-accessor.ts',
     '~/plugins/debounce.js',
-    '~/plugins/youtube-embed.client.js'
+    '~/plugins/youtube-embed.client.js',
+    '~/plugins/pdf-embed.client.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h3 class="text-bolder" v-if="![null, undefined].includes(block) && typeof block.title === 'string' && block.title.lengtht > 0">
+    <h3 v-if="![null, undefined].includes(block) && typeof block.title === 'string' && block.title.length > 0" class="text-bolder">
       {{ title }}
     </h3>
     <div
+      v-if="Array.isArray(entries) && entries.length > 0"
       class="entries"
       :class="{ [collectionType]: true }"
-      v-if="Array.isArray(entries) && entries.length > 0"
     >
       <Card
         v-for="entry in entries"

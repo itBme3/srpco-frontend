@@ -55,23 +55,25 @@
                 :new-tab="!!navLink.openNewTab"
                 class="w-full flex content-state items-center"
               >
-              <gButton
-                :class="{
+                <gButton
+                  :class="{
                     'bg-opacity-100 bg-gray-100 flex content-start text-left w-full mr-0 px-2': true,
                     'bg-white bg-opacity-95': navLink.link === showNested,
                     'py-2': navExpanded
                   }"
-                :variant="'light'"
-              >
-                <i :class="{
+                  :variant="'light'"
+                >
+                  <i
+                    :class="{
                       ['my-auto mr-1 icon transition-all duration-200 ease-quick-in text-srp-red gicon-' + navLink.icon]: true,
                       'text-2xl ml-0': isMobile || navExpanded,
                       'text-3xl': !isMobile && !navExpanded
-                    }" />
-                <span :class="{'link-text my-auto': true, 'hidden': !isMobile && !navExpanded }">
-                  {{ navLink.text }}
-                </span>
-              </gButton>
+                    }"
+                  />
+                  <span :class="{'link-text my-auto': true, 'hidden': !isMobile && !navExpanded }">
+                    {{ navLink.text }}
+                  </span>
+                </gButton>
               </Link>
             </div>
             <gButton
@@ -99,13 +101,13 @@
                 :link="nestedLink.link"
                 :new-tab="!!nestedLink.openNewTab"
               >
-              <gButton
-                class="w-full mb-1 flex items-center content-start"
-                :variant="'secondary'"
-              >
-                <i :class="'my-auto -ml-3 mr-1 icon text-srp-red gicon-' + nestedLink.icon" />
-                <span class="link-text my-auto">{{ nestedLink.text }}</span>
-              </gButton>
+                <gButton
+                  class="w-full mb-1 flex items-center content-start"
+                  :variant="'secondary'"
+                >
+                  <i :class="'my-auto -ml-3 mr-1 icon text-srp-red gicon-' + nestedLink.icon" />
+                  <span class="link-text my-auto">{{ nestedLink.text }}</span>
+                </gButton>
               </Link>
             </template>
           </div>

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build && NODE_ENV=dev",
+    "build": "NODE_ENV=dev nuxt build",
     "build:prod": "npm run lint && NODE_ENV=production nuxt build",
     "deploy:prod": "npm run build:prod && gcloud app deploy --project srpco-frontend",
     "start": "nuxt start",

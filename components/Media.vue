@@ -109,7 +109,7 @@ export default {
         this.imgHeight = `${height}px`
         return
       }
-      if(this.imgHeight === `${height}px`) {
+      if (this.imgHeight === `${height}px`) {
         return
       }
       this.imgHeight = 'auto'
