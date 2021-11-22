@@ -53,6 +53,9 @@ export default {
 </script>
 <style lang="scss">
 .page-heading {
-  @apply flex items-center content-start
+  @apply flex items-center content-start text-gray-300
+}
+.page-title {
+  @apply text-xl md:text-3xl lg:text-4xl
 }
 </style>

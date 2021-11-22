@@ -95,8 +95,11 @@ export default {
       const ratio = this.ratio.split(':')
       const width = this.$el.offsetWidth
       const height = Math.floor(width / ratio[0] * ratio[1])
-      if (height > 0) {
+      if (height > 0 && this.imgHeight !== `${height}px`) {
         this.imgHeight = `${height}px`
+        return
+      }
+      if(this.imgHeight === `${height}px`) {
         return
       }
       this.imgHeight = 'auto'

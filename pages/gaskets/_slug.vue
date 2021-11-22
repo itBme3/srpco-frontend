@@ -1,5 +1,6 @@
 <template>
   <div class="single-entry gasket">
+    <Breadcrumbs />
     <PageHeading
       v-if="page !== null"
       :title="page.title"
@@ -19,10 +20,12 @@
 </template>
 
 <script>
+import Breadcrumbs from '~/components/Breadcrumbs.vue'
 import { EntryType } from '~/models/entry.model'
 import { entryBySlug } from '~/utils/graphql/requests/single'
 
 export default {
+  components: { Breadcrumbs },
  scrollToTop: true,
   async asyncData ({ params }) {
     const slug = params.slug

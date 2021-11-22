@@ -22,7 +22,9 @@
           :key="entry.id"
           :card-style="['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0 ? 'mediaLeft' : cardStyle"
           :title="entry.title"
-          :text="entry.description"
+          :text="['resource', 'application', 'service', 'material', 'supplier'].includes(entry.type)
+            ? entry.description
+            : null"
           :media="entry.media"
           :media-ratio="mediaRatio"
           :link="'/' + collectionType + '/' + entry.slug"

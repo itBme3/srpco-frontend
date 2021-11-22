@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-v-html */
 <template>
   <div class="card flex flex-col items-start">
     <Link
@@ -37,7 +38,7 @@
           <div
             class="card-text"
             :class="{ [textClasses]: textClasses.length > 0 }"
-            :v-html="text"
+            v-html="text"
           />
         </template>
       </div>
@@ -122,9 +123,9 @@ export default {
     @apply order-1
   }
   .card {
-    @apply  rounded bg-white shadow-md;
+    @apply  rounded bg-white bg-opacity-5 shadow-md overflow-hidden;
     .card-link {
-      @apply flex overflow-hidden;
+      @apply flex overflow-hidden w-full;
     }
     .card-style {
       &-overlay {
@@ -149,7 +150,7 @@ export default {
         &-left {
           @apply items-center content-between;
           .card-content {
-            @apply mr-auto w-2/3 text-center;
+            @apply mr-auto w-2/3;
           }
           .card-media {
             @apply mr-2 w-1/3;

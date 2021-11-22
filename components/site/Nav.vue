@@ -1,17 +1,21 @@
 
 <template>
-  <div>
+  <div class="site-navigation">
     <t-button
       v-if="isMobile"
-      class="mobile-menu-trigger mr-0 ml-auto bg-transparent hover:bg-gray-100 hover:text-gray-900"
+      class="mobile-menu-trigger mr-px mt-1 px-3 ml-auto bg-transparent hover:bg-gray-100 hover:text-gray-900"
       @click="toggleMobileMenu()"
     >
       <i :class="{ 'gicon-menu': !mobileNavOpened, 'gicon-close': mobileNavOpened }" />
     </t-button>
     <nav
       name="main navigation"
-      class="fixed z-[1001] right-0 top-12 bg-gray-100"
-      :class="{'mobile-opened': mobileNavOpened}"
+      class="fixed z-[1001] top-12 bg-gray-100"
+      :class="{
+        'right-0 left-auto top-12': isMobile,
+        'left-2 right-auto top-14': !isMobile,
+        'mobile-opened': mobileNavOpened,
+      }"
     >
       <template :v-if="navigation.links && navigation.links[0] && navigation.links[0].link">
         <div
@@ -33,9 +37,9 @@
                 class="w-full"
               >
                 <t-button
-                  class="w-full"
+                  class="w-full shadow-none-xl"
                   :class="{ 'bg-white': navLink.link === showNested }"
-                  :classes="'w-full rounded bg-white shadow'"
+                  :classes="'w-full rounded bg-white'"
                   :variant="'secondary'"
                 >
                   <i :class="'my-auto -ml-3 mr-1 icon text-srp-red gicon-' + navLink.icon" />
@@ -45,7 +49,7 @@
             </div>
             <t-button
               v-if="Array.isArray(navLink.nested) && navLink.nested.length > 0"
-              class="px-0 w-8 ml-px hover:bg-white hover:shadow-lg"
+              class="px-0 w-8 ml-px hover:bg-white shadow-none hover:shadow-lg"
               :class="{ '!bg-white bg-opacity-100': showNested !== null && navLink.link === showNested }"
               @click="toggleNested(navLink.link)"
               :variant="'secondary'"
@@ -123,9 +127,11 @@ export default {
   mounted () {
     this.getDocumentDimensions()
     window.addEventListener('resize', this.getDocumentDimensions)
+    window.addEventListener('scroll', this.closeMobileMenu)
   },
   unmounted () {
     window.removeEventListener('resize', this.getDocumentDimensions)
+    window.removeEventListener('scroll', this.closeMobileMenu)
   },
   methods: {
     toggleNested (val) {
@@ -139,8 +145,10 @@ export default {
       this.mobileNavOpened = !this.mobileNavOpened
     },
     closeMobileMenu () {
-      this.showNested = null
-      this.mobileNavOpened = false
+      if (this.showNested !== null || this.mobileNavOpened === true) {
+        this.showNested = null
+        this.mobileNavOpened = false
+      }
     },
     getDocumentDimensions () {
       this.width = document.documentElement.clientWidth
@@ -155,14 +163,26 @@ export default {
 
 <style lang="scss">
 nav {
-  @apply rounded shadow-md;
-  .navLink {
-    @apply bg-gray-100 rounded shadow;
+  @apply rounded shadow-xl bg-gray-900;
+  .nav-link {
+    button {
+      @apply flex items-center content-start bg-gray-100 rounded;
+    }
+  }
+  &:hover {
+    .link-text {
+      @apply text-base;
+    }
   }
   @media screen and (min-width: 640px) {
     &:not(:hover) {
+      .nav-link {
+        button {
+          @apply flex-col text-center content-center w-[60px]
+        }
+      }
       .link-text {
-        @apply hidden;
+        @apply text-[7px];
       }
     }
   }

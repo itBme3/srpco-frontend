@@ -3,7 +3,7 @@
     class="site-container w-screen flex flex-col sm:flex-row"
     :class="{ 'is-mobile': isMobile }"
   >
-    <div class="side-nav side fixed sm:h-screen flex flex-row sm:flex-col w-screen sm:w-[90px] p-2 z-999999">
+    <div class="side-nav side fixed sm:h-screen flex flex-row sm:flex-col w-screen sm:w-[90px] bg-gray-900 pr-1 pl-2 z-999999">
       <a
         href="/"
         class="mt-0"
