@@ -39,14 +39,14 @@
         />
       </template>
     </div>
-    <button
+    <gButton
       v-if="canLoadMore === true"
-      v-view="visibilityHandler"
-      class="rounded hover:bg-green-500 bg-blue-500 uppercase text-white px-5 py-3 w-auto min-w-auto block"
+      v-view="infiniteScroll ? visibilityHandler : (e) => e"
+      class="hover:bg-blue-600 bg-blue-500 uppercase text-gray-900 text-opacity-70 tracking-wide px-3 py-2 w-auto min-w-auto block"
       @click="get(entries.length)"
     >
-      get more
-    </button>
+      more {{ collectionType }}
+    </gButton>
   </div>
 </template>
 
@@ -54,6 +54,8 @@
 /* eslint-disable no-extra-boolean-cast */
 
 import { getCollection } from '~/utils/graphql/requests/collection'
+import { objectsAreTheSame } from '~/utils/funcs'
+import { strapiFilterParams } from '~/utils/search-params'
 import { CardStyle } from '~/models/blocks.model.ts'
 // interface CollectionClasses {
 //   container?: string;
@@ -100,6 +102,14 @@ export default {
     ratio: {
       type: String,
       default: null
+    },
+    infiniteScroll: {
+      type: Boolean,
+      default: true
+    },
+    updateFromUrl: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -117,15 +127,25 @@ export default {
       cardTitleClasses,
       cardTextClasses,
       cardMediaClasses,
-      mediaRatio
+      mediaRatio,
+      queryParams: { }
     }
   },
   async fetch () {
     const collection = this.collection
+    this.queryParams = this.getQueryParams()
     if (collection === null) {
       return
     }
     await this.get()
+  },
+  watch: {
+    '$route.query': {
+      immediate: true,
+      handler (e) {
+        this.queryParams = this.getQueryParams()
+      }
+    }
   },
   methods: {
     async get (start = 0) {
@@ -133,16 +153,27 @@ export default {
       if (typeof collection !== 'string') {
         return console.error(`collection: ${collection}`)
       }
-      const limit = this.limit && this.limit > 0 ? this.limit : 6
-      const sort = typeof this.sort === 'string' && this.sort.length > 0 ? this.sort : 'published_at:DESC'
-      const nextEntries = await getCollection(this.collection, { limit, sort, start })
+      const params = this.getQueryParams()
+      if (objectsAreTheSame(params, this.queryParams)) {
+        if (start === 0) {
+          return
+        }
+      }
+      this.queryParams = params
+      const nextEntries = await getCollection(this.collection, { ...params, start })
         .then(res => res[collection])
       this.canLoadMore = nextEntries.length === this.limit
+      console.log({ next: nextEntries.map(n => n.slug), current: ![null, undefined].includes(this?.entries?.map) && this.entries.map(e => e.slug) })
       if (start === 0 || !!!this.entries || !!!this.entries.length) {
         this.entries = nextEntries
       } else {
         this.entries = [...this.entries, ...nextEntries]
       }
+    },
+    getQueryParams () {
+      const limit = this.limit && this.limit > 0 ? this.limit : 6
+      const sort = typeof this.sort === 'string' && this.sort.length > 0 ? this.sort : 'published_at:DESC'
+      return strapiFilterParams({ ...this.$route.query, limit, sort })
     },
     visibilityHandler (e) {
       if (e.percentInView > 0.9) {

@@ -2,7 +2,7 @@
   <div class="blocks">
     <Block
       v-for="block in blocks"
-      :key="block.id"
+      :key="block.__typename + '-' + block.id"
       :block="block"
     />
   </div>

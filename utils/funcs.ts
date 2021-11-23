@@ -15,7 +15,7 @@ export const capitalize = (strng:string):string => {
   return strng.split(' ').map(word => `${word[0].toUpperCase()}${word.substr(1)}`).join(' ')
 }
 
-export const checkObjectsAreTheSame = (_obj1: any, _obj2: any, dblCheck: boolean = true):any => {
+export const objectsAreTheSame = (_obj1: any, _obj2: any, dblCheck: boolean = true):any => {
   const obj1 = _obj1 !== undefined ? JSON.parse(JSON.stringify(_obj1)) : null
   const obj2 = _obj2 !== undefined ? JSON.parse(JSON.stringify(_obj2)) : null
   if (obj1 === null && obj2 === null) { return true }
@@ -28,11 +28,11 @@ export const checkObjectsAreTheSame = (_obj1: any, _obj2: any, dblCheck: boolean
       if (obj1[field].sort().toString() !== obj2[field].sort().toString()) { return false }
     } else if (typeof obj1[field] === 'object') {
       const objs = { obj1, obj2 }
-      if (checkObjectsAreTheSame(objs.obj1[field], objs.obj2[field])) { return false }
+      if (objectsAreTheSame(objs.obj1[field], objs.obj2[field])) { return false }
     } else if (obj1[field] !== obj2[field]) { return false }
   }
   return dblCheck
-    ? checkObjectsAreTheSame(JSON.parse(JSON.stringify(obj2)), JSON.parse(JSON.stringify(obj1)), false)
+    ? objectsAreTheSame(JSON.parse(JSON.stringify(obj2)), JSON.parse(JSON.stringify(obj1)), false)
     : true
 }
 

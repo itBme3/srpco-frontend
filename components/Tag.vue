@@ -3,9 +3,9 @@
     :link="link"
     class="tag-link inline-block"
     :open-new-tab="openNewTab">
-    <t-tag>
+    <gTag>
       <slot></slot>
-    </t-tag>
+    </gTag>
   </Link>
 </template>
 <script>

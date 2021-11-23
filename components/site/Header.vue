@@ -65,7 +65,7 @@ export default {
   },
   watch: {
     '$route.query': {
-      immediate: true,
+      immediate: false,
       handler ({ q }) {
         console.log({ q })
         if (typeof q !== 'string' || q === '') {
@@ -74,37 +74,6 @@ export default {
       }
     }
   },
-  // watch: {
-  //   searchValue: {
-  //     immediate: false,
-  //     handler (q) {
-  //       const query = this.$route.query
-  //       const router = this.$router
-  //       if (typeof q === 'string' && q.length > 0) {
-  //         query.q = q
-  //       } else if (Object.keys(query).includes('q')) {
-  //         delete query.q
-  //       }
-  //       console.log({ router: this.$router })
-  //       try {
-  //         console.log({ path: this.path })
-  //         if (this.path === null) {
-  //           console.log({ query })
-  //           router.push({ query })
-  //           // .then(console.log)
-  //           // .catch(console.error)
-  //         } else {
-  //           console.log({ query, path: this.path })
-  //           router.replace({ path: this.path, query }).catch(console.error)
-  //           // .then(console.log)
-  //           // .catch(console.error)
-  //         }
-  //       } catch (err) {
-  //         console.error(err)
-  //       }
-  //     }
-  //   }
-  // },
   methods: {
     inputFocused () {
       this.expanded = true

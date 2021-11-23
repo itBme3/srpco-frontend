@@ -308,7 +308,8 @@ module.exports = {
     extend: {
       mixBlendMode: ['hover'],
       zIndex: ['hover'],
-      bgOpacity: ['hover', 'active', 'focus']
+      bgOpacity: ['hover', 'active', 'focus'],
+      scale: ['hover']
     }
   },
   plugins: [

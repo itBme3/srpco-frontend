@@ -6,7 +6,8 @@ import { mediaFields, seoFields } from './fields'
 import { EntryType } from '~/models/entry.model'
 import { blockFields } from '~/utils/graphql/fragments/blocks'
 
-export const getEntryFields = (entryType: EntryType | null | string, fragmentType: string = 'default', mediaKey: string = 'media', addedKeys: string[] = []) => {
+export const getEntryFields = (entryType: EntryType | null | string, fragmentType: string = 'default', mediaField: string = 'media', addedKeys: string[] = []) => {
+  const mediaKey = mediaField === 'media' && entryType === EntryType.DATASHEET ? 'file' : mediaField
   if (entryType === null) {
     return null
   }
@@ -40,7 +41,6 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
     gasket: {
       page: gql`
         ${defaults.page}
-        content
         blocks {
           ... on ComponentBlocksBlockContent { ${blockFields.ComponentBlocksBlockContent} }
           ... on ComponentBlocksBlockCard { ${blockFields.ComponentBlocksBlockCard} }

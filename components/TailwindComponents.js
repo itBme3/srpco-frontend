@@ -20,7 +20,7 @@ const settings = {
     component: TButton,
     props: {
       fixedClasses: 'block px-4 py-2 rounded transition duration-100 ease-in-out focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed tracking-wide',
-      classes: 'bg-gray-100 text-gray-700 hover:bg-gray-800 hover:text-white',
+      classes: 'rounded bg-gray-100 text-gray-700 hover:bg-gray-200 shadow-xl hover:shadow-sm transform transition-all ease-quick-in duration-200 hover:scale-95 scale-100 tracking-wider',
       variants: {
         secondary: 'bg-gray-500 bg-opacity-5 hover:bg-opacity-10 text-gray-700 hover:bg-gray-500 hover:text-800 font-semibold',
         light: 'bg-gray-100 bg-opacity-90 text-gray-700 hover:text-800 hover:shadow-lg hover:bg-opacity-100 hover:bg-white font-semibold',
@@ -28,11 +28,11 @@ const settings = {
       }
     }
   },
-  't-tag': {
+  gTag: {
     component: TTag,
     props: {
-      fixedClasses: 'rounded px-2 py-1 bg-gray-900 bg-opacity-5 text-gray-700 hover:bg-opacity-10 inline-block w-auto',
-      classes: '',
+      fixedClasses: 'flex items-center content-start rounded px-2 py-1 bg-gray-900 bg-opacity-5 text-gray-700 hover:bg-opacity-10 inline-block w-auto',
+      classes: 'rounded',
       variants: {
         title: 'text-2xl leading-8 font-extrabold text-gray-900 tracking-tight',
         subtitle: 'text-lg leading-6 font-medium text-gray-900',

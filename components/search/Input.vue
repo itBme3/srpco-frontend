@@ -72,7 +72,6 @@ export default {
     }
   },
   data ({ _props }) {
-    console.log({ _props })
     return {
       fixedClasses: 'border-0 ring-non outline-none focus:border-0 focus:outline-none focus:ring-none, active:border-0 active:outline-none active:ring-none',
       searchValue: typeof this.searchValue === 'string' ? this.searchValue : _props.search
@@ -91,13 +90,11 @@ export default {
   },
   methods: {
     updateSearchValue (val) {
-      console.log({ val, searchValue: this.searchValue })
       this.searchValue = val
       this.$emit('search', val)
     },
     focusInput () {
       if (![null, undefined].includes(this.$refs) && ![null, undefined].includes(this.$refs.searchInput)) {
-        console.log(this.$refs.searchInput)
         this.$refs.searchInput.$el.focus()
       }
     },
