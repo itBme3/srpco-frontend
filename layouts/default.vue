@@ -3,14 +3,15 @@
     class="site-container w-screen flex flex-col sm:flex-row"
     :class="{ 'is-mobile': isMobile }"
   >
-    <div class="side-nav side fixed sm:h-screen flex flex-row sm:flex-col w-screen sm:w-[90px] bg-gray-900 pr-1 pl-2 z-999999">
+    <div class="header-and-nav side fixed sm:h-screen flex flex-row sm:flex-col w-screen sm:w-[90px] bg-gray-900 p-1 z-999999">
       <a
         href="/"
-        class="mt-0"
+        class="-mt-px"
       >
-        <Logo class="w-20 h-12 mt-0 mr-auto" />
+        <Logo style="width: 92px" class="h-auto my-auto mr-auto" />
       </a>
       <SiteNav class="navigation ml-auto sm:ml-0" />
+      <SiteHeader />
     </div>
     <div class="site-wrapper overflow-x-hidden w-screen sm:w-[calc(100vw-90px)] sm:ml-[90px] mt-12 sm:mt-0">
       <main>

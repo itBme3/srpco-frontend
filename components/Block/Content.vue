@@ -1,7 +1,8 @@
 <template>
   <div
     class="block-content"
-    :v-if="block !== undefined && block !== null">
+    :v-if="block !== undefined && block !== null"
+  >
     <div
       v-if="content !== null && content !== undefined"
       :class="{
@@ -22,31 +23,41 @@ export default {
     }
   },
   computed: {
-    title: {
-      get () {
-        return this.block !== undefined && this.block !== null && typeof this.block.title === 'string' && this.block.title?.length > 0
-          ? this.block.title
-          : ''
-      }
+    title () {
+      return this.block !== undefined && this.block !== null && typeof this.block.title === 'string' && this.block.title?.length > 0
+        ? this.block.title
+        : ''
     },
-    content: {
-      get () {
-        return this.block !== undefined && this.block !== null && typeof this.block.content === 'string' && this.block.content?.length > 0
-          ? this.block.content.split('src="').join('src="' + process.env.apiUrl)
-          : ''
-      }
+    titleClasses () {
+      return this.block !== undefined && this.block !== null && typeof this.block.titleClasses === 'string' && this.block.titleClasses?.length > 0
+        ? this.block.titleClasses
+        : ''
     },
-    titleClasses: {
-      get () {
-        return this.block !== undefined && this.block !== null && typeof this.block.titleClasses === 'string' && this.block.titleClasses?.length > 0
-          ? this.block.titleClasses
-          : ''
-      }
+    contentClasses () {
+      return this.block !== undefined && this.block !== null && typeof this.block.contentClasses === 'string' && this.block.contentClasses?.length > 0 ? this.block.contentClasses : ''
     },
-    contentClasses: {
-      get () {
-        return this.block !== undefined && this.block !== null && typeof this.block.contentClasses === 'string' && this.block.contentClasses?.length > 0 ? this.block.contentClasses : ''
-      }
+    content () {
+      const txt = this.block !== undefined && this.block !== null && typeof this.block.content === 'string' && this.block.content?.length > 0
+        ? this.block.content
+        : ''
+      let res = txt
+      res = txt.split('src="').join('src="' + process.env.apiUrl)
+      res = res.replace('oembed', 'iframe')
+      res = res.replace('url', 'src')
+      res = res.replace('watch?v=', 'embed/')
+      res = res.replace('oembed', 'iframe')
+      return res
+    }
+  },
+  methods: {
+    setYoutubeIframes (txt) {
+      let res = txt
+      res = txt.split('src="').join('src="' + process.env.apiUrl)
+      res = res.replace('oembed', 'iframe')
+      res = res.replace('url', 'src')
+      res = res.replace('watch?v=', 'embed/')
+      res = res.replace('oembed', 'iframe')
+      return res
     }
   }
 }

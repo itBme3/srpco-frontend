@@ -1,18 +1,16 @@
 <template>
-  <div>
-    <i :class="'gicon-' + iconName" />
-  </div>
+  <i
+    :class="{
+      ['gicon-' + iconName]: true
+    }"
+  />
 </template>
 
-<script lang="ts">
+<script lang="js">
 export default {
   props: {
     iconName: {
       type: String
-    },
-    classes: {
-      type: String,
-      default: 'srp-red'
     }
   }
 }

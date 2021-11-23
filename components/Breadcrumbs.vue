@@ -25,7 +25,6 @@
 <script>
 export default {
   fetch () {
-    console.log(this.$route.fullPath)
     this.fullPath = this.$route.fullPath
   },
   data() {
@@ -38,7 +37,6 @@ export default {
     fullPath: {
       immediate: true,
       handler (fullPath) {
-        console.log({ fullPath, thisFullPath: this.fullPath })
         if (this.fullPath === null || this.fullPath === undefined) {
           return
         }
@@ -52,7 +50,6 @@ export default {
           i++
           return acc
         }, [])
-        console.log(this.breadcrumbs)
       }
     }
   }

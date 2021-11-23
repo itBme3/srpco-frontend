@@ -59,7 +59,6 @@ export default {
     const playVars = ['autoplay', 'controls', 'loop', 'autohide', 'showInfo', 'modestbranding'].reduce((acc, key) => {
       return { ...acc, [key]: this[key] === true ? 1 : 0 }
     }, { rel: 0, list: 'UUu_bAN6SQdiSWVR5TGJ1ELQ' })
-    console.log(playVars)
     return {
       playVars,
       videoId: null,

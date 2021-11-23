@@ -84,7 +84,7 @@ const COLORS = {
 }
 require('dotenv').config()
 // const enablePurge = process.env.ENABLE_PURGE || false
-const enablePurge = false
+const enablePurge = true
 
 const minHeight = {
   0: '0px',
@@ -129,7 +129,7 @@ module.exports = {
   important: true,
   mode: 'jit',
   purge: {
-    enabled: false,
+    enabled: enablePurge,
     content: [
       'components/**/*.{vue,js,ts}',
       'layouts/**/*.vue',
@@ -288,6 +288,17 @@ module.exports = {
       transitionTimingFunction: {
         'quick-in': 'cubic-bezier(0,.66,.11,1.01)',
         'ramp-in': 'cubic-bezier(.91,-0.06,.88,.34)'
+      },
+      keyframes: {
+        'fade-in-down': {
+          '0%': { display: 'none', transform: 'translateY(-100%)', opacity: 0 },
+          '1%': { display: 'block', transform: 'translateY(-100%)', opacity: 0 },
+          '70%': { display: 'block', transform: 'translateY(-30%)', opacity: 0.3 },
+          '100%': { transform: 'translateY(0)', opacity: 1 }
+        }
+      },
+      animation: {
+        'fade-in-down': 'fade-in-down .2s quick-in'
       }
     }
   },
@@ -296,7 +307,8 @@ module.exports = {
     gridRow: ['responsive'],
     extend: {
       mixBlendMode: ['hover'],
-      zIndex: ['hover']
+      zIndex: ['hover'],
+      bgOpacity: ['hover', 'active', 'focus']
     }
   },
   plugins: [

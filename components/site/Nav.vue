@@ -8,7 +8,7 @@
   >
     <gButton
       v-if="isMobile"
-      class="mobile-menu-trigger mr-px mt-1 px-3 ml-auto bg-transparent hover:bg-gray-800 hover:text-gray-900"
+      class="mobile-menu-trigger mr-px px-3 ml-auto bg-transparent hover:bg-gray-800 hover:text-gray-900"
       @click="navExpanded = !navExpanded"
     >
       <i class="text-gray-400" :class="{ 'gicon-menu': !navExpanded, 'gicon-close': navExpanded }" />
@@ -129,7 +129,6 @@ import { navigationQuery } from '~/utils/graphql/queries/global'
 
 export default {
   asyncData ({ route }) {
-    console.log({ fullPath: route.fullPath })
     return { fullPath: route.fullPath }
   },
   data () {

@@ -33,7 +33,6 @@ export default {
   },
   computed: {
     entries () {
-      console.log(this.block)
       return this.block !== undefined && this.block !== null && Array.isArray(this.block[this.collectionType]) ? this.block[this.collectionType] : null
     },
     cardClasses () {

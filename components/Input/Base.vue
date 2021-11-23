@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BaseInput
+    <gInput
       :autocomplete="autocomplete"
       :placeholder="placeholder"
       :variant="variant"
