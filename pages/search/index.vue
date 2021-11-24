@@ -1,6 +1,14 @@
 <template>
   <div class="page search">
-    <div class="collections-toggle flex flex-nowrap max-w-full overflow-x-scroll">
+    <scrollbar
+      ref="scroll"
+      class="collections-toggle flex flex-nowrap max-w-full pb-2"
+      :options="{ suppressScrollY: true, suppressScrollX: false }"
+      @ps-scroll-x="(e) => scrollHandler(e, 'scroll-x')"
+      @ps-scroll-y="(e) => scrollHandler(e, 'scroll-y')"
+      @ps-scroll-up="(e) => scrollHandler(e, 'scroll-up')"
+      @ps-scroll-down="(e) => scrollHandler(e, 'scroll-down')"
+    >
       <gButton
         v-for="collection in collectionToggles"
         :key="collection"
@@ -21,7 +29,7 @@
           }"
         />
       </gButton>
-    </div>
+    </scrollbar>
     <div class="search-results flex flex-col w-full mx-auto">
       <template
         v-for="(collection, index) in collectionToggles"
@@ -79,6 +87,9 @@ export default {
       } else {
         this.activeCollections.push(collection)
       }
+    },
+    scrollHandler (e, eventName) {
+      return { e, eventName }
     }
   }
 }

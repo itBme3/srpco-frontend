@@ -30,7 +30,8 @@ export default {
     '~/plugins/graphql-accessor.ts',
     '~/plugins/debounce.js',
     '~/plugins/youtube-embed.client.js',
-    '~/plugins/pdf-embed.client.js'
+    '~/plugins/pdf-embed.client.js',
+    '~/plugins/scrollbar.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
