@@ -44,7 +44,7 @@
 .ps--focus > .ps__rail-y,
 .ps--scrolling-x > .ps__rail-x,
 .ps--scrolling-y > .ps__rail-y {
-  opacity: 0.6;
+  opacity: 0.4;
 }
 .ps .ps__rail-x:hover,
 .ps .ps__rail-y:hover,
@@ -52,8 +52,8 @@
 .ps .ps__rail-y:focus,
 .ps .ps__rail-x.ps--clicking,
 .ps .ps__rail-y.ps--clicking {
-  background-color: #aaa;
-  opacity: 0.1;
+  background-color: #000;
+  opacity: 0.2;
 }
 /*
  * Scrollbar thumb styles
@@ -64,11 +64,9 @@
   transition: background-color .2s linear, height .2s ease-in-out;
   -webkit-transition: background-color .2s linear, height .2s ease-in-out;
   height: 4px;
-  /* there must be 'bottom' for ps__thumb-x */
   bottom: 2px;
-  /* please don't change 'position' */
   position: absolute;
-  opacity: .15;
+  opacity: .6;
 }
 .ps__thumb-y {
   background-color: #ccc;
@@ -80,7 +78,7 @@
   right: 2px;
   /* please don't change 'position' */
   position: absolute;
-  opacity: .15;
+  opacity: .6;
 }
 .ps__rail-x:hover > .ps__thumb-x,
 .ps__rail-x:focus > .ps__thumb-x,

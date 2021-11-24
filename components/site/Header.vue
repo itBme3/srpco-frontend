@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <SearchInput
-      class="bg-gray-800 z-[1003]"
+      class="site-search-input bg-gray-800 z-[1003]"
       :autocomplete="'off'"
       :placeholder="placeholder"
       :tabindex="0"
@@ -10,6 +10,7 @@
       @clear="updateSearchValue('')"
       @focus="inputFocused"
       @search="updateSearchValue($event)"
+      @blur="storeSearch()"
     />
     <div
       class="header-search-box"
@@ -43,7 +44,8 @@ export default {
       placeholder: 'What are you looking for?',
       searchCollection: null,
       expanded: false,
-      searchValue
+      searchValue,
+      recentSearches: []
     }
   },
   fetch ({ route }) {
@@ -71,7 +73,13 @@ export default {
         if (typeof q !== 'string' || q === '') {
           this.searchValue = ''
         }
+        this.storeSearch()
       }
+    }
+  },
+  mounted () {
+    if (typeof this.searchValue === 'string' && this.searchValue !== '') {
+      this.storeSearch()
     }
   },
   methods: {
@@ -99,6 +107,18 @@ export default {
       } else {
         this.$router.replace({ path: this.path, query })
       }
+    },
+    storeSearch () {
+      const storedSearches = JSON.parse(localStorage.getItem('recentSearches')) || []
+      const searchValue = this.searchValue.toLowerCase()
+      this.recentSearches = storedSearches
+      if (typeof this.searchValue === 'string' && this.searchValue !== '') {
+        this.recentSearches = this.recentSearches.filter(s => searchValue.indexOf(s.toLowerCase()) !== 0)
+        if (this.recentSearches.filter(s => s.toLowerCase().indexOf(searchValue) === 0).length === 0) {
+          this.recentSearches.push(this.searchValue)
+        }
+      }
+      localStorage.setItem('recentSearches', JSON.stringify(this.recentSearches))
     }
   }
 }
@@ -112,5 +132,8 @@ export default {
   @apply w-full max-w-[1080px];
   @apply transition duration-200 ease-quick-in p-4 z-[1001] bg-gray-800 rounded-lg shadow-2xl transform;
   @apply fixed sm:absolute left-1 sm:left-0 md:-translate-x-1/2 md:left-1/2;
+}
+.site-search-input i[class*="gicon-"] {
+  @apply text-gray-300
 }
 </style>
