@@ -12,10 +12,10 @@
       <gButton
         v-for="collection in collectionToggles"
         :key="collection"
-        classes="pl-3 pr-2 py-1 hover:bg-red-500 hover:bg-opacity-100 rounded-md"
+        classes="pl-3 pr-2 py-1 hover:bg-cyan-600 rounded"
         :class="{
           'text-xs text-gray-200 flex content-between items-center uppercase font-normal tracking-wider m-1 hover:bg-opacity-100': true,
-          'active bg-red-500 hover:bg-red-600 text-red-900': activeCollections.includes(collection),
+          'active bg-cyan-400 hover:bg-cyan-500 text-cyan-900': activeCollections.includes(collection),
           'bg-gray-700 bg-opacity-20 hover:bg-gray-500 hover:bg-opacity-100': !activeCollections.includes(collection)
         }"
         @click="toggleCollection(collection)"

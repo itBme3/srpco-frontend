@@ -91,7 +91,7 @@
             :class="{
               'nested-links text-left': true,
               'hidden': !navExpanded || navLink.link !== showNested,
-              'p-2 bg-white shadow-2xl mb-4 rounded-md overflow-hidden' : navLink.link === showNested
+              'p-2 bg-white shadow-2xl mb-2 rounded-md overflow-hidden' : navLink.link === showNested
             }"
             @click="collapseNav()"
           >
