@@ -1,8 +1,8 @@
 <template>
   <div class="single-entry material">
-    <Breadcrumbs />
-    <PageHeading
+    <Heading
       v-if="page !== null"
+      heading-type="page"
       :title="page.title"
       :description="page.description"
       :media="page.media"
@@ -12,21 +12,25 @@
       class="page-content">
       <div :v-html="page.content"></div>
     </div>
-    <Blocks
-      :v-if="page !== null && page.blocks && page.blocks.length > 0"
-      :blocks="page.blocks"
-    />
+    <div
+      v-if="![null, undefined].includes(page) && Array.isArray(page.blocks) && page.blocks.length > 0"
+      class="blocks"
+    >
+      <Block
+        v-for="block in page.blocks"
+        :key="block.__typename + '-' + block.id"
+        :block="block"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import Breadcrumbs from '~/components/Breadcrumbs.vue'
 import { EntryType } from '~/models/entry.model'
 import { entryBySlug } from '~/utils/graphql/requests/single'
 
 export default {
-  components: { Breadcrumbs },
- scrollToTop: true,
+  scrollToTop: true,
   async asyncData ({ params }) {
     const slug = params.slug
     const page = slug !== undefined ? await entryBySlug(EntryType.MATERIAL, slug) : null
@@ -38,7 +42,7 @@ export default {
   watch: {
     slug: {
       immediate: true,
-      async handler(slug) {
+      async handler (slug) {
         this.page = slug !== undefined ? await entryBySlug(EntryType.MATERIAL, slug) : null
       }
     }

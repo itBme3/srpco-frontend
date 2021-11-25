@@ -27,6 +27,13 @@ export const blockFields:{[key:string]: string} = {
       ${blockSettingsFields.DEFAULT}
       ${blockSettingsFields.card}
   `,
+  ComponentBlocksBlockHero: `
+      title text youtube heroStyle
+      heroSettings { containerClasses mediaClasses titleClasses textClasses contentClasses buttonsClasses overlayClasses }
+      buttons { id text link openNewTab buttonClasses }
+      media { ${mediaFields()} }
+      ${blockSettingsFields.DEFAULT}
+  `,
   ComponentBlocksBlockContent: `
       title content titleClasses contentClasses
       ${blockSettingsFields.DEFAULT}

@@ -1,18 +1,20 @@
 <template>
-  <div
-    class="video-embed w-full"
-    :style="{ height: videoHeight }"
-  >
-  <youtube-media
-    class="h-full"
-    :v-if="!!videoId"
-    :video-id="videoId"
-    :player-width="'100%'"
-    :player-height="'100%'"
-    :player-vars="playVars"
-    :mute="mute"
-  />
-  </div>
+  <client-only>
+    <div
+      class="video-embed w-full"
+      :style="{ height: videoHeight }"
+    >
+      <youtube-media
+        class="h-full w-full"
+        :v-if="!!videoId"
+        :video-id="videoId"
+        :player-width="'100%'"
+        :player-height="'100%'"
+        :player-vars="playVars"
+        :mute="mute"
+      />
+    </div>
+  </client-only>
 </template>
 
 <script>
@@ -56,25 +58,30 @@ export default {
     }
   },
   data () {
-    const playVars = ['autoplay', 'controls', 'loop', 'autohide', 'showInfo', 'modestbranding'].reduce((acc, key) => {
-      return { ...acc, [key]: this[key] === true ? 1 : 0 }
-    }, { rel: 0, list: 'UUu_bAN6SQdiSWVR5TGJ1ELQ' })
-    return {
-      playVars,
-      videoId: null,
-      videoHeight: 'auto'
-    }
+    return { videoId: null, videoHeight: 'auto' }
   },
-  mounted () {
+  fetch () {
+    console.log({ $route: this.$route })
+    this.playVars = ['autoplay', 'controls', 'loop', 'autohide', 'showInfo', 'modestbranding'].reduce((acc, key) => {
+      return { ...acc, [key]: this[key] === true ? 1 : 0 }
+    }, {
+      rel: 0,
+      list: 'UUu_bAN6SQdiSWVR5TGJ1ELQ',
+      origin: [null, undefined].includes(window) ? null : window.location.origin
+    })
+    this.videoId = null
+    this.videoHeight = 'auto'
     this.videoId = !!this.videoId && this.videoId !== null
       ? this.videoId
       : typeof this.src === 'string' && typeof this?.$youtube !== 'undefined'
         ? this.$youtube.getIdFromURL(this.src)
         : null
+  },
+  mounted () {
     window.addEventListener('resize', this.setVideoHeight)
     setTimeout(() => {
       this.setVideoHeight()
-    }, 500)
+    }, 100)
   },
   unmounted () {
     window.removeEventListener('resize', this.setVideoHeight)

@@ -1,24 +1,33 @@
 <template>
   <div
-  class="header"
-  :class="{ 'search-expanded': expanded }"
->
-    <SearchInput
-      class="site-search-input bg-gray-800 z-[1003]"
-      :autocomplete="'off'"
-      :placeholder="placeholder"
-      :tabindex="0"
-      :search="searchValue"
-      variant="header"
-      @clear="updateSearchValue('')"
-      @focus="inputFocused"
-      @search="updateSearchValue($event)"
-      @blur="storeSearch()"
-    />
+    class="header"
+    :class="{ 'search-expanded': expanded }"
+  >
+    <div class="site-search w-full flex items-center content-end">
+      <SearchInput
+        :autocomplete="'off'"
+        :placeholder="placeholder"
+        :tabindex="0"
+        :search="searchValue"
+        class="site-search-input bg-gray-800 hover:bg-opacity-100 z-[1005]"
+        :class="{ 'bg-opacity-40': !expanded }"
+        variant="header"
+        @clear="updateSearchValue('')"
+        @focus="inputFocused"
+        @search="updateSearchValue($event)"
+        @blur="storeSearch()"
+      />
+      <Link v-if="!expanded" :link="'/contact'">
+        <gButton class="header-contact-button transform scale-95 hover:scale-100 hidden sm:inline rounded-full bg-green-400 hover:bg-opacity-100 bg-opacity-80 text-green-900 uppercase font-bold whitespace-nowrap mx-2 text-sm py-2">
+          <i class="gicon-contact"></i>
+          <span class="hidden sm:inline">let's talk</span>
+        </gButton>
+      </Link>
+    </div>
     <div
       class="header-search-box"
       :class="{
-        'expanded opacity-100 translate-y-0 top-12 animate-fade-in-down': expanded,
+        'expanded opacity-100 translate-y-0 top-12 mt-[2px] animate-fade-in-down': expanded,
         'opacity-0 -translate-y-full -top-40': !expanded
       }"
     >
@@ -32,7 +41,7 @@
     </div>
     <div
       v-if="expanded"
-      class="backdrop bg-gray-900 bg-opacity-70 z-[1000] fixed inset-0 cursor-pointer"
+      class="backdrop bg-gray-900 bg-opacity-70 z-[1003] fixed inset-0 cursor-pointer"
       @click="expanded = false"
     />
   </div>
@@ -77,6 +86,11 @@ export default {
           this.searchValue = ''
         }
         this.storeSearch()
+      }
+    },
+    '$route.fullPath': {
+      handler () {
+        this.expanded = false
       }
     }
   },
@@ -129,7 +143,7 @@ export default {
 
 <style lang="scss">
 .header {
-  @apply fixed left-[94px] right-[46px] top-0 sm:right-0 bg-gray-900 p-1;
+  @apply fixed left-[96px] right-[46px] top-0 sm:right-0 bg-gray-900 py-2 px-1;
   &.search-expanded {
     @media screen and (max-width: 639px) {
       @apply left-0 right-0 bg-transparent;
@@ -139,14 +153,17 @@ export default {
     }
   }
 }
-.header-search-box {
+.header-search-box, .site-search-input {
   @apply w-[calc(100%-0.5em)] max-w-[1080px];
-  @apply transition duration-200 ease-quick-in p-4 z-[1001] bg-gray-800 rounded-lg shadow-2xl transform;
-  @apply fixed sm:absolute left-1 sm:left-0 md:-translate-x-1/2 md:left-1/2;
+}
+.header-search-box {
+  @apply rounded-t-sm rounded-b-lg;
+  @apply transition duration-200 ease-quick-in p-4 z-[1005] bg-gray-800 shadow-2xl transform;
+  @apply fixed sm:absolute left-1;
 }
 .site-search-input {
   input {
-    @apply relative top-px py-[.45em]
+    @apply relative top-px py-[.45em] sm:placeholder-gray-500 placeholder-gray-800;
   }
   i[class*="gicon-"] {
     @apply text-gray-300;

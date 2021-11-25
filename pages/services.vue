@@ -2,23 +2,25 @@
 <template>
   <div>
     <NuxtChild :key="$route.fullPath" />
+
+    <Heading
+      v-if="page !== null && page !== undefined"
+      :title="![undefined, null].includes(page) ? page.title : null"
+      :description="![undefined, null].includes(page) ? page.description : null"
+      :media="![undefined, null].includes(page) ? page.media : null"
+      :breadcrumbs="false"
+      heading-type="collection"
+    />
     <div
-      v-if="page !== undefined && page !== null"
-      class="page-heading flex flex-wrap items-center content-start">
-      <h1
-        v-if="!!page && page.title !== null"
-        class="page-title"
-      >
-        {{ page.title }}
-      </h1>
-      <h5
-        v-if="!!page && page.description !== null"
-        class="page-description"
-      >
-        {{ page.description }}
-      </h5>
+      v-if="page !== null && page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0"
+      class="blocks"
+    >
+      <Block
+        v-for="block in page.blocks"
+        :key="block.__typename + '-' + block.id"
+        :block="block"
+      />
     </div>
-    <Blocks v-if="typeof page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0" :blocks="page.blocks" />
   </div>
 </template>
 

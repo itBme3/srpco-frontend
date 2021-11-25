@@ -11,24 +11,41 @@
         :title="entry.title"
         :media="index < 4 ? entry.file : 'gicon-datasheets'"
         card-style="mediaLeft"
-        :link="'/' + collectionType + '/' + entry.slug"
+        :link="entry.type === 'datasheet' ? null : + collectionType + '/' + entry.slug"
         media-ratio="8.5:11"
         media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
         class="col-span-12"
+        @open-modal="handleModal"
       />
     </div>
+    <gModal
+      class="z-99999 fixed"
+      v-if="![undefined, null].includes(modalData)"
+      v-model="showModal"
+    >
+      <Media
+        :media="modalData.file"
+        :youtube="modalData.youtube"
+        :title="modalData.title"
+        :text="modalData.text"
+      />
+    </gModal>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    block: Object,
-    default: () => null
+    block: {
+      type: Object,
+      default: null
+    }
   },
   data () {
     return {
-      collectionType: 'datasheets'
+      collectionType: 'datasheets',
+      modalData: null,
+      showModal: false
     }
   },
   computed: {
@@ -54,6 +71,18 @@ export default {
         return block.cardSettings.cardClasses
       } catch (err) {
         return null
+      }
+    }
+  },
+  methods: {
+    handleModal (mData) {
+      console.log({ mData })
+      this.showModal = false
+      this.modalData = mData
+      if (![undefined, null].includes(this.modalData)) {
+        if ((!!this.modalData.youtube && this.modalData.youtube.length > 0) || (!!this.modalData.file && !!this.modalData.file.mime && this.modalData.file.mime.includes('pdf'))) {
+          this.showModal = true
+        }
       }
     }
   }

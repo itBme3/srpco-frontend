@@ -17,7 +17,9 @@
         'card-more-links': Array.isArray(moreLinks) && moreLinks.length > 0
       }"
       :link="link"
+      :modal-data="!!link && !!link.split && link.split('/').length > 2 && ['gaskets'].includes(link.split('/')[1]) ? null : { youtube: youtube, media: media, tile: title, text:text }"
       :open-new-tab="openNewTab === true"
+      @open-modal="(e) => $emit('open-modal', e)"
     >
       <template v-if="typeof media === 'string' && media.indexOf('gicon') > -1">
         <Icon icon-name="datasheets" />
@@ -113,6 +115,14 @@ export default {
       type: Array,
       default: () => []
     }
+  },
+  computed: {
+  },
+  methods: {
+    // emitModal (e:any) {
+    //   console.log({ e })
+    //   this.$emit('open-modal', e)
+    // }
   }
 }
 </script>

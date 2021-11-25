@@ -30,3 +30,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.wysiwyg {
+  @apply text-gray-500;
+  * {
+    color: inherit;
+  }
+}
+</style>

@@ -1,7 +1,5 @@
 <template>
   <pdf :src="src" />
-  <!-- <client-only>
-  </client-only> -->
 </template>
 
 <script lang="js">

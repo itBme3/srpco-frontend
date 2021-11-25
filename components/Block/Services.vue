@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="collection services">
     <h3 v-if="![null, undefined].includes(block) && typeof block.title === 'string' && block.title.length > 0" class="text-bolder">
-      {{ title }}
+      {{ block.title }}
     </h3>
     <div
       v-if="Array.isArray(entries) && entries.length > 0"

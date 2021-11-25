@@ -1,13 +1,24 @@
 
 <template>
   <div class="collection gaskets">
-    <!-- <BlockCollection
-      :collection-type="'gaskets'"
-      :search-bar="false"
-      :sort="'order'"
-      :limit="10"
-    /> -->
-    <Blocks v-if="typeof page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0" :blocks="page.blocks" />
+     <Heading
+      v-if="page !== null"
+      :title="page.title"
+      heading-type="collection"
+      :description="page.description"
+      :media="page.media"
+      titleClassses="text-gray-400"
+    />
+    <div
+      v-if="page !== null && page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0"
+      class="blocks"
+    >
+      <Block
+        v-for="block in page.blocks"
+        :key="block.__typename + '-' + block.id"
+        :block="block"
+      />
+    </div>
   </div>
 </template>
 

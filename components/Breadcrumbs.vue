@@ -1,13 +1,14 @@
 <template>
   <div
+    v-if="Array.isArray(breadcrumbs) && breadcrumbs.length > 1"
     class="breadcrumbs flex items-center content-start"
-    :v-if="Array.isArray(breadcrumbs) && breadcrumbs.length > 1"
   >
     <template v-for="(crumb, index) in breadcrumbs">
       <small
         v-if="index < breadcrumbs.length - 1"
         :key="crumb.link"
-        class="text-green-400 hover:text-green-500">
+        class="text-green-400 hover:text-green-500"
+      >
         <NuxtLink
           :to="crumb.link"
         >{{ crumb.text }}</NuxtLink>
@@ -24,14 +25,14 @@
 
 <script>
 export default {
-  fetch () {
-    this.fullPath = this.$route.fullPath
-  },
-  data() {
+  data () {
     return {
       breadcrumbs: null,
       fullPath: null
     }
+  },
+  fetch () {
+    this.fullPath = this.$route.fullPath
   },
   watch: {
     fullPath: {

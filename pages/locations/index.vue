@@ -1,7 +1,8 @@
 <template>
   <div class="page locations">
-    <PageHeading
+    <Heading
       title="Our Locations"
+      :heading-type="page"
     />
     <div class="maps grid gap-4 grid-cols-12 w-full h-auto">
       <div

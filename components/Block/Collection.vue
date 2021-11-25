@@ -22,9 +22,9 @@
           :key="entry.id"
           :card-style="['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0 ? 'mediaLeft' : cardStyle"
           :title="entry.title"
-          :text="['resource', 'service', 'supplier'].includes(entry.type) || [null, undefined].includes(entry) || !Array.isArray(entry.gaskets) || entry.gaskets.length === 0
-            ? entry.description
-            : null"
+          :text="['material', 'application', 'gasket'].includes(entry.type) || !Array.isArray(entry.gaskets) || entry.gaskets.length === 0
+            ? null
+            : entry.description"
           :media="entry.media"
           :media-ratio="['materials', 'applications'].includes(collectionType) && (!Array.isArray(entry.gaskets) || entry.gaskets.length === 0) ? '4:2' : mediaRatio"
           :link="'/' + collectionType + '/' + entry.slug"
@@ -117,6 +117,7 @@ export default {
     const { card: cardClasses = '', cardTitle: cardTitleClasses = '', cardText: cardTextClasses = '', cardMedia: cardMediaClasses = '', grid: gridClasses = '', searchBar: searchBarClasses = '' } = Object.keys(this.classes).length > 0 ? this.classes : {}
     const collection = this?.collectionType ? this.collectionType : null
     const mediaRatio = this.ratio !== null && this.ratio?.indexOf(':') > -1 ? this.ratio : ['services', 'materials', 'applications'].includes(collection) ? '16:9' : 'auto'
+
     return {
       entries: null,
       searchValue: '',
@@ -144,7 +145,6 @@ export default {
     '$route.query': {
       immediate: true,
       handler (e) {
-        console.log({ e })
         this.queryParams = this.getQueryParams()
       }
     }
@@ -165,7 +165,6 @@ export default {
       const nextEntries = await getCollection(this.collection, { ...params, start })
         .then(res => res[collection])
       this.canLoadMore = nextEntries.length === this.limit
-      console.log({ next: nextEntries.map(n => n.slug), current: ![null, undefined].includes(this?.entries?.map) && this.entries.map(e => e.slug) })
       if (start === 0 || !!!this.entries || !!!this.entries.length) {
         this.entries = nextEntries
       } else {
@@ -191,7 +190,7 @@ export default {
 
 <style lang="scss">
 .collection-entries {
-  @apply grid grid-cols-12 gap-4 p-4 mx-auto my-0;
+  @apply grid grid-cols-12 gap-3 sm:gap-4 mx-auto my-0;
 }
 .collection-entry {
   @apply col-span-6 md:col-span-4 lg:col-span-3;

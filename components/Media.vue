@@ -5,18 +5,20 @@
   >
     <template v-if="typeof mediaSrc === 'string'">
       <MediaPdf
+        class="media-pdf"
         v-if="![null, undefined].includes(media) && ![null, undefined].includes(media.mime) && media.mime.includes('pdf')"
         :src="mediaSrc"
       />
       <img
         v-else-if="mediaSrc.length > 0"
         :src="mediaSrc"
-        class="w-full h-auto relative z-0"
+        class="media-image w-full h-auto relative z-0"
         :class="{ 'opacity-0': isBackground }"
         @load="imageLoaded"
       >
     </template>
     <MediaYoutube
+      class="media-youtube"
       v-else-if="typeof youtube === 'string' && youtube.length > 0"
       :src="youtube"
       :class="{ 'w-full my-auto height-full': true, 'relative z-0': !!!isBackground, 'absolute z-0 -inset-1': !!isBackground }"

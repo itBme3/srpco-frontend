@@ -3,12 +3,9 @@
     class="site-container w-screen flex flex-col"
     :class="{ 'is-mobile': isMobile }"
   >
-    <div class="header-and-nav side fixed sm:h-screen flex flex-row sm:flex-col w-screen sm:w-[90px] bg-transparent p-1 z-999999">
-      <a
-        href="/"
-        class="-mt-px"
-      >
-        <Logo class="h-[37px] top-[2px] w-auto my-auto mr-auto" />
+    <div class="header-and-nav side fixed sm:h-screen flex flex-row sm:flex-col w-screen sm:w-[90px] bg-gray-900 sm:bg-transparent px-1 py-2 z-[1004]">
+      <a href="/" class="mt-[2px]">
+        <Logo class="h-[38px] top-0 w-auto my-auto mr-auto" />
       </a>
       <SiteNav class="navigation ml-auto sm:ml-0" />
       <SiteHeader />
@@ -25,9 +22,9 @@
 
 export default {
   data () {
-    // const isMobile = width < 640
-    const isMobile = true
-    return { isMobile }
+    return {
+      isMobile: true
+    }
   },
   mounted () {
     this.getDocumentDimensions()

@@ -1,22 +1,13 @@
 <template>
   <div
+    v-if="![null, undefined].includes(page)"
     class="single-entry service"
-    :v-if="page !== null && page !== undefined"
   >
-    <div class="page-heading flex flex-wrap items-center content-start">
-      <h1
-        v-if="!!page && page.title !== null"
-        class="page-title"
-      >
-        {{ page.title }}
-      </h1>
-      <h5
-        v-if="!!page && page.description !== null"
-        class="page-description"
-      >
-        {{ page.description }}
-      </h5>
-    </div>
+    <Heading
+      :title="page.title"
+      :description="page.description"
+      heading-type="page"
+    />
     <MediaYoutube
       v-if="page !== null && typeof page.youtube === 'string' && page.youtube !== null"
       :src="page.youtube"

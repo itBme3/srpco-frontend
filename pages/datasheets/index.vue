@@ -1,7 +1,8 @@
 <template>
   <div class="page datasheets">
-    <PageHeading
+    <Heading
       v-if="page !== null && page !== undefined"
+      heading-type="collection"
       title="Datasheets"
     />
     <Media

@@ -143,6 +143,12 @@ export default {
   async fetch () {
     this.navigation = await $graph.request(navigationQuery).then(res => res.navigation)
   },
+  watch: {
+    '$route.fullPath' () {
+      this.collapseNav()
+      window.scrollTo(0,0)
+    }
+  },
   mounted () {
     this.getDocumentDimensions()
     window.addEventListener('resize', this.getDocumentDimensions)

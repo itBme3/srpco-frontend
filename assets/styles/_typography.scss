@@ -1,5 +1,11 @@
 h1, h2, h3, h4, h5, h6, p, i {
-        @apply prose font-sans leading-snug;
+        @apply prose font-sans;
+}
+h1, h2 {
+        @apply leading-tight tracking-wide;
+}
+h3, h4, h5, h6, p, i {
+        @apply leading-snug tracking-wider;
 }
 h1 {
         @apply text-3xl md:text-4xl lg:text-5xl font-medium tracking-wide;

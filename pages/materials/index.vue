@@ -1,12 +1,22 @@
 
 <template>
   <div class="collection materials">
-    <PageHeading
+    <Heading
       v-if="page !== null && page !== undefined"
+      heading-type="collection"
       :title="!!page.title ? page.title : null"
       :description="!!page.description ? page.description : null"
     />
-    <Blocks v-if="typeof page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0" :blocks="page.blocks" />
+    <div
+      v-if="page !== null && page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0"
+      class="blocks"
+    >
+      <Block
+        v-for="block in page.blocks"
+        :key="block.__typename + '-' + block.id"
+        :block="block"
+      />
+    </div>
   </div>
 </template>
 

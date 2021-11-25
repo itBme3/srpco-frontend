@@ -29,6 +29,7 @@
         v-if="block.__typename === 'ComponentBlocksBlockContent'"
         :block="block"
       />
+      <pre>{{ JSON.stringify(block, null, 4) }}</pre>
       <BlockDatasheets
         v-if="block.__typename === 'ComponentBlocksBlockDatasheets'"
         :block="block"

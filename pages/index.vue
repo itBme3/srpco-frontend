@@ -1,8 +1,13 @@
 <template>
-  <div>
-    <Blocks
-      v-if="page !== null && page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0"
-      :blocks="page.blocks" />
+  <div
+    v-if="page !== null && page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0"
+    class="blocks"
+  >
+    <Block
+      v-for="block in page.blocks"
+      :key="block.__typename + '-' + block.id"
+      :block="block"
+    />
   </div>
 </template>
 

@@ -4,8 +4,9 @@
     <template v-if="footer !== null && Array.isArray(footer.blocks)">
       <div
         v-for="block in footer.blocks"
-        :key="block.id"
+        :key="'block-' + block.id"
         class="block"
+        :class="{ ['' + block !== null && block.blockSettings !== null ? block.blockSettings.blockClasses : '' + '']: block.blockSettings !== null && typeof block.blockSettings.blockClasses === 'string' && block.blockSettings.blockClasses.length > 0 }"
       >
         <Link
           v-if="typeof block.title === 'string' && block.title.length > 0"
@@ -18,7 +19,7 @@
             <div class="block-images">
               <Link
                 v-for="media in block.images"
-                :key="media.id"
+                :key="'media-' + media.id"
                 :link="media.link"
                 :open-new-tab="!!media.openNewTab"
               >
@@ -35,7 +36,7 @@
             <div class="block-links flex flex-col content-start items-start space-y-2">
               <Link
                 v-for="link in block.links"
-                :key="link.id"
+                :key="'link-' + link.id"
                 :link="link.link"
                 :open-new-tab="!!link.openNewTab"
               >
@@ -75,7 +76,7 @@ export default {
 
 <style lang="scss">
   footer {
-    @apply grid grid-cols-12 mt-32 gap-6 bg-gray-800 p-4;
+    @apply grid grid-cols-12 mt-32 gap-6 bg-gray-800 p-4 relative z-[1003];
     .block {
       @apply col-span-full xs:col-span-6 sm:col-span-4 md:col-span-3;
     }

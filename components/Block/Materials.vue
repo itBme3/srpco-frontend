@@ -22,6 +22,7 @@
 
 <script>
 export default {
+  scrollToTop: true,
   props: {
     block: Object,
     default: () => null
