@@ -18,6 +18,7 @@ import { getCollectionPage } from '~/utils/graphql/requests/collection'
 import { globalQuery } from '~/utils/graphql/queries/global'
 /* eslint-disable no-extra-boolean-cast */
 export default {
+  scrollToTop: true,
   async asyncData () {
     return {
       page: await getCollectionPage(CollectionType.MATERIALS).then(res => res.collectionMaterial),

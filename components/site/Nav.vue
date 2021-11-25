@@ -65,7 +65,7 @@
                 >
                   <i
                     :class="{
-                      ['my-auto mr-1 icon transition-all duration-200 ease-quick-in text-srp-red gicon-' + navLink.icon]: true,
+                      ['my-auto mr-1 icon text-srp-red gicon-' + navLink.icon]: true,
                       'text-2xl ml-0': isMobile || navExpanded,
                       'text-3xl': !isMobile && !navExpanded
                     }"

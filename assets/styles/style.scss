@@ -1,7 +1,8 @@
 @import './_typography.scss';
-@import './_blocks.scss';
 @import './_layout.scss';
-@import './_links.scss';
+@import './_blocks.scss';
+@import './_inputs.scss';
+@import './_buttons.scss';
 @import './_scrollbar.scss';
 
 [class^="gicon-"]:before, [class*=" gicon-"]:before {
@@ -10,5 +11,5 @@
 }
 
 body {
-        @apply bg-gray-900 text-gray-200
+        @apply bg-gray-900 text-gray-200;
 }

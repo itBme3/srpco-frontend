@@ -1,4 +1,6 @@
 import { gql } from 'graphql-request'
+import { blockSettingsFields } from '../fragments/blocks'
+import { mediaFields } from '../fragments/fields'
 
 export const navigationQuery = gql`
       query {
@@ -16,16 +18,19 @@ export const footerQuery = gql`
             footer(publicationState: LIVE) {
                   blocks {
                   ... on ComponentNavigationLink {
-                  title
-                  titleLink
-                  links {
-                        text
-                        link
-                  }
+                        title
+                        titleLink
+                        ${blockSettingsFields.DEFAULT}
+                        links { id openNewTab icon text link }
                   }
                   ... on ComponentNavigationContent {
+                              ${blockSettingsFields.DEFAULT}
                               title
                               content
+                              images {
+                                    id link openNewTab imageClasses
+                                    image { ${mediaFields('default')} }
+                              }
                         }
                   }
             }

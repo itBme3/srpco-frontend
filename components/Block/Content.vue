@@ -3,19 +3,21 @@
     class="block-content"
     :v-if="block !== undefined && block !== null"
   >
-    <div
+    <Wysiwyg
       v-if="content !== null && content !== undefined"
       :class="{
         'block-content': true,
         [contentClasses]: typeof contentClasses === 'string' && contentClasses.length > 0
       }"
-      v-html="content"
+      :content="content"
     />
   </div>
 </template>
 
 <script>
+import Wysiwyg from '../Wysiwyg.vue'
 export default {
+  components: { Wysiwyg },
   props: {
     block: {
       type: Object,
@@ -40,17 +42,6 @@ export default {
       const txt = this.block !== undefined && this.block !== null && typeof this.block.content === 'string' && this.block.content?.length > 0
         ? this.block.content
         : ''
-      let res = txt
-      res = txt.split('src="').join('src="' + process.env.apiUrl)
-      res = res.replace('oembed', 'iframe')
-      res = res.replace('url', 'src')
-      res = res.replace('watch?v=', 'embed/')
-      res = res.replace('oembed', 'iframe')
-      return res
-    }
-  },
-  methods: {
-    setYoutubeIframes (txt) {
       let res = txt
       res = txt.split('src="').join('src="' + process.env.apiUrl)
       res = res.replace('oembed', 'iframe')

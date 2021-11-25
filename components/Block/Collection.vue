@@ -22,11 +22,11 @@
           :key="entry.id"
           :card-style="['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0 ? 'mediaLeft' : cardStyle"
           :title="entry.title"
-          :text="['resource', 'application', 'service', 'material', 'supplier'].includes(entry.type)
+          :text="['resource', 'service', 'supplier'].includes(entry.type) || [null, undefined].includes(entry) || !Array.isArray(entry.gaskets) || entry.gaskets.length === 0
             ? entry.description
             : null"
           :media="entry.media"
-          :media-ratio="mediaRatio"
+          :media-ratio="['materials', 'applications'].includes(collectionType) && (!Array.isArray(entry.gaskets) || entry.gaskets.length === 0) ? '4:2' : mediaRatio"
           :link="'/' + collectionType + '/' + entry.slug"
           :open-new-tab="false"
           class="collection-entry"
@@ -35,6 +35,7 @@
           :youtube="typeof entry.youtube === 'string' ? entry.youtube : null"
           :text-classes="cardTextClasses"
           :media-classes="cardMediaClasses"
+          :is-background="true"
           :more-links="['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0 ? entry.gaskets : null"
         />
       </template>
@@ -115,7 +116,7 @@ export default {
   data () {
     const { card: cardClasses = '', cardTitle: cardTitleClasses = '', cardText: cardTextClasses = '', cardMedia: cardMediaClasses = '', grid: gridClasses = '', searchBar: searchBarClasses = '' } = Object.keys(this.classes).length > 0 ? this.classes : {}
     const collection = this?.collectionType ? this.collectionType : null
-    const mediaRatio = this.ratio !== null && this.ratio?.indexOf(':') > -1 ? this.ratio : collection === 'services' ? '16:9' : null
+    const mediaRatio = this.ratio !== null && this.ratio?.indexOf(':') > -1 ? this.ratio : ['services', 'materials', 'applications'].includes(collection) ? '16:9' : 'auto'
     return {
       entries: null,
       searchValue: '',
@@ -143,6 +144,7 @@ export default {
     '$route.query': {
       immediate: true,
       handler (e) {
+        console.log({ e })
         this.queryParams = this.getQueryParams()
       }
     }
@@ -187,11 +189,17 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss">
 .collection-entries {
-  @apply grid grid-cols-12 gap-4 p-4 mx-auto my-0
+  @apply grid grid-cols-12 gap-4 p-4 mx-auto my-0;
 }
 .collection-entry {
-  @apply col-span-6 md:col-span-4 lg:col-span-3
+  @apply col-span-6 md:col-span-4 lg:col-span-3;
+  // .card-link {
+  //    @apply transform transition-all ease-quick-in duration-300 scale-100 hover:scale-102;
+  // }
+  .card-title {
+    @apply text-lg sm:text-xl
+  }
 }
 </style>

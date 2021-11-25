@@ -1,14 +1,14 @@
 <template>
   <div
-    class="site-container w-screen flex flex-col sm:flex-row"
+    class="site-container w-screen flex flex-col"
     :class="{ 'is-mobile': isMobile }"
   >
-    <div class="header-and-nav side fixed sm:h-screen flex flex-row sm:flex-col w-screen sm:w-[90px] bg-gray-900 p-1 z-999999">
+    <div class="header-and-nav side fixed sm:h-screen flex flex-row sm:flex-col w-screen sm:w-[90px] bg-transparent p-1 z-999999">
       <a
         href="/"
         class="-mt-px"
       >
-        <Logo style="width: 92px" class="h-auto my-auto mr-auto" />
+        <Logo class="h-[37px] top-[2px] w-auto my-auto mr-auto" />
       </a>
       <SiteNav class="navigation ml-auto sm:ml-0" />
       <SiteHeader />
@@ -17,8 +17,8 @@
       <main>
         <Nuxt :key="$route.fullPath" />
       </main>
-      <SiteFooter />
     </div>
+    <SiteFooter />
   </div>
 </template>
 <script>

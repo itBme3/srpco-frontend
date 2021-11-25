@@ -7,6 +7,7 @@
       v-debounce:400ms="updateSearchValue"
       :debounce-events="['input']"
       type="'search'"
+      class="search-input"
       :autocomplete="autocomplete"
       :classes="classes"
       :fixed-classes="fixedClasses"
@@ -19,6 +20,7 @@
     />
     <gButton
       classes="absolute top-[50%] right-0 px-3 py-2 w-auto h-auto flex items-center content-center transform -translate-y-1/2"
+      class="action-button"
       @click="inputButtonClicked"
     >
       <Icon

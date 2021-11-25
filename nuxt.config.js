@@ -22,7 +22,10 @@ export default {
     '~/assets/styles/style.scss'
   ],
   tailwindCss: {
-    cssPath: '~/assets/tailwind.css'
+    cssPath: '~/assets/tailwind/tailwind.css',
+    exposeConfig: false,
+    config: {},
+    injectPosition: 0
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [

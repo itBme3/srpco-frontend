@@ -1,0 +1,8 @@
+.form {
+        input, textarea, select {
+                @apply focus:border focus:ring-1 focus:ring-gray-500 focus:border-gray-500 #{!important};
+        }
+        [role="checkbox"], [role="radio"]  {
+                @apply focus:ring-0 focus:border-0 focus:outline-none #{!important};
+        }
+}

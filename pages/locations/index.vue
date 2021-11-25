@@ -45,6 +45,7 @@ const locations = [
   }
 ]
 export default {
+  scrollToTop: true,
   props: {
     mapConfig: {
       type: Object,

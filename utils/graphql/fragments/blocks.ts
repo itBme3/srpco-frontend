@@ -1,8 +1,7 @@
 
-import { getEntryFields } from '~/utils/graphql/fragments/entries'
 import { mediaFields } from '~/utils/graphql/fragments/fields'
 
-const blockSettingsFields = {
+export const blockSettingsFields = {
   DEFAULT: 'id __typename blockSettings { blockClasses }',
   card: `
   cardSettings {

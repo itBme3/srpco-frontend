@@ -1,15 +1,15 @@
 <template>
   <div>
     <div
+      v-if="Array.isArray(entries) && entries.length > 0"
       class="entries"
       :class="{ [collectionType]: true }"
-      v-if="Array.isArray(entries) && entries.length > 0"
     >
       <Card
-        v-for="entry in entries"
+        v-for="(entry, index) in entries"
         :key="entry.id"
         :title="entry.title"
-        :media="entry.file"
+        :media="index < 4 ? entry.file : 'gicon-datasheets'"
         card-style="mediaLeft"
         :link="'/' + collectionType + '/' + entry.slug"
         media-ratio="8.5:11"
@@ -33,7 +33,6 @@ export default {
   },
   computed: {
     entries () {
-
       return this.block !== undefined && this.block !== null && Array.isArray(this.block[this.collectionType]) ? this.block[this.collectionType] : null
     },
     cardClasses () {

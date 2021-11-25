@@ -15,11 +15,13 @@
 
 <script>
 import FormSchema from 'vue-json-schema'
-import { TInput, TTag, TCheckbox, TRadio, TSelect, TToggle, TButton } from 'vue-tailwind/dist/components'
+import {
+  TInput, TButton, TTag, TTextarea, TCheckbox, TRadio, TSelect, TToggle
+} from 'vue-tailwind/dist/components'
 import FormWrapper from '~/components/FormWrapper.vue'
+
 FormSchema.setComponent('form', FormWrapper, (vm) => {
   // vm is the FormSchema VM
-  console.log({ vm })
   const labelWidth = '120px'
   const model = vm.data
   const rules = {}
@@ -38,12 +40,13 @@ FormSchema.setComponent('form', FormWrapper, (vm) => {
 FormSchema.setComponent('label', TTag)
 FormSchema.setComponent('email', TInput)
 FormSchema.setComponent('text', TInput)
-FormSchema.setComponent('textarea', TInput)
+FormSchema.setComponent('textarea', TTextarea)
 FormSchema.setComponent('checkbox', TCheckbox)
 FormSchema.setComponent('checkbox', TToggle)
 FormSchema.setComponent('radio', TRadio)
 FormSchema.setComponent('select', TSelect)
 FormSchema.setComponent('option', TButton)
+
 
 export default {
   components: { FormSchema },
@@ -59,3 +62,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  input {
+    &[class*="focus:ring-gray-500"] {
+        --tw-ring-color: #ccc;
+    }
+  }
+</style>

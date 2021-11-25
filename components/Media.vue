@@ -1,7 +1,7 @@
 <template>
   <div
     :style="{ height: imgHeight, backgroundImage: isBackground && typeof mediaSrc === 'string' && mediaSrc.length > 0 ? 'url(' + mediaSrc + ')' : 'none' }"
-    class="overflow-hidden relative flex items-center content-center"
+    class="media overflow-hidden relative flex items-center content-center"
   >
     <template v-if="typeof mediaSrc === 'string'">
       <MediaPdf

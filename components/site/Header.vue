@@ -1,5 +1,8 @@
 <template>
-  <div class="header">
+  <div
+  class="header"
+  :class="{ 'search-expanded': expanded }"
+>
     <SearchInput
       class="site-search-input bg-gray-800 z-[1003]"
       :autocomplete="'off'"
@@ -126,14 +129,31 @@ export default {
 
 <style lang="scss">
 .header {
-  @apply fixed left-[102px] right-[50px] sm:right-0
+  @apply fixed left-[94px] right-[46px] top-0 sm:right-0 bg-gray-900 p-1;
+  &.search-expanded {
+    @media screen and (max-width: 639px) {
+      @apply left-0 right-0 bg-transparent;
+      input {
+        @apply text-center;
+      }
+    }
+  }
 }
 .header-search-box {
-  @apply w-full max-w-[1080px];
+  @apply w-[calc(100%-0.5em)] max-w-[1080px];
   @apply transition duration-200 ease-quick-in p-4 z-[1001] bg-gray-800 rounded-lg shadow-2xl transform;
   @apply fixed sm:absolute left-1 sm:left-0 md:-translate-x-1/2 md:left-1/2;
 }
-.site-search-input i[class*="gicon-"] {
-  @apply text-gray-300
+.site-search-input {
+  input {
+    @apply relative top-px py-[.45em]
+  }
+  i[class*="gicon-"] {
+    @apply text-gray-300;
+  }
+  .action-button {
+    @apply px-2 bg-gray-800;
+    box-shadow: -3px 0 6px  0px rgba(31, 41, 55, 1) !important;
+  }
 }
 </style>

@@ -12,7 +12,7 @@ import { homepageQuery } from '~/utils/graphql/queries/pages'
 import { globalQuery } from '~/utils/graphql/queries/global'
 import { getMetaTags } from '~/utils/seo'
 export default {
-
+  scrollToTop: true,
   async asyncData () {
     return {
       page: await $graph.request(homepageQuery).then(res => res.homepage),

@@ -19,6 +19,7 @@ import { getCollectionPage } from '~/utils/graphql/requests/collection'
 import { globalQuery } from '~/utils/graphql/queries/global'
 /* eslint-disable no-extra-boolean-cast */
 export default {
+  scrollToTop: true,
   async asyncData () {
     const page = await getCollectionPage(CollectionType.GASKETS).then(res => res.collectionGasket)
     return {

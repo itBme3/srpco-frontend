@@ -1,11 +1,9 @@
 <template>
   <Link
     :link="link"
-    class="tag-link inline-block"
+    class="tag-link"
     :open-new-tab="openNewTab">
-    <gTag>
-      <slot></slot>
-    </gTag>
+    <slot />
   </Link>
 </template>
 <script>
@@ -26,3 +24,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .tag-link {
+    @apply inline-block transform scale-[.98] mx-0 mb-1 hover:shadow-xl hover:scale-100 bg-opacity-30 rounded bg-gray-700 text-gray-400 px-2 py-1 text-xs;
+  }
+</style>

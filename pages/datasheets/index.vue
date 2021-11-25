@@ -13,6 +13,7 @@
 </template>
 <script>
 export default {
+  scrollToTop: true,
   props: {
     entry: {
       type: Object,

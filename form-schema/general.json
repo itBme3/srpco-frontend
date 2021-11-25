@@ -1,8 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
-  "title": "Newsletter Subscription",
-  "description": "Sign up for free newsletters and get more delivered to your inbox",
   "properties": {
     "name": {
       "type": "string",
