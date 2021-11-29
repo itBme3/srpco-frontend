@@ -5,11 +5,25 @@ module.exports = {
     node: true
   },
   extends: [
+    'plugin:vue/recommended',
+    'eslint:recommended',
+    'prettier/vue',
+    'plugin:prettier/recommended',
     '@nuxtjs/eslint-config-typescript',
     'plugin:nuxt/recommended'
   ],
   plugins: [
   ],
   // add your custom rules here
-  rules: {}
+  rules: {
+    'vue/component-name-in-template-casing': ['error', 'PascalCase'],
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+  },
+  globals: {
+    $nuxt: true
+  },
+  parserOptions: {
+    parser: 'babel-eslint'
+  }
 }
