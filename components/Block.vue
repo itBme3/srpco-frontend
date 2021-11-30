@@ -18,7 +18,7 @@
     />
     <template v-else>
       <h2
-        v-if="block.title !== null"
+        v-if="block.title !== null && !['ComponentBlocksBlockHero'].includes(block.__typename)"
         :class="{
           'block-title': true
         }"
@@ -29,7 +29,10 @@
         v-if="block.__typename === 'ComponentBlocksBlockContent'"
         :block="block"
       />
-      <pre>{{ JSON.stringify(block, null, 4) }}</pre>
+      <BlockHero
+        v-if="block.__typename === 'ComponentBlocksBlockHero'"
+        :block="block"
+      />
       <BlockDatasheets
         v-if="block.__typename === 'ComponentBlocksBlockDatasheets'"
         :block="block"
@@ -60,7 +63,7 @@ export default {
   props: {
     block: {
       type: Object,
-      default: () => { return { } }
+      default: () => { return {} }
     }
   },
   data () {

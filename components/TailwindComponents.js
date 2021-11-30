@@ -303,7 +303,7 @@ export const TailwindComponentsSettings = {
     component: TButton,
     props: {
       fixedClasses: 'button block px-4 py-2 rounded transition duration-100 ease-in-out focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed tracking-wide',
-      classes: 'rounded text-gray-700 shadow-xl hover:shadow-sm transform transition-all ease-quick-in duration-200 hover:scale-95 scale-100 tracking-wider',
+      classes: 'rounded shadow-xl hover:shadow-sm transform transition-all ease-quick-in duration-200 hover:scale-95 scale-100 tracking-wider',
       variants: {
         secondary: 'bg-gray-100 hover:bg-opacity-10 active:bg-opacity-10 focus:bg-opacity-10 text-gray-700 hover:text-800 font-semibold',
         light: 'bg-gray-100 text-gray-700 hover:text-800 hover:shadow-lg hover:bg-opacity-100 hover:bg-white active:bg-white focus:bg-white font-semibold',
@@ -330,43 +330,44 @@ export const TailwindComponentsSettings = {
     component: TModal,
     props: {
       fixedClasses: {
-        overlay: 'z-40  overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed bg-opacity-50',
-        wrapper: 'relative mx-auto z-50 max-w-lg px-3 py-12',
+        overlay: 'z-9999 overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed bg-opacity-50',
+        wrapper: 'relative mx-auto z-99999 px-3 py-6',
         modal: 'overflow-visible relative  rounded',
         body: 'p-3',
         header: 'border-b p-3 rounded-t',
         footer: ' p-3 rounded-b',
-        close: 'flex items-center justify-center rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50'
+        close: 'flex items-center justify-center rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+        closeIcon: 'fill-current h-4 w-4'
       },
       classes: {
         overlay: 'bg-black',
-        wrapper: '',
+        wrapper: 'max-w-lg',
         modal: 'bg-white shadow',
-        body: 'p-3',
         header: 'border-gray-100',
         footer: 'bg-gray-100',
         close: 'bg-gray-100 text-gray-600 hover:bg-gray-200',
-        closeIcon: 'fill-current h-4 w-4',
         overlayEnterClass: 'opacity-0',
         overlayEnterActiveClass: 'transition ease-out duration-100',
         overlayEnterToClass: 'opacity-100',
         overlayLeaveClass: 'opacity-100',
         overlayLeaveActiveClass: 'transition ease-in duration-75',
         overlayLeaveToClass: 'opacity-0',
-        enterClass: '',
-        enterActiveClass: '',
-        enterToClass: '',
-        leaveClass: '',
-        leaveActiveClass: '',
-        leaveToClass: ''
       },
       variants: {
-        danger: {
-          overlay: 'bg-red-100',
-          header: 'border-red-50 text-red-700',
-          close: 'bg-red-50 text-red-700 hover:bg-red-200 border-red-100 border',
-          modal: 'bg-white border border-red-100 shadow-lg',
-          footer: 'bg-red-50'
+        pdf: {
+          overlay: 'bg-black',
+          wrapper: 'h-full',
+          modal: 'bg-white shadow-2xl h-full w-full',
+          body: 'p-0 h-full',
+          header: 'border-gray-100',
+          footer: 'bg-gray-100',
+          close: 'bg-gray-100 text-gray-600 hover:bg-gray-200',
+          overlayEnterClass: 'opacity-0',
+          overlayEnterActiveClass: 'transition ease-out duration-100',
+          overlayEnterToClass: 'opacity-100',
+          overlayLeaveClass: 'opacity-100',
+          overlayLeaveActiveClass: 'transition ease-in duration-75',
+          overlayLeaveToClass: 'opacity-0',
         }
       }
     }

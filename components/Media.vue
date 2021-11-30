@@ -2,12 +2,14 @@
   <div
     :style="{ height: imgHeight, backgroundImage: isBackground && typeof mediaSrc === 'string' && mediaSrc.length > 0 ? 'url(' + mediaSrc + ')' : 'none' }"
     class="media overflow-hidden relative flex items-center content-center"
+    style="background-repeat: no-repeat; background-size: cover; background-position: center;"
   >
     <template v-if="typeof mediaSrc === 'string'">
       <MediaPdf
         class="media-pdf"
         v-if="![null, undefined].includes(media) && ![null, undefined].includes(media.mime) && media.mime.includes('pdf')"
         :src="mediaSrc"
+        :embed="embed"
       />
       <img
         v-else-if="mediaSrc.length > 0"
@@ -28,7 +30,7 @@
     <div
       v-if="overlay || (typeof youtube === 'string' && youtube.length > 0)"
       class="overlay absolute -inset-1 z-1"
-      :class="{['' + overlayClasses + '']: overlayClasses !== null && typeof overlayClasses === 'string'}"
+      :class="{['' + overlayClasses + '']: typeof overlayClasses === 'string' && overlayClasses.length > 0 }"
     />
   </div>
 </template>
@@ -49,6 +51,10 @@ export default {
     ratio: {
       type: String,
       default: 'auto'
+    },
+    embed: {
+      type: Boolean,
+      default: false
     },
     isBackground: {
       type: Boolean,
@@ -120,13 +126,8 @@ export default {
 }
 </script>
 
-<style>
-[style*="background-image: url("] {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+<style lang="scss">
 .overlay {
-  @apply bg-gray-900 bg-opacity-10
+  @apply bg-opacity-5;
 }
 </style>

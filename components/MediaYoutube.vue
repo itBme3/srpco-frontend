@@ -12,6 +12,7 @@
         :player-height="'100%'"
         :player-vars="playVars"
         :mute="mute"
+        :host="'https://www.youtube-nocookie.com'"
       />
     </div>
   </client-only>

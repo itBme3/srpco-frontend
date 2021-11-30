@@ -17,8 +17,12 @@
         @search="updateSearchValue($event)"
         @blur="storeSearch()"
       />
-      <Link v-if="!expanded" :link="'/contact'">
-        <gButton class="header-contact-button transform scale-95 hover:scale-100 hidden sm:inline rounded-full bg-green-400 hover:bg-opacity-100 bg-opacity-80 text-green-900 uppercase font-bold whitespace-nowrap mx-2 text-sm py-2">
+      <Link
+        v-if="!expanded"
+        :link="'/contact'"
+        class="transform scale-95 hover:scale-100"
+      >
+        <gButton class="header-contact-button hidden sm:inline rounded-full bg-green-400 hover:bg-opacity-100 bg-opacity-80 text-green-900 uppercase font-bold whitespace-nowrap mx-2 text-sm py-2">
           <i class="gicon-contact"></i>
           <span class="hidden sm:inline">let's talk</span>
         </gButton>

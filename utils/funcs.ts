@@ -1,21 +1,21 @@
 import { Media, MediaFormat } from '~/models/media.model'
 
 /* eslint-disable no-extra-boolean-cast */
-export const handleize = (strng:string, reaplceSpacesWith: string = '-'):string => {
+export const handleize = (strng: string, reaplceSpacesWith: string = '-'): string => {
   return strng.toLowerCase().trim().replace(/ /g, reaplceSpacesWith).replace(/[^a-z0-9]+/g, reaplceSpacesWith).replace(/-$/, '').replace(/^-/, '').replace(/--/, reaplceSpacesWith)
 }
 
-export const stringToHTML = (str:string) => {
+export const stringToHTML = (str: string) => {
   const parser = new DOMParser()
   const doc = parser.parseFromString(str, 'text/html')
   return doc.body
 }
 
-export const capitalize = (strng:string):string => {
+export const capitalize = (strng: string): string => {
   return strng.split(' ').map(word => `${word[0].toUpperCase()}${word.substr(1)}`).join(' ')
 }
 
-export const objectsAreTheSame = (_obj1: any, _obj2: any, dblCheck: boolean = true):any => {
+export const objectsAreTheSame = (_obj1: any, _obj2: any, dblCheck: boolean = true): any => {
   const obj1 = _obj1 !== undefined ? JSON.parse(JSON.stringify(_obj1)) : null
   const obj2 = _obj2 !== undefined ? JSON.parse(JSON.stringify(_obj2)) : null
   if (obj1 === null && obj2 === null) { return true }
@@ -36,8 +36,8 @@ export const objectsAreTheSame = (_obj1: any, _obj2: any, dblCheck: boolean = tr
     : true
 }
 
-export const sortCompare = (key:string, order: 'asc' | 'desc' = 'asc') => {
-  return function innerSort (a:any, b:any) {
+export const sortCompare = (key: string, order: 'asc' | 'desc' = 'asc') => {
+  return function innerSort(a: any, b: any) {
     if (!!!a[key] || !!!b[key]) {
       return 0
     }
@@ -54,7 +54,7 @@ export const sortCompare = (key:string, order: 'asc' | 'desc' = 'asc') => {
   }
 }
 
-export const objectValue = (keyString:string, obj:any) => {
+export const objectValue = (keyString: string, obj: any) => {
   const objct = JSON.parse(JSON.stringify(obj))
   if (!keyString || !objct || !objct[keyString.split('.')[0]] === undefined) {
     return null
@@ -99,13 +99,13 @@ export const setObjectValue = (keyString: string, value: any, objct: any) => {
   }
 }
 
-export const getThumbImageUrl = (image: any, el:any):MediaFormat | Media | undefined => {
+export const getThumbImageUrl = (image: any, el: any): MediaFormat | Media | undefined => {
   const width = el?.offsetWidth
   const height = el?.offsetHeight
   if (!!!image.formats) {
     return image
   }
-  const formatsArray:MediaFormat[] = Object.keys(image.formats).reduce((acc:MediaFormat[], key:string) => {
+  const formatsArray: MediaFormat[] = Object.keys(image.formats).reduce((acc: MediaFormat[], key: string) => {
     return [...acc, image.formats[key]]
   }, [])
   if (!!!width || !!!height) {
@@ -120,4 +120,12 @@ export const getThumbImageUrl = (image: any, el:any):MediaFormat | Media | undef
     return image
   }
   return smallestSize
+}
+
+export const camelToHandle = (strng: string) => {
+  return handleize('A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'.split(',')
+    .reduce((acc: string, ltr: string) => {
+      if (!acc.includes(ltr)) return acc
+      return acc.split(ltr).join(`-${ltr.toLowerCase()}`)
+    }, strng))
 }

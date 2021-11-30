@@ -19,15 +19,17 @@
       />
     </div>
     <gModal
-      class="z-99999 fixed"
       v-if="![undefined, null].includes(modalData)"
       v-model="showModal"
+      variant="pdf"
     >
       <Media
         :media="modalData.file"
         :youtube="modalData.youtube"
         :title="modalData.title"
         :text="modalData.text"
+        :embed="true"
+        class="h-full w-full"
       />
     </gModal>
   </div>
@@ -90,7 +92,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .entries {
-    @apply grid grid-cols-12 gap-3
-  }
+.entries {
+  @apply grid grid-cols-12 gap-3;
+}
 </style>
