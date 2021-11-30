@@ -32,7 +32,7 @@ const locations = [
     email: 'info@srpco.com',
     lat: 42.0245861,
     lng: -87.9685225,
-    src: `https://www.google.com/maps/embed/v1/place?key=${apiKey}&center=42.0245861,-87.9685225&q=SRP&zoom=11`
+    src: `https://maps.googleapis.com/maps/embed/v1/place?key=${apiKey}&center=42.0245861,-87.9685225&q=SRP&zoom=11`
   },
   {
     title: 'SRP ZHUHAI COMPANY LIMITED',
@@ -42,7 +42,7 @@ const locations = [
     email: 'ivyy@srpco.com.cn',
     lat: 22.3643969,
     lng: 113.536515,
-    src: `https://www.google.com/maps/embed/v1/place?key=${apiKey}&center=22.3643969,113.536515&q=Zhuhai,+Guangdong+Province,+China&zoom=11`
+    src: `https://maps.googleapis.com/maps/embed/v1/place?key=${apiKey}&center=22.3643969,113.536515&q=Zhuhai,+Guangdong+Province,+China&zoom=11`
   }
 ]
 export default {
@@ -59,7 +59,8 @@ export default {
       google: null,
       map: null,
       locationConfigs: locations.map(this.configFromLocation),
-      locations
+      locations,
+      page: null
     }
   },
 

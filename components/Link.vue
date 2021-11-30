@@ -1,12 +1,12 @@
 <template>
   <nuxt-link
-    v-if="mData === null && typeof link === 'string' && link.indexOf('/') === 0 && openNewTab !== true"
+    v-if="typeof link === 'string' && link.indexOf('/') === 0 && openNewTab !== true"
     :to="link"
   >
     <slot />
   </nuxt-link>
   <a
-    v-else-if="mData === null && typeof link === 'string' && link.length > 0"
+    v-else-if="typeof link === 'string' && link.length > 0"
     :href="link"
     class="simple-link"
     :target="openNewTab === true ? '_blank' : '_self'"
@@ -14,12 +14,15 @@
     <slot />
   </a>
   <button
-    v-else
+    v-else-if="![undefined, null].includes(mData)"
     :tag-name="mData === null ? 'div' : 'gButton'"
     @click="handleModal"
   >
     <slot />
   </button>
+  <span v-else>
+    <slot />
+  </span>
 </template>
 
 <script>

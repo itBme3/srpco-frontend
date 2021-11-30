@@ -22,27 +22,17 @@
         :link="'/contact'"
         class="transform scale-95 hover:scale-100"
       >
-        <gButton class="header-contact-button hidden sm:inline rounded-full bg-green-400 hover:bg-opacity-100 bg-opacity-80 text-green-900 uppercase font-bold whitespace-nowrap mx-2 text-sm py-2">
-          <i class="gicon-contact"></i>
-          <span class="hidden sm:inline">let's talk</span>
-        </gButton>
+      <gButton class="header-contact-button hidden sm:inline rounded-full bg-green-400 hover:bg-opacity-100 bg-opacity-80 text-green-900 uppercase font-bold whitespace-nowrap mx-2 text-sm py-2">
+        <i class="gicon-contact"></i>
+        <span class="hidden sm:inline">let's talk</span>
+      </gButton>
       </Link>
     </div>
-    <div
-      class="header-search-box"
-      :class="{
-        'expanded opacity-100 translate-y-0 top-12 mt-[2px] animate-fade-in-down': expanded,
-        'opacity-0 -translate-y-full -top-40': !expanded
-      }"
-    >
-      search box
-      <gButton
-        classes="rounded-lg p-4 hover:bg-gray-200 hover:bg-opacity-5 absolute right-2 top-2"
-        @click="expanded = false"
-      >
-        <i class="gicon-close text-red-400" />
-      </gButton>
-    </div>
+    <SiteHeaderSearchBox
+      class="site-search-expanded"
+      :expanded="expanded"
+      @close="expanded = false"
+    />
     <div
       v-if="expanded"
       class="backdrop bg-gray-900 bg-opacity-70 z-[1003] fixed inset-0 cursor-pointer"
@@ -157,10 +147,11 @@ export default {
     }
   }
 }
-.header-search-box, .site-search-input {
+.site-search-expanded,
+.site-search-input {
   @apply w-[calc(100%-0.5em)] max-w-[1080px];
 }
-.header-search-box {
+.site-search-expanded {
   @apply rounded-t-sm rounded-b-lg;
   @apply transition duration-200 ease-quick-in p-4 z-[1005] bg-gray-800 shadow-2xl transform;
   @apply fixed sm:absolute left-1;
@@ -174,7 +165,7 @@ export default {
   }
   .action-button {
     @apply px-2 bg-gray-800;
-    box-shadow: -3px 0 6px  0px rgba(31, 41, 55, 1) !important;
+    box-shadow: -3px 0 6px 0px rgba(31, 41, 55, 1) !important;
   }
 }
 </style>

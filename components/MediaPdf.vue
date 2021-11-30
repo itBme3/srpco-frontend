@@ -1,11 +1,6 @@
 <template>
   <client-only>
     <template v-if="![undefined, null].includes(mediaSrc)">
-      <!-- <object
-        :data="embedSrc"
-        type="application/pdf"
-        class="h-full w-full"
-      > -->
       <iframe
         v-if="embed"
         samesite="strict"
@@ -14,7 +9,6 @@
         height="100%"
         width="100%"
       />
-      <!-- </object> -->
       <pdf
         v-else
         :src="mediaSrc"
