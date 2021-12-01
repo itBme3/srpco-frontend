@@ -13,6 +13,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image', href: '/favicon.png' },
+      { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
       { rel: 'stylesheet', href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?sjun1e' }
     ]
   },
@@ -78,7 +79,7 @@ export default {
   },
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    // apiUrl: process.env.API_URL || 'http://localhost:1339'
-    apiUrl: process.env.API_URL || 'https://ecd790d6ea79.ngrok.io'
+    apiUrl: process.env.API_URL || 'http://localhost:1339'
+    // apiUrl: process.env.API_URL || 'https://ecd790d6ea79.ngrok.io'
   }
 }

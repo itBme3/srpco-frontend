@@ -17,14 +17,14 @@
       :classes="classes"
     />
     <template v-else>
-      <h2
+      <h1
         v-if="block.title !== null && !['ComponentBlocksBlockHero'].includes(block.__typename)"
         :class="{
           'block-title': true
         }"
       >
         {{ title }}
-      </h2>
+      </h1>
       <BlockContent
         v-if="block.__typename === 'ComponentBlocksBlockContent'"
         :block="block"

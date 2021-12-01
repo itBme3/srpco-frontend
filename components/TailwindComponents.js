@@ -302,7 +302,7 @@ export const TailwindComponentsSettings = {
   gButton: {
     component: TButton,
     props: {
-      fixedClasses: 'button block px-4 py-2 rounded transition duration-100 ease-in-out focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed tracking-wide',
+      fixedClasses: 'button flex items-center justify-center px-4 py-2 rounded transition duration-100 ease-in-out focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed tracking-wide',
       classes: 'rounded shadow-xl hover:shadow-sm transform transition-all ease-quick-in duration-200 hover:scale-95 scale-100 tracking-wider',
       variants: {
         secondary: 'bg-gray-100 hover:bg-opacity-10 active:bg-opacity-10 focus:bg-opacity-10 text-gray-700 hover:text-800 font-semibold',
@@ -315,8 +315,8 @@ export const TailwindComponentsSettings = {
   gTag: {
     component: TTag,
     props: {
-      fixedClasses: 'flex items-center content-start rounded px-2 py-1 bg-gray-900 bg-opacity-5 text-gray-700 hover:bg-opacity-10 inline-block w-auto',
-      classes: 'rounded',
+      fixedClasses: '',
+      classes: '',
       variants: {
         title: 'text-2xl leading-8 font-extrabold text-gray-900 tracking-tight',
         subtitle: 'text-lg leading-6 font-medium text-gray-900',
