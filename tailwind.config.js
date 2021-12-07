@@ -170,10 +170,10 @@ module.exports = {
   theme: {
     fontSize: {
       xs: '.75rem',
-      sm: '.875rem',
       tiny: '.875rem',
-      base: '1rem',
-      lg: '1.125rem',
+      sm: '1rem',
+      base: '1.125rem',
+      lg: '1.25rem',
       xl: '1.33rem',
       '2xl': '1.5rem',
       '3xl': '1.875rem',
@@ -187,8 +187,12 @@ module.exports = {
       for (let i = 0; i < 11; i++) { obj[`${i * 10}`] = `${i * 10}` }
       return obj
     })(),
-
     extend: {
+      fontFamily: {
+        sans: ['mr-eaves-xl-sans', 'sans-serif'],
+        condensed: ['mr-eaves-xl-sans-condensed', 'sans-serif'],
+        display: ['adelle-sans', 'sans-serif']
+      },
       screens: {
         xs: '480px'
       },
@@ -212,7 +216,8 @@ module.exports = {
         '70': 'scale(.7)',
         '80': 'scale(.8)',
         '98': 'scale(.98)',
-        '102': 'scale(1.02)'
+        '97': 'scale(.97)',
+        '103': 'scale(1.03)'
       },
       translate: {
         '1/7': '14.2857143%',
@@ -269,7 +274,8 @@ module.exports = {
       mixBlendMode: ['hover'],
       zIndex: ['hover'],
       bgOpacity: ['hover', 'active', 'focus'],
-      scale: ['hover']
+      scale: ['hover'],
+      order: ['responsive']
     }
   },
   plugins: [

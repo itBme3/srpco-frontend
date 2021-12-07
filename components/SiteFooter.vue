@@ -12,7 +12,7 @@
           v-if="typeof block.title === 'string' && block.title.length > 0"
           :link="block.titleLink"
         >
-          <h3>{{ block.title }}</h3>
+        <h3>{{ block.title }}</h3>
         </Link>
         <div class="block-content">
           <template v-if="Array.isArray(block.images) && block.images.length > 0">
@@ -23,9 +23,10 @@
                 :link="media.link"
                 :open-new-tab="!!media.openNewTab"
               >
-                <Media
-                  :media="media.image"
-                  :class="{ ['' + media.imageClasses +'']: ![null, undefined].includes(media.imageClasses) && media.imageClasses.length > 0 }" />
+              <Media
+                :media="media.image"
+                :class="{ ['' + media.imageClasses +'']: ![null, undefined].includes(media.imageClasses) && media.imageClasses.length > 0 }"
+              />
               </Link>
             </div>
           </template>
@@ -40,14 +41,14 @@
                 :link="link.link"
                 :open-new-tab="!!link.openNewTab"
               >
-                <gButton
-                  v-if="typeof link.link === 'string' && link.link.length > 0"
-                  variant="link"
-                  class="w-full block mx-0"
-                >
-                  {{ link.text }}
-                </gButton>
-                <span v-else>{{ link.text }}</span>
+              <gButton
+                v-if="typeof link.link === 'string' && link.link.length > 0"
+                variant="link"
+                class="w-full block mx-0"
+              >
+                {{ link.text }}
+              </gButton>
+              <span v-else>{{ link.text }}</span>
               </Link>
             </div>
           </template>
@@ -75,22 +76,22 @@ export default {
 </script>
 
 <style lang="scss">
-  footer {
-    @apply grid grid-cols-12 mt-32 gap-6 bg-gray-800 p-4 relative z-[1003];
-    .block {
-      @apply col-span-full xs:col-span-6 sm:col-span-4 md:col-span-3;
-    }
-    .block-images {
-      @apply grid grid-cols-12 gap-3;
-      > * {
-        @apply col-span-4 my-auto flex items-center
-      }
-    }
-    .block-links {
-      @apply text-sm;
-      .button {
-        @apply border-b-gray-700
-      }
+footer {
+  @apply grid grid-cols-12 mt-32 gap-6 bg-gray-800 p-4 relative z-[100];
+  .block {
+    @apply col-span-full xs:col-span-6 sm:col-span-4 md:col-span-3;
+  }
+  .block-images {
+    @apply grid grid-cols-12 gap-3;
+    > * {
+      @apply col-span-4 my-auto flex items-center;
     }
   }
+  .block-links {
+    @apply text-sm;
+    .button {
+      @apply border-b-gray-700;
+    }
+  }
+}
 </style>

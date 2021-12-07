@@ -9,29 +9,34 @@
         v-for="(entry, index) in entries"
         :key="entry.id"
         :title="entry.title"
-        :media="index < 4 ? entry.file : 'gicon-datasheets'"
+        :media="entry.file"
         card-style="mediaLeft"
         :link="entry.type === 'datasheet' ? null : + collectionType + '/' + entry.slug"
         media-ratio="8.5:11"
         media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
         class="col-span-12"
+        :class="{ [entry.type]: true }"
         @open-modal="handleModal"
       />
     </div>
-    <gModal
-      v-if="![undefined, null].includes(modalData)"
-      v-model="showModal"
-      variant="pdf"
-    >
-      <Media
-        :media="modalData.file"
-        :youtube="modalData.youtube"
-        :title="modalData.title"
-        :text="modalData.text"
-        :embed="true"
-        class="h-full w-full"
-      />
-    </gModal>
+    <client-only>
+      <gModal
+        v-if="![undefined, null].includes(modalData)"
+        v-model="showModal"
+        variant="pdf"
+        @closed="handleClose"
+      >
+        <Media
+          v-if="![undefined, null].includes(modalData)"
+          :media="modalData.file"
+          :youtube="modalData.youtube"
+          :title="modalData.title"
+          :text="modalData.text"
+          :embed="true"
+          class="h-full w-full rounded-md"
+        />
+      </gModal>
+    </client-only>
   </div>
 </template>
 
@@ -76,14 +81,19 @@ export default {
       }
     }
   },
+
   methods: {
-    handleModal (mData) {
-      console.log({ mData })
+    handleClose (e) {
+      this.modalData = null
       this.showModal = false
-      this.modalData = mData
-      if (![undefined, null].includes(this.modalData)) {
-        if ((!!this.modalData.youtube && this.modalData.youtube.length > 0) || (!!this.modalData.file && !!this.modalData.file.mime && this.modalData.file.mime.includes('pdf'))) {
+    },
+    handleModal (mData) {
+      if (![undefined, null].includes(mData)) {
+        if ((!!mData.youtube && mData.youtube.length > 0) || (!!mData.file && !!mData.file.mime && mData.file.mime.includes('pdf'))) {
           this.showModal = true
+          setTimeout(() => {
+            this.modalData = mData
+          }, 500)
         }
       }
     }

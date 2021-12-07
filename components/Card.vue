@@ -3,7 +3,8 @@
     class="card flex flex-col items-start hover:scale-102"
     :class="{
       'has-more-links' : Array.isArray(moreLinks) && moreLinks.length > 0,
-      'has-link' : hasLink
+      'has-link' : hasLink,
+      'no-media': [undefined, null].includes(media) && [undefined, null].includes(youtube)
     }"
   >
     <Link
@@ -37,13 +38,14 @@
       v-if="(title && title.length > 0) || (text && text.length > 0)"
       class="card-content"
     >
-      <h2
+      <gTag
         v-if="title && title.length > 0"
+        :tag-name="cardStyle === 'overlay' ? 'h2' : 'h3'"
         :class="{ [titleClasses]: titleClasses.length > 0 }"
         class="card-title"
       >
         {{ title }}
-      </h2>
+      </gTag>
       <template v-if="text && text.length > 0">
         <div
           class="card-text text-sm opacity-60"
@@ -146,6 +148,9 @@ export default {
 }
 .card {
   @apply transition-all ease-quick-in duration-200 rounded bg-white bg-opacity-5 shadow-md overflow-hidden;
+  &.no-media {
+    @apply p-8;
+  }
   &.has-link {
     @apply transform hover:shadow-none hover:bg-opacity-025;
     &:not(.has-more-links) {

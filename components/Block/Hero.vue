@@ -19,13 +19,13 @@
       v-if="(title && title.length > 0) || (text && text.length > 0)"
       class="hero-content"
     >
-      <h2
+      <h1
         v-if="title && title.length > 0"
         :class="{ [titleClasses]: titleClasses.length > 0 }"
         class="hero-title"
       >
         {{ title }}
-      </h2>
+      </h1>
       <template v-if="![null, undefined].includes(text)">
         <div
           class="hero-text text-sm"

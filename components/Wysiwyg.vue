@@ -20,7 +20,9 @@ export default {
         ? this.content
         : ''
       let res = txt
-      res = txt.split('src="').join('src="' + process.env.apiUrl)
+      if (txt.includes('src="/uploads')) {
+        res = txt.split('src="/uploads').join(`src="${process.env.apiUrl}/uploads`)
+      }
       res = res.replace('oembed', 'iframe')
       res = res.replace('url', 'src')
       res = res.replace('watch?v=', 'embed/')

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-wrap space-y-2 space-x-2"
+    class="flex flex-wrap space-y-2 sm:space-x-2"
     :class="{
         'expanded opacity-100 translate-y-0 top-12 mt-[2px] animate-fade-in-down': isExpanded,
         'opacity-0 -translate-y-full -top-40': !isExpanded
@@ -30,7 +30,7 @@
           :link="btn.link"
         >
         <gButton
-          class="bg-white bg-opacity-10 hover:bg-opacity-5 whitespace-nowrap"
+          class="whitespace-nowrap"
           :class="{ ['' + btn.classes + '']: typeof btn.classes === 'string' && btn.classes.length > 0 }"
         >
           {{ btn.text }}
@@ -60,13 +60,12 @@ export default {
   },
   watch: {
     expanded (expanded) {
-      console.log({ expanded })
       this.isExpanded = expanded
     }
   },
   data () {
     return {
-      isExpanded: false,
+      isExpanded: !!this.expanded,
       sections: [
         {
           title: 'Custom Gaskets',
@@ -77,7 +76,7 @@ export default {
             return {
               link: c === 'All' ? '/gaskets' : `/${c.toLowerCase()}s`,
               text: c === 'All' ? c : `By ${c}`,
-              classes: 'mr-2 mt-2'
+              classes: 'bg-gray-400 bg-opacity-10 hover:bg-opacity-5 mr-2 mt-2'
             }
           })
         }

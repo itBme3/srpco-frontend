@@ -8,14 +8,17 @@
   >
     <gButton
       v-if="isMobile"
-      class="mobile-menu-trigger mr-px px-3 ml-auto bg-transparent hover:bg-gray-800 hover:text-gray-900"
+      class="mobile-menu-trigger flex items-center justify-center h-full mr-px px-3 pb-3 ml-auto bg-transparent hover:bg-gray-800 hover:text-gray-900"
       @click="navExpanded = !navExpanded"
     >
-      <i class="text-gray-400" :class="{ 'gicon-menu': !navExpanded, 'gicon-close': navExpanded }" />
+      <i
+        class="text-gray-400"
+        :class="{ 'gicon-menu': !navExpanded, 'gicon-close': navExpanded }"
+      />
     </gButton>
     <nav
       name="main navigation"
-      class="fixed z-[1001] top-12"
+      class="fixed xl:absolute z-99999 top-12"
       :class="{
         'right-0 left-auto top-12': isMobile,
         'left-2 right-auto top-14': !isMobile,
@@ -55,25 +58,23 @@
                 :new-tab="!!navLink.openNewTab"
                 class="w-full flex content-state items-center"
               >
-                <gButton
-                  :class="{
+              <gButton
+                :class="{
                     'bg-opacity-100 bg-gray-100 flex content-start text-left w-full mr-0 px-2': true,
                     'bg-white bg-opacity-95': navLink.link === showNested,
                     'py-2': navExpanded
                   }"
-                  :variant="'light'"
-                >
-                  <i
-                    :class="{
+                :variant="'light'"
+              >
+                <i :class="{
                       ['my-auto mr-1 icon text-srp-red gicon-' + navLink.icon]: true,
                       'text-2xl ml-0': isMobile || navExpanded,
                       'text-3xl': !isMobile && !navExpanded
-                    }"
-                  />
-                  <span :class="{'link-text my-auto': true, 'hidden': !isMobile && !navExpanded }">
-                    {{ navLink.text }}
-                  </span>
-                </gButton>
+                    }" />
+                <span :class="{'link-text my-auto': true, 'hidden': !isMobile && !navExpanded }">
+                  {{ navLink.text }}
+                </span>
+              </gButton>
               </Link>
             </div>
             <gButton
@@ -101,13 +102,13 @@
                 :link="nestedLink.link"
                 :new-tab="!!nestedLink.openNewTab"
               >
-                <gButton
-                  class="w-full mb-1 flex items-center content-start"
-                  :variant="'secondary'"
-                >
-                  <i :class="'my-auto -ml-3 mr-1 icon text-srp-red gicon-' + nestedLink.icon" />
-                  <span class="link-text my-auto">{{ nestedLink.text }}</span>
-                </gButton>
+              <gButton
+                class="w-full mb-1 flex items-center content-start"
+                :variant="'secondary'"
+              >
+                <i :class="'my-auto -ml-3 mr-1 icon text-srp-red gicon-' + nestedLink.icon" />
+                <span class="link-text my-auto">{{ nestedLink.text }}</span>
+              </gButton>
               </Link>
             </template>
           </div>
@@ -116,7 +117,7 @@
     </nav>
     <div
       v-if="navExpanded && isMobile"
-      class="overlay nav-overlay fixed z-[1000] -inset-1 cursor-pointer"
+      class="overlay nav-overlay fixed z-9999 -inset-1 cursor-pointer"
       @click="navExpanded = !navExpanded"
     />
   </div>
@@ -192,14 +193,33 @@ export default {
 <style lang="scss">
 nav {
   @apply rounded shadow-xl bg-gray-900;
+  button {
+    @apply items-center justify-start bg-gray-100 rounded #{!important};
+  }
   .nav-link {
+    @apply whitespace-nowrap;
     button {
-      @apply flex items-center content-start bg-gray-100 rounded;
+      &:not(.toggle-nested) {
+        i {
+          @apply mx-auto;
+        }
+      }
+      &.toggle-nested {
+        @apply justify-center;
+        i {
+          @apply mx-auto;
+        }
+      }
     }
   }
   &:hover {
-    .link-text {
-      @apply text-base;
+    :not(.toggle-nested) {
+      i {
+        @apply mr-3 ml-0;
+      }
+      .link-text {
+        @apply sm:text-base;
+      }
     }
   }
   @media screen and (min-width: 640px) {

@@ -1,7 +1,7 @@
 
 <template>
   <div class="collection gaskets">
-     <Heading
+    <Heading
       v-if="page !== null"
       :title="page.title"
       heading-type="collection"
@@ -59,3 +59,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.collection.gaskets .card .media {
+  @apply w-[90px];
+}
+</style>

@@ -43,7 +43,14 @@ export default {
         ? this.block.content
         : ''
       let res = txt
-      res = txt.split('src="').join('src="' + process.env.apiUrl)
+      res = txt.split('src="').reduce((acc, text) => {
+        return [
+          ...acc, `${text.indexOf('/uploads') === 0 ? process.env.apiUrl : ''}${text}`
+        ]
+      }, []).join('src="')
+      // if (txt.includes('src="/uploads')) {
+      //   res = txt.split('src="').join('src="' + process.env.apiUrl)
+      // }
       res = res.replace('oembed', 'iframe')
       res = res.replace('url', 'src')
       res = res.replace('watch?v=', 'embed/')
@@ -57,7 +64,7 @@ export default {
 <style lang="scss">
 .block-content {
   a {
-    @apply text-blue
+    @apply text-blue;
   }
 }
 </style>

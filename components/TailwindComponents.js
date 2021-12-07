@@ -302,8 +302,8 @@ export const TailwindComponentsSettings = {
   gButton: {
     component: TButton,
     props: {
-      fixedClasses: 'button block px-4 py-2 rounded transition duration-100 ease-in-out focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed tracking-wide',
-      classes: 'rounded shadow-xl hover:shadow-sm transform transition-all ease-quick-in duration-200 hover:scale-95 scale-100 tracking-wider',
+      fixedClasses: 'button flex px-4 py-2 rounded transition duration-100 ease-in-out focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed tracking-wide',
+      classes: 'rounded shadow-xl justify-center items-center hover:shadow-sm transform transition-all ease-quick-in duration-200 hover:scale-95 scale-100 tracking-wider',
       variants: {
         secondary: 'bg-gray-100 hover:bg-opacity-10 active:bg-opacity-10 focus:bg-opacity-10 text-gray-700 hover:text-800 font-semibold',
         light: 'bg-gray-100 text-gray-700 hover:text-800 hover:shadow-lg hover:bg-opacity-100 hover:bg-white active:bg-white focus:bg-white font-semibold',
@@ -315,8 +315,8 @@ export const TailwindComponentsSettings = {
   gTag: {
     component: TTag,
     props: {
-      fixedClasses: 'flex items-center content-start rounded px-2 py-1 bg-gray-900 bg-opacity-5 text-gray-700 hover:bg-opacity-10 inline-block w-auto',
-      classes: 'rounded',
+      fixedClasses: '',
+      classes: '',
       variants: {
         title: 'text-2xl leading-8 font-extrabold text-gray-900 tracking-tight',
         subtitle: 'text-lg leading-6 font-medium text-gray-900',
@@ -330,22 +330,22 @@ export const TailwindComponentsSettings = {
     component: TModal,
     props: {
       fixedClasses: {
-        overlay: 'z-9999 overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed bg-opacity-50',
-        wrapper: 'relative mx-auto z-99999 px-3 py-6',
+        overlay: 'z-9999 overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed',
+        wrapper: 'relative mx-auto z-99999 m-6',
         modal: 'overflow-visible relative  rounded',
         body: 'p-3',
         header: 'border-b p-3 rounded-t',
         footer: ' p-3 rounded-b',
-        close: 'flex items-center justify-center rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
-        closeIcon: 'fill-current h-4 w-4'
+        close: 'flex items-center justify-center transition duration-100 ease-in-out focus:ring-0 focus:ring-transparent focus:outline-none z-999',
+        closeIcon: 'fill-current h-6 w-6'
       },
       classes: {
-        overlay: 'bg-black',
-        wrapper: 'max-w-lg',
-        modal: 'bg-white shadow',
+        overlay: 'bg-gray-800 bg-opacity-90',
+        wrapper: 'max-w-lg mt-8 md:mt-6',
+        modal: 'bg-transparent',
         header: 'border-gray-100',
         footer: 'bg-gray-100',
-        close: 'bg-gray-100 text-gray-600 hover:bg-gray-200',
+        close: 'rounded-md shadow-xl absolute right-0 top-0 h-12 w-12 bg-gray-300 bg-opacity-5 hover:bg-gray-300 hover:bg-opacity-10 text-red-400',
         overlayEnterClass: 'opacity-0',
         overlayEnterActiveClass: 'transition ease-out duration-100',
         overlayEnterToClass: 'opacity-100',
@@ -355,13 +355,13 @@ export const TailwindComponentsSettings = {
       },
       variants: {
         pdf: {
-          overlay: 'bg-black',
           wrapper: 'h-full',
-          modal: 'bg-white shadow-2xl h-full w-full',
+          modal: 'bg-transparent lg:px-12 shadow-none h-[calc(100vh-2em)] w-full mx-auto max-w-[1280px]',
           body: 'p-0 h-full',
           header: 'border-gray-100',
           footer: 'bg-gray-100',
-          close: 'bg-gray-100 text-gray-600 hover:bg-gray-200',
+          close: 'fixed rounded-sm w-8 sm:w-12 h-8 sm:h-12 top-1 right-1 bg-gray-700 bg-opacity-0 hover:bg-opacity-30 text-red-400',
+          closeIcon: 'w-6 h-6 sm:w-8 sm:h-8',
           overlayEnterClass: 'opacity-0',
           overlayEnterActiveClass: 'transition ease-out duration-100',
           overlayEnterToClass: 'opacity-100',

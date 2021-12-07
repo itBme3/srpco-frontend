@@ -59,7 +59,7 @@ export default {
     }
   },
   data () {
-    return { videoId: null, videoHeight: 'auto' }
+    return { videoId: null, videoHeight: 'auto', playVars: {} }
   },
   fetch () {
     console.log({ $route: this.$route })

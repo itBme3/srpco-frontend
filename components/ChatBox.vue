@@ -1,0 +1,163 @@
+<template>
+  <client-only>
+    <beautiful-chat
+      class="chat-box"
+      :participants="participants"
+      :titleImageUrl="titleImageUrl"
+      :onMessageWasSent="onMessageWasSent"
+      :messageList="messageList"
+      :newMessagesCount="newMessagesCount"
+      :isOpen="isChatOpen"
+      :close="closeChat"
+      :open="openChat"
+      :showEmoji="true"
+      :showFile="true"
+      :showEdition="true"
+      :showDeletion="true"
+      :deletionConfirmation="true"
+      :showTypingIndicator="showTypingIndicator"
+      :showLauncher="true"
+      :showCloseButton="true"
+      :alwaysScrollToBottom="alwaysScrollToBottom"
+      :disableUserListToggle="false"
+      :messageStyling="messageStyling"
+      @onType="handleOnType"
+      @edit="editMessage"
+    />
+  </client-only>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      participants: [
+        {
+          id: 'srpSupport',
+          name: 'Support'
+        }
+      ], // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
+      titleImageUrl: '/favicon.png',
+      messageList: [
+        {
+          type: 'text', author: `srpSupport`,
+          data: {
+            text: `How can I help?`,
+          },
+          suggestions: [`I'm starting a new project`, `I have some questions about your services`, `I'm a current customer and need some help`]
+        },
+      ], // the list of the messages to show, can be paginated and adjusted dynamically
+      newMessagesCount: 0,
+      isChatOpen: false, // to determine whether the chat window should be open or closed
+      showTypingIndicator: '',
+      alwaysScrollToBottom: false, // when set to true always scrolls the chat to the bottom when new events are in (new message, user starts typing...)
+      messageStyling: true // enables *bold* /emph/ _underline_ and such (more info at github.com/mattezza/msgdown)
+    }
+  },
+  methods: {
+    sendMessage (text) {
+      if (text.length > 0) {
+        this.newMessagesCount = this.isChatOpen ? this.newMessagesCount : this.newMessagesCount + 1
+        this.onMessageWasSent({ author: 'support', type: 'text', data: { text } })
+      }
+    },
+    onMessageWasSent (message) {
+      // called when the user sends a message
+      this.messageList = [...this.messageList, message]
+    },
+    openChat () {
+      // called when the user clicks on the fab button to open the chat
+      this.isChatOpen = true
+      this.newMessagesCount = 0
+    },
+    closeChat () {
+      // called when the user clicks on the botton to close the chat
+      this.isChatOpen = false
+    },
+    handleScrollToTop () {
+      // called when the user scrolls message list to top
+      // leverage pagination for loading another page of messages
+    },
+    handleOnType () {
+      console.log('Emit typing event')
+    },
+    editMessage (message) {
+      const m = this.messageList.find(m => m.id === message.id);
+      m.isEdited = true;
+      m.data.text = message.data.text;
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+.chat-box {
+  .sc-chat-window {
+    @apply bg-gray-800 #{!important};
+    @apply z-999 shadow-2xl rounded-xl overflow-hidden;
+  }
+  .sc-header {
+    @apply bg-gray-700 bg-opacity-50 #{!important};
+  }
+  .sc-suggestions-row {
+    @apply pl-4 pb-6;
+    button.sc-suggestions-element {
+      @apply border-gray-700 border hover:border-green-400 hover:bg-green-400 text-green-300 hover:text-gray-900 hover:text-opacity-70 #{!important};
+    }
+  }
+  .sc-user-input {
+    @apply shadow-lg bg-gray-700 #{!important};
+    &.active {
+      @apply shadow-none bg-gray-900 bg-opacity-30 #{!important};
+    }
+    .sc-user-input--text {
+      @apply bg-transparent text-white #{!important};
+    }
+  }
+  .sc-launcher {
+    @apply bg-green-400 z-999 #{!important};
+    img {
+      filter: invert(1);
+      @apply opacity-10;
+    }
+    &.opened {
+      @apply bg-red-400 #{!important};
+    }
+  }
+  .sc-message {
+    .sc-message--text {
+      @apply bg-gray-700 #{!important};
+      .sc-message--text-content {
+        @apply text-gray-100 #{!important};
+      }
+      &.sent {
+        @apply bg-cyan-100 #{!important};
+        .sc-message--text-content {
+          @apply text-gray-800 text-opacity-70 #{!important};
+        }
+      }
+    }
+  }
+  .sc-user-input {
+    @apply rounded-lg shadow-2xl bg-gray-700 #{!important};
+    &--text {
+      @apply bg-gray-50;
+    }
+    .sc-user-input--button path {
+      fill: #fff !important;
+    }
+  }
+  .sc-message--file-name {
+    @apply text-gray-900 bg-opacity-75;
+  }
+  .sc-suggestions-row,
+  .sc-message-list {
+    @apply bg-gray-800 #{!important};
+  }
+  .sc-message-list {
+    + div {
+      @apply p-3;
+    }
+  }
+}
+</style>

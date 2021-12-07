@@ -6,22 +6,29 @@
       :title="page.title"
       :description="page.description"
       :media="page.media"
+      media-ratio="4:3"
+      media-classes="rounded-mg shadow-2xl max-w-[280px]"
     />
     <div
       :v-if="!!page && page.content"
       class="page-content"
     >
-      <div :v-html="page.content" />
+      <BlockContent
+        v-if="![undefined, null].includes(page) && typeof page.content === 'string'"
+        :block="{ content: page.content }"
+      />
     </div>
     <div
-      v-if="page !== null && page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0"
+      v-if="![null, undefined].includes(page) && Array.isArray(page.blocks) && page.blocks.length > 0"
       class="blocks"
     >
-      <Block
-        v-for="block in page.blocks"
-        :key="block.__typename + '-' + block.id"
-        :block="block"
-      />
+      <template v-for="(block, index) in page.blocks">
+        <Block
+          v-if="![null, undefined].includes(block)"
+          :key="block.id + '-' + index"
+          :block="block"
+        />
+      </template>
     </div>
   </div>
 </template>
@@ -45,6 +52,7 @@ export default {
       immediate: true,
       async handler (slug) {
         this.page = slug !== undefined ? await entryBySlug(EntryType.GASKET, slug) : null
+        return this.page
       }
     }
   }

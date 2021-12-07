@@ -68,7 +68,6 @@ export default {
       this.showModal = true
     },
     handleModal () {
-      // console.log({mData})
       this.$emit('open-modal', this.mData)
     }
   }

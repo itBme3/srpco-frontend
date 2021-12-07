@@ -1,8 +1,6 @@
 
 <template>
-  <div
-    class="collection-container"
-  >
+  <div class="collection-container">
     <template v-if="searchBar === true">
       <SearchInput
         v-debounce:400ms="(e) => e !== searchValue ? $emit('search', e) : ''"
@@ -20,22 +18,30 @@
       <template v-for="entry in entries">
         <Card
           :key="entry.id"
-          :card-style="['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0 ? 'mediaLeft' : cardStyle"
+          :card-style="(['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0) || collectionType === 'datasheets' ? 'mediaLeft' : cardStyle"
           :title="entry.title"
-          :text="['material', 'application', 'gasket'].includes(entry.type) || !Array.isArray(entry.gaskets) || entry.gaskets.length === 0
+          :text="entry.type === 'datasheet' ? entry.id : ['material', 'application', 'gasket'].includes(entry.type) || !Array.isArray(entry.gaskets) || entry.gaskets.length === 0
             ? null
             : entry.description"
-          :media="entry.media"
-          :media-ratio="['materials', 'applications'].includes(collectionType) && (!Array.isArray(entry.gaskets) || entry.gaskets.length === 0) ? '4:2' : mediaRatio"
+          :media="![null, undefined].includes(entry.file) ? entry.file : entry.media"
+          :media-ratio="['materials', 'applications'].includes(collectionType) && (!Array.isArray(entry.gaskets) || entry.gaskets.length === 0) 
+            ? '4:2' 
+            : collectionType === 'gaskets'
+            ? '4:3' 
+            : collectionType === 'datasheets'
+            ? '8:ll'
+            : mediaRatio"
           :link="'/' + collectionType + '/' + entry.slug"
           :open-new-tab="false"
           class="collection-entry"
-          :class="{[cardClasses]: cardClasses.length > 0}"
+          :class="{
+            [cardClasses]: cardClasses.length > 0,
+            [entry.type]: true }"
           :title-classes="cardTitleClasses"
           :youtube="typeof entry.youtube === 'string' ? entry.youtube : null"
           :text-classes="cardTextClasses"
           :media-classes="cardMediaClasses"
-          :is-background="true"
+          :is-background="entry.type !== 'datasheet'"
           :more-links="['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0 ? entry.gaskets : null"
         />
       </template>
@@ -198,7 +204,7 @@ export default {
   //    @apply transform transition-all ease-quick-in duration-300 scale-100 hover:scale-102;
   // }
   .card-title {
-    @apply text-lg sm:text-xl
+    @apply text-lg sm:text-xl;
   }
 }
 </style>

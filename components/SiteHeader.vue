@@ -1,9 +1,12 @@
 <template>
   <div
-    class="header"
-    :class="{ 'search-expanded': expanded }"
+    class="header ml-auto"
+    :class="{ 
+      'search-expanded': expanded, 
+      'w-full sm:w-auto mr-1': !expanded,
+    }"
   >
-    <div class="site-search w-full flex items-center content-end">
+    <div class="site-search px-1 w-full flex items-center content-end">
       <SearchInput
         :autocomplete="'off'"
         :placeholder="placeholder"
@@ -35,7 +38,7 @@
     />
     <div
       v-if="expanded"
-      class="backdrop bg-gray-900 bg-opacity-70 z-[1003] fixed inset-0 cursor-pointer"
+      class="backdrop bg-gray-900 bg-opacity-70 z-[1003] fixed w-screen h-screen inset-0 cursor-pointer"
       @click="expanded = false"
     />
   </div>
@@ -75,7 +78,6 @@ export default {
     '$route.query': {
       immediate: false,
       handler ({ q }) {
-        console.log({ q })
         if (typeof q !== 'string' || q === '') {
           this.searchValue = ''
         }
@@ -137,25 +139,31 @@ export default {
 
 <style lang="scss">
 .header {
-  @apply fixed left-[96px] right-[46px] top-0 sm:right-0 bg-gray-900 py-2 px-1;
+  @apply relative sm:fixed sm:left-[96px] p-1 top-0 bg-gray-900 sm:right-0;
+  .site-search {
+    @apply max-w-6xl mx-auto;
+  }
   &.search-expanded {
+    @apply fixed top-2 left-0 transform w-screen z-99999;
+    .site-search,
+    .site-search-expanded {
+      @apply mt-0 mx-auto;
+    }
+    input {
+      @apply text-center;
+    }
     @media screen and (max-width: 639px) {
-      @apply left-0 right-0 bg-transparent;
-      input {
-        @apply text-center;
-      }
+      @apply bg-transparent;
     }
   }
 }
-.site-search-expanded,
-.site-search-input {
-  @apply w-[calc(100%-0.5em)] max-w-[1080px];
-}
 .site-search-expanded {
+  @apply max-w-6xl;
   @apply rounded-t-sm rounded-b-lg;
   @apply transition duration-200 ease-quick-in p-4 z-[1005] bg-gray-800 shadow-2xl transform;
-  @apply fixed sm:absolute left-1;
+  @apply fixed sm:absolute left-1 right-1;
 }
+
 .site-search-input {
   input {
     @apply relative top-px py-[.45em] sm:placeholder-gray-500 placeholder-gray-800;

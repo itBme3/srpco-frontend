@@ -19,11 +19,10 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
       `,
     collectionItem: `
         ${fields.join(' ')}
-        ${
-        [EntryType.MATERIAL, EntryType.APPLICATION].map(s => `${s}`).includes(entryType)
-          ? 'gaskets (limit: 3, sort: "order:ASC") { id slug title type collectionType }'
-          : ''
-        }
+        ${[EntryType.MATERIAL, EntryType.APPLICATION].map(s => `${s}`).includes(entryType)
+        ? 'gaskets (limit: 3, sort: "order:ASC") { id slug title type collectionType }'
+        : ''
+      }
         ${mediaKey} {
           ${mediaFields(entryType === EntryType.DATASHEET ? 'tiny' : 'default')}
         }
@@ -48,6 +47,7 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
           ... on ComponentBlocksBlockResources { ${blockFields.ComponentBlocksBlockResources} }
           ... on ComponentBlocksBlockMaterials { ${blockFields.ComponentBlocksBlockMaterials} }
           ... on ComponentBlocksBlockDatasheets { ${blockFields.ComponentBlocksBlockDatasheets} }
+          ... on ComponentBlocksBlockGroup { ${blockFields.ComponentBlocksBlockGroup} }
         }
       `
     },

@@ -13,6 +13,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image', href: '/favicon.png' },
+      { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
       { rel: 'stylesheet', href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?sjun1e' }
     ]
   },
@@ -34,7 +35,8 @@ export default {
     '~/plugins/debounce.js',
     '~/plugins/youtube-embed.client.js',
     '~/plugins/pdf-embed.client.js',
-    '~/plugins/scrollbar.js'
+    '~/plugins/scrollbar.js',
+    '~/plugins/chat-box.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -77,8 +79,9 @@ export default {
   build: {
   },
   env: {
+    mapsApiKey: 'AIzaSyAKlNQvaXSHG-CQietQjo0RRtvVNJie30U',
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
     // apiUrl: process.env.API_URL || 'http://localhost:1339'
-    apiUrl: process.env.API_URL || 'https://ecd790d6ea79.ngrok.io'
+    apiUrl: process.env.API_URL || 'https://a3ca4a9bef90.ngrok.io'
   }
 }

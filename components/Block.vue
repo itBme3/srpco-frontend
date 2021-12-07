@@ -2,21 +2,22 @@
 <template>
   <div
     class="block"
+    v-if="![undefined, null].includes(block)"
     :class="{ [blockClasses]: !!blockClasses && blockClasses.length > 0 }"
   >
     <BlockCard
-      v-if="block.__typename === 'ComponentBlocksBlockCard'"
+      v-if="![undefined, null].includes(block) && block.__typename === 'ComponentBlocksBlockCard'"
       :block="block"
     />
     <BlockCollection
-      v-else-if="block.__typename === 'ComponentBlocksBlockCollection'"
+      v-else-if="![undefined, null].includes(block) && block.__typename === 'ComponentBlocksBlockCollection'"
       :collection-type="block.collectionType"
       :limit="6"
       :sort="'published_at:ASC'"
       :card-style="!!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaAbove'"
       :classes="classes"
     />
-    <template v-else>
+    <template v-else-if="![undefined, null].includes(block) ">
       <h2
         v-if="block.title !== null && !['ComponentBlocksBlockHero'].includes(block.__typename)"
         :class="{
@@ -53,6 +54,11 @@
         v-if="block.__typename === 'ComponentBlocksBlockResources'"
         :block="block"
       />
+      <BlockGroup
+        v-if="block.__typename === 'ComponentBlocksBlockGroup'"
+        :block="block"
+      />
+      <pre v-if="block.__typename === 'ComponentBlocksBlockGroup'"><code>{{JSON.stringify(block, null, 4)}}</code></pre>
     </template>
   </div>
 </template>
@@ -66,10 +72,16 @@ export default {
       default: () => { return {} }
     }
   },
+  // data() {
+  //     return {
+  //       grid: 'w-full',
+  //       blockClasses: ''
+  //     }
+
+  // },
   data () {
     const blockClasses = typeof this?.block?.blockSettings?.blockClasses === 'string' ? this.block.blockSettings.blockClasses : ''
     const classes = {
-      grid: 'w-full',
       card: typeof this?.block?.cardSettings?.cardClasses === 'string' ? this.block.cardSettings.cardClasses : '',
       cardTitle: typeof this?.block?.cardSettings?.titleClasses === 'string' ? this.block.cardSettings.titleClasses : '',
       cardMedia: typeof this?.block?.cardSettings?.mediaClasses === 'string' ? this.block.cardSettings.mediaClasses : '',
@@ -83,3 +95,10 @@ export default {
   }
 }
 </script>
+
+
+<style lang="scss">
+.block-title {
+  @apply font-extrabold;
+}
+</style>

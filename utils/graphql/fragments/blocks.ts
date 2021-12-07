@@ -18,7 +18,7 @@ export const blockSettingsFields = {
   `
 }
 
-export const blockFields:{[key:string]: string} = {
+export const blockFields: { [key: string]: string } = {
   ComponentBlocksBlockCard: `
       title text link openNewTab
       media {
@@ -90,6 +90,27 @@ export const blockFields:{[key:string]: string} = {
       gaskets {
         title slug collectionType type
         media { ${mediaFields('default')} }
+      }
+  `,
+  ComponentBlocksBlockGroup: `
+      ${blockSettingsFields.DEFAULT}
+      groupStyle
+      title
+      sections {
+        id title
+        content
+        gaskets {
+          title slug collectionType type
+          media { ${mediaFields('default')} }
+        }
+        datasheets {
+          title slug collectionType type
+          file { ${mediaFields('default')} }
+        }
+        materials {
+          title slug collectionType type
+          media { ${mediaFields('default')} }
+        }
       }
   `
 }
