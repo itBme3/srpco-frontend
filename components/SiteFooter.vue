@@ -5,7 +5,7 @@
       <div
         v-for="block in footer.blocks"
         :key="'block-' + block.id"
-        class="block"
+        class="entry-block"
         :class="{ ['' + block !== null && block.blockSettings !== null ? block.blockSettings.blockClasses : '' + '']: block.blockSettings !== null && typeof block.blockSettings.blockClasses === 'string' && block.blockSettings.blockClasses.length > 0 }"
       >
         <Link
@@ -78,7 +78,7 @@ export default {
 <style lang="scss">
 footer {
   @apply grid grid-cols-12 mt-32 gap-6 bg-gray-800 p-4 relative z-[100];
-  .block {
+  .entry-block {
     @apply col-span-full xs:col-span-6 sm:col-span-4 md:col-span-3;
   }
   .block-images {

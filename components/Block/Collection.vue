@@ -49,7 +49,7 @@
     <gButton
       v-if="canLoadMore === true"
       v-view="infiniteScroll ? visibilityHandler : (e) => e"
-      class="hover:bg-blue-600 bg-blue-500 uppercase text-gray-900 text-opacity-70 tracking-wide px-3 py-2 w-auto min-w-auto block"
+      class="mt-4 hover:bg-blue-600 bg-blue-500 uppercase text-gray-900 text-opacity-70 tracking-wide px-3 py-2 w-auto min-w-auto block"
       @click="get(entries.length)"
     >
       more {{ collectionType }}
@@ -145,7 +145,7 @@ export default {
     if (collection === null) {
       return
     }
-    await this.get()
+    return await this.get()
   },
   watch: {
     '$route.query': {
@@ -155,16 +155,21 @@ export default {
       }
     }
   },
+  mounted() {
+    if(!Array.isArray(this.entries)) return;
+    this.$emit('updateEntries', this.entries)
+  },
   methods: {
     async get (start = 0) {
       const collection = this.collection
       if (typeof collection !== 'string') {
+        this.$emit('updateEntries', this.entries)
         return console.error(`collection: ${collection}`)
       }
       const params = this.getQueryParams()
       if (objectsAreTheSame(params, this.queryParams)) {
         if (start === 0) {
-          return
+          return this.$emit('updateEntries', this.entries);
         }
       }
       this.queryParams = params
@@ -176,6 +181,7 @@ export default {
       } else {
         this.entries = [...this.entries, ...nextEntries]
       }
+      this.$emit('updateEntries', this.entries)
     },
     getQueryParams () {
       const limit = this.limit && this.limit > 0 ? this.limit : 6

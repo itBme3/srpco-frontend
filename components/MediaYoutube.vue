@@ -1,9 +1,9 @@
 <template>
-  <client-only>
     <div
       class="video-embed w-full"
-      :style="{ height: videoHeight }"
-    >
+    :style="{ height: videoHeight }"
+  >
+    <client-only>
       <youtube-media
         class="h-full w-full"
         :v-if="!!videoId"
@@ -12,10 +12,10 @@
         :player-height="'100%'"
         :player-vars="playVars"
         :mute="mute"
-        :host="'https://www.youtube-nocookie.com'"
+        :host="'//www.youtube-nocookie.com'"
       />
-    </div>
-  </client-only>
+    </client-only>
+  </div>
 </template>
 
 <script>
@@ -59,16 +59,21 @@ export default {
     }
   },
   data () {
-    return { videoId: null, videoHeight: 'auto', playVars: {} }
+    return { 
+      videoId: null, 
+      videoHeight: 'auto',
+      playVars: {},
+      origin: process.env.baseUrl
+    }
   },
   fetch () {
-    console.log({ $route: this.$route })
     this.playVars = ['autoplay', 'controls', 'loop', 'autohide', 'showInfo', 'modestbranding'].reduce((acc, key) => {
       return { ...acc, [key]: this[key] === true ? 1 : 0 }
     }, {
       rel: 0,
       list: 'UUu_bAN6SQdiSWVR5TGJ1ELQ',
-      origin: [null, undefined].includes(window) ? null : window.location.origin
+      origin: this.origin,
+      wmode: 'opaque',
     })
     this.videoId = null
     this.videoHeight = 'auto'
@@ -78,22 +83,27 @@ export default {
         ? this.$youtube.getIdFromURL(this.src)
         : null
   },
-  mounted () {
+  computed: {
+    
+  },
+  beforeMount () {
+    const origin = window !== undefined ? window.location.origin : process.env.baseUrl
+    this.origin = origin
     window.addEventListener('resize', this.setVideoHeight)
-    setTimeout(() => {
-      this.setVideoHeight()
-    }, 100)
+    this.setVideoHeight()
   },
   unmounted () {
     window.removeEventListener('resize', this.setVideoHeight)
   },
   methods: {
     setVideoHeight () {
-      const elWidth = typeof this.$el !== 'undefined' && this.$el.offsetWidth > 0 ? this.$el.offsetWidth : null
-      if (elWidth > 0) {
-        const ratio = this.ratio && this.ratio?.indexOf(':') > -1 ? this.ratio.split(':') : '16:9'.split(':')
-        this.videoHeight = `${Math.floor(elWidth / ratio[0] * ratio[1])}px`
-      }
+      setTimeout(() => {
+        const elWidth = typeof this.$el !== 'undefined' && this.$el.offsetWidth > 0 ? this.$el.offsetWidth : null
+        if (elWidth > 0) {
+          const ratio = this.ratio && this.ratio?.indexOf(':') > -1 ? this.ratio.split(':') : '16:9'.split(':')
+          this.videoHeight = `${Math.floor(elWidth / ratio[0] * ratio[1])}px`
+        }
+      }, 100)
     }
   }
 }

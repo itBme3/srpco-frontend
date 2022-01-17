@@ -32,35 +32,14 @@ export default {
     }
   },
   data() {
-    const mediaSrc = getStrapiMedia(this.src)
     return {
-      mediaSrc, 
-      embedSrc: `https://docs.google.com/viewer?url=${mediaSrc}&embedded=true`
+      mediaSrc: null, 
+      embedSrc: null
     }
   },
-  methods: {
-    // checkIFrameLoaded(x = 0) {
-    //   const i = x + 1;
-    //   if ( i > 20 ) {
-    //     return;
-    //   }
-    //   const iFrameDoc = [undefined, null].includes(this.$refs) || [undefined, null].includes(this.$refs.iFrame) 
-    //     ? {} 
-    //     : (this.$refs.iFrame.contentDocument || this.$refs.iFrame.contentWindow.document);
-    //   // Check if loading is complete
-    //   console.log(i)
-    //   if (  iFrameDoc.readyState  == 'complete' ) {
-    //       this.$refs.iFrame.contentWindow.onload = function(){
-    //           console.log({iFrameDoc});
-    //       };
-    //       console.log({iFrameDoc});
-    //       console.log('after load')
-    //       return;
-    //   } 
-
-    //   // If we are here, it is not loaded. Set things up so we check   the status again in 100 milliseconds
-    //   setTimeout(() => { this.checkIFrameLoaded(i) }, 100);
-    // }
+  created() {
+      this.mediaSrc = getStrapiMedia(this.src)
+      this.embedSrc = `https://docs.google.com/viewer?url=${this.mediaSrc}&embedded=true`
   }
   // async mounted(context) {
   //   this.embedSrc = await this.getPdfPath(this.mediaSrc)

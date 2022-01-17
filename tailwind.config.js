@@ -158,12 +158,13 @@ module.exports = {
       'scale-98',
       'ramp-in',
       'opacity-0',
+      'sm:col-span-4', 'md:col-span-4', 'lg:col-span-4',
       'text-left', 'text-right', 'text-center', 'text-base', 'text-sm', 'text-xs', 'text-tiny', 'text-base', 'text-lg', 'text-xl', 'text-2xl', 'text-3xl', 'text-4xl', 'text-5xl', 'text-6xl',
       'sm:text-left', 'sm:text-right', 'sm:text-center', 'sm:text-base', 'sm:text-sm', 'sm:text-xs', 'sm:text-tiny', 'sm:text-base', 'sm:text-lg', 'sm:text-xl', 'sm:text-2xl', 'sm:text-3xl', 'sm:text-4xl', 'sm:text-5xl', 'sm:text-6xl',
       'md:text-left', 'md:text-right', 'md:text-center', 'md:text-base', 'md:text-sm', 'md:text-xs', 'md:text-tiny', 'md:text-base', 'md:text-lg', 'md:text-xl', 'md:text-2xl', 'md:text-3xl', 'md:text-4xl', 'md:text-5xl', 'md:text-6xl',
       'lg:text-left', 'lg:text-right', 'lg:text-center', 'lg:text-base', 'lg:text-sm', 'lg:text-xs', 'lg:text-tiny', 'lg:text-base', 'lg:text-lg', 'lg:text-xl', 'lg:text-2xl', 'lg:text-3xl', 'lg:text-4xl', 'lg:text-5xl', 'lg:text-6xl',
       'xl:text-left', 'xl:text-right', 'xl:text-center', 'xl:text-base', 'xl:text-sm', 'xl:text-xs', 'xl:text-tiny', 'xl:text-base', 'xl:text-lg', 'xl:text-xl', 'xl:text-2xl', 'xl:text-3xl', 'xl:text-4xl', 'xl:text-5xl', 'xl:text-6xl',
-      'p-5'
+      'p-5', 'text-cyan-900'
     ]
   },
   darkMode: 'class', // or 'media' or 'class'

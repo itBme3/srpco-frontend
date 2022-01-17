@@ -40,6 +40,7 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
     gasket: {
       page: gql`
         ${defaults.page}
+        content
         blocks {
           ... on ComponentBlocksBlockContent { ${blockFields.ComponentBlocksBlockContent} }
           ... on ComponentBlocksBlockCard { ${blockFields.ComponentBlocksBlockCard} }

@@ -163,6 +163,11 @@ export default {
   @apply transition duration-200 ease-quick-in p-4 z-[1005] bg-gray-800 shadow-2xl transform;
   @apply fixed sm:absolute left-1 right-1;
 }
+:not(.search-expanded) {
+  .site-search {
+    @apply max-w-[1150px] mx-auto right-auto left-auto;
+  }
+}
 
 .site-search-input {
   input {

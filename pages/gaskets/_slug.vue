@@ -7,29 +7,32 @@
       :description="page.description"
       :media="page.media"
       media-ratio="4:3"
-      media-classes="rounded-mg shadow-2xl max-w-[280px]"
+      media-classes="rounded-mg shadow-2xl max-w-[380px]"
     />
     <div
-      :v-if="!!page && page.content"
-      class="page-content"
-    >
-      <BlockContent
-        v-if="![undefined, null].includes(page) && typeof page.content === 'string'"
-        :block="{ content: page.content }"
-      />
-    </div>
-    <div
       v-if="![null, undefined].includes(page) && Array.isArray(page.blocks) && page.blocks.length > 0"
-      class="blocks"
+      class="blocks grid-cols-12 before:box-inherit after:box-inherit"
     >
+      <div
+        v-if="![undefined, null].includes(page) && typeof page.content === 'string'"
+        class="page-content entry-block col-span-12"
+      >
+        <BlockContent
+          :block="{ content: page.content }"
+        />
+      </div>
       <template v-for="(block, index) in page.blocks">
         <Block
           v-if="![null, undefined].includes(block)"
+          class="break-inside"
           :key="block.id + '-' + index"
           :block="block"
         />
       </template>
     </div>
+    <EntrySideBar 
+      :blocks="['one block', 'two', 'three']"
+    />
   </div>
 </template>
 

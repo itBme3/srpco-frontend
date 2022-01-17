@@ -93,8 +93,10 @@ export default {
 <style lang="scss">
 .chat-box {
   .sc-chat-window {
+    box-shadow: 0 30px 30px -20px rgba(0, 0, 0, 0.563),
+      0 30px 60px 10px rgba(0, 0, 0, 0.515) !important;
     @apply bg-gray-800 #{!important};
-    @apply z-999 shadow-2xl rounded-xl overflow-hidden;
+    @apply z-999 rounded-xl bg-gray-800 overflow-hidden;
   }
   .sc-header {
     @apply bg-gray-700 bg-opacity-50 #{!important};
@@ -115,7 +117,30 @@ export default {
     }
   }
   .sc-launcher {
-    @apply bg-green-400 z-999 #{!important};
+    @apply text-green-400 bg-gray-700 hover:bg-green-400 z-999 #{!important};
+
+    &:not(.opened) {
+      @apply flex items-center justify-center;
+      color: black !important;
+      &:before {
+        @apply text-opacity-80 flex h-[50px] w-[50px] content-center items-center text-center m-auto;
+        color: black;
+        font-size: 1.5em;
+        content: "\e919" !important;
+        font-family: "SRP-Icons" !important;
+        speak: never;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      img {
+        display: none;
+      }
+    }
     img {
       filter: invert(1);
       @apply opacity-10;

@@ -19,7 +19,7 @@
       :link="link"
       :modal-data="!!link && !!link.split && link.split('/').length > 2 && ['gaskets'].includes(link.split('/')[1]) ? null : { youtube: youtube, media: media, tile: title, text:text }"
       :open-new-tab="openNewTab === true"
-      @open-modal="(e) => $emit('open-modal', e)"
+      @open-modal="(e) => openModal(e)"
     >
     <template v-if="typeof media === 'string' && media.indexOf('gicon') > -1">
       <Icon icon-name="datasheets" />
@@ -131,6 +131,11 @@ export default {
       return false;
     },
   },
+  methods: {
+    openModal(modalData) {
+      this.$store.commit('modal/open', modalData)
+    }
+  }
 };
 </script>
 
@@ -156,6 +161,14 @@ export default {
     &:not(.has-more-links) {
       .card-link {
         @apply h-full w-full scale-100 hover:scale-[.98];
+      }
+    }
+  }
+  &.datasheet {
+    .media {
+      @apply max-w-[100px];
+      .media-pdf {
+        @apply w-full;
       }
     }
   }

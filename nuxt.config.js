@@ -1,3 +1,8 @@
+const apiUrl = typeof process.env.NGROK === 'string' && process.env.NGROK.length > 0
+  ? `https://${process.env.NGROK}.ngrok.io`
+  : typeof process.env.API_URL === 'string' && process.env.API_URL.length > 0
+    ? process.env.API_URL 
+    : 'http://localhost:1339';
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -82,6 +87,8 @@ export default {
     mapsApiKey: 'AIzaSyAKlNQvaXSHG-CQietQjo0RRtvVNJie30U',
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
     // apiUrl: process.env.API_URL || 'http://localhost:1339'
-    apiUrl: process.env.API_URL || 'https://a3ca4a9bef90.ngrok.io'
+    apiUrl
+    // apiUrl: 'https://0602e58a0d03.ngrok.io'
+
   }
 }

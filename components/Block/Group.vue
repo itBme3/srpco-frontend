@@ -1,23 +1,34 @@
 <template>
   <div
+    ref="container"
     v-if="Array.isArray(sections) && sections.length > 0"
-    class="group-container rounded bg-black bg-opacity-5 shadow-lg"
+    class="group-container rounded bg-black bg-opacity-5 shadow-lg mt-4"
   >
 
-    <div
-      v-if="groupStyle === 'tabs'"
+    <!-- <div
       class="tabs flex items-center space-x-2 relative z-2"
-    >
-      <gButton
-        v-for="(section, i) in sections"
-        :key="i + '-' + handleize(section.title)"
-        class="tab my-auto"
-        :class="{ 'active bg-red-500 text-white': activeIndex === i }"
-        @click="toggleSections(i)"
+    > -->
+      <scrollbar
+        v-if="groupStyle === 'tabs'"
+        ref="scroll"
+        class="tabs items-center space-x-2 relative z-2 flex flex-nowrap max-w-full pb-2"
+        :options="{ suppressScrollY: true, suppressScrollX: false }"
+        @ps-scroll-x="(e) => scrollHandler(e, 'scroll-x')"
+        @ps-scroll-y="(e) => scrollHandler(e, 'scroll-y')"
+        @ps-scroll-up="(e) => scrollHandler(e, 'scroll-up')"
+        @ps-scroll-down="(e) => scrollHandler(e, 'scroll-down')"
       >
-        {{ section.title }}
-      </gButton>
-    </div>
+        <gButton
+          v-for="(section, i) in sections"
+          :key="i + '-' + handleize(section.title)"
+          class="tab my-auto"
+          :class="{ 'active bg-red-500 text-white': activeIndex === i }"
+          @click="toggleSections(i)"
+        >
+          {{ section.title }}
+        </gButton>
+      </scrollbar>
+    <!-- </div> -->
 
     <div class="panels p-3">
       <div
@@ -32,12 +43,25 @@
             'bg-opacity-100': activeIndex === i,
             'bg-opacity-50': activeIndex !== i
           }"
+          
           v-if="groupStyle === 'accordion' && ![undefined, null].includes(section) && typeof section.title === 'string'"
           @click="toggleSections(i)"
         >
-          <h3>{{ section.title }}</h3> <i class="gicon-angle-down ml-auto mr-0" />
+          <scrollbar
+            ref="scroll"
+            class="w-[calc(100%-36px)] items-center space-x-2 relative z-2 flex flex-nowrap"
+            :options="{ suppressScrollY: true, suppressScrollX: false }"
+            @ps-scroll-x="(e) => scrollHandler(e, 'scroll-x')"
+            @ps-scroll-y="(e) => scrollHandler(e, 'scroll-y')"
+            @ps-scroll-up="(e) => scrollHandler(e, 'scroll-up')"
+            @ps-scroll-down="(e) => scrollHandler(e, 'scroll-down')"
+          >
+            <h3 class="whitespace-nowrap">{{ section.title }}</h3>
+          </scrollbar>
+          <i class="gicon-angle-down ml-auto mr-0" />
         </gButton>
         <div
+          v-if="hasExpanded.includes(i)"
           class="panel-content p-4 bg-gray-800 shadow-lg"
           :class="{
             'expanded transition-all ease-quick-in duration-200 opacity-100 translate-y-0 animate-fade-in-down': i === activeIndex,
@@ -107,15 +131,30 @@ export default {
     block: {
       type: Object,
       default: null
+    },
+    initialIndex: {
+      type: Number | null,
+      default: null
+    }
+  },
+  mounted() {
+    if (typeof this.activeIndex !== 'number' && this.block.groupStyle === 'tabs') {
+      this.active = 0;
+      this.hasExpanded.push(0)
+    }
+  },
+  computed: {
+    activeIndex() {
+      return this.active
     }
   },
   data () {
-    console.log({ block: this.block })
     return {
-      activeIndex: 0,
+      active: this.initialIndex,
       groupStyle: ![undefined, null].includes(this.block) && typeof this.block.groupStyle === 'string' ? this.block.groupStyle : 'tabs',
       sections: ![undefined, null].includes(this.block) && Array.isArray(this.block.sections) && this.block.sections.length > 0 ? this.block.sections : null,
-      title: ![undefined, null].includes(this.block) && typeof this.block.title === 'string' ? this.block.title : null
+      title: ![undefined, null].includes(this.block) && typeof this.block.title === 'string' ? this.block.title : null,
+      hasExpanded: []
     }
   },
   // mounted () {
@@ -129,8 +168,20 @@ export default {
   methods: {
     handleize,
     toggleSections (indx) {
-      if (this.activeIndex === indx) { return }
-      this.activeIndex = indx
+      setTimeout(() => {
+        window.scroll({left: 0, top: this.$refs.container.offsetTop - 50, behavior: 'smooth'})
+      }, 250);
+      if (this.activeIndex === indx) {
+        if (this.block.groupStyle === 'accordion') this.active = null;
+        return
+      }
+      this.active = indx
+      if(!this.hasExpanded.includes(this.active)) {
+        this.hasExpanded.push(this.active)
+      }
+    },
+    scrollHandler (e, eventName) {
+      return { e, eventName }
     }
   }
 }
@@ -147,6 +198,9 @@ export default {
 }
 .panel-content {
   @apply rounded mt-1 mb-3 relative;
+}
+.tab {
+  @apply whitespace-nowrap;
 }
 .expanded {
   .tabs,

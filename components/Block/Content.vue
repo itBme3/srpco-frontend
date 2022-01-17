@@ -1,7 +1,7 @@
 <template>
   <div
     class="block-content"
-    :v-if="block !== undefined && block !== null"
+    :v-if="![undefined, null].includes(block)"
   >
     <Wysiwyg
       v-if="content !== null && content !== undefined"

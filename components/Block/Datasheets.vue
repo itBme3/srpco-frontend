@@ -6,7 +6,7 @@
       :class="{ [collectionType]: true }"
     >
       <Card
-        v-for="(entry, index) in entries"
+        v-for="(entry) in entries"
         :key="entry.id"
         :title="entry.title"
         :media="entry.file"
@@ -16,10 +16,9 @@
         media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
         class="col-span-12"
         :class="{ [entry.type]: true }"
-        @open-modal="handleModal"
       />
     </div>
-    <client-only>
+    <!-- <client-only>
       <gModal
         v-if="![undefined, null].includes(modalData)"
         v-model="showModal"
@@ -36,7 +35,7 @@
           class="h-full w-full rounded-md"
         />
       </gModal>
-    </client-only>
+    </client-only> -->
   </div>
 </template>
 
@@ -51,8 +50,6 @@ export default {
   data () {
     return {
       collectionType: 'datasheets',
-      modalData: null,
-      showModal: false
     }
   },
   computed: {
@@ -80,24 +77,16 @@ export default {
         return null
       }
     }
-  },
-
-  methods: {
-    handleClose (e) {
-      this.modalData = null
-      this.showModal = false
-    },
-    handleModal (mData) {
-      if (![undefined, null].includes(mData)) {
-        if ((!!mData.youtube && mData.youtube.length > 0) || (!!mData.file && !!mData.file.mime && mData.file.mime.includes('pdf'))) {
-          this.showModal = true
-          setTimeout(() => {
-            this.modalData = mData
-          }, 500)
-        }
-      }
-    }
   }
+
+  // methods: {
+  //   handleClose (e) {
+  //     this.$store.commit('modal/close', null)
+  //   },
+  //   handleModal (mData) {
+  //     this.$store.commit('modal/open', mData)
+  //   }
+  // }
 }
 </script>
 

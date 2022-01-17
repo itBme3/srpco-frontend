@@ -1,7 +1,7 @@
 
 <template>
   <div
-    class="block"
+    class="entry-block"
     v-if="![undefined, null].includes(block)"
     :class="{ [blockClasses]: !!blockClasses && blockClasses.length > 0 }"
   >
@@ -12,7 +12,7 @@
     <BlockCollection
       v-else-if="![undefined, null].includes(block) && block.__typename === 'ComponentBlocksBlockCollection'"
       :collection-type="block.collectionType"
-      :limit="6"
+      :limit="![null, undefined].includes(block.collectionSettings) && block.collectionSettings.limit > 0 ? block.collectionSettings.limit : 6"
       :sort="'published_at:ASC'"
       :card-style="!!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaAbove'"
       :classes="classes"
@@ -58,7 +58,6 @@
         v-if="block.__typename === 'ComponentBlocksBlockGroup'"
         :block="block"
       />
-      <pre v-if="block.__typename === 'ComponentBlocksBlockGroup'"><code>{{JSON.stringify(block, null, 4)}}</code></pre>
     </template>
   </div>
 </template>
