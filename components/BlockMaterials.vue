@@ -12,7 +12,7 @@
         :media="entry.media"
         card-style="mediaLeft"
         :link="collectionType + '/' + entry.slug"
-        media-ratio="8.5:11"
+        media-ratio="3:2"
         media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
         class="col-span-12"
       />
@@ -22,13 +22,14 @@
 
 <script>
 export default {
+  scrollToTop: true,
   props: {
     block: Object,
     default: () => null
   },
   data () {
     return {
-      collectionType: 'applications'
+      collectionType: 'materials'
     }
   },
   computed: {
@@ -37,21 +38,21 @@ export default {
     },
     cardClasses () {
       try {
-        return block.cardSettings.cardClasses
+        return block.cardSettings.classes.card
       } catch (err) {
         return null
       }
     },
     mediaClasses () {
       try {
-        return block.cardSettings.cardClasses
+        return block.cardSettings.classes.media
       } catch (err) {
         return null
       }
     },
     titleClasses () {
       try {
-        return block.cardSettings.cardClasses
+        return block.cardSettings.classes.title
       } catch (err) {
         return null
       }
@@ -61,7 +62,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .entries {
-    @apply grid grid-cols-12 gap-3
-  }
+.entries {
+  @apply grid grid-cols-12 gap-3;
+}
 </style>

@@ -54,6 +54,7 @@
 
 <script lang="js">
 import {camelToHandle} from '~/utils/funcs'
+import { getHeroClasses } from '~/utils/get-classes'
 export default {
   props: {
     block: {
@@ -66,10 +67,10 @@ export default {
           youtube: null,
           buttons: null,
           heroSettings: {
-            mediaClasses: null,
-            contentClasses: null,
-            titleClasses: null,
-            overlayClasses: null,
+            mediaClasses: '',
+            contentClasses: '',
+            titleClasses: '',
+            overlayClasses: '',
             style: 'overlay'
           }
         }
@@ -77,12 +78,9 @@ export default {
     }
   },
   data () {
+    const { media: mediaClasses = '', title: titleClasses = '', text: textClasses = '', content: contentClasses = '', buttons: buttonsClasses = '', overlay: overlayClasses = '' } = getHeroClasses(this.block)
     return {
-      media: ![null, undefined].includes(this.block) &&
-      ![null, undefined].includes(this.block.media) &&
-      this.block.media.url
-        ? this.block.media
-        : null,
+      media: !!this?.block?.media?.url ? this.block.media : null,
       title: typeof this?.block?.title === 'string' &&
       this.block.title.length > 0
         ? this.block.title
@@ -94,10 +92,11 @@ export default {
       buttons: Array.isArray(this?.block?.buttons) ? this.block.buttons: [],
       heroStyle: [undefined, null].includes(this?.block?.heroSettings?.style) ? 'overlay' : camelToHandle(this.block.heroSettings.style),
       youtube: typeof this?.block?.youtube === 'string' && this.block.youtube.length > 0 ? this.block.youtube : null,
-      mediaClasses: typeof this?.block?.heroSettings?.mediaClasses === 'string' ? this.block.heroSettings.mediaClasses : '',
-      titleClasses: typeof this?.block?.heroSettings?.titleClasses === 'string' && this.block.heroSettings.titleClasses.length > 0 ? this.block.heroSettings.titleClasses : '',
-      contentClasses: typeof this?.block?.heroSettings?.contentClasses === 'string' && this.block.heroSettings.contentClasses.length > 0 ? this.block.heroSettings.contentClasses : '',
-      overlayClasses: typeof this?.block?.heroSettings?.overlayClasses === 'string' && this.block.heroSettings.overlayClasses.length > 0 ? this.block.heroSettings.overlayClasses : ''
+      mediaClasses,
+      titleClasses,
+      textClasses,
+      contentClasses,
+      overlayClasses,
     }
   }
 }

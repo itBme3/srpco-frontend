@@ -25,12 +25,19 @@
 <script>
 import { EntryType } from '~/models/entry.model'
 import { entryBySlug } from '~/utils/graphql/requests/single'
+import { getPageClasses } from '~/utils/get-classes'
+
 export default {
   scrollToTop: true,
   async asyncData ({ params }) {
     const slug = params.slug
     const page = slug !== undefined ? await entryBySlug(EntryType.PAGE, slug) : null
     return { slug, page }
+  },
+  computed: {
+    pageClasses () {
+      return getPageClasses(this.page)
+    }
   },
   watch: {
     slug: {

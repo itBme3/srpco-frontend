@@ -3,7 +3,7 @@
     :style="{ 
       height: imgHeight,
       backgroundImage: isBackground && typeof mediaSrc === 'string' && mediaSrc.length > 0 && !mediaSrc.includes('.pdf') ? 'url(' + mediaSrc + ')' : 'none' }"
-    class="media overflow-hidden relative flex items-center content-center"
+    class="media overflow-hidden relative flex items-center justify-center"
     style="background-repeat: no-repeat; background-size: cover; background-position: center;"
   >
     <template v-if="typeof mediaSrc === 'string'">

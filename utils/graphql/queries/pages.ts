@@ -6,6 +6,7 @@ export const homepageQuery = (() => {
   const attributes = `
     title
     description
+    pageSettings { classes }
     blocks {
       ${[
       'ComponentBlockContent',

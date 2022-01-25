@@ -36,12 +36,11 @@
           :open-new-tab="false"
           class="collection-entry"
           :class="{
-            [cardClasses]: cardClasses.length > 0,
-            [entry.type]: true }"
-          :title-classes="cardTitleClasses"
+            [cardClasses.card]: !!cardClasses && !!cardClasses.card && !!cardClasses.card.length,
+            [entry.type]: true 
+          }"
+          :classes="cardClasses"
           :youtube="typeof entry.youtube === 'string' ? entry.youtube : null"
-          :text-classes="cardTextClasses"
-          :media-classes="cardMediaClasses"
           :is-background="entry.type !== 'datasheet'"
           :more-links="['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0 ? entry.gaskets : null"
         />
@@ -64,13 +63,8 @@
 import { getCollection } from '~/utils/graphql/requests/collection'
 import { objectsAreTheSame } from '~/utils/funcs'
 import { strapiFilterParams } from '~/utils/search-params'
+import { getCardClasses } from '~/utils/get-classes'
 import { CardStyle } from '~/models/blocks.model.ts'
-// interface CollectionClasses {
-//   container?: string;
-//   grid?: string;
-//   card?: string;
-//   searchBar?: string;
-// }
 
 export default {
   props: {
@@ -92,9 +86,9 @@ export default {
         return {
           grid: '',
           card: '',
-          cardMedia: '',
-          cardTitle: '',
-          cardText: '',
+          media: '',
+          title: '',
+          text: '',
           searchBar: ''
         }
       }
@@ -121,22 +115,19 @@ export default {
     }
   },
   data () {
-    const { card: cardClasses = '', cardTitle: cardTitleClasses = '', cardText: cardTextClasses = '', cardMedia: cardMediaClasses = '', grid: gridClasses = '', searchBar: searchBarClasses = '' } = Object.keys(this.classes).length > 0 ? this.classes : {}
+    const { grid: gridClasses = '', searchBar: searchBarClasses = '' } = Object.keys(this.classes).length > 0 ? this.classes : {}
     const collection = this?.collectionType ? this.collectionType : null
     const mediaRatio = this.ratio !== null && this.ratio?.indexOf(':') > -1 ? this.ratio : ['services', 'materials', 'applications'].includes(collection) ? '16:9' : 'auto'
-
+    const { title = '', card = '', media = '', text = '', content = '' } = this.classes;
     return {
       entries: null,
       nextEntries: null,
       searchValue: '',
       canLoadMore: false,
-      cardClasses,
+      cardClasses: { title, card, text, media, content },
       gridClasses,
       searchBarClasses,
       collection,
-      cardTitleClasses,
-      cardTextClasses,
-      cardMediaClasses,
       mediaRatio,
       queryParams: { }
     }

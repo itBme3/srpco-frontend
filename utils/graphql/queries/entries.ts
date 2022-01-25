@@ -28,7 +28,6 @@ export const entryQuery = (data: { queryParams: { [key: string]: any }, entryTyp
   const { props, variables } = queryVariables(collectionType
     ? { ...defaultCollectionVariables, ...queryParams }
     : queryParams, entryType)
-  console.log({ props, variables })
   const query = gql`
             query (${props}) {
                   ${queryType}(${Object.keys(variables).map(k => `${k} : $${k}`).join(', ')}) {

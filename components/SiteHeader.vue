@@ -138,8 +138,12 @@ export default {
 </script>
 
 <style lang="scss">
+.header,
+.header-and-nav {
+  background-color: rgba(7, 14, 29, 1) !important;
+}
 .header {
-  @apply relative sm:fixed sm:left-[96px] p-1 top-0 bg-gray-900 sm:right-0;
+  @apply relative sm:fixed sm:left-[96px] p-1 top-0 sm:right-0;
   .site-search {
     @apply max-w-6xl mx-auto;
   }

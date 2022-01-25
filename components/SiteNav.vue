@@ -226,7 +226,7 @@ nav {
     &:not(:hover) {
       .nav-link {
         button {
-          @apply flex-col text-center content-center w-[60px];
+          @apply flex-col text-center justify-center w-[60px];
         }
       }
       .link-text {

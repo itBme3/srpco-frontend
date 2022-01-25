@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Wysiwyg from '../Wysiwyg.vue'
+import Wysiwyg from './Wysiwyg.vue'
 export default {
   components: { Wysiwyg },
   props: {

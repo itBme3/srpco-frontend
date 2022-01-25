@@ -6,7 +6,9 @@
         v-for="block in footer.blocks"
         :key="'block-' + block.id"
         class="entry-block"
-        :class="{ ['' + block !== null && block.blockSettings !== null ? block.blockSettings.blockClasses : '' + '']: block.blockSettings !== null && typeof block.blockSettings.blockClasses === 'string' && block.blockSettings.blockClasses.length > 0 }"
+        :class="{ [
+          !!block && !!block.blockSettings && !!block.blockSettings.classes && !!block.blockSettings.classes.block 
+            ? block.blockSettings.classes.block : '' ]: !!block.blockSettings && !!block.blockSettings.classes && block.blockSettings.classes.block && typeof block.blockSettings.classes.block === 'string' && block.blockSettings.classes.block.length > 0 }"
       >
         <Link
           v-if="typeof block.title === 'string' && block.title.length > 0"

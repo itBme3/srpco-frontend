@@ -2,10 +2,10 @@
 import { mediaFields } from '~/utils/graphql/fragments/fields'
 
 export const blockSettingsFields = {
-  DEFAULT: 'id __typename',
+  DEFAULT: 'id __typename blockSettings { classes }',
   card: `
   cardSettings {
-      style cardClasses mediaClasses titleClasses textClasses
+      style classes
   }`,
   collection: `
     collectionType
@@ -13,7 +13,7 @@ export const blockSettingsFields = {
       sort limit infiniteScroll updateUrl
     }
     cardSettings {
-      cardClasses mediaClasses titleClasses textClasses style
+      style classes
     }
   `
 }
@@ -24,36 +24,30 @@ export const blockFields: { [key: string]: string } = {
       media {
         ${mediaFields()}
       }
-      blockSettings { blockClasses }
       ${blockSettingsFields.DEFAULT}
       ${blockSettingsFields.card}
   `,
   ComponentBlockHero: `
       ${blockSettingsFields.DEFAULT}
       title text youtube
-      heroSettings { containerClasses mediaClasses titleClasses textClasses contentClasses buttonsClasses overlayClasses style }
+      heroSettings { classes style }
       buttons { id text link openNewTab buttonClasses }
       media { ${mediaFields()} }
-      blockSettings { blockClasses }
   `,
   ComponentBlockContent: `
       ${blockSettingsFields.DEFAULT}
       title content titleClasses contentClasses
-      blockSettings { blockClasses }
   `,
   ComponentBlockSpacer: `
       ${blockSettingsFields.DEFAULT}
-      blockSettings { blockClasses }
   `,
   ComponentBlockCollection: `
       ${blockSettingsFields.DEFAULT}
       collectionType collectionSettings { sort limit infiniteScroll updateUrl }
       ${blockSettingsFields.card}
-      blockSettings { blockClasses }
   `,
   ComponentBlockServices: `
       ${blockSettingsFields.DEFAULT}
-      blockSettings { blockClasses }
       title
       services {
         data {
@@ -67,7 +61,6 @@ export const blockFields: { [key: string]: string } = {
   `,
   ComponentBlockResources: `
       ${blockSettingsFields.DEFAULT}
-      blockSettings { blockClasses }
       title
       resources {
         data {
@@ -81,7 +74,6 @@ export const blockFields: { [key: string]: string } = {
   `,
   ComponentBlockMaterials: `
       ${blockSettingsFields.DEFAULT}
-      blockSettings { blockClasses }
       title
       materials {
         data {
@@ -95,7 +87,6 @@ export const blockFields: { [key: string]: string } = {
   `,
   ComponentBlockApplications: `
       ${blockSettingsFields.DEFAULT}
-      blockSettings { blockClasses }
       title
       applications {
         data {
@@ -109,7 +100,6 @@ export const blockFields: { [key: string]: string } = {
   `,
   ComponentBlockDatasheets: `
       ${blockSettingsFields.DEFAULT}
-      blockSettings { blockClasses }
       datasheets {
         data {
             id
@@ -122,7 +112,6 @@ export const blockFields: { [key: string]: string } = {
   `,
   ComponentBlockGaskets: `
       ${blockSettingsFields.DEFAULT}
-      blockSettings { blockClasses }
       gaskets {
         data {
           id
@@ -135,7 +124,6 @@ export const blockFields: { [key: string]: string } = {
   `,
   ComponentBlockGroup: `
       ${blockSettingsFields.DEFAULT}
-      blockSettings { blockClasses }
       groupStyle
       title
       sections {

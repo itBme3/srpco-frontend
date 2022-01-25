@@ -1,21 +1,18 @@
 <template>
-  <div class="collection services">
-    <h3 v-if="![null, undefined].includes(block) && typeof block.title === 'string' && block.title.length > 0" class="text-bolder">
-      {{ block.title }}
-    </h3>
+  <div>
     <div
-      v-if="Array.isArray(entries) && entries.length > 0"
       class="entries"
       :class="{ [collectionType]: true }"
+      v-if="Array.isArray(entries) && entries.length > 0"
     >
       <Card
         v-for="entry in entries"
         :key="entry.id"
         :title="entry.title"
-        :media="entry.file"
+        :media="entry.media"
         card-style="mediaLeft"
         :link="collectionType + '/' + entry.slug"
-        media-ratio="16:9"
+        media-ratio="8.5:11"
         media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
         class="col-span-12"
       />
@@ -31,7 +28,7 @@ export default {
   },
   data () {
     return {
-      collectionType: 'services'
+      collectionType: 'resources'
     }
   },
   computed: {
@@ -40,21 +37,21 @@ export default {
     },
     cardClasses () {
       try {
-        return block.cardSettings.cardClasses
+        return block.cardSettings.classes.card
       } catch (err) {
         return null
       }
     },
     mediaClasses () {
       try {
-        return block.cardSettings.cardClasses
+        return block.cardSettings.classes.media
       } catch (err) {
         return null
       }
     },
     titleClasses () {
       try {
-        return block.cardSettings.cardClasses
+        return block.cardSettings.classes.title
       } catch (err) {
         return null
       }
@@ -64,7 +61,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .entries {
-    @apply grid grid-cols-12 gap-3
-  }
+.entries {
+  @apply grid grid-cols-12 gap-3;
+}
 </style>

@@ -68,24 +68,24 @@ export default {
                 blocks {
                     ... on ComponentBlockContent { 
                             title content titleClasses contentClasses
-                            id __typename blockSettings { blockClasses }
+                            id __typename blockSettings { blockClasses classes }
                         }
                     ... on ComponentBlockCard { 
                             title text link openNewTab
                             media {
                                 data { attributes { name url alternativeText mime formats caption } }
                             }
-                            id __typename blockSettings { blockClasses }
+                            id __typename blockSettings { blockClasses classes }
                             
                         cardSettings {
-                            style cardClasses mediaClasses titleClasses textClasses
+                            style classes
                         }
                     }
                     ... on ComponentBlockSpacer { 
-                        id __typename blockSettings { blockClasses }
+                        id __typename blockSettings { blockClasses classes }
                     }
                     ... on ComponentBlockResources { 
-                        id __typename blockSettings { blockClasses }
+                        id __typename blockSettings { blockClasses classes }
                         title
                         resources {
                             data {
@@ -98,7 +98,7 @@ export default {
                         }
                     }
                     ... on ComponentBlockDatasheets { 
-                        id __typename blockSettings { blockClasses }
+                        id __typename blockSettings { blockClasses classes }
                         datasheets {
                             data {
                                 id
@@ -110,7 +110,7 @@ export default {
                         }
                     }
                     ... on ComponentBlockGroup { 
-                        id __typename blockSettings { blockClasses }
+                        id __typename blockSettings { blockClasses classes }
                         groupStyle
                         title
                         sections {

@@ -13,7 +13,7 @@
         card-style="mediaLeft"
         :link="collectionType + '/' + entry.slug"
         media-ratio="8.5:11"
-        media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
+        :classes="cardClasses"
         class="col-span-12"
       />
     </div>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { getCardClasses } from '~/utils/get-classes'
 export default {
   props: {
     block: Object,
@@ -28,7 +29,7 @@ export default {
   },
   data () {
     return {
-      collectionType: 'resources'
+      collectionType: 'applications'
     }
   },
   computed: {
@@ -37,23 +38,11 @@ export default {
     },
     cardClasses () {
       try {
-        return block.cardSettings.cardClasses
+        const c = getCardClasses(this.block);
+        console.log(c);
+        return c
       } catch (err) {
-        return null
-      }
-    },
-    mediaClasses () {
-      try {
-        return block.cardSettings.cardClasses
-      } catch (err) {
-        return null
-      }
-    },
-    titleClasses () {
-      try {
-        return block.cardSettings.cardClasses
-      } catch (err) {
-        return null
+        return ''
       }
     }
   }
@@ -61,7 +50,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .entries {
-    @apply grid grid-cols-12 gap-3
-  }
+.entries {
+  @apply grid grid-cols-12 gap-3;
+}
 </style>

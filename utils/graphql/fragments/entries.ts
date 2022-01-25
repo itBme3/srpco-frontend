@@ -11,7 +11,7 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
   if (entryType === null) {
     return null
   }
-  const fields = ['title', 'description', `seo { ${seoFields} }`, 'slug', 'type', ...(Array.isArray(addedKeys) ? addedKeys : '')].filter(k => !!k?.length)
+  const fields = ['title', 'description', 'slug', 'type', ...(Array.isArray(addedKeys) ? addedKeys : '')].filter(k => !!k?.length)
   const defaults = {
     default: `
         ${fields.join(' ')}
@@ -30,6 +30,8 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
     page: `
         ${fields.join(' ')} collectionType
         tags { data { id attributes { title slug } } }
+        pageSettings { classes }
+        seo { ${seoFields} }
         ${mediaKey} {
           ${mediaFields()}
         }
@@ -53,7 +55,20 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
     },
     application: {},
     material: {},
-    supplier: {},
+    supplier: {
+      default: `
+        ${defaults.default}
+        color totalConverters
+      `,
+      collectionItem: `
+        ${defaults.collectionItem}
+        color totalConverters
+      `,
+      page: `
+        ${defaults.page}
+        color totalConverters
+      `,
+    },
     resource: {},
     service: {
       collectionItem: `

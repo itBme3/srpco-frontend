@@ -10,16 +10,19 @@
   >
 
     <template v-if="![undefined, null].includes(block)">
-      <h2
-        v-if="block.title !== null && !['ComponentBlockHero'].includes(block.__typename)"
+      <gTag
+        v-if="!!title && !!title.length && !['ComponentBlockHero'].includes(block.__typename)"
+        :tagName="title.length < 35 ? 'h2' : title.length < 65 ? 'h3' :  title.length < 85 ? 'h4' : 'h5' "
         :class="{
-          'block-title': true
+          'block-title': true,
+          [titleClasses]: !!titleClasses.length
         }"
       >
         {{ title }}
-      </h2>
+      </gTag>
       <BlockCard
         v-if="block.__typename === 'ComponentBlockCard'"
+        :class="{ [!!cardClasses &&  !!cardClasses.card ? cardClasses.card : '']: !!cardClasses.card.length }"
         :block="block"
       />
       <BlockCollection
@@ -29,9 +32,10 @@
         :sort="!!block.collectionSettings && !!block.collectionSettings.sort ? block.collectionSettings.sort.split(',') : ['publishedAt:ASC']"
         :infinite-scroll="!!block.collectionSettings && block.collectionSettings.infiniteScroll"
         :update-url="!!block.collectionSettings && block.collectionSettings.updateUrl"
-        :card-style="!!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaAbove'"
-        :classes="classes"
+        :card-style="!!block.cardSettings && !!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaAbove'"
+        :classes="cardClasses"
       />
+
       <BlockContent
         v-if="block.__typename === 'ComponentBlockContent'"
         :block="block"
@@ -69,6 +73,7 @@
 </template>
 
 <script>
+import { getCardClasses } from '~/utils/get-classes';
 /* eslint-disable no-constant-condition */
 export default {
   props: {
@@ -77,25 +82,14 @@ export default {
       default: () => { return {} }
     }
   },
-  // data() {
-  //     return {
-  //       grid: 'w-full',
-  //       blockClasses: ''
-  //     }
-
-  // },
   data () {
-    const blockClasses = typeof this?.block?.blockSettings?.blockClasses === 'string' ? this.block.blockSettings.blockClasses : ''
-    console.log({ block: this.block, blockClasses })
-    const classes = {
-      card: typeof this?.block?.cardSettings?.cardClasses === 'string' ? this.block.cardSettings.cardClasses : '',
-      cardTitle: typeof this?.block?.cardSettings?.titleClasses === 'string' ? this.block.cardSettings.titleClasses : '',
-      cardMedia: typeof this?.block?.cardSettings?.mediaClasses === 'string' ? this.block.cardSettings.mediaClasses : '',
-      cardText: typeof this?.block?.cardSettings?.textClasses === 'string' ? this.block.cardSettings.textClasses : ''
-    }
+    const { block: blockClasses = '', title: titleClasses = '', buttons: buttonsClasses = '' } = getCardClasses(this.block);;
+    const { card = '', title: cardTitle = '', text: cardText = '', media: cardMedia = '' } = getCardClasses(this.block);
     return {
       blockClasses,
-      classes,
+      titleClasses,
+      buttonsClasses,
+      cardClasses: { card, title: cardTitle, media: cardMedia, text: cardText },
       title: ![null, undefined].includes(this.block) && !this.block.__typename.includes('Card') ? this.block.title : null
     }
   }

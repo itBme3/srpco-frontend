@@ -58,21 +58,21 @@ export default {
     },
     cardClasses () {
       try {
-        return block.cardSettings.cardClasses
+        return block.cardSettings.classes.card
       } catch (err) {
         return null
       }
     },
     mediaClasses () {
       try {
-        return block.cardSettings.cardClasses
+        return block.cardSettings.classes.media
       } catch (err) {
         return null
       }
     },
     titleClasses () {
       try {
-        return block.cardSettings.cardClasses
+        return block.cardSettings.classes.title
       } catch (err) {
         return null
       }

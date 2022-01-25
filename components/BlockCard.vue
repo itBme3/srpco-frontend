@@ -1,0 +1,40 @@
+<template>
+  <Card
+    :title="title"
+    :text="text"
+    :media="!!media && media.url ? media : null"
+    :card-style="cardStyle"
+    :classes="cardClasses"
+    :youtube="youtube"
+    :link="link"
+    :open-new-tab="openNewTab === true"
+  />
+</template>
+
+<script lang="js">
+import { CardStyle } from '~/models/blocks.model'
+import { getCardClasses } from '~/utils/get-classes'
+export default {
+  props: {
+    block: {
+      type: Object,
+      default: null
+    }
+  },
+  data () {
+    const block = typeof this.block === 'undefined' ? {} : this.block
+    const cardClasses = getCardClasses(block);
+    console.log({cardClasses})
+    return {
+      cardStyle: Object.values(CardStyle).map(v => `${v}`).includes(block?.cardSettings?.style) ? block?.cardSettings?.style : CardStyle.MEDIA_ABOVE,
+      media: block?.media?.url ? block.media : null,
+      title: block?.title?.length > 0 ? block.title : null,
+      text: block?.text?.length > 0 ? block.text : null,
+      link: block?.link?.length > 0 ? block.link : '',
+      cardClasses,
+      youtube: block?.cardClasses?.length > 0 ? block.cardClasses : null,
+      openNewTab: block?.openNewTab === true
+    }
+  }
+}
+</script>

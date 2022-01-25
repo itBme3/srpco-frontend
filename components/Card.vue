@@ -10,6 +10,7 @@
     <Link
       class="card-link"
       :class="{
+        [classes.card]: !!classes && !!classes.card && !!classes.card.length,
         'card-style-overlay': cardStyle === 'overlay',
         'card-style-media-left': cardStyle === 'mediaLeft',
         'card-style-media-right': cardStyle === 'mediaRight',
@@ -37,6 +38,9 @@
     <div
       v-if="(title && title.length > 0) || (text && text.length > 0)"
       class="card-content"
+      :class="{
+        [classes.content]: !!classes && !!classes.content && !!classes.content.length
+      }"
     >
       <gTag
         v-if="title && title.length > 0"
@@ -80,22 +84,11 @@ export default {
       type: String,
       default: null,
     },
-    titleClasses: {
-      type: String,
-      default: "",
-    },
     youtube: {
       type: String,
       default: null,
     },
-    textClasses: {
-      type: String,
-      default: "",
-    },
-    mediaClasses: {
-      type: String,
-      default: "",
-    },
+    
     cardStyle: {
       type: String,
       default: CardStyle.MEDIA_ABOVE,
@@ -116,6 +109,18 @@ export default {
       type: Array,
       default: () => [],
     },
+    classes: {
+      type: Object,
+      default: () => {
+        return {
+          card: '',
+          media: '',
+          title: '',
+          text: '',
+          content: ''
+        }
+      },
+    }
   },
   computed: {
     hasLink() {
@@ -130,6 +135,18 @@ export default {
       }
       return false;
     },
+    titleClasses() {
+      return !!this?.classes?.title ? this.classes.title : ''
+    },
+    mediaClasses() {
+      return !!this?.classes?.media ? this.classes.media : ''
+    },
+    cardClasses() {
+      return !!this?.classes?.card ? this.classes.card : ''
+    },
+    textClasses() {
+      return !!this?.classes?.text ? this.classes.text : ''
+    }
   },
   methods: {
     openModal(modalData) {

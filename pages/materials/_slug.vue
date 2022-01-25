@@ -9,7 +9,8 @@
     />
     <div
       :v-if="!!page && page.content"
-      class="page-content">
+      class="page-content"
+    >
       <div :v-html="page.content"></div>
     </div>
     <div
@@ -28,7 +29,7 @@
 <script>
 import { EntryType } from '~/models/entry.model'
 import { entryBySlug } from '~/utils/graphql/requests/single'
-
+import { getPageClasses } from '~/utils/get-classes'
 export default {
   scrollToTop: true,
   async asyncData ({ params }) {
@@ -37,6 +38,11 @@ export default {
     return {
       slug: params.slug,
       page
+    }
+  },
+  computed: {
+    pageClasses () {
+      return getPageClasses(this.page)
     }
   },
   watch: {

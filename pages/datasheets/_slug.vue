@@ -1,5 +1,8 @@
 <template>
-  <div class="single-entry datasheet">
+  <div :class="{
+      ['single-entry datasheet']: true,
+      
+    }">
     <Heading
       v-if="![null, undefined].includes(page)"
       heading-type="simple"
@@ -35,6 +38,7 @@
 <script>
 import { EntryType } from '~/models/entry.model'
 import { entryBySlug } from '~/utils/graphql/requests/single'
+import { getPageClasses } from '~/utils/get-classes'
 
 export default {
   scrollToTop: true,
@@ -44,6 +48,11 @@ export default {
     return {
       slug: params.slug,
       page
+    }
+  },
+  computed: {
+    pageClasses () {
+      return getPageClasses(this.page)
     }
   },
   watch: {
