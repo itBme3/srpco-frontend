@@ -20,6 +20,7 @@ export enum EntryType {
       SERVICE = 'service',
       DATASHEET = 'datasheet',
       SOLUTION = 'solution',
+      PAGE = 'page',
 }
 
 export enum CollectionType {
@@ -31,6 +32,7 @@ export enum CollectionType {
       SERVICES = 'services',
       DATASHEETS = 'datasheets',
       SOLUTIONS = 'solutions',
+      PAGES = 'pages',
 }
 
 export enum StrapiCollectionType {
@@ -58,7 +60,7 @@ export interface EntryTag {
       id?: number;
       title?: string;
       slug?: string;
-      published_at?: string;
+      publishedAt?: string;
       created_at?: string;
       updated_at?: string;
 }
@@ -69,7 +71,7 @@ export interface EntryItem {
       title?: string;
       created_at?: string;
       updated_at?: string;
-      published_at?: string | null;
+      publishedAt?: string | null;
       type?: EntryType;
       collectionType?: CollectionType;
       name?: string;

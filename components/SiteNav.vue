@@ -126,7 +126,7 @@
 <script lang="js">
 /* eslint-disable no-extra-boolean-cast */
 import { $graph } from '~/utils/graphql/init'
-import { navigationQuery } from '~/utils/graphql/queries/global'
+import { getNavigation } from '~/utils/graphql/requests/global'
 
 export default {
   asyncData ({ route }) {
@@ -142,7 +142,7 @@ export default {
     }
   },
   async fetch () {
-    this.navigation = await $graph.request(navigationQuery).then(res => res.navigation)
+    this.navigation = await getNavigation()
   },
   watch: {
     '$route.fullPath' () {

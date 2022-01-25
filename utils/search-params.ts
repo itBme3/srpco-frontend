@@ -1,22 +1,22 @@
-export const strapiFilterParams = (queryParams: {[key:string]: any}, collection:string) => {
+export const strapiFilterParams = (queryParams: { [key: string]: any }, collection: string) => {
   const {
     limit = 6,
-    sort = 'published_at:DESC',
+    sort = ['publishedAt:DESC'],
     start = 0,
     q = null,
     supplier = null,
     type = null
   } = queryParams
-  const query: { [key:string]: any } = { limit, sort, start, where: { supplier, type } }
-  for (const key in query.where) {
-    if (typeof query.where[key] !== 'string' || query.where[key].length === 0) {
-      delete query.where[key]
+  const query: { [key: string]: any } = { pagination: { limit, start }, sort: Array.isArray(sort) ? sort : [sort], filters: { supplier: { eq: supplier }, type: { eq: type } } }
+  for (const key in query.filters) {
+    if (typeof query.filters[key] !== 'string' || query.filters[key].length === 0) {
+      delete query.filters[key]
     }
   }
   if (typeof q !== 'string' || q.length === 0) {
     return query
   }
-  const w = query.where
+  const queryFilters = query.filters
   const searchFields = ['title', 'description', 'slug']
   if (collection === 'datasheets') {
     searchFields.push('fileContent')
@@ -27,9 +27,9 @@ export const strapiFilterParams = (queryParams: {[key:string]: any}, collection:
 
   return {
     ...query,
-    where: {
-      _or: searchFields.reduce((acc:any[], key:string) => {
-        return [...acc, { ...w, [`${key}_contains`]: q }]
+    filters: {
+      or: searchFields.reduce((acc: any[], key: string) => {
+        return [...acc, { ...queryFilters, [key]: { contains: q } }]
       }, [])
     }
   }

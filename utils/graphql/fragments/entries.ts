@@ -11,7 +11,7 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
   if (entryType === null) {
     return null
   }
-  const fields = ['id', 'title', 'description', `seo { ${seoFields} }`, 'slug', 'type', ...(Array.isArray(addedKeys) ? addedKeys : '')].filter(k => !!k?.length)
+  const fields = ['title', 'description', `seo { ${seoFields} }`, 'slug', 'type', ...(Array.isArray(addedKeys) ? addedKeys : '')].filter(k => !!k?.length)
   const defaults = {
     default: `
         ${fields.join(' ')}
@@ -19,8 +19,8 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
       `,
     collectionItem: `
         ${fields.join(' ')}
-        ${[EntryType.MATERIAL, EntryType.APPLICATION].map(s => `${s}`).includes(entryType)
-        ? 'gaskets (limit: 3, sort: "order:ASC") { id slug title type collectionType }'
+          ${[EntryType.MATERIAL, EntryType.APPLICATION].map(s => `${s}`).includes(entryType)
+        ? 'gaskets (pagination: {limit: 3}, sort: ["order:ASC"]) { data { id attributes { slug title type collectionType }} }'
         : ''
       }
         ${mediaKey} {
@@ -29,7 +29,7 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
       `,
     page: `
         ${fields.join(' ')} collectionType
-        tags { title slug }
+        tags { data { id attributes { title slug } } }
         ${mediaKey} {
           ${mediaFields()}
         }
@@ -42,13 +42,12 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
         ${defaults.page}
         content
         blocks {
-          ... on ComponentBlocksBlockContent { ${blockFields.ComponentBlocksBlockContent} }
-          ... on ComponentBlocksBlockCard { ${blockFields.ComponentBlocksBlockCard} }
-          ... on ComponentBlocksBlockSpacer { ${blockFields.ComponentBlocksBlockSpacer} }
-          ... on ComponentBlocksBlockResources { ${blockFields.ComponentBlocksBlockResources} }
-          ... on ComponentBlocksBlockMaterials { ${blockFields.ComponentBlocksBlockMaterials} }
-          ... on ComponentBlocksBlockDatasheets { ${blockFields.ComponentBlocksBlockDatasheets} }
-          ... on ComponentBlocksBlockGroup { ${blockFields.ComponentBlocksBlockGroup} }
+          ... on ComponentBlockContent { ${blockFields.ComponentBlockContent} }
+          ... on ComponentBlockCard { ${blockFields.ComponentBlockCard} }
+          ... on ComponentBlockSpacer { ${blockFields.ComponentBlockSpacer} }
+          ... on ComponentBlockResources { ${blockFields.ComponentBlockResources} }
+          ... on ComponentBlockDatasheets { ${blockFields.ComponentBlockDatasheets} }
+          ... on ComponentBlockGroup { ${blockFields.ComponentBlockGroup} }
         }
       `
     },
@@ -66,8 +65,30 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
         youtube
       `
     },
-    datasheet: {},
-    solution: {}
+    datasheet: {
+      page: gql`
+        ${defaults.page}
+      `,
+      collectionItem: gql`
+        title slug
+        ${mediaKey} { ${mediaFields('tiny')} }
+      `
+    },
+    solution: {},
+    page: {
+      page: gql`
+        ${defaults.page}
+        content
+        blocks {
+          ... on ComponentBlockContent { ${blockFields.ComponentBlockContent} }
+          ... on ComponentBlockCard { ${blockFields.ComponentBlockCard} }
+          ... on ComponentBlockSpacer { ${blockFields.ComponentBlockSpacer} }
+          ... on ComponentBlockResources { ${blockFields.ComponentBlockResources} }
+          ... on ComponentBlockDatasheets { ${blockFields.ComponentBlockDatasheets} }
+          ... on ComponentBlockGroup { ${blockFields.ComponentBlockGroup} }
+        }
+      `
+    }
   }
   Object.values(EntryType).forEach((key) => {
     Object.keys(fragmentFields.defaults).forEach((dKey) => {

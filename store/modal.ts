@@ -7,13 +7,12 @@ interface ModalData {
       embed?: boolean;
 }
 type ModalDataType = ModalData | null;
-export const state = ():{modalData: ModalDataType} => ({
+export const state = (): { modalData: ModalDataType } => ({
       modalData: null
 });
 
 export const mutations = {
       open(state: any, val: ModalDataType) {
-            console.log({ val })
             if (val !== null) {
                   if ((!!val.youtube && val.youtube.length > 0) || (!!val.file && !!val.file.mime && val.file.mime.includes('pdf'))) {
                         state.modalData = val

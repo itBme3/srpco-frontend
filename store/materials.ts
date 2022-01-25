@@ -12,14 +12,14 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setEntries (state:any, val:any) {
+  setEntries(state: any, val: any) {
     state.entries = val
     return state
   },
-  setCanLoadMore (state:any, val:any) {
+  setCanLoadMore(state: any, val: any) {
     state.canLoadMore = val
   },
-  setParams (state:any, params:any) {
+  setParams(state: any, params: any) {
     if (typeof params !== 'object' || !Object.keys(params).length) {
       return null
     }
@@ -28,30 +28,30 @@ export const mutations = {
     })
     // return await dispatch('materials/get').catch((err:any) => { throw new Error(err) })
   },
-  setSearch (state:any, val:string): any {
+  setSearch(state: any, val: string): any {
     if (state.search === val) {
       return null
     };
-    const whereParams = Object.keys(state?.where?._or?.length ? state.where._or[0] : state.where).filter(k => !k.includes('_contains'))
+    const filtersParams = Object.keys(state?.filters?.or?.length ? state.filters.or[0] : state.filters).filter(k => !k.includes('_contains'))
       .reduce((acc: any, key: string) => {
-        return { ...acc, [key]: state.where[key] }
+        return { ...acc, [key]: state.filters[key] }
       }, {})
     state.search = val
-    const where = !val?.length
-      ? whereParams
+    const filters = !val?.length
+      ? filtersParams
       : {
-          _or: ['title', 'content', 'description'].map((k) => {
-            return {
-              ...whereParams,
-              [`${k}_contains`]: val.trim()
-            }
-          })
-        }
-    state.where = where
+        or: ['title', 'content', 'description'].map((k) => {
+          return {
+            ...filtersParams,
+            [k]: { contains: val.trim() }
+          }
+        })
+      }
+    state.filters = filters
   }
 }
 
-function getQueryParamsFromState (state:any): {[key:string]: any} {
+function getQueryParamsFromState(state: any): { [key: string]: any } {
   return Object.keys(state).reduce((acc, key) => {
     return ['entries', 'canLoadMore'].includes(key)
       ? acc
@@ -60,16 +60,16 @@ function getQueryParamsFromState (state:any): {[key:string]: any} {
 }
 
 export const actions: any = {
-  async get ({ state, commit }:any) {
+  async get({ state, commit }: any) {
     const entries = await getCollection(CollectionType.MATERIALS, getQueryParamsFromState(state))
-      .then((res:any) => res.materials)
+      .then((res: any) => res.materials)
     commit('setEntries', entries)
     commit('setCanLoadMore', entries.length === state.limit)
     return entries
   },
-  async more ({ state, commit }:any) {
+  async more({ state, commit }: any) {
     const entries = await getCollection(CollectionType.MATERIALS, { ...getQueryParamsFromState(state), start: state.entries.length })
-      .then((res:any) => res.materials)
+      .then((res: any) => res.materials)
     const allEntries = [...state.entries, ...entries]
     commit('setEntries', allEntries)
     commit('setCanLoadMore', entries.length === state.limit)

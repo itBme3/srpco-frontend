@@ -2,7 +2,7 @@
 import { mediaFields } from '~/utils/graphql/fragments/fields'
 
 export const blockSettingsFields = {
-  DEFAULT: 'id __typename blockSettings { blockClasses }',
+  DEFAULT: 'id __typename',
   card: `
   cardSettings {
       style cardClasses mediaClasses titleClasses textClasses
@@ -10,7 +10,7 @@ export const blockSettingsFields = {
   collection: `
     collectionType
     collectionSettings {
-      sort limit searchBar
+      sort limit infiniteScroll updateUrl
     }
     cardSettings {
       cardClasses mediaClasses titleClasses textClasses style
@@ -19,97 +19,154 @@ export const blockSettingsFields = {
 }
 
 export const blockFields: { [key: string]: string } = {
-  ComponentBlocksBlockCard: `
+  ComponentBlockCard: `
       title text link openNewTab
       media {
         ${mediaFields()}
       }
+      blockSettings { blockClasses }
       ${blockSettingsFields.DEFAULT}
       ${blockSettingsFields.card}
   `,
-  ComponentBlocksBlockHero: `
-      title text youtube heroStyle
-      heroSettings { containerClasses mediaClasses titleClasses textClasses contentClasses buttonsClasses overlayClasses }
+  ComponentBlockHero: `
+      ${blockSettingsFields.DEFAULT}
+      title text youtube
+      heroSettings { containerClasses mediaClasses titleClasses textClasses contentClasses buttonsClasses overlayClasses style }
       buttons { id text link openNewTab buttonClasses }
       media { ${mediaFields()} }
-      ${blockSettingsFields.DEFAULT}
+      blockSettings { blockClasses }
   `,
-  ComponentBlocksBlockContent: `
+  ComponentBlockContent: `
+      ${blockSettingsFields.DEFAULT}
       title content titleClasses contentClasses
-      ${blockSettingsFields.DEFAULT}
+      blockSettings { blockClasses }
   `,
-  ComponentBlocksBlockSpacer: `
+  ComponentBlockSpacer: `
       ${blockSettingsFields.DEFAULT}
+      blockSettings { blockClasses }
   `,
-  ComponentBlocksBlockCollection: `
-      collectionType collectionSettings { sort limit }
+  ComponentBlockCollection: `
+      ${blockSettingsFields.DEFAULT}
+      collectionType collectionSettings { sort limit infiniteScroll updateUrl }
       ${blockSettingsFields.card}
-      ${blockSettingsFields.DEFAULT}
+      blockSettings { blockClasses }
   `,
-  ComponentBlocksBlockServices: `
+  ComponentBlockServices: `
       ${blockSettingsFields.DEFAULT}
+      blockSettings { blockClasses }
       title
       services {
-        title slug collectionType type youtube
-        media { ${mediaFields('default')} }
+        data {
+          id
+          attributes {
+            title slug collectionType type youtube
+            media { ${mediaFields('default')} }
+          }
+        }
       }
   `,
-  ComponentBlocksBlockResources: `
+  ComponentBlockResources: `
       ${blockSettingsFields.DEFAULT}
+      blockSettings { blockClasses }
       title
       resources {
+        data {
+          id
+          attributes {
         title slug resourceType collectionType type
         media { ${mediaFields('default')} }
+          }
+        }
       }
   `,
-  ComponentBlocksBlockMaterials: `
+  ComponentBlockMaterials: `
       ${blockSettingsFields.DEFAULT}
+      blockSettings { blockClasses }
       title
       materials {
+        data {
+          id
+          attributes {
         title slug collectionType type
         media { ${mediaFields('default')} }
+          }
+        }
       }
   `,
-  ComponentBlocksBlockApplications: `
+  ComponentBlockApplications: `
       ${blockSettingsFields.DEFAULT}
+      blockSettings { blockClasses }
       title
       applications {
-        title slug collectionType type
-        media { ${mediaFields('default')} }
+        data {
+            id
+            attributes {
+              title slug collectionType type
+              media { ${mediaFields('default')} }
+            }
+        }
       }
   `,
-  ComponentBlocksBlockDatasheets: `
+  ComponentBlockDatasheets: `
       ${blockSettingsFields.DEFAULT}
+      blockSettings { blockClasses }
       datasheets {
-        title slug collectionType type
-        file { ${mediaFields('default')} }
+        data {
+            id
+            attributes {
+              title slug collectionType type
+              file { ${mediaFields('default')} }
+            }
+        }
       }
   `,
-  ComponentBlocksBlockGaskets: `
+  ComponentBlockGaskets: `
       ${blockSettingsFields.DEFAULT}
+      blockSettings { blockClasses }
       gaskets {
-        title slug collectionType type
-        media { ${mediaFields('default')} }
+        data {
+          id
+          attributes {
+            title slug collectionType type
+            media { ${mediaFields('default')} }
+          }
+        }
       }
   `,
-  ComponentBlocksBlockGroup: `
+  ComponentBlockGroup: `
       ${blockSettingsFields.DEFAULT}
+      blockSettings { blockClasses }
       groupStyle
       title
       sections {
         id title
         content
         gaskets {
-          title slug collectionType type
-          media { ${mediaFields('default')} }
+          data {
+            id
+            attributes {
+              title slug collectionType type
+              media { ${mediaFields('default')} }
+            }
+          }
         }
         datasheets {
+          data {
+            id
+            attributes {
           title slug collectionType type
           file { ${mediaFields('default')} }
+            }
+          }
         }
         materials {
+          data {
+            id
+            attributes {
           title slug collectionType type
           media { ${mediaFields('default')} }
+            }
+          }
         }
       }
   `

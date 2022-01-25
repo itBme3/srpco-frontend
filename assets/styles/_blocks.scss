@@ -1,11 +1,14 @@
 .blocks {
-    @apply grid gap-3 grid-cols-12 sm:gap-4 py-4;
-    grid-auto-flow: dense;
-  }
-.entry-block {
-    @apply col-span-12 md:col-span-6;
-    &.page-content {
-      @apply col-span-12 mb-4;
-    }
+  @apply grid gap-3 grid-cols-12 sm:gap-4 py-4;
+  grid-auto-flow: dense;
 }
-  
+.entry-block {
+  @apply col-span-12;
+  &:not(.block-ComponentBlockCollection) {
+    @apply md:col-span-6;
+  }
+  &.page-content {
+    @apply col-span-12 mb-4;
+  }
+}
+// max-w-xl

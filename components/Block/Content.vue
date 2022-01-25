@@ -45,7 +45,7 @@ export default {
       let res = txt
       res = txt.split('src="').reduce((acc, text) => {
         return [
-          ...acc, `${text.indexOf('/uploads') === 0 ? process.env.apiUrl : ''}${text}`
+          ...acc, `${text?.indexOf('/uploads') === 0 ? process.env.apiUrl : ''}${text}`
         ]
       }, []).join('src="')
       // if (txt.includes('src="/uploads')) {

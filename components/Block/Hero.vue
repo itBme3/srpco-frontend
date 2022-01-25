@@ -70,8 +70,8 @@ export default {
             contentClasses: null,
             titleClasses: null,
             overlayClasses: null,
-          },
-          heroStyle: 'overlay'
+            style: 'overlay'
+          }
         }
       }
     }
@@ -92,7 +92,7 @@ export default {
         ? this.block.text
         : null,
       buttons: Array.isArray(this?.block?.buttons) ? this.block.buttons: [],
-      heroStyle: [undefined, null].includes(this?.block?.heroStyle) ? 'overlay' : camelToHandle(this.block.heroStyle),
+      heroStyle: [undefined, null].includes(this?.block?.heroSettings?.style) ? 'overlay' : camelToHandle(this.block.heroSettings.style),
       youtube: typeof this?.block?.youtube === 'string' && this.block.youtube.length > 0 ? this.block.youtube : null,
       mediaClasses: typeof this?.block?.heroSettings?.mediaClasses === 'string' ? this.block.heroSettings.mediaClasses : '',
       titleClasses: typeof this?.block?.heroSettings?.titleClasses === 'string' && this.block.heroSettings.titleClasses.length > 0 ? this.block.heroSettings.titleClasses : '',

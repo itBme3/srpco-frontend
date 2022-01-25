@@ -10,28 +10,34 @@ export const entryQuery = (data: { queryParams: { [key: string]: any }, entryTyp
   const entryType: string | null = !!data?.entryType?.length
     ? data.entryType
     : !!data.collectionType
-        ? data.collectionType[data.collectionType.length - 1] === 's'
-          ? data.collectionType.substr(0, data.collectionType.length - 1)
-          : data.collectionType
-        : null
-  const collectionType: string | null = !!data?.collectionType?.length
+      ? data.collectionType[data.collectionType.length - 1] === 's'
+        ? data.collectionType.substr(0, data.collectionType.length - 1)
+        : data.collectionType
+      : ''
+  const collectionType: string = !!data?.collectionType?.length
     ? data.collectionType
     : !!data.entryType
-        ? data.entryType[data.entryType.length - 1] !== 's'
-          ? `${data.entryType}s`
-          : data.entryType
-        : null
+      ? data.entryType[data.entryType.length - 1] !== 's'
+        ? `${data.entryType}s`
+        : data.entryType
+      : ''
   const queryType = !!data?.collectionType ? collectionType : entryType
   const fields = !!fieldFragments?.length
     ? fieldFragments
     : getEntryFields(entryType, !!!data.collectionType ? 'page' : 'collectionItem')
   const { props, variables } = queryVariables(collectionType
     ? { ...defaultCollectionVariables, ...queryParams }
-    : queryParams)
+    : queryParams, entryType)
+  console.log({ props, variables })
   const query = gql`
             query (${props}) {
                   ${queryType}(${Object.keys(variables).map(k => `${k} : $${k}`).join(', ')}) {
-                  ${fields}
+                    data {
+                      id
+                      attributes {
+                        ${fields}
+                      }
+                    }
                   }
             }
       `

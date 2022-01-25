@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="page !== null && page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0"
+    v-if="!!page && !!page.blocks && !!page.blocks.length"
     class="blocks"
   >
     <Block
@@ -12,21 +12,20 @@
 </template>
 
 <script lang="js">
-import { $graph } from '~/utils/graphql/init'
-import { homepageQuery } from '~/utils/graphql/queries/pages'
-import { globalQuery } from '~/utils/graphql/queries/global'
 import { getMetaTags } from '~/utils/seo'
+import { getGlobalInfo } from '~/utils/graphql/requests/global'
+import { getHomepage } from '~/utils/graphql/requests/pages'
+
 export default {
   scrollToTop: true,
   async asyncData () {
-    return {
-      page: await $graph.request(homepageQuery).then(res => res.homepage),
-      global: await $graph.request(globalQuery).then(res => res.global)
-    }
+    const page = await getHomepage()
+    const global = await getGlobalInfo()
+    return { page, global }
   },
   head () {
     const { defaultSeo, siteName } = typeof this.global === 'undefined' ? {} : this.global
-    let { seo } = this.page
+    let { seo } = !!this.page?.seo ? this.page : { seo: defaultSeo }
     if (seo === undefined || seo === null) {
       seo = {}
     }

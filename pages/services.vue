@@ -29,14 +29,14 @@ import { $graph } from '~/utils/graphql/init'
 import { getMetaTags } from '~/utils/seo'
 import { CollectionType } from '~/models/entry.model'
 import { getCollectionPage } from '~/utils/graphql/requests/collection'
-import { globalQuery } from '~/utils/graphql/queries/global'
+import { getGlobalInfo } from '~/utils/graphql/requests/global'
 /* eslint-disable no-extra-boolean-cast */
 export default {
   scrollToTop: true,
   async asyncData () {
     return {
-      page: await getCollectionPage(CollectionType.SERVICES).then(res => res.collectionService),
-      global: await $graph.request(globalQuery).then(res => res.global)
+      page: await getCollectionPage(CollectionType.SERVICES),
+      global: await getGlobalInfo()
     }
   },
   data () {
@@ -79,7 +79,7 @@ export default {
 <style lang="scss">
 .card-link {
   &.nuxt-link-exact-active {
-    @apply hidden
+    @apply hidden;
   }
 }
 </style>

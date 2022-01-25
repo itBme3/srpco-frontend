@@ -1,14 +1,5 @@
 <template>
-  <div class="single-entry gasket">
-    <Heading
-      v-if="![null, undefined].includes(page)"
-      heading-type="page"
-      :title="page.title"
-      :description="page.description"
-      :media="page.media"
-      media-ratio="4:3"
-      media-classes="rounded-mg shadow-2xl max-w-[380px]"
-    />
+  <div class="single-entry page">
     <div
       v-if="![null, undefined].includes(page) && Array.isArray(page.blocks) && page.blocks.length > 0"
       class="blocks grid-cols-12 before:box-inherit after:box-inherit"
@@ -28,30 +19,24 @@
         />
       </template>
     </div>
-    <EntrySideBar :blocks="['one block', 'two', 'three']" />
   </div>
 </template>
 
 <script>
 import { EntryType } from '~/models/entry.model'
 import { entryBySlug } from '~/utils/graphql/requests/single'
-
 export default {
   scrollToTop: true,
   async asyncData ({ params }) {
     const slug = params.slug
-    const page = slug !== undefined ? await entryBySlug(EntryType.GASKET, slug) : null
-    console.log({ page })
-    return {
-      slug: params.slug,
-      page
-    }
+    const page = slug !== undefined ? await entryBySlug(EntryType.PAGE, slug) : null
+    return { slug, page }
   },
   watch: {
     slug: {
       immediate: true,
       async handler (slug) {
-        this.page = slug !== undefined ? await entryBySlug(EntryType.GASKET, slug) : null
+        this.page = slug !== undefined ? await entryBySlug(EntryType.PAGE, slug) : null
         return this.page
       }
     }

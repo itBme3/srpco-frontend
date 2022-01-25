@@ -2,7 +2,7 @@ const apiUrl = typeof process.env.NGROK === 'string' && process.env.NGROK.length
   ? `https://${process.env.NGROK}.ngrok.io`
   : typeof process.env.API_URL === 'string' && process.env.API_URL.length > 0
     ? process.env.API_URL 
-    : 'http://localhost:1339';
+    : 'http://localhost:1337';
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -67,7 +67,7 @@ export default {
         /**
          * The client endpoint url
          */
-        endpoint: process.env.BACKEND_URL || 'http://localhost:1339/graphql',
+        endpoint: process.env.BACKEND_URL || 'http://localhost:1337/graphql',
         /**
          * Per-client options overrides
          * See: https://github.com/prisma-labs/graphql-request#passing-more-options-to-fetch
@@ -86,7 +86,7 @@ export default {
   env: {
     mapsApiKey: 'AIzaSyAKlNQvaXSHG-CQietQjo0RRtvVNJie30U',
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    // apiUrl: process.env.API_URL || 'http://localhost:1339'
+    // apiUrl: process.env.API_URL || 'http://localhost:1337'
     apiUrl
     // apiUrl: 'https://0602e58a0d03.ngrok.io'
 

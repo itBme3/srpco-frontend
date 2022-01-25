@@ -126,8 +126,8 @@ export default {
       const searchValue = this.searchValue.toLowerCase()
       this.recentSearches = storedSearches
       if (typeof this.searchValue === 'string' && this.searchValue !== '') {
-        this.recentSearches = this.recentSearches.filter(s => searchValue.indexOf(s.toLowerCase()) !== 0)
-        if (this.recentSearches.filter(s => s.toLowerCase().indexOf(searchValue) === 0).length === 0) {
+        this.recentSearches = this.recentSearches.filter(s => searchValue?.indexOf(s.toLowerCase()) !== 0)
+        if (this.recentSearches.filter(s => s.toLowerCase()?.indexOf(searchValue) === 0).length === 0) {
           this.recentSearches.push(this.searchValue)
         }
       }

@@ -10,14 +10,15 @@
         @clear="(e) => $emit('search', '')"
       />
     </template>
+
     <div
-      v-if="!!entries && entries.length > 0"
+      :v-if="!!entries && !!entries.length"
       class="collection-entries"
       :class="{[gridClasses]: gridClasses.length > 0}"
     >
       <template v-for="entry in entries">
         <Card
-          :key="entry.id"
+          :key="entry.type + '-' + entry.id"
           :card-style="(['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0) || collectionType === 'datasheets' ? 'mediaLeft' : cardStyle"
           :title="entry.title"
           :text="entry.type === 'datasheet' ? entry.id : ['material', 'application', 'gasket'].includes(entry.type) || !Array.isArray(entry.gaskets) || entry.gaskets.length === 0
@@ -99,8 +100,8 @@ export default {
       }
     },
     sort: {
-      type: String,
-      default: 'published_at:DESC'
+      type: Array,
+      default: ['publishedAt:DESC']
     },
     limit: {
       type: Number,
@@ -114,7 +115,7 @@ export default {
       type: Boolean,
       default: true
     },
-    updateFromUrl: {
+    updateUrl: {
       type: Boolean,
       default: true
     }
@@ -126,6 +127,7 @@ export default {
 
     return {
       entries: null,
+      nextEntries: null,
       searchValue: '',
       canLoadMore: false,
       cardClasses,
@@ -173,20 +175,24 @@ export default {
         }
       }
       this.queryParams = params
-      const nextEntries = await getCollection(this.collection, { ...params, start })
-        .then(res => res[collection])
-      this.canLoadMore = nextEntries.length === this.limit
+      this.nextEntries = await getCollection(this.collection, { ...this.queryParams, pagination: { limit: this.limit, start } } )
+        .then(res => {
+          console.log(res);
+          this.canLoadMore = res.length === this.limit
+          return res;
+        })
       if (start === 0 || !!!this.entries || !!!this.entries.length) {
-        this.entries = nextEntries
+        this.entries = this.nextEntries
       } else {
-        this.entries = [...this.entries, ...nextEntries]
+        this.entries = [...this.entries, ...this.nextEntries]
       }
       this.$emit('updateEntries', this.entries)
+      return this.entries;
     },
     getQueryParams () {
       const limit = this.limit && this.limit > 0 ? this.limit : 6
-      const sort = typeof this.sort === 'string' && this.sort.length > 0 ? this.sort : 'published_at:DESC'
-      return strapiFilterParams({ ...this.$route.query, limit, sort })
+      const sort = typeof this.sort === 'string' && this.sort.length > 0 ? this.sort : 'publishedAt:DESC'
+      return strapiFilterParams({ ...this.$route.query, pagination: {limit}, sort })
     },
     visibilityHandler (e) {
       if (e.percentInView > 0.9) {

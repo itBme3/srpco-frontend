@@ -8,7 +8,7 @@ export interface EntryBlock {
       __component: string;
       id?: number;
       title?: null | string;
-      settings?: Settings;
+      blockSettings?: Settings;
       gaskets?: EntryOnBlock[];
       materials?: EntryOnBlock[];
       datasheets?: EntryOnBlock[];
@@ -33,7 +33,7 @@ export interface EntryOnBlock {
       created_at: string;
       updated_at: string;
       file?: EntryMedia;
-      published_at?: string | null;
+      publishedAt?: string | null;
       resourceType?: ResourceType;
       youtube?: null;
       featured?: boolean | null;

@@ -1,6 +1,6 @@
 <template>
   <nuxt-link
-    v-if="typeof link === 'string' && link.indexOf('/') === 0 && openNewTab !== true"
+    v-if="typeof link === 'string' && !!link.indexOf && link.indexOf('/') === 0 && openNewTab !== true"
     :to="link"
   >
     <slot />

@@ -21,7 +21,7 @@
       :open-new-tab="openNewTab === true"
       @open-modal="(e) => openModal(e)"
     >
-    <template v-if="typeof media === 'string' && media.indexOf('gicon') > -1">
+    <template v-if="typeof media === 'string' && media.indexOf && media.indexOf('gicon') > -1">
       <Icon icon-name="datasheets" />
     </template>
     <Media

@@ -123,8 +123,7 @@ export default {
       @apply flex items-center justify-center;
       color: black !important;
       &:before {
-        @apply text-opacity-80 flex h-[50px] w-[50px] content-center items-center text-center m-auto;
-        color: black;
+        @apply text-opacity-80 text-gray-900 flex h-[50px] w-[50px] content-center items-center text-center m-auto;
         font-size: 1.5em;
         content: "\e919" !important;
         font-family: "SRP-Icons" !important;
@@ -136,6 +135,9 @@ export default {
         line-height: 1;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        height: auto;
+        margin: auto;
+        display: block;
       }
       img {
         display: none;

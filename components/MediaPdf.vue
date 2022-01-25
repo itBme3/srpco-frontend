@@ -18,8 +18,8 @@
   </client-only>
 </template>
 
-<script lang="js">
-import {getStrapiMedia} from '~/utils/medias'
+<script>
+import { getStrapiMedia } from '~/utils/medias'
 export default {
   props: {
     src: {
@@ -31,19 +31,18 @@ export default {
       default: false
     }
   },
-  data() {
+  data () {
     return {
-      mediaSrc: null, 
+      mediaSrc: null,
       embedSrc: null
     }
   },
-  created() {
-      this.mediaSrc = getStrapiMedia(this.src)
-      this.embedSrc = `https://docs.google.com/viewer?url=${this.mediaSrc}&embedded=true`
+  created () {
+    this.mediaSrc = getStrapiMedia(this.src)
+    this.embedSrc = `https://docs.google.com/viewer?url=${this.mediaSrc}&embedded=true`
+  },
+  errorCaptured () {
+    return false
   }
-  // async mounted(context) {
-  //   this.embedSrc = await this.getPdfPath(this.mediaSrc)
-  //   return this.embedSrc
-  // }
 }
 </script>

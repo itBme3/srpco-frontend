@@ -13,9 +13,7 @@
       @update="updateActive"
     />
     <div class="search-results flex flex-col w-full mx-auto">
-      <template
-        v-for="(collection, index) in searchCollections"
-      >
+      <template v-for="(collection, index) in searchCollections">
         <div
           v-if="([undefined, null].includes(emptyCollections) || !emptyCollections[collection]) && (activeCollections.includes(collection) || (activeCollections.length === 0 && index < 3))"
           ref="searchCollection"
@@ -31,7 +29,7 @@
           <BlockCollection
             :collection-type="collection"
             :limit="6"
-            :sort="['gaskets', 'suppliers', 'materials', 'applications'].includes(collection) ? 'order:ASC' : 'published_at:DESC'"
+            :sort="['gaskets', 'suppliers', 'materials', 'applications'].includes(collection) ? ['order:ASC'] : ['publishedAt:DESC']"
             card-style="mediaLeft"
             :ratio="['datasheets'].includes(collection) ? '9:10' : ['services'].includes(collection) ? '16:9' : '5:4'"
             :search-bar="false"
@@ -65,11 +63,11 @@ export default {
     }
   },
   methods: {
-    updateActive(val) {
-      console.log({searchCollection: this.$refs.searchCollection});
+    updateActive (val) {
+      console.log({ searchCollection: this.$refs.searchCollection });
       this.activeCollections = val
     },
-    updatingEntries(e, collection) {
+    updatingEntries (e, collection) {
       this.emptyCollections[collection] = e.length === 0
     }
   }
@@ -79,9 +77,9 @@ export default {
 
 <style lang="css">
 .search-results .collection {
-    @apply rounded my-4 p-1 border-4 border-t-0 border-r-0 border-l-0 border-dotted border-gray-800 pb-10;
+  @apply rounded my-4 p-1 border-4 border-t-0 border-r-0 border-l-0 border-dotted border-gray-800 pb-10;
 }
 .search-results .collection:nth-last-child(1) {
-    @apply border-b-0
+  @apply border-b-0;
 }
 </style>

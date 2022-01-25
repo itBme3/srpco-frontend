@@ -25,15 +25,15 @@ import { $graph } from '~/utils/graphql/init'
 import { getMetaTags } from '~/utils/seo'
 import { CollectionType } from '~/models/entry.model'
 import { getCollectionPage } from '~/utils/graphql/requests/collection'
+import { getGlobalInfo } from '~/utils/graphql/requests/global'
 import { globalQuery } from '~/utils/graphql/queries/global'
 /* eslint-disable no-extra-boolean-cast */
 export default {
   scrollToTop: true,
   async asyncData () {
-    return {
-      page: await getCollectionPage(CollectionType.APPLICATIONS).then(res => res.collectionApplication),
-      global: await $graph.request(globalQuery).then(res => res.global)
-    }
+    const page = await getCollectionPage(CollectionType.APPLICATIONS)
+    const global = await getGlobalInfo()
+    return { page, global }
   },
   head () {
     const { defaultSeo, siteName } = typeof this.global === 'undefined' || this.global === null ? {} : this.global

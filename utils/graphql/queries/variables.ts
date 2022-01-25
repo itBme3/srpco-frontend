@@ -1,10 +1,11 @@
+import { capitalize } from "~/utils/funcs"
+
 /* eslint-disable no-extra-boolean-cast */
-export const queryVariables = (variableValues: { [key:string]: any }): { props: string; variables: { [key: string]: any } } => {
-  const propTypes: { [key:string]: string } = {
-    where: 'JSON',
-    limit: 'Int',
-    sort: 'String',
-    start: 'Int',
+export const queryVariables = (variableValues: { [key: string]: any }, collectionType: string): { props: string; variables: { [key: string]: any } } => {
+  const propTypes: { [key: string]: string } = {
+    filters: `${capitalize(collectionType)}FiltersInput`,
+    pagination: 'PaginationArg',
+    sort: '[String]',
     publicationState: 'PublicationState'
   }
   const variableKeys = Object.keys(variableValues).filter(key => !!propTypes[key] && typeof variableValues !== 'undefined')
