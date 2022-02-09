@@ -34,7 +34,7 @@
         class="card-media"
       />
       <div
-        v-if="(title && title.length > 0) || (text && text.length > 0)"
+        v-if="(title && title.length > 0) || (description && description.length > 0)"
         class="card-content"
       >
         <gTag
@@ -65,7 +65,7 @@
       :class="{
         'expanded-info': cardStyle !== 'standard',
         'opacity-0 max-h-[0px]': !expanded,
-        'opacity-100 max-h-full bg-white p-4 rounded-lg shadow-xl m-2': expanded
+        'opacity-100 max-h-full py-2 rounded-lg m-2': expanded
       }"
     >
       <nuxt-link :to="'/suppliers/' + slug">
@@ -92,7 +92,9 @@
           >Learn More</button>
         </nuxt-link>
         <nuxt-link :to="'/suppliers/' + slug + '#gaskets'">
-          <button class="rounded transform scale-100 hover:scale-105 shadow-sm hover:shadow-lg bg-gray-200 hover:bg-gray-100 text-gray-700">Gaskets</button>
+          <button class="rounded transform scale-100 hover:scale-105 shadow-sm hover:shadow-lg bg-gray-100 hover:bg-white text-gray-700">
+            Gaskets
+          </button>
         </nuxt-link>
       </div>
     </div>
@@ -167,7 +169,6 @@ export default {
   },
   methods: {
     cardClicked (e) {
-      console.log({ e });
       if (this.cardStyle === 'standard') {
         return this.$router.push({
           path: `/suppliers/${this.slug}`
@@ -209,7 +210,11 @@ export default {
     }
   }
   &.expanded {
+    @apply text-gray-900;
     @apply rounded-lg #{!important};
+    .description {
+      padding: 0 0.5rem 0.25em;
+    }
   }
 }
 </style>
