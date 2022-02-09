@@ -35,9 +35,18 @@ export default {
 
 <style lang="scss">
 .wysiwyg {
-  @apply text-gray-500;
-  * {
-    color: inherit;
+  h1,
+  h2,
+  h3 {
+    @apply mb-4;
+  }
+  h4,
+  h5,
+  h6 {
+    @apply mb-3;
+  }
+  &.block-content {
+    @apply leading-relaxed;
   }
 }
 </style>

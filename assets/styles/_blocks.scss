@@ -1,5 +1,62 @@
 :root {
   --grid-gap: 0.75em;
+  --block-content-color: rgba(253, 230, 130, var(--tw-text-opacity)) !important;
+}
+.blocks {
+  @apply grid;
+}
+.entry-block {
+  @apply col-span-12;
+  --block-content-color: rgba(253, 230, 130, var(--tw-text-opacity)) !important;
+  .block-title {
+    text-transform: capitalize;
+    border-color: rgba(0, 0, 0, var(--tw-text-opacity)) !important;
+    padding-bottom: 0.75em;
+    margin-bottom: 0.5em;
+    color: var(--block-content-color) !important;
+    border-bottom: 0.075em solid rgba(0, 0, 0, 0.5) !important;
+  }
+  .block-content {
+    li::marker {
+      color: var(--block-content-color);
+    }
+  }
+}
+.blocks {
+  .entry-block:nth-child(7n + 1) {
+    --block-content-color: rgba(192, 132, 252, var(--tw-text-opacity)) !important;
+  }
+  .entry-block:nth-child(7n + 1) {
+    --block-content-color: rgba(192, 132, 252, var(--tw-text-opacity)) !important;
+  }
+  .entry-block:nth-child(7n + 2) {
+    --block-content-color: rgba(239, 95, 101, var(--tw-text-opacity)) !important;
+  }
+  .entry-block:nth-child(7n + 3) {
+    --block-content-color: rgba(250, 143, 117, var(--tw-text-opacity)) !important;
+  }
+  .entry-block:nth-child(7n + 4) {
+    --block-content-color: rgba(253, 230, 130, var(--tw-text-opacity)) !important;
+  }
+
+  .entry-block:nth-child(7n + 5) {
+    --block-content-color: rgba(0, 230, 130, var(--tw-text-opacity)) !important;
+  }
+  .entry-block:nth-child(7n + 6) {
+    --block-content-color: rgba(99, 228, 239, var(--tw-text-opacity)) !important;
+  }
+  .entry-block:nth-child(7n + 7) {
+    --block-content-color: rgba(96, 165, 250, var(--tw-text-opacity)) !important;
+  }
+}
+.page-content {
+  // margin-top: -1em !important;
+  padding: 2em 1em !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  // .wysiwyg.block-content {
+  // color: rgba(229, 231, 235, var(--tw-text-opacity)) !important;
+  // }
 }
 
 .single-entry {
@@ -25,7 +82,7 @@
       }
     }
     .blocks {
-      @apply grid gap-3 grid-cols-12 sm:gap-4 p-0 m-0;
+      @apply grid gap-3 grid-cols-12 sm:gap-4 p-0 m-0 overflow-y-visible;
       column-gap: var(--grid-gap);
       row-gap: var(--grid-gap);
       &:not(.hide-sidebar) {
@@ -34,9 +91,9 @@
         }
       }
       .entry-block {
-        @apply bg-opacity-50 bg-gray-800 col-span-12;
+        @apply bg-opacity-50 bg-gray-800 col-span-12 h-auto;
         &:not(.block-ComponentBlockCollection) {
-          @apply md:col-span-6;
+          @apply lg:col-span-6;
         }
         &.page-content {
           @apply bg-opacity-90 m-0 col-span-12;
