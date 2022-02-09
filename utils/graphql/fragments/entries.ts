@@ -1,39 +1,38 @@
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { gql } from 'graphql-request'
-import { capitalize } from '../../funcs'
 import { mediaFields, seoFields } from './fields'
 import { EntryType } from '~/models/entry.model'
-import { blockFields } from '~/utils/graphql/fragments/blocks'
+import { blockFields, defaultBlockFields } from '~/utils/graphql/fragments/blocks'
 
 export const getEntryFields = (entryType: EntryType | null | string, fragmentType: string = 'default', mediaField: string = 'media', addedKeys: string[] = []) => {
   const mediaKey = mediaField === 'media' && entryType === EntryType.DATASHEET ? 'file' : mediaField
   if (entryType === null) {
     return null
   }
-  const fields = ['title', 'description', 'slug', 'type', ...(Array.isArray(addedKeys) ? addedKeys : '')].filter(k => !!k?.length)
+  const fields = ['title', 'description', 'slug', 'type', ...(Array.isArray(addedKeys) ? addedKeys : '')]
+    .filter(k => !!k?.length).join(' ');
   const defaults = {
     default: `
-        ${fields.join(' ')}
-        ${mediaKey} { ${mediaFields()} }
+        ${fields}
+        ${mediaKey} { ${mediaFields.default} }
       `,
     collectionItem: `
-        ${fields.join(' ')}
-          ${[EntryType.MATERIAL, EntryType.APPLICATION].map(s => `${s}`).includes(entryType)
+        ${fields} ${[EntryType.MATERIAL, EntryType.APPLICATION].map(s => `${s}`).includes(entryType)
         ? 'gaskets (pagination: {limit: 3}, sort: ["order:ASC"]) { data { id attributes { slug title type collectionType }} }'
         : ''
       }
         ${mediaKey} {
-          ${mediaFields(entryType === EntryType.DATASHEET ? 'tiny' : 'default')}
+          ${mediaFields[entryType === EntryType.DATASHEET ? 'tiny' : 'default']}
         }
       `,
     page: `
-        ${fields.join(' ')} collectionType
+        ${fields} collectionType
         tags { data { id attributes { title slug } } }
         pageSettings { classes }
         seo { ${seoFields} }
         ${mediaKey} {
-          ${mediaFields()}
+          ${mediaFields.default}
         }
       `
   }
@@ -42,19 +41,42 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
     gasket: {
       page: gql`
         ${defaults.page}
+          content suppliers {
+            data {
+              id attributes {
+                title slug media { ${mediaFields.default} } 
+                description color
+              }
+            }
+          }
+          blocks {
+            ... on ComponentBlockHero { ${blockFields.ComponentBlockHero} }
+            ... on ComponentBlockDatasheets { ${blockFields.ComponentBlockDatasheets} }
+            ... on ComponentBlockGaskets { ${blockFields.ComponentBlockGaskets} }
+            ... on ComponentBlockResources { ${blockFields.ComponentBlockResources} }
+            ${defaultBlockFields}
+          }`
+    },
+    application: {
+      page: gql`
+        ${defaults.page}
         content
         blocks {
-          ... on ComponentBlockContent { ${blockFields.ComponentBlockContent} }
-          ... on ComponentBlockCard { ${blockFields.ComponentBlockCard} }
-          ... on ComponentBlockSpacer { ${blockFields.ComponentBlockSpacer} }
-          ... on ComponentBlockResources { ${blockFields.ComponentBlockResources} }
-          ... on ComponentBlockDatasheets { ${blockFields.ComponentBlockDatasheets} }
-          ... on ComponentBlockGroup { ${blockFields.ComponentBlockGroup} }
+          ... on ComponentBlockHero { ${blockFields.ComponentBlockHero} }
+          ${defaultBlockFields}
         }
       `
     },
-    application: {},
-    material: {},
+    material: {
+      page: gql`
+        ${defaults.page}
+        content
+        blocks {
+          ... on ComponentBlockHero { ${blockFields.ComponentBlockHero} }
+          ${defaultBlockFields}
+        }
+      `
+    },
     supplier: {
       default: `
         ${defaults.default}
@@ -65,8 +87,13 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
         color totalConverters
       `,
       page: `
+        content
         ${defaults.page}
         color totalConverters
+        blocks {
+          ... on ComponentBlockHero { ${blockFields.ComponentBlockHero} }
+          ${defaultBlockFields}
+        }
       `,
     },
     resource: {},
@@ -86,21 +113,28 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
       `,
       collectionItem: gql`
         title slug
-        ${mediaKey} { ${mediaFields('tiny')} }
+        ${mediaKey} { ${mediaFields.tiny} }
       `
     },
-    solution: {},
+    solution: {
+      page: gql`
+          ${defaults.page}
+          ... on ComponentSolutionsChallenge { ${blockFields.ComponentSolutionsChallenge} }
+          ... on ComponentSolutionsSolution { ${blockFields.ComponentSolutionsSolution} }
+          ... on ComponentSolutionsResults { ${blockFields.ComponentSolutionsResults} }
+          ... on ComponentSolutionsUsed{ ${blockFields.ComponentSolutionsUsed} }
+      `
+    },
     page: {
       page: gql`
         ${defaults.page}
         content
         blocks {
-          ... on ComponentBlockContent { ${blockFields.ComponentBlockContent} }
-          ... on ComponentBlockCard { ${blockFields.ComponentBlockCard} }
-          ... on ComponentBlockSpacer { ${blockFields.ComponentBlockSpacer} }
-          ... on ComponentBlockResources { ${blockFields.ComponentBlockResources} }
+          ... on ComponentBlockCollection { ${blockFields.ComponentBlockCollection} }
+          ... on ComponentBlockHero { ${blockFields.ComponentBlockHero} }
           ... on ComponentBlockDatasheets { ${blockFields.ComponentBlockDatasheets} }
-          ... on ComponentBlockGroup { ${blockFields.ComponentBlockGroup} }
+          ... on ComponentBlockResources { ${blockFields.ComponentBlockResources} }
+          ${defaultBlockFields}
         }
       `
     }
@@ -121,8 +155,6 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
     return gql`${fragmentFields[keys[0]][keys[1]]}`
   }
   return gql`
-    ... on ${capitalize(entryType)} {
-        ${fragmentFields[keys[0]][keys[1]]}
-    }
+    ${fragmentFields[keys[0]][keys[1]]}
   `
 }

@@ -1,9 +1,9 @@
 <template>
   <div
-    class="site-container w-screen flex flex-col"
+    class="site-container w-screen block"
     :class="{ 'is-mobile': isMobile }"
   >
-    <div class="header-and-nav side fixed sm:h-screen flex flex-row sm:flex-col w-screen sm:w-[90px] bg-gray-900 sm:bg-transparent px-1 py-2 z-[1004]">
+    <div class="header-and-nav side fixed sm:h-screen flex flex-row top-0 sm:flex-col w-screen sm:w-[90px] bg-gray-900 sm:bg-transparent px-1 py-2 z-[1004]">
       <a
         href="/"
         class="my-auto sm:mt-0"
@@ -13,8 +13,11 @@
       <SiteNav class="navigation ml-auto sm:ml-0 order-last" />
       <SiteHeader />
     </div>
-    <div class="site-wrapper overflow-x-hidden w-screen sm:w-[calc(100vw-90px)] sm:ml-[90px] mt-12 sm:mt-0">
-      <main>
+    <div class="site-wrapper overflow-visible mt-12 sm:mt-0 sm:w-[calc(100vw-90px)] sm:ml-[90px]">
+      <main
+        class="w-screen transform sm:translate-x-[45px] sm:w-[calc(100vw-90px)] mx-auto"
+        style="display: block;"
+      >
         <Nuxt :key="$route.fullPath" />
       </main>
     </div>
@@ -50,3 +53,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.site-container {
+  display: block;
+  height: auto;
+}
+.site-wrapper {
+  overflow-y: visible;
+  display: contents;
+}
+</style>

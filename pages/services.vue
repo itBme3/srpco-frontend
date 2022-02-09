@@ -35,8 +35,8 @@ export default {
   scrollToTop: true,
   async asyncData () {
     return {
-      page: await getCollectionPage(CollectionType.SERVICES),
-      global: await getGlobalInfo()
+      page: await getCollectionPage(CollectionType.SERVICES).catch(console.error),
+      global: await getGlobalInfo().catch(console.error)
     }
   },
   data () {

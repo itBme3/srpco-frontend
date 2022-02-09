@@ -11,8 +11,9 @@
         [pageClasses.heading]: !!pageClasses && !!pageClasses.heading && !!pageClasses.heading.length
       }"
     />
+
     <MediaYoutube
-      v-if="page !== null && typeof page.youtube === 'string' && page.youtube !== null"
+      v-if="![null, undefined].includes(page) && typeof page.youtube === 'string' && page.youtube !== null"
       :src="page.youtube"
       :autoplay="true"
       :loop="true"
@@ -27,39 +28,52 @@
 </template>
 
 <script>
-import { EntryType } from '~/models/entry.model'
-import { entryBySlug } from '~/utils/graphql/requests/single'
 import { getPageClasses } from '~/utils/get-classes'
+import { getSingleEntry } from '~/utils/graphql/requests/single'
+import { getGlobalInfo } from '~/utils/graphql/requests/global'
+import { getMetaTags } from '~/utils/seo'
 
 export default {
   scrollToTop: true,
-  asyncData ({ params }) {
-    return {
-      slug: params.slug,
-      page: null
-    }
-  },
-  watch: {
-    slug: {
-      immediate: true,
-      async handler (slug) {
-        this.page = slug !== undefined ? await entryBySlug(EntryType.SERVICE, slug) : null
-      }
-    }
+  async asyncData ({ route, params, redirect }) {
+    const slug = params.slug
+    const page = await getSingleEntry(route.path, redirect)
+    const global = await getGlobalInfo()
+    return { slug, page, redirect, global }
   },
   computed: {
     pageClasses () {
       return getPageClasses(this.page)
     }
   },
-  // data () {
-  //   return {
-  //     youtubeSrc: this?.page?.youtube ? this.page.youtube : null,
-  //     title: this?.page?.title ? this.page.title : null,
-  //     description: this?.page?.description ? this.page.description : null,
-  //     content: this?.page?.content ? this.page.content : null,
-  //     loading: false
-  //   }
-  // }
+  watch: {
+    slug: {
+      immediate: false,
+      async handler () {
+        this.page = await getSingleEntry(this.$route.path, this.redirect)
+        return this.page;
+      }
+    }
+  },
+  head () {
+    const { defaultSeo = {}, siteName = 'SRPCO' } = typeof this.global === 'undefined' || ![null, undefined].includes(this.global) ? {} : this.global
+    const { seo = {} } = !!this.page && !!this.page.seo ? this.page : {}
+    const fullSeo = {
+      ...defaultSeo,
+      ...Object.keys(seo).reduce((acc, key) => {
+        if (seo[key] === null || typeof seo[key] === 'undefined') {
+          return acc
+        }
+        return { ...acc, [key]: seo[key] }
+      }, {})
+    }
+    const meta = getMetaTags(fullSeo)
+    return {
+      titleTemplate: `%s | ${siteName}`,
+      title: fullSeo.title,
+      meta
+    }
+  }
 }
 </script>
+

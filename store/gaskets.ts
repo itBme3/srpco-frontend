@@ -64,7 +64,6 @@ export const actions: any = {
   async get({ state, commit }: any) {
     const entries = await getCollection(CollectionType.GASKETS, getQueryParamsFromState(state))
       .then((res: any) => parseResponse(res.gaskets))
-    console.log(entries);
     commit('setEntries', entries)
     commit('setCanLoadMore', entries.length === state.limit)
     return entries

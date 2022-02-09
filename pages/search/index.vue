@@ -34,6 +34,7 @@
             :ratio="['datasheets'].includes(collection) ? '9:10' : ['services'].includes(collection) ? '16:9' : '5:4'"
             :search-bar="false"
             :infinite-scroll="false"
+            :update-url="true"
             :classes="{
               grid: 'w-full grid grid-cols-12 gap-4',
               card: 'col-span-12 sm:col-span-6 p-4',
@@ -64,7 +65,6 @@ export default {
   },
   methods: {
     updateActive (val) {
-      console.log({ searchCollection: this.$refs.searchCollection });
       this.activeCollections = val
     },
     updatingEntries (e, collection) {

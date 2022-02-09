@@ -1,9 +1,7 @@
 import { isJsonObject } from '../funcs';
 
 export const parseResponse = (obj: any): any => {
-      if (!isJsonObject(obj)) {
-            return obj
-      }
+      if (!isJsonObject(obj)) { return obj }
       const keys = Object.keys(obj);
       if (!!!keys?.length) {
             return obj;

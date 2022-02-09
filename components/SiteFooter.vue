@@ -79,7 +79,7 @@ export default {
 
 <style lang="scss">
 footer {
-  @apply grid grid-cols-12 mt-32 gap-6 bg-gray-800 p-4 relative z-[100];
+  @apply grid grid-cols-12 mt-32 gap-6 bg-gray-800 p-4 relative z-[1100];
   .entry-block {
     @apply col-span-full xs:col-span-6 sm:col-span-4 md:col-span-3;
   }

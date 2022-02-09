@@ -1,21 +1,19 @@
-export const mediaFields = (fragmentType: 'default' | 'full' | 'tiny' = 'default'): string => {
-  const fields = {
-    tiny: 'name url alternativeText mime caption',
-    default: 'name url alternativeText mime formats caption',
-    full: 'name url alternativeText mime formats size height width caption'
-  }
-  const resFields = Object.keys(fields).includes(fragmentType) ? fields[fragmentType] : fields.default
-  return `data { attributes { ${resFields} } }`
+
+export const mediaFields: { default: string, full: string, tiny: string } = {
+  tiny: `data { attributes { name url alternativeText mime caption }}`,
+  default: `data { attributes { name url alternativeText mime formats caption }}`,
+  full: `data { attributes { name url alternativeText mime formats size height width caption }}`,
 }
 
 export const seoFields = `title
-        description
-        image {
-          data {
-            id
-            attributes {
-              url
-              formats
-            }
-          }
-        }`
+    description
+    image {
+      data {
+        id
+        attributes {
+          url
+          formats
+        }
+      }
+    }
+  `

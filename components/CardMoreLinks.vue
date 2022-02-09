@@ -11,6 +11,7 @@
       <div class="link-tags flex flex-wrap">
         <template v-for="link in links">
           <Tag
+            v-if="![null, undefined].includes(link)"
             :key="link.slug"
             class="mb-1 mr-1"
             :link="'/' + link.type + 's/' + link.slug"

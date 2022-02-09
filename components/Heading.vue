@@ -18,7 +18,7 @@
         class="heading-breadcrumbs"
       />
       <Media
-        :v-if="![null, undefined].includes(media) && media.url"
+        v-if="![null, undefined].includes(media) && typeof media.url === 'string'"
         :media="media"
         class="order-0"
         :class="{ 'heading-media': true, [mediaClasses]: mediaClasses.length > 0 }"
@@ -98,10 +98,10 @@ export default {
     @apply bg-gray-900 sm:bg-transparent px-2 my-0 h-full flex w-full sm:order-first order-last flex-col content-start relative z-1 max-w-prose;
   }
   &-title {
-    @apply text-gray-600 mb-2 text-opacity-50;
+    @apply text-gray-600 mb-2 text-opacity-50 font-black;
   }
   &-description {
-    @apply text-base font-normal tracking-wide text-gray-500;
+    @apply text-base font-normal tracking-wide text-gray-500 leading-snug mt-4 font-medium;
   }
   &-media {
     @apply rounded-md sm:rounded-sm absolute sm:relative z-0 opacity-30 sm:opacity-100 sm:mx-2 shadow-2xl w-full sm:w-5/12 mx-0 sm:ml-auto;
@@ -127,7 +127,9 @@ export default {
     .heading-breadcrumbs {
       @apply whitespace-nowrap ml-0 mr-0 mb-3 mt-0 order-first flex-shrink;
     }
-    &.gasket, &.materials, &.applications {
+    &.gasket,
+    &.materials,
+    &.applications {
       .heading-text-content {
         @media screen and (max-width: 639px) {
           box-shadow: 0 -20px 36px 30px rgba(17, 24, 39, 1) !important;
@@ -135,6 +137,5 @@ export default {
       }
     }
   }
-
 }
 </style>

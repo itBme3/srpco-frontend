@@ -1,6 +1,6 @@
 <template>
-    <div
-      class="video-embed w-full"
+  <div
+    class="video-embed w-full"
     :style="{ height: videoHeight }"
   >
     <client-only>
@@ -59,8 +59,8 @@ export default {
     }
   },
   data () {
-    return { 
-      videoId: null, 
+    return {
+      videoId: null,
       videoHeight: 'auto',
       playVars: {},
       origin: process.env.baseUrl
@@ -84,7 +84,7 @@ export default {
         : null
   },
   computed: {
-    
+
   },
   beforeMount () {
     const origin = window !== undefined ? window.location.origin : process.env.baseUrl
@@ -101,7 +101,7 @@ export default {
         const elWidth = typeof this.$el !== 'undefined' && this.$el.offsetWidth > 0 ? this.$el.offsetWidth : null
         if (elWidth > 0) {
           const ratio = this.ratio && this.ratio?.indexOf(':') > -1 ? this.ratio.split(':') : '16:9'.split(':')
-          this.videoHeight = `${Math.floor(elWidth / ratio[0] * ratio[1])}px`
+          this.videoHeight = '' + Math.floor(elWidth / ratio[0] * ratio[1]) + 'px'
         }
       }, 100)
     }

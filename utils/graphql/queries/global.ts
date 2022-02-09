@@ -37,7 +37,7 @@ export const footerQuery = gql`
                                           content
                                           images {
                                                 id link openNewTab imageClasses
-                                                image { ${mediaFields('default')} }
+                                                image { ${mediaFields.default} }
                                           }
                                     }
                               }

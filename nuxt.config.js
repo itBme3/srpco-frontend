@@ -22,7 +22,7 @@ export default {
       { rel: 'stylesheet', href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?sjun1e' }
     ]
   },
-
+  ssr: true,
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/styles/style.scss'

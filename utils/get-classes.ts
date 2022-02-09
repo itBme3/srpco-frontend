@@ -1,4 +1,5 @@
 export const getPageClasses = (data: any) => {
+      console.log({ data })
       const { classes = { heading: '', title: '', text: '', container: '', content: '' } } = !!data?.pageSettings?.classes ? data.pageSettings : {}
       const { heading = '', title = '', text = '', container = '', content = '' } = classes;
       return { heading, title, text, container, content }
@@ -11,7 +12,6 @@ export const getBlockClasses = (data: any) => {
 }
 
 export const getCardClasses = (data: any) => {
-      console.log({ data })
       const { classes = { card: '', title: '', text: '', content: '', media: '' } } = !!data?.cardSettings?.classes ? data.cardSettings : {}
       const { card = '', title = '', text = '', content = '', media = '' } = classes;
       return { card, title, text, media, content }

@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'block relative w-full p-0 rounded focus-within:shadow-lg': true, [classes.wrapper.join(' ')]: !!classes.wrapper && Array.isArray(classes.wrapper) }">
+  <div :class="{ 'search-bar block relative w-full p-0 rounded focus-within:shadow-lg': true, [classes.wrapper.join(' ')]: !!classes.wrapper && Array.isArray(classes.wrapper) }">
     <!-- <client-only> -->
     <gInput
       ref="searchInput"
@@ -23,7 +23,7 @@
       @click="inputButtonClicked"
     >
       <Icon
-        :icon-name="searchValue.length > 0 ? 'close' : 'search'"
+        :icon-name="!!searchValue && searchValue.length > 0 ? 'close' : 'search'"
         class="m-auto"
       />
     </gButton>
@@ -85,13 +85,13 @@ export default {
         if (this.searchValue === val) {
           return
         }
-        this.searchValue = val
+        this.updateSearchValue(val)
       }
     }
   },
   methods: {
     updateSearchValue (val) {
-      this.searchValue = val
+      this.searchValue = val 
       this.$emit('search', val)
     },
     focusInput () {
@@ -100,7 +100,7 @@ export default {
       }
     },
     inputButtonClicked () {
-      if (this.searchValue.length > 0) {
+      if (!!this.searchValue?.length) {
         this.$emit('clear', '')
         this.searchValue = ''
       }
