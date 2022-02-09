@@ -302,13 +302,13 @@ export const TailwindComponentsSettings = {
   gButton: {
     component: TButton,
     props: {
-      fixedClasses: 'button flex px-4 py-2 rounded transition duration-100 ease-in-out focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed tracking-wide',
-      classes: 'rounded shadow-xl justify-center items-center hover:shadow-sm transform transition-all ease-quick-in duration-200 hover:scale-95 scale-100 tracking-wider',
+      fixedClasses: 'button transition focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
+      classes: '',
       variants: {
-        secondary: 'bg-gray-100 hover:bg-opacity-10 active:bg-opacity-10 focus:bg-opacity-10 text-gray-700 hover:text-800 font-semibold',
-        light: 'bg-gray-100 text-gray-700 hover:text-800 hover:shadow-lg hover:bg-opacity-100 hover:bg-white active:bg-white focus:bg-white font-semibold',
-        bordered: 'text-gray-800 bg-transparent border-gray-800 border hover:bg-gray-700 shadow-sm hover:bg-gray-800',
-        link: 'button-link border border-t-0 border-l-0 border-r-0 px-0 text-in rounded-none inline-block text-left'
+        secondary: 'button--secondary',
+        light: 'button--light',
+        bordered: 'button--bordered',
+        link: 'button--link border',
       }
     }
   },

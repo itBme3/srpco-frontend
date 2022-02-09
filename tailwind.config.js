@@ -122,15 +122,19 @@ const minHeight = {
   '80': '20rem',
   '96': '24rem'
 }
-
+const sizingSpacingValues = Object.keys(minHeight)
+const spacings = ['p', 'm'].map(k => `${k},${k}x,${k}y,${k}l,${k}r,${k}b`).join(',').split(',')
+const widthHeight = [ 'w', 'max-w', 'min-w', 'w', 'max-w', 'min-w']
+const widthHeightSizes = ['0','none','xs','sm','md','lg','xl','2xl','3xl','4xl','5xl','6xl','7xl','full','min','max','fit','prose','screen-sm','screen-md','screen-lg','screen-xl','screen-2xl']
 const breakpoints = ['', 'xs', 'sm', 'md', 'lg', 'xl']
-const gridCols = ['2', '3', '4', '5', '6', '8', '10', '12']
+const gridCols = ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+const opacities = ['0','5','10','20','25','30','40','50','60','70','75','80','90','95','100']
 module.exports = {
   prefix: '',
   important: true,
   mode: 'jit',
   purge: {
-    enabled: enablePurge,
+    enabled: true,
     content: [
       'components/**/*.{vue,js,ts}',
       'layouts/**/*.vue',
@@ -143,10 +147,21 @@ module.exports = {
     safelist: [
       ...Object.keys(COLORS).map(k => `bg-${k}`),
       ...Object.keys(COLORS).map(k => `text-${k}`),
+      ...widthHeight.reduce((acc, k) => {
+        return breakpoints.reduce((acc1, breakpoint) => 
+          [...acc1, ...widthHeightSizes.map(size => `${breakpoint}${!!breakpoint.length ? ':' : '' }${k}-${size}`)]
+        , acc)
+      }, []),
       ...gridCols.reduce((acc, val) => {
         return [...acc, ...breakpoints.reduce((_acc, breakpoint) => {
-          return [..._acc, `${breakpoint}${breakpoint.length > 0 ? ':' : ''}${val}`]
+          return [..._acc, `${breakpoint}${breakpoint.length > 0 ? ':col-span-' : 'col-span-'}${val}`]
         }, acc)]
+      }, []),
+      ...opacities.reduce((acc, val) => {
+        return [...acc, `opacity-${val}`, ...['bg', 'text', 'border'].map(t => `${t}-opacity-${val}`)]
+      }, []),
+      ...spacings.reduce((acc, k) => {
+        return [...acc, ...sizingSpacingValues.map(v => `${k}-${v}`)]
       }, []),
       'bg-srp-red',
       'text-srp-red',
@@ -157,7 +172,6 @@ module.exports = {
       'scale-95',
       'scale-98',
       'ramp-in',
-      'opacity-0',
       'sm:col-span-4', 'md:col-span-4', 'lg:col-span-4',
       'text-left', 'text-right', 'text-center', 'text-base', 'text-sm', 'text-xs', 'text-tiny', 'text-base', 'text-lg', 'text-xl', 'text-2xl', 'text-3xl', 'text-4xl', 'text-5xl', 'text-6xl',
       'sm:text-left', 'sm:text-right', 'sm:text-center', 'sm:text-base', 'sm:text-sm', 'sm:text-xs', 'sm:text-tiny', 'sm:text-base', 'sm:text-lg', 'sm:text-xl', 'sm:text-2xl', 'sm:text-3xl', 'sm:text-4xl', 'sm:text-5xl', 'sm:text-6xl',
@@ -170,18 +184,18 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     fontSize: {
-      xs: '.75rem',
-      tiny: '.875rem',
-      sm: '1rem',
-      base: '1.125rem',
-      lg: '1.25rem',
-      xl: '1.33rem',
+      'xs': '.75rem',
+      'sm': '.875rem',
+      'tiny': '.875rem',
+      'base': '1rem',
+      'lg': '1.125rem',
+      'xl': '1.25rem',
       '2xl': '1.5rem',
       '3xl': '1.875rem',
       '4xl': '2.25rem',
       '5xl': '3rem',
       '6xl': '4rem',
-      '7xl': '5rem'
+      '7xl': '5rem',
     },
     zIndex: (() => {
       const obj = { 1: '1', 0: '0', 999: '999', 9999: '9999', 99999: '99999', 999999: '999999' }
@@ -190,8 +204,8 @@ module.exports = {
     })(),
     extend: {
       fontFamily: {
-        sans: ['mr-eaves-xl-sans', 'sans-serif'],
-        condensed: ['mr-eaves-xl-sans-condensed', 'sans-serif'],
+        sans: ['work-sans', 'sans-serif'],
+        // condensed: ['mr-eaves-xl-sans-narrow', 'sans-serif'],
         display: ['adelle-sans', 'sans-serif']
       },
       screens: {
@@ -214,11 +228,11 @@ module.exports = {
         '013': '.013'
       },
       scale: {
-        '70': 'scale(.7)',
-        '80': 'scale(.8)',
-        '98': 'scale(.98)',
-        '97': 'scale(.97)',
-        '103': 'scale(1.03)'
+        '70': '.7',
+        '80': '.8',
+        '98': '.98',
+        '97': '.97',
+        '103': '1.03'
       },
       translate: {
         '1/7': '14.2857143%',
