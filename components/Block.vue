@@ -1,18 +1,18 @@
 
 <template>
   <div
+    v-if="![undefined, null].includes(block)"
     :class="{
       'entry-block': true,
       [blockClasses]: true,
       ['block-' + block.__typename]: true
     }"
-    v-if="![undefined, null].includes(block)"
   >
 
     <template v-if="![undefined, null].includes(block)">
       <gTag
         v-if="!!title && !!title.length && !['ComponentBlockHero'].includes(block.__typename)"
-        :tagName="title.length < 35 ? 'h2' : title.length < 65 ? 'h3' :  title.length < 85 ? 'h4' : 'h5' "
+        :tagName="title.length < 85 ? 'h4' : 'h5' "
         :class="{
           'block-title': true,
           [titleClasses]: !!titleClasses.length
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { getCardClasses } from '~/utils/get-classes';
+import { getCardClasses, getBlockClasses } from '~/utils/get-classes';
 /* eslint-disable no-constant-condition */
 export default {
   props: {
@@ -83,7 +83,7 @@ export default {
     }
   },
   data () {
-    const { block: blockClasses = '', title: titleClasses = '', buttons: buttonsClasses = '' } = getCardClasses(this.block);;
+    const { block: blockClasses = '', title: titleClasses = '', buttons: buttonsClasses = '' } = getBlockClasses(this.block);
     const { card = '', title: cardTitle = '', text: cardText = '', media: cardMedia = '' } = getCardClasses(this.block);
     return {
       blockClasses,
@@ -98,7 +98,4 @@ export default {
 
 
 <style lang="scss">
-.block-title {
-  @apply font-extrabold;
-}
 </style>

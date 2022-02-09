@@ -1,44 +1,46 @@
 
 <template>
-  <div class="collection-container">
+  <div class="collection-container h-auto">
     <template v-if="searchBar === true">
       <SearchInput
-        v-debounce:400ms="(e) => e !== searchValue ? $emit('search', e) : ''"
+        v-debounce:400ms="(e) => e !== searchValue ? searchValue = e : ''"
         :autocomplete="'on'"
+        :placeholder="'search in ' + collectionType + '...'"
         :debounce-events="['input']"
         :class="{[searchBarClasses]: searchBarClasses.length > 0}"
-        @clear="(e) => $emit('search', '')"
+        @clear="(e) => searchValue = ''"
       />
     </template>
-
     <div
       :v-if="!!entries && !!entries.length"
-      class="collection-entries"
+      class="collection-entries grid"
+      id="masonCollection"
       :class="{[gridClasses]: gridClasses.length > 0}"
     >
       <template v-for="entry in entries">
         <Card
+          v-if="![null, undefined].includes(entry)"
           :key="entry.type + '-' + entry.id"
           :card-style="(['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0) || collectionType === 'datasheets' ? 'mediaLeft' : cardStyle"
           :title="entry.title"
-          :text="entry.type === 'datasheet' ? entry.id : ['material', 'application', 'gasket'].includes(entry.type) || !Array.isArray(entry.gaskets) || entry.gaskets.length === 0
-            ? null
-            : entry.description"
+          :text="!!entry && !!entry.type === 'datasheet' ? entry.id : ['material', 'application', 'gasket'].includes(entry.type) || !Array.isArray(entry.gaskets) || entry.gaskets.length === 0
+              ? null
+              : entry.description"
           :media="![null, undefined].includes(entry.file) ? entry.file : entry.media"
           :media-ratio="['materials', 'applications'].includes(collectionType) && (!Array.isArray(entry.gaskets) || entry.gaskets.length === 0) 
-            ? '4:2' 
-            : collectionType === 'gaskets'
-            ? '4:3' 
-            : collectionType === 'datasheets'
-            ? '8:ll'
-            : mediaRatio"
+              ? '4:2' 
+              : collectionType === 'gaskets'
+              ? '4:3' 
+              : collectionType === 'datasheets'
+              ? '8:ll'
+              : mediaRatio"
           :link="'/' + collectionType + '/' + entry.slug"
           :open-new-tab="false"
           class="collection-entry"
           :class="{
-            [cardClasses.card]: !!cardClasses && !!cardClasses.card && !!cardClasses.card.length,
-            [entry.type]: true 
-          }"
+              [cardClasses.card]: !!cardClasses && !!cardClasses.card && !!cardClasses.card.length,
+              [entry.type]: true 
+            }"
           :classes="cardClasses"
           :youtube="typeof entry.youtube === 'string' ? entry.youtube : null"
           :is-background="entry.type !== 'datasheet'"
@@ -46,6 +48,7 @@
         />
       </template>
     </div>
+
     <gButton
       v-if="canLoadMore === true"
       v-view="infiniteScroll ? visibilityHandler : (e) => e"
@@ -65,6 +68,7 @@ import { objectsAreTheSame } from '~/utils/funcs'
 import { strapiFilterParams } from '~/utils/search-params'
 import { getCardClasses } from '~/utils/get-classes'
 import { CardStyle } from '~/models/blocks.model.ts'
+import qs from 'qs';
 
 export default {
   props: {
@@ -95,7 +99,7 @@ export default {
     },
     sort: {
       type: Array,
-      default: ['publishedAt:DESC']
+      default: () => {return ['publishedAt:DESC']}
     },
     limit: {
       type: Number,
@@ -112,13 +116,16 @@ export default {
     updateUrl: {
       type: Boolean,
       default: true
+    },
+    filters: {
+      type: Object,
+      default: () => { return {} }
     }
   },
   data () {
-    const { grid: gridClasses = '', searchBar: searchBarClasses = '' } = Object.keys(this.classes).length > 0 ? this.classes : {}
+    const { grid: gridClasses = '', searchBar: searchBarClasses = '', title = '', card = '', media = '', text = '', content = '' } = !!this.classes ? this.classes : {}
     const collection = this?.collectionType ? this.collectionType : null
     const mediaRatio = this.ratio !== null && this.ratio?.indexOf(':') > -1 ? this.ratio : ['services', 'materials', 'applications'].includes(collection) ? '16:9' : 'auto'
-    const { title = '', card = '', media = '', text = '', content = '' } = this.classes;
     return {
       entries: null,
       nextEntries: null,
@@ -134,7 +141,7 @@ export default {
   },
   async fetch () {
     const collection = this.collection
-    this.queryParams = this.getQueryParams()
+    // this.queryParams = this.getQueryParams()
     if (collection === null) {
       return
     }
@@ -144,7 +151,27 @@ export default {
     '$route.query': {
       immediate: true,
       handler (e) {
+        console.log({ '$route.query': this.$route.query, e })
+        if (!this.updateUrl) return;
         this.queryParams = this.getQueryParams()
+        this.get()
+      }
+    },
+    searchValue: {
+      immediate: false,
+      handler(val) {
+        if(this.updateUrl && window !== undefined) {
+          console.log({val})
+          if (!val?.length) {
+            delete this.$route.query.q
+          } else {
+            this.$route.query.q = val
+          }
+          const queryString = qs.stringify(this.$route.query);
+          const path = !queryString?.length ? this.$route.path : `${this.$route.path}?${queryString}`
+          window.history.pushState({path}, '', path)
+        }
+        this.get().catch(console.error)
       }
     }
   },
@@ -152,14 +179,25 @@ export default {
     if(!Array.isArray(this.entries)) return;
     this.$emit('updateEntries', this.entries)
   },
+  computed: {
+    constantFilters() {
+      try {
+        return Object.keys(this.filters).length === 0 ? {} : this.filters
+      } catch(e) {
+        return {}
+      }
+    }
+  },
   methods: {
     async get (start = 0) {
       const collection = this.collection
       if (typeof collection !== 'string') {
         this.$emit('updateEntries', this.entries)
-        return console.error(`collection: ${collection}`)
+        console.error(`collection: ${collection}`)
+        return
       }
-      const params = this.getQueryParams()
+      const params = this.getQueryParams();
+      console.log(params.filters)
       if (objectsAreTheSame(params, this.queryParams)) {
         if (start === 0) {
           return this.$emit('updateEntries', this.entries);
@@ -168,25 +206,39 @@ export default {
       this.queryParams = params
       this.nextEntries = await getCollection(this.collection, { ...this.queryParams, pagination: { limit: this.limit, start } } )
         .then(res => {
-          console.log(res);
           this.canLoadMore = res.length === this.limit
           return res;
-        })
+        }).catch(console.error)
       if (start === 0 || !!!this.entries || !!!this.entries.length) {
         this.entries = this.nextEntries
       } else {
-        this.entries = [...this.entries, ...this.nextEntries]
+        this.entries = [...this.entries, ...this.nextEntries.filter(e => !this.entries.map(c => c.slug).includes(e.slug))]
       }
       this.$emit('updateEntries', this.entries)
-      return this.entries;
+      try {
+        if (this.infiniteScroll && window !== undefined) {
+          setTimeout(() => {
+            window.scrollTo({top: window.scrollY === 0 ? 1 : window.scrollY + 1})
+            window.scrollTo({top: window.scrollY - 1})
+          }, 100)
+        }
+      } catch {
+        return 
+      } finally {
+        return this.entries;
+      }
     },
     getQueryParams () {
       const limit = this.limit && this.limit > 0 ? this.limit : 6
       const sort = typeof this.sort === 'string' && this.sort.length > 0 ? this.sort : 'publishedAt:DESC'
-      return strapiFilterParams({ ...this.$route.query, pagination: {limit}, sort })
+      if(this.updateUrl) {
+        this.searchValue = this.$route.query.q
+      }
+      const routeQuery = !this.updateUrl ? !!this.searchValue?.length ? { q: this.searchValue } : {} : {...this.$route.query, q: this.searchValue}
+      return strapiFilterParams({ ...routeQuery, constantFilters: this.constantFilters, pagination: {limit}, sort }, this.collectionType)
     },
     visibilityHandler (e) {
-      if (e.percentInView > 0.9) {
+      if (e.percentInView > 0.20) {
         this.canLoadMore = false
         this.get(this.entries.length)
           .catch(console.error)
@@ -208,6 +260,14 @@ export default {
   // }
   .card-title {
     @apply text-lg sm:text-xl;
+  }
+}
+.collection-container {
+  .search-bar {
+    @apply max-w-xs bg-gray-50 bg-opacity-3 hover:bg-opacity-5 focus-within:bg-opacity-5 mb-3;
+    input {
+      @apply rounded-none bg-transparent pl-3 py-2 w-full;
+    }
   }
 }
 </style>

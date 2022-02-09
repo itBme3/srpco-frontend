@@ -2,28 +2,19 @@
 import { mediaFields } from '~/utils/graphql/fragments/fields'
 
 export const blockSettingsFields = {
-  DEFAULT: 'id __typename blockSettings { classes }',
-  card: `
-  cardSettings {
-      style classes
-  }`,
+  DEFAULT: 'id __typename blockSettings { classes sidebar }',
+  card: `cardSettings { style classes }`,
   collection: `
     collectionType
-    collectionSettings {
-      sort limit infiniteScroll updateUrl
-    }
-    cardSettings {
-      style classes
-    }
+    collectionSettings { sort limit infiniteScroll searchBar filters updateUrl }
+    cardSettings { style classes }
   `
 }
 
 export const blockFields: { [key: string]: string } = {
   ComponentBlockCard: `
       title text link openNewTab
-      media {
-        ${mediaFields()}
-      }
+      media { ${mediaFields.default} }
       ${blockSettingsFields.DEFAULT}
       ${blockSettingsFields.card}
   `,
@@ -32,19 +23,19 @@ export const blockFields: { [key: string]: string } = {
       title text youtube
       heroSettings { classes style }
       buttons { id text link openNewTab buttonClasses }
-      media { ${mediaFields()} }
+      media { ${mediaFields.default} }
   `,
   ComponentBlockContent: `
       ${blockSettingsFields.DEFAULT}
-      title content titleClasses contentClasses
+      title content
   `,
   ComponentBlockSpacer: `
       ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockCollection: `
       ${blockSettingsFields.DEFAULT}
-      collectionType collectionSettings { sort limit infiniteScroll updateUrl }
       ${blockSettingsFields.card}
+      collectionType collectionSettings { sort limit infiniteScroll updateUrl }
   `,
   ComponentBlockServices: `
       ${blockSettingsFields.DEFAULT}
@@ -54,7 +45,7 @@ export const blockFields: { [key: string]: string } = {
           id
           attributes {
             title slug collectionType type youtube
-            media { ${mediaFields('default')} }
+            media { ${mediaFields.default} }
           }
         }
       }
@@ -66,8 +57,8 @@ export const blockFields: { [key: string]: string } = {
         data {
           id
           attributes {
-        title slug resourceType collectionType type
-        media { ${mediaFields('default')} }
+          title slug resourceType collectionType type
+          media { ${mediaFields.default} }
           }
         }
       }
@@ -80,7 +71,7 @@ export const blockFields: { [key: string]: string } = {
           id
           attributes {
         title slug collectionType type
-        media { ${mediaFields('default')} }
+        media { ${mediaFields.default} }
           }
         }
       }
@@ -93,7 +84,7 @@ export const blockFields: { [key: string]: string } = {
             id
             attributes {
               title slug collectionType type
-              media { ${mediaFields('default')} }
+              media { ${mediaFields.default} }
             }
         }
       }
@@ -105,7 +96,7 @@ export const blockFields: { [key: string]: string } = {
             id
             attributes {
               title slug collectionType type
-              file { ${mediaFields('default')} }
+              file { ${mediaFields.default} }
             }
         }
       }
@@ -117,7 +108,7 @@ export const blockFields: { [key: string]: string } = {
           id
           attributes {
             title slug collectionType type
-            media { ${mediaFields('default')} }
+            media { ${mediaFields.default} }
           }
         }
       }
@@ -134,7 +125,7 @@ export const blockFields: { [key: string]: string } = {
             id
             attributes {
               title slug collectionType type
-              media { ${mediaFields('default')} }
+              media { ${mediaFields.default} }
             }
           }
         }
@@ -142,8 +133,8 @@ export const blockFields: { [key: string]: string } = {
           data {
             id
             attributes {
-          title slug collectionType type
-          file { ${mediaFields('default')} }
+              title slug collectionType type
+              file { ${mediaFields.default} }
             }
           }
         }
@@ -151,11 +142,62 @@ export const blockFields: { [key: string]: string } = {
           data {
             id
             attributes {
-          title slug collectionType type
-          media { ${mediaFields('default')} }
+              title slug collectionType type
+              media { ${mediaFields.default} }
             }
           }
         }
       }
+  `,
+  ComponentSolutionsChallenge: `
+    ${blockSettingsFields.DEFAULT}
+    title content
+  `,
+  ComponentSolutionsSolution: `
+    ${blockSettingsFields.DEFAULT}
+    title content
+  `,
+  ComponentSolutionsResults: `
+    ${blockSettingsFields.DEFAULT}
+    title content
+  `,
+  ComponentSolutionsUsed: `
+    ${blockSettingsFields.DEFAULT}
+    ${blockSettingsFields.card}
+    title content
+    gaskets {
+      data { id attributes {
+          title slug collectionType type
+          media { ${mediaFields.default} }
+        }
+      }
+    }
+    datasheets {
+      data { id attributes {
+          title slug collectionType type
+          file { ${mediaFields.tiny} }
+        }
+      }
+    }
+    materials {
+      data { id attributes {
+          title slug collectionType type
+          media { ${mediaFields.default} }
+        } 
+      }
+    }
   `
 }
+
+
+export const defaultBlockFields: string = [
+  'ComponentBlockCard',
+  'ComponentBlockGroup',
+  'ComponentBlockContent',
+  'ComponentBlockSpacer',
+].reduce((acc, key: string) => {
+  return acc + `
+      ... on ${key} {
+          ${blockFields[key]}
+      }`
+}, '');

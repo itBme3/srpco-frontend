@@ -5,18 +5,20 @@
       class="entries"
       :class="{ [collectionType]: true }"
     >
-      <Card
-        v-for="(entry) in entries"
-        :key="entry.id"
-        :title="entry.title"
-        :media="entry.file"
-        card-style="mediaLeft"
-        :link="entry.type === 'datasheet' ? null : + collectionType + '/' + entry.slug"
-        media-ratio="8.5:11"
-        media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
-        class="col-span-12"
-        :class="{ [entry.type]: true }"
-      />
+      <template v-for="(entry) in entries">
+        <Card
+          v-if="![null, undefined].includes(entry)"
+          :key="entry.id"
+          :title="entry.title"
+          :media="entry.file"
+          card-style="mediaLeft"
+          :link="![null, undefined].includes(entry) && entry.type === 'datasheet' ? null : + collectionType + '/' + entry.slug"
+          media-ratio="8.5:11"
+          media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
+          class="col-span-12"
+          :class="{ [entry.type]: true }"
+        />
+      </template>
     </div>
     <!-- <client-only>
       <gModal

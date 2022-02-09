@@ -24,7 +24,6 @@ export default {
   data () {
     const block = typeof this.block === 'undefined' ? {} : this.block
     const cardClasses = getCardClasses(block);
-    console.log({cardClasses})
     return {
       cardStyle: Object.values(CardStyle).map(v => `${v}`).includes(block?.cardSettings?.style) ? block?.cardSettings?.style : CardStyle.MEDIA_ABOVE,
       media: block?.media?.url ? block.media : null,

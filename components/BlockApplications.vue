@@ -39,7 +39,6 @@ export default {
     cardClasses () {
       try {
         const c = getCardClasses(this.block);
-        console.log(c);
         return c
       } catch (err) {
         return ''
