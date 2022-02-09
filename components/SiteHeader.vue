@@ -15,9 +15,9 @@
         class="site-search-input bg-gray-800 hover:bg-opacity-100 z-[1005]"
         :class="{ 'bg-opacity-40': !expanded }"
         variant="header"
-        @clear="updateSearchValue('')"
+        @clear="searchValue = ''"
         @focus="inputFocused"
-        @search="updateSearchValue($event)"
+        @search="searchValue = $event"
         @blur="storeSearch()"
       />
       <Link
@@ -25,7 +25,7 @@
         :link="'/contact'"
         class="transform scale-95 hover:scale-100"
       >
-      <gButton class="header-contact-button hidden sm:inline rounded-full bg-green-400 hover:bg-opacity-100 bg-opacity-80 text-green-900 uppercase font-bold whitespace-nowrap mx-2 text-sm py-2">
+      <gButton class="header-contact-button hidden sm:flex rounded-full bg-green-400 hover:bg-opacity-100 bg-opacity-80 text-green-900 uppercase font-bold whitespace-nowrap mx-2 text-sm py-2">
         <i class="gicon-contact"></i>
         <span class="hidden sm:inline">let's talk</span>
       </gButton>
@@ -45,10 +45,11 @@
 </template>
 
 <script>
-const searchCollections = ['search', 'gaskets', 'datasheets', 'resources', 'materials', 'applications']
+import qs from 'qs'
+const searchCollections = ['search', 'gaskets', 'datasheets', 'resources']
 export default {
   data () {
-    const { q: searchValue = '' } = this.$router.currentRoute.query
+    const { q: searchValue = '' } = this.$route.query
     return {
       placeholder: 'What are you looking for?',
       searchCollection: null,
@@ -57,36 +58,30 @@ export default {
       recentSearches: []
     }
   },
-  fetch ({ route }) {
-    this.searchCollection = searchCollections.includes(route.split('/')[1])
-      ? route.split('/')[1]
+  fetch () {
+    this.searchCollection = searchCollections.includes(this.$route.path.split('/')[1])
+      ? this.$route.path.split('/')[1]
       : null
-    const { q: searchValue = '' } = [null, undefined].includes(route.query) ? {} : route.query
-    this.searchValue = searchValue
-    return { searchValue }
-  },
-  computed: {
-    path () {
-      const root = this.$route.fullPath.split('/')[1].split('?')[0]
-      if (searchCollections.includes(root) && this.$route.fullPath.split('/').length === 2) {
-        return null
-      }
-      return searchCollections.includes(root) ? `/${root}` : '/search'
-    }
   },
   watch: {
-    '$route.query': {
-      immediate: false,
-      handler ({ q }) {
-        if (typeof q !== 'string' || q === '') {
-          this.searchValue = ''
-        }
-        this.storeSearch()
-      }
-    },
-    '$route.fullPath': {
+    '$route.path': {
       handler () {
         this.expanded = false
+        console.log('path: ', this.$route.path);
+        this.searchCollection = searchCollections.includes(this.$route.path.split('/')[1])
+          ? this.$route.path.split('/')[1]
+          : null
+        if (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2) {
+          this.searchValue = ''
+        }
+      }
+    },
+    searchValue: {
+      handler () {
+        if (!this.searchValue?.length && (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2)) {
+          return;
+        }
+        this.updateSearchValue()
       }
     }
   },
@@ -99,27 +94,32 @@ export default {
     inputFocused () {
       this.expanded = true
     },
-    updateSearchValue (val) {
-      const { query = {} } = this.$router
-      if (this.searchValue !== val) {
-        this.searchValue = val
-      }
-      if ((typeof val !== 'string' || val.trim().length === 0) && Object.keys(query).includes('q')) {
-        delete query.q
-      } else if (query.q !== val) {
-        query.q = val
-      }
+    updateSearchValue () {
+      const query = JSON.parse(JSON.stringify(this.$route.query))
       this.expanded = false
-      if (['', null, undefined].includes(query.q)) {
+      console.log({ searchValue: this.searchValue })
+      if ((typeof this.searchValue !== 'string' || this.searchValue.trim().length === 0) && Object.keys(query).includes('q')) {
         delete query.q
+      } else if (query.q !== this.searchValue) {
+        query.q = this.searchValue
       }
-      if (this.path === null) {
-        this.$router.push({ name: 'search', query },
-          success => success,
-          err => console.error(err))
-      } else {
-        this.$router.replace({ path: this.path, query })
-      }
+      const searchCollection = this.searchCollection === null ? 'search' : this.searchCollection
+      const queryString = qs.stringify(query)
+      const path = !queryString?.length ? `/${searchCollection}` : `/${searchCollection}?${queryString}`
+      if (path === this.$route.fullPath) return;
+      this.$router.replace(path, success => success, console.error)
+      // if (this.searchCollection === null && this.$route.name !== 'search') {
+      //   this.$router.history.push({ name: 'search', query },
+      //     success => success,
+      //     err => console.error(err))
+      // } else if (window !== undefined) {
+      //   // const queryString = qs.stringify(query)
+      //   const searchCollection = this.searchCollection === null ? 'search' : this.searchCollection
+      //   const path = !queryString?.length ? `/${searchCollection}` : `/${searchCollection}?${queryString}`
+      //   window.history.pushState({ path }, '', path)
+      //   console.log({ $router: this.$router })
+      //   this.$router.replace({ path: searchCollection, query })
+      // }
     },
     storeSearch () {
       const storedSearches = JSON.parse(localStorage.getItem('recentSearches')) || []
@@ -146,15 +146,15 @@ export default {
   @apply relative sm:fixed sm:left-[96px] p-1 top-0 sm:right-0;
   .site-search {
     @apply max-w-6xl mx-auto;
+    input {
+      @apply text-center;
+    }
   }
   &.search-expanded {
     @apply fixed top-2 left-0 transform w-screen z-99999;
     .site-search,
     .site-search-expanded {
       @apply mt-0 mx-auto;
-    }
-    input {
-      @apply text-center;
     }
     @media screen and (max-width: 639px) {
       @apply bg-transparent;

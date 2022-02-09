@@ -9,9 +9,7 @@
         :key="crumb.link"
         class="text-green-400 hover:text-green-500"
       >
-        <NuxtLink
-          :to="crumb.link"
-        >{{ crumb.text }}</NuxtLink>
+        <NuxtLink :to="crumb.link">{{ crumb.text }}</NuxtLink>
         <span class="text-gray-600 mr-1">/</span>
       </small>
       <small
@@ -32,38 +30,46 @@ export default {
     }
   },
   fetch () {
-    this.fullPath = this.$route.fullPath
+    // this.fullPath = this.$route.fullPath
+    this.setCrumbs()
   },
   watch: {
-    fullPath: {
+    '$route.fullPath': {
       immediate: true,
-      handler (fullPath) {
-        if (this.fullPath === null || this.fullPath === undefined) {
-          return
-        }
-        const crumbs = this.fullPath.split('/').slice(1, this.fullPath.split('/').length)
-        let i = 0
-        this.breadcrumbs = crumbs.reduce((acc, slug) => {
-          acc.push({
-            link: i === 0 ? `/${slug}` : `${crumbs[i - 1].link}/${slug}`,
-            text: slug
-          })
-          i++
-          return acc
-        }, [])
+      handler (val) {
+        this.full
+        this.setCrumbs()
       }
+    }
+  },
+  methods: {
+    setCrumbs () {
+      const path = this.$route.fullPath.split('#')[0]
+      if (path === null || path === undefined) {
+        return
+      }
+      const crumbs = path.split('/').slice(1, path.split('/').length)
+      let i = 0
+      this.breadcrumbs = crumbs.reduce((acc, slug) => {
+        acc.push({
+          link: i === 0 ? `/${slug}` : `${crumbs[i - 1].link}/${slug}`,
+          text: slug
+        })
+        i++
+        return acc
+      }, [])
     }
   }
 }
 </script>
 
 <style lang="scss">
-  .breadcrumbs {
-    > * {
-      @apply my-auto
-    }
-    small {
-      @apply tracking-wide
-    }
+.breadcrumbs {
+  > * {
+    @apply my-auto;
   }
+  small {
+    @apply tracking-wide;
+  }
+}
 </style>

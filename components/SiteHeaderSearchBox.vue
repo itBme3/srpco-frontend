@@ -74,7 +74,7 @@ export default {
           },
           buttons: ['Material', 'Application', 'All'].map(c => {
             return {
-              link: c === 'All' ? '/gaskets' : `/${c.toLowerCase()}s`,
+              link: c === 'All' ? '/gaskets' : '/' + c.toLowerCase() + 's',
               text: c === 'All' ? c : `By ${c}`,
               classes: 'bg-gray-400 bg-opacity-10 hover:bg-opacity-5 mr-2 mt-2'
             }
