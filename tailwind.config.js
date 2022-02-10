@@ -188,12 +188,21 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     fontSize: {
+<<<<<<< HEAD
       'xs': '.75rem',
       'sm': '.875rem',
       'tiny': '.875rem',
       'base': '1rem',
       'lg': '1.125rem',
       'xl': '1.25rem',
+=======
+      xs: '.75rem',
+      tiny: '.875rem',
+      sm: '1rem',
+      base: '1.125rem',
+      lg: '1.25rem',
+      xl: '1.33rem',
+>>>>>>> 6c9fe9dcdef8a708948f8a0b5e0c441b147a44f9
       '2xl': '1.5rem',
       '3xl': '1.875rem',
       '4xl': '2.25rem',
@@ -208,8 +217,13 @@ module.exports = {
     })(),
     extend: {
       fontFamily: {
+<<<<<<< HEAD
         sans: ['work-sans', 'sans-serif'],
         // condensed: ['mr-eaves-xl-sans-narrow', 'sans-serif'],
+=======
+        sans: ['mr-eaves-xl-sans', 'sans-serif'],
+        condensed: ['mr-eaves-xl-sans-condensed', 'sans-serif'],
+>>>>>>> 6c9fe9dcdef8a708948f8a0b5e0c441b147a44f9
         display: ['adelle-sans', 'sans-serif']
       },
       screens: {

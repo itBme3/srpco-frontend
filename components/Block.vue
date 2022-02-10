@@ -8,17 +8,36 @@
       ['block-' + block.__typename]: true
     }"
   >
+<<<<<<< HEAD
 
     <template v-if="![undefined, null].includes(block)">
       <gTag
         v-if="!!title && !!title.length && !['ComponentBlockHero'].includes(block.__typename)"
         :tagName="title.length < 85 ? 'h4' : 'h5' "
+=======
+    <BlockCard
+      v-if="block.__typename === 'ComponentBlocksBlockCard'"
+      :block="block"
+    />
+    <BlockCollection
+      v-else-if="block.__typename === 'ComponentBlocksBlockCollection'"
+      :collection-type="block.collectionType"
+      :limit="6"
+      :sort="'published_at:ASC'"
+      :card-style="!!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaAbove'"
+      :classes="classes"
+    />
+    <template v-else>
+      <h1
+        v-if="block.title !== null && !['ComponentBlocksBlockHero'].includes(block.__typename)"
+>>>>>>> 6c9fe9dcdef8a708948f8a0b5e0c441b147a44f9
         :class="{
           'block-title': true,
           [titleClasses]: !!titleClasses.length
         }"
       >
         {{ title }}
+<<<<<<< HEAD
       </gTag>
       <BlockCard
         v-if="block.__typename === 'ComponentBlockCard'"
@@ -36,6 +55,9 @@
         :classes="cardClasses"
       />
 
+=======
+      </h1>
+>>>>>>> 6c9fe9dcdef8a708948f8a0b5e0c441b147a44f9
       <BlockContent
         v-if="block.__typename === 'ComponentBlockContent'"
         :block="block"
