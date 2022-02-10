@@ -302,13 +302,8 @@ export const TailwindComponentsSettings = {
   gButton: {
     component: TButton,
     props: {
-<<<<<<< HEAD
       fixedClasses: 'transition focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
       classes: '',
-=======
-      fixedClasses: 'button flex items-center justify-center px-4 py-2 rounded transition duration-100 ease-in-out focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed tracking-wide',
-      classes: 'rounded shadow-xl hover:shadow-sm transform transition-all ease-quick-in duration-200 hover:scale-95 scale-100 tracking-wider',
->>>>>>> 6c9fe9dcdef8a708948f8a0b5e0c441b147a44f9
       variants: {
         
       }

@@ -98,14 +98,9 @@ export default {
   env: {
     mapsApiKey: 'AIzaSyAKlNQvaXSHG-CQietQjo0RRtvVNJie30U',
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-<<<<<<< HEAD
     // apiUrl: process.env.API_URL || 'http://localhost:1337'
     apiUrl
     // apiUrl: 'https://0602e58a0d03.ngrok.io'
 
-=======
-    apiUrl: process.env.API_URL || 'http://localhost:1339'
-    // apiUrl: process.env.API_URL || 'https://ecd790d6ea79.ngrok.io'
->>>>>>> 6c9fe9dcdef8a708948f8a0b5e0c441b147a44f9
   }
 }
