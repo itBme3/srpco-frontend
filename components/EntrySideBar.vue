@@ -10,7 +10,7 @@
       <p class="font-bold mb-2">Suppliers:</p>
       <template v-for="supplier in suppliers">
         <CardSupplier
-          :key="'supplier-' + supplier.handle + '-on-single-entry'"
+          :key="'supplier-' + supplier.slug + '-on-single-entry'"
           :supplier="supplier"
           cardStyle="small"
         />

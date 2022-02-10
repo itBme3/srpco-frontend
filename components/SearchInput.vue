@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'search-bar block relative w-full p-0 rounded focus-within:shadow-lg': true, [classes.wrapper.join(' ')]: !!classes.wrapper && Array.isArray(classes.wrapper) }">
-    <!-- <client-only> -->
+
     <gInput
       ref="searchInput"
       v-model="searchValue"
@@ -27,7 +27,7 @@
         class="m-auto"
       />
     </gButton>
-    <!-- </client-only> -->
+
   </div>
 </template>
 

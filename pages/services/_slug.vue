@@ -47,7 +47,7 @@ export default {
     }
   },
   watch: {
-    slug: {
+    $route: {
       immediate: false,
       async handler () {
         this.page = await getSingleEntry(this.$route.path, this.redirect)
@@ -56,8 +56,16 @@ export default {
     }
   },
   head () {
-    const { defaultSeo = {}, siteName = 'SRPCO' } = typeof this.global === 'undefined' || ![null, undefined].includes(this.global) ? {} : this.global
-    const { seo = {} } = !!this.page && !!this.page.seo ? this.page : {}
+    const { defaultSeo = {}, siteName = 'SRPCO' } = [null, undefined].includes(this.global) ? {} : this.global
+    let { title = this.page?.title || null, image = this.page?.media || null, description = this.page?.description || null } = !!this.page && !!this.page.seo ? this.page.seo : {}
+    if (!!!image && !!this.page?.image) { image = this.page?.image; }
+    if (!!!image && !!defaultSeo.image) { image = defaultSeo.image; }
+    if (!!!title && !!this.page?.title) { title = this.page?.title; }
+    if (!!!title && !!defaultSeo?.title) { title = defaultSeo?.title; }
+    if (!!!description && !!this.page?.description) { description = this.page?.description; }
+    if (!!!description && !!defaultSeo.description) { description = defaultSeo.description; }
+    const seo = { title, image, description };
+
     const fullSeo = {
       ...defaultSeo,
       ...Object.keys(seo).reduce((acc, key) => {

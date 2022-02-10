@@ -5,33 +5,31 @@
     class="group-container rounded bg-black bg-opacity-5 shadow-lg mt-4"
   >
 
-    <!-- <div
-      class="tabs flex items-center space-x-2 relative z-2"
-    > -->
-    <scrollbar
-      v-if="groupStyle === 'tabs'"
-      ref="scrollTabs"
-      class="tabs items-center space-x-2 relative z-2 flex flex-nowrap max-w-full pb-2"
-      :options="{ suppressScrollY: true, suppressScrollX: false }"
-      @ps-scroll-x="(e) => scrollHandler(e, 'scroll-x')"
-      @ps-scroll-y="(e) => scrollHandler(e, 'scroll-y')"
-      @ps-scroll-up="(e) => scrollHandler(e, 'scroll-up')"
-      @ps-scroll-down="(e) => scrollHandler(e, 'scroll-down')"
-    >
-      <gButton
-        v-for="(section, i) in sections"
-        :key="i + '-' + handleize(section.title)"
-        :class="{ 
-          'tab my-auto': true,
-          'active bg-red-500 text-white': activeIndex === i,
-          [classes.buttons]: !!classes.buttons
-        }"
-        @click="toggleSections(i)"
+    <client-only>
+      <scrollbar
+        v-if="groupStyle === 'tabs'"
+        ref="scrollTabs"
+        class="tabs items-center space-x-2 relative z-2 flex flex-nowrap max-w-full pb-2"
+        :options="{ suppressScrollY: true, suppressScrollX: false }"
+        @ps-scroll-x="(e) => scrollHandler(e, 'scroll-x')"
+        @ps-scroll-y="(e) => scrollHandler(e, 'scroll-y')"
+        @ps-scroll-up="(e) => scrollHandler(e, 'scroll-up')"
+        @ps-scroll-down="(e) => scrollHandler(e, 'scroll-down')"
       >
-        {{ section.title }}
-      </gButton>
-    </scrollbar>
-    <!-- </div> -->
+        <gButton
+          v-for="(section, i) in sections"
+          :key="i + '-' + handleize(section.title)"
+          :class="{ 
+            'tab my-auto': true,
+            'active bg-red-500 text-white': activeIndex === i,
+            [classes.buttons]: !!classes.buttons
+          }"
+          @click="toggleSections(i)"
+        >
+          {{ section.title }}
+        </gButton>
+      </scrollbar>
+    </client-only>
 
     <div class="panels p-3">
       <div

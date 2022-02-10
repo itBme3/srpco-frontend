@@ -48,15 +48,16 @@
         />
       </template>
     </div>
-
-    <gButton
-      v-if="canLoadMore === true"
-      v-view="infiniteScroll ? visibilityHandler : (e) => e"
-      class="mt-4 hover:bg-blue-600 bg-blue-500 uppercase text-gray-900 text-opacity-70 tracking-wide px-3 py-2 w-auto min-w-auto block"
-      @click="get(entries.length)"
-    >
-      more {{ collectionType }}
-    </gButton>
+    <client-only>
+      <gButton
+        v-if="canLoadMore === true"
+        v-view="infiniteScroll ? visibilityHandler : (e) => e"
+        class="mt-4 hover:bg-blue-600 bg-blue-500 uppercase text-gray-900 text-opacity-70 tracking-wide px-3 py-2 w-auto min-w-auto block"
+        @click="get(entries.length)"
+      >
+        more {{ collectionType }}
+      </gButton>
+    </client-only>
   </div>
 </template>
 

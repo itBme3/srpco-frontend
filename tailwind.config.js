@@ -136,13 +136,17 @@ module.exports = {
   purge: {
     enabled: true,
     content: [
+      'components/*.{vue,js,ts}',
       'components/**/*.{vue,js,ts}',
+      'layouts/*.vue',
       'layouts/**/*.vue',
+      'pages/*.vue',
       'pages/**/*.vue',
       'plugins/**/*.{js,ts}',
       'assets/**/*.{scss,css}',
       'nuxt.config.{js,ts}',
-      'tailwind.config.js'
+      'tailwind.config.js',
+      'node_modules/vue-tailwind/dist/*.js'
     ],
     safelist: [
       ...Object.keys(COLORS).map(k => `bg-${k}`),
@@ -292,12 +296,5 @@ module.exports = {
       scale: ['hover'],
       order: ['responsive']
     }
-  },
-  plugins: [
-    require('postcss-import'),
-    require('tailwindcss'),
-    require('autoprefixer'),
-    require('@tailwindcss/typography')
-    // require('@tailwindcss/aspect-ratio')
-  ]
+  }
 }

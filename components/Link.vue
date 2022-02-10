@@ -1,10 +1,12 @@
 <template>
-  <nuxt-link
+  <!-- <nuxt-link
+    :to="link" -->
+  <a
+    :href="link"
     v-if="typeof link === 'string' && !!link.indexOf && link.indexOf('/') === 0 && openNewTab !== true"
-    :to="link"
   >
     <slot />
-  </nuxt-link>
+  </a>
   <a
     v-else-if="typeof link === 'string' && link.length > 0"
     :href="link"

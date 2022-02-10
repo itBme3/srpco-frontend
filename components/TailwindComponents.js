@@ -302,13 +302,10 @@ export const TailwindComponentsSettings = {
   gButton: {
     component: TButton,
     props: {
-      fixedClasses: 'button transition focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
+      fixedClasses: 'transition focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
       classes: '',
       variants: {
-        secondary: 'button--secondary',
-        light: 'button--light',
-        bordered: 'button--bordered',
-        link: 'button--link border',
+        
       }
     }
   },

@@ -12,7 +12,7 @@
 </template>
 
 <script lang="js">
-import { getMetaTags } from '~/utils/seo'
+import { seoHead } from '~/utils/page-seo'
 import { getGlobalInfo } from '~/utils/graphql/requests/global'
 import { getHomepage } from '~/utils/graphql/requests/pages'
 
@@ -24,26 +24,7 @@ export default {
     return { page, global }
   },
   head () {
-    const { defaultSeo, siteName } = typeof this.global === 'undefined' ? {} : this.global
-    let { seo } = !!this.page?.seo ? this.page : { seo: defaultSeo }
-    if (seo === undefined || seo === null) {
-      seo = {}
-    }
-    const fullSeo = {
-      ...defaultSeo,
-      ...Object.keys(seo).reduce((acc, key) => {
-        if (seo[key] === null || typeof seo[key] === 'undefined') {
-          return acc
-        }
-        return { ...acc, [key]: seo[key] }
-      }, {})
-    }
-    const meta = getMetaTags(fullSeo)
-    return {
-      titleTemplate: `%s | ${siteName}`,
-      title: fullSeo.title,
-      meta
-    }
+    return seoHead(this.global, this.page)
   }
 
 }
