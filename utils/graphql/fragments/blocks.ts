@@ -3,7 +3,7 @@ import { mediaFields } from '~/utils/graphql/fragments/fields'
 
 export const blockSettingsFields = {
   DEFAULT: 'id __typename blockSettings { classes sidebar }',
-  card: `cardSettings { style classes }`,
+  card: `cardSettings { style classes showExcerpt showMoreLinks }`,
   collection: `
     collectionType
     collectionSettings { sort limit infiniteScroll searchBar filters updateUrl }
@@ -19,26 +19,30 @@ export const blockFields: { [key: string]: string } = {
       ${blockSettingsFields.card}
   `,
   ComponentBlockHero: `
-      ${blockSettingsFields.DEFAULT}
       title text youtube
       heroSettings { classes style }
       buttons { id text link openNewTab buttonClasses }
+      ${blockSettingsFields.DEFAULT}
       media { ${mediaFields.default} }
   `,
-  ComponentBlockContent: `
+  ComponentBlockButtons: `
+      title
+      buttons { id text link openNewTab buttonClasses }
       ${blockSettingsFields.DEFAULT}
+  `,
+  ComponentBlockContent: `
       title content
+      ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockSpacer: `
       ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockCollection: `
+      collectionType collectionSettings { sort limit infiniteScroll updateUrl }
       ${blockSettingsFields.DEFAULT}
       ${blockSettingsFields.card}
-      collectionType collectionSettings { sort limit infiniteScroll updateUrl }
   `,
   ComponentBlockServices: `
-      ${blockSettingsFields.DEFAULT}
       title
       services {
         data {
@@ -49,9 +53,9 @@ export const blockFields: { [key: string]: string } = {
           }
         }
       }
+      ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockResources: `
-      ${blockSettingsFields.DEFAULT}
       title
       resources {
         data {
@@ -62,9 +66,9 @@ export const blockFields: { [key: string]: string } = {
           }
         }
       }
+      ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockMaterials: `
-      ${blockSettingsFields.DEFAULT}
       title
       materials {
         data {
@@ -75,9 +79,9 @@ export const blockFields: { [key: string]: string } = {
           }
         }
       }
+      ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockApplications: `
-      ${blockSettingsFields.DEFAULT}
       title
       applications {
         data {
@@ -88,9 +92,9 @@ export const blockFields: { [key: string]: string } = {
             }
         }
       }
+      ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockDatasheets: `
-      ${blockSettingsFields.DEFAULT}
       datasheets {
         data {
             id
@@ -100,9 +104,9 @@ export const blockFields: { [key: string]: string } = {
             }
         }
       }
+      ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockGaskets: `
-      ${blockSettingsFields.DEFAULT}
       gaskets {
         data {
           id
@@ -112,9 +116,9 @@ export const blockFields: { [key: string]: string } = {
           }
         }
       }
+      ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockGroup: `
-      ${blockSettingsFields.DEFAULT}
       groupStyle
       title
       sections {
@@ -148,22 +152,21 @@ export const blockFields: { [key: string]: string } = {
           }
         }
       }
+      ${blockSettingsFields.DEFAULT}
   `,
   ComponentSolutionsChallenge: `
-    ${blockSettingsFields.DEFAULT}
     title content
+    ${blockSettingsFields.DEFAULT}
   `,
   ComponentSolutionsSolution: `
-    ${blockSettingsFields.DEFAULT}
     title content
+    ${blockSettingsFields.DEFAULT}
   `,
   ComponentSolutionsResults: `
-    ${blockSettingsFields.DEFAULT}
     title content
+    ${blockSettingsFields.DEFAULT}
   `,
   ComponentSolutionsUsed: `
-    ${blockSettingsFields.DEFAULT}
-    ${blockSettingsFields.card}
     title content
     gaskets {
       data { id attributes {
@@ -186,6 +189,8 @@ export const blockFields: { [key: string]: string } = {
         } 
       }
     }
+    ${blockSettingsFields.DEFAULT}
+    ${blockSettingsFields.card}
   `
 }
 

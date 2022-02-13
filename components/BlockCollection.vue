@@ -23,7 +23,7 @@
           :key="entry.type + '-' + entry.id"
           :card-style="(['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0) || collectionType === 'datasheets' ? 'mediaLeft' : cardStyle"
           :title="entry.title"
-          :text="!!entry && !!entry.type === 'datasheet' ? entry.id : ['material', 'application', 'gasket'].includes(entry.type) || !Array.isArray(entry.gaskets) || entry.gaskets.length === 0
+          :text="!showExcerpt || ['gasket'].includes(entry.type)
               ? null
               : entry.description"
           :media="![null, undefined].includes(entry.file) ? entry.file : entry.media"
@@ -121,6 +121,14 @@ export default {
     filters: {
       type: Object,
       default: () => { return {} }
+    },
+    showExcerpt: {
+      type: Boolean,
+      default: false
+    },
+    filters: {
+      type: Boolean,
+      default: true
     }
   },
   data () {

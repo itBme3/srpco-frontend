@@ -33,6 +33,8 @@
         :infinite-scroll="!!block.collectionSettings && block.collectionSettings.infiniteScroll"
         :update-url="!!block.collectionSettings && block.collectionSettings.updateUrl"
         :card-style="!!block.cardSettings && !!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaAbove'"
+        :show-excerpt="!!block.cardSettings && !!block.cardSettings.showExcerpt"
+        :show-more-links="!!block.cardSettings && block.cardSettings.showMoreLinks !== false"
         :classes="cardClasses"
       />
       </h1>

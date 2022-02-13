@@ -4,7 +4,8 @@
     :class="{
       'has-more-links' : Array.isArray(moreLinks) && moreLinks.length > 0,
       'has-link' : hasLink,
-      'no-media': [undefined, null].includes(media) && [undefined, null].includes(youtube)
+      'no-media': [undefined, null].includes(media) && [undefined, null].includes(youtube),
+      'has-text': typeof text === 'string' && text.length > 0
     }"
   >
     <Link
@@ -50,7 +51,7 @@
       >
         {{ title }}
       </gTag>
-      <template v-if="text && text.length > 0">
+      <template v-if="text && text.length > 0 && ['overlay', 'mediaAbove'].includes(cardStyle)">
         <div
           class="card-text text-sm opacity-60"
           :class="{ [textClasses]: textClasses.length > 0 }"
@@ -58,6 +59,13 @@
         />
       </template>
     </div>
+    <template v-if="text && text.length > 0 && !['overlay', 'mediaAbove'].includes(cardStyle)">
+      <div
+        class="card-text text-sm opacity-60"
+        :class="{ [textClasses]: textClasses.length > 0 }"
+        v-html="text"
+      />
+    </template>
     </Link>
     <CardMoreLinks
       :v-if="Array.isArray(moreLinks) && moreLinks.length > 0"
@@ -88,7 +96,6 @@ export default {
       type: String,
       default: null,
     },
-    
     cardStyle: {
       type: String,
       default: CardStyle.MEDIA_ABOVE,
@@ -166,7 +173,7 @@ export default {
 }
 .card-media,
 .card-content {
-  @apply order-1;
+  @apply order-1 py-3;
 }
 .card {
   @apply transition-all ease-quick-in duration-200 rounded bg-white bg-opacity-5 shadow-md overflow-hidden;
@@ -223,6 +230,7 @@ export default {
       }
       .card-title,
       .card-text * {
+        @apply order-last;
         text-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
       }
     }
@@ -232,6 +240,9 @@ export default {
         .card-content {
           @apply pt-2 px-4 pb-3;
         }
+        .card-text {
+          @apply px-4;
+        }
       }
       &-left {
         @apply items-center content-between;
@@ -239,7 +250,7 @@ export default {
           @apply mr-auto w-2/3;
         }
         .card-media {
-          @apply mr-3 w-1/3;
+          @apply mr-[.75rem] w-[calc(33.333%-.75rem)];
         }
       }
       &-right {
@@ -250,6 +261,34 @@ export default {
         .card-media {
           @apply ml-2 order-2 w-1/3;
         }
+      }
+    }
+  }
+  &.has-text {
+    [class*="card-style"] {
+      @apply flex-wrap;
+      .card-text {
+        @apply order-last;
+      }
+    }
+    .card-style-media-above,
+    .card-style-overlay {
+      .card-text {
+        @apply px-0 py-3;
+      }
+    }
+    .card-style-media-left,
+    .card-style-media-right {
+      .card-text {
+        @apply p-3;
+      }
+      .card-media {
+        @apply h-full my-0;
+      }
+    }
+    .card-style-media-left {
+      .card-media {
+        @apply rounded ml-[.5rem] mr-[.5rem] mt-[.5rem] w-[calc(33.333%-1rem)];
       }
     }
   }
