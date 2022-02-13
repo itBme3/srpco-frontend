@@ -64,11 +64,14 @@ export default {
     this.pageData = await getSingleEntry(this.$route.path, this.redirect);
     // console.log({ pageData: this.pageData })
     // this.global = await getGlobalInfo()
-    this.$store.commit("pageData/SET_PAGE_DATA", this.pageData)
+    // this.$store.commit("pageData/SET_PAGE_DATA", this.pageData)
     // return { global, pageData }
   },
   data () {
-    return { pageData: null, entryTypes: Object.values(EntryType) }
+    return {
+      pageData: null,
+      entryTypes: Object.values(EntryType)
+    }
   },
   watch: {
     '$route.path': '$fetch'
@@ -78,10 +81,12 @@ export default {
       return getPageClasses(this.pageData)
     },
     page () {
-      return this.$store.state.pageData.data
+      return this.pageData
+      // return this.$store.state.pageData.data
     },
     seo () {
-      return this.$store.state.pageData.seo
+      return null
+      // return this.$store.state.pageData.seo
     }
   },
   head () {

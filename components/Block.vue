@@ -19,61 +19,55 @@
         }"
       >
         {{ title }}
-        <<<<<<<
-          HEAD
-          </gTag
-        >
-          <BlockCard
-            v-if="block.__typename === 'ComponentBlockCard'"
-            :class="{ [!!cardClasses &&  !!cardClasses.card ? cardClasses.card : '']: !!cardClasses.card.length }"
-            :block="block"
-          />
-          <BlockCollection
-            v-if="block.__typename === 'ComponentBlockCollection'"
-            :collection-type="block.collectionType"
-            :limit="![null, undefined].includes(block.collectionSettings) && block.collectionSettings.limit > 0 ? block.collectionSettings.limit : 6"
-            :sort="!!block.collectionSettings && !!block.collectionSettings.sort ? block.collectionSettings.sort.split(',') : ['publishedAt:ASC']"
-            :infinite-scroll="!!block.collectionSettings && block.collectionSettings.infiniteScroll"
-            :update-url="!!block.collectionSettings && block.collectionSettings.updateUrl"
-            :card-style="!!block.cardSettings && !!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaAbove'"
-            :classes="cardClasses"
-          />
-
-          =======
-          </h1>
-          >>>>>>> 6c9fe9dcdef8a708948f8a0b5e0c441b147a44f9
-          <BlockContent
-            v-if="block.__typename === 'ComponentBlockContent'"
-            :block="block"
-          />
-          <BlockHero
-            v-if="block.__typename === 'ComponentBlockHero'"
-            :block="block"
-          />
-          <BlockDatasheets
-            v-if="block.__typename === 'ComponentBlockDatasheets'"
-            :block="block"
-          />
-          <BlockMaterials
-            v-if="block.__typename === 'ComponentBlockMaterials'"
-            :block="block"
-          />
-          <BlockApplications
-            v-if="block.__typename === 'ComponentBlockApplications'"
-            :block="block"
-          />
-          <BlockServices
-            v-if="block.__typename === 'ComponentBlockServices'"
-            :block="block"
-          />
-          <BlockResources
-            v-if="block.__typename === 'ComponentBlockResources'"
-            :block="block"
-          />
-          <BlockGroup
-            v-if="block.__typename === 'ComponentBlockGroup'"
-            :block="block"
-          />
+      </gTag>
+      <BlockCard
+        v-if="block.__typename === 'ComponentBlockCard'"
+        :class="{ [!!cardClasses &&  !!cardClasses.card ? cardClasses.card : '']: !!cardClasses.card.length }"
+        :block="block"
+      />
+      <BlockCollection
+        v-if="block.__typename === 'ComponentBlockCollection'"
+        :collection-type="block.collectionType"
+        :limit="![null, undefined].includes(block.collectionSettings) && block.collectionSettings.limit > 0 ? block.collectionSettings.limit : 6"
+        :sort="!!block.collectionSettings && !!block.collectionSettings.sort ? block.collectionSettings.sort.split(',') : ['publishedAt:ASC']"
+        :infinite-scroll="!!block.collectionSettings && block.collectionSettings.infiniteScroll"
+        :update-url="!!block.collectionSettings && block.collectionSettings.updateUrl"
+        :card-style="!!block.cardSettings && !!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaAbove'"
+        :classes="cardClasses"
+      />
+      </h1>
+      <BlockContent
+        v-if="block.__typename === 'ComponentBlockContent'"
+        :block="block"
+      />
+      <BlockHero
+        v-if="block.__typename === 'ComponentBlockHero'"
+        :block="block"
+      />
+      <BlockDatasheets
+        v-if="block.__typename === 'ComponentBlockDatasheets'"
+        :block="block"
+      />
+      <BlockMaterials
+        v-if="block.__typename === 'ComponentBlockMaterials'"
+        :block="block"
+      />
+      <BlockApplications
+        v-if="block.__typename === 'ComponentBlockApplications'"
+        :block="block"
+      />
+      <BlockServices
+        v-if="block.__typename === 'ComponentBlockServices'"
+        :block="block"
+      />
+      <BlockResources
+        v-if="block.__typename === 'ComponentBlockResources'"
+        :block="block"
+      />
+      <BlockGroup
+        v-if="block.__typename === 'ComponentBlockGroup'"
+        :block="block"
+      />
     </template>
   </div>
 </template>

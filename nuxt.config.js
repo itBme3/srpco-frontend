@@ -49,6 +49,7 @@ export default {
     '~/plugins/pdf-embed.client.js',
     '~/plugins/scrollbar.js',
     '~/plugins/chat-box.client.js',
+    '~/plugins/tailwind-components.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -58,6 +59,7 @@ export default {
   buildModules: [
     '@nuxt/typescript-build',
     '@nuxtjs/tailwindcss',
+    '@nuxt/postcss8',
     'nuxt-graphql-request'
   ],
 
@@ -89,11 +91,12 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    postcss: {
+   postcss: {
       plugins: {
-        'postcss-import': true,
-      }
-    }
+        tailwindcss: {},
+        autoprefixer: {},
+      },
+    },
   },
   env: {
     mapsApiKey: 'AIzaSyAKlNQvaXSHG-CQietQjo0RRtvVNJie30U',

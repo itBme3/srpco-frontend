@@ -133,58 +133,68 @@ module.exports = {
   prefix: '',
   important: true,
   mode: 'jit',
-  purge: {
-    enabled: true,
-    content: [
-      'components/*.{vue,js,ts}',
-      'components/**/*.{vue,js,ts}',
-      'layouts/*.vue',
-      'layouts/**/*.vue',
-      'pages/*.vue',
-      'pages/**/*.vue',
-      'plugins/**/*.{js,ts}',
-      'assets/**/*.{scss,css}',
-      'nuxt.config.{js,ts}',
-      'tailwind.config.js',
-      'node_modules/vue-tailwind/dist/*.js'
-    ],
-    safelist: [
-      ...Object.keys(COLORS).map(k => `bg-${k}`),
-      ...Object.keys(COLORS).map(k => `text-${k}`),
-      ...widthHeight.reduce((acc, k) => {
-        return breakpoints.reduce((acc1, breakpoint) => 
-          [...acc1, ...widthHeightSizes.map(size => `${breakpoint}${!!breakpoint.length ? ':' : '' }${k}-${size}`)]
-        , acc)
-      }, []),
-      ...gridCols.reduce((acc, val) => {
-        return [...acc, ...breakpoints.reduce((_acc, breakpoint) => {
-          return [..._acc, `${breakpoint}${breakpoint.length > 0 ? ':col-span-' : 'col-span-'}${val}`]
-        }, acc)]
-      }, []),
-      ...opacities.reduce((acc, val) => {
-        return [...acc, `opacity-${val}`, ...['bg', 'text', 'border'].map(t => `${t}-opacity-${val}`)]
-      }, []),
-      ...spacings.reduce((acc, k) => {
-        return [...acc, ...sizingSpacingValues.map(v => `${k}-${v}`)]
-      }, []),
-      'bg-srp-red',
-      'text-srp-red',
-      'mix-blend-multiply',
-      'transition',
-      'duration-1000',
-      'transform',
-      'scale-95',
-      'scale-98',
-      'ramp-in',
-      'sm:col-span-4', 'md:col-span-4', 'lg:col-span-4',
-      'text-left', 'text-right', 'text-center', 'text-base', 'text-sm', 'text-xs', 'text-tiny', 'text-base', 'text-lg', 'text-xl', 'text-2xl', 'text-3xl', 'text-4xl', 'text-5xl', 'text-6xl',
-      'sm:text-left', 'sm:text-right', 'sm:text-center', 'sm:text-base', 'sm:text-sm', 'sm:text-xs', 'sm:text-tiny', 'sm:text-base', 'sm:text-lg', 'sm:text-xl', 'sm:text-2xl', 'sm:text-3xl', 'sm:text-4xl', 'sm:text-5xl', 'sm:text-6xl',
-      'md:text-left', 'md:text-right', 'md:text-center', 'md:text-base', 'md:text-sm', 'md:text-xs', 'md:text-tiny', 'md:text-base', 'md:text-lg', 'md:text-xl', 'md:text-2xl', 'md:text-3xl', 'md:text-4xl', 'md:text-5xl', 'md:text-6xl',
-      'lg:text-left', 'lg:text-right', 'lg:text-center', 'lg:text-base', 'lg:text-sm', 'lg:text-xs', 'lg:text-tiny', 'lg:text-base', 'lg:text-lg', 'lg:text-xl', 'lg:text-2xl', 'lg:text-3xl', 'lg:text-4xl', 'lg:text-5xl', 'lg:text-6xl',
-      'xl:text-left', 'xl:text-right', 'xl:text-center', 'xl:text-base', 'xl:text-sm', 'xl:text-xs', 'xl:text-tiny', 'xl:text-base', 'xl:text-lg', 'xl:text-xl', 'xl:text-2xl', 'xl:text-3xl', 'xl:text-4xl', 'xl:text-5xl', 'xl:text-6xl',
-      'p-5', 'text-cyan-900'
-    ]
-  },
+  content: [
+    'components/*.{vue,js,ts}',
+    'components/**/*.{vue,js,ts}',
+    'layouts/*.vue',
+    'layouts/**/*.vue',
+    'pages/*.vue',
+    'pages/**/*.vue',
+    'plugins/**/*.{js,ts}',
+    'assets/**/*.{scss,css}',
+    'nuxt.config.{js,ts}',
+    'tailwind.config.js',
+    'node_modules/vue-tailwind/dist/*.js'
+  ],
+  content: [
+    'components/*.{vue,js,ts}',
+    'components/**/*.{vue,js,ts}',
+    'layouts/*.vue',
+    'layouts/**/*.vue',
+    'pages/*.vue',
+    'pages/**/*.vue',
+    'plugins/**/*.{js,ts}',
+    'assets/**/*.{scss,css}',
+    'nuxt.config.{js,ts}',
+    'tailwind.config.js',
+    'node_modules/vue-tailwind/dist/*.js'
+  ],
+  safelist: [
+    ...Object.keys(COLORS).map(k => `bg-${k}`),
+    ...Object.keys(COLORS).map(k => `text-${k}`),
+    ...widthHeight.reduce((acc, k) => {
+      return breakpoints.reduce((acc1, breakpoint) => 
+        [...acc1, ...widthHeightSizes.map(size => `${breakpoint}${!!breakpoint.length ? ':' : '' }${k}-${size}`)]
+      , acc)
+    }, []),
+    ...gridCols.reduce((acc, val) => {
+      return [...acc, ...breakpoints.reduce((_acc, breakpoint) => {
+        return [..._acc, `${breakpoint}${breakpoint.length > 0 ? ':col-span-' : 'col-span-'}${val}`]
+      }, acc)]
+    }, []),
+    ...opacities.reduce((acc, val) => {
+      return [...acc, `opacity-${val}`, ...['bg', 'text', 'border'].map(t => `${t}-opacity-${val}`)]
+    }, []),
+    ...spacings.reduce((acc, k) => {
+      return [...acc, ...sizingSpacingValues.map(v => `${k}-${v}`)]
+    }, []),
+    'bg-srp-red',
+    'text-srp-red',
+    'mix-blend-multiply',
+    'transition',
+    'duration-1000',
+    'transform',
+    'scale-95',
+    'scale-98',
+    'ramp-in',
+    'sm:col-span-4', 'md:col-span-4', 'lg:col-span-4',
+    'text-left', 'text-right', 'text-center', 'text-base', 'text-sm', 'text-xs', 'text-tiny', 'text-base', 'text-lg', 'text-xl', 'text-2xl', 'text-3xl', 'text-4xl', 'text-5xl', 'text-6xl',
+    'sm:text-left', 'sm:text-right', 'sm:text-center', 'sm:text-base', 'sm:text-sm', 'sm:text-xs', 'sm:text-tiny', 'sm:text-base', 'sm:text-lg', 'sm:text-xl', 'sm:text-2xl', 'sm:text-3xl', 'sm:text-4xl', 'sm:text-5xl', 'sm:text-6xl',
+    'md:text-left', 'md:text-right', 'md:text-center', 'md:text-base', 'md:text-sm', 'md:text-xs', 'md:text-tiny', 'md:text-base', 'md:text-lg', 'md:text-xl', 'md:text-2xl', 'md:text-3xl', 'md:text-4xl', 'md:text-5xl', 'md:text-6xl',
+    'lg:text-left', 'lg:text-right', 'lg:text-center', 'lg:text-base', 'lg:text-sm', 'lg:text-xs', 'lg:text-tiny', 'lg:text-base', 'lg:text-lg', 'lg:text-xl', 'lg:text-2xl', 'lg:text-3xl', 'lg:text-4xl', 'lg:text-5xl', 'lg:text-6xl',
+    'xl:text-left', 'xl:text-right', 'xl:text-center', 'xl:text-base', 'xl:text-sm', 'xl:text-xs', 'xl:text-tiny', 'xl:text-base', 'xl:text-lg', 'xl:text-xl', 'xl:text-2xl', 'xl:text-3xl', 'xl:text-4xl', 'xl:text-5xl', 'xl:text-6xl',
+    'p-5', 'text-cyan-900'
+  ],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     fontSize: {
@@ -206,6 +216,15 @@ module.exports = {
       for (let i = 0; i < 11; i++) { obj[`${i * 10}`] = `${i * 10}` }
       return obj
     })(),
+      colors: {
+        transparent: 'transparent',
+        current: 'currentColor',
+        ...COLORS,
+        black: colors.black,
+        white: colors.white,
+        gray: colors.gray,
+        'srp-red': '#ed1b24'
+      },
     extend: {
       fontFamily: {
         sans: ['work-sans', 'sans-serif'],
@@ -213,15 +232,6 @@ module.exports = {
       },
       screens: {
         xs: '480px'
-      },
-      colors: {
-        transparent: 'transparent',
-        current: 'currentColor',
-        ...COLORS,
-        black: COLORS.black,
-        white: COLORS.white,
-        gray: COLORS.coolGray,
-        'srp-red': '#ed1b24'
       },
       opacity: {
         '3': '.03',
