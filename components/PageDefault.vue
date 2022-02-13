@@ -20,7 +20,6 @@
       }"
       :titleClasses="pageClasses.title"
     />
-
     <CollectionsOnSupplier
       v-if="![undefined, null].includes(page) && page.type && page.type === 'supplier'"
       :entry="page"
@@ -54,27 +53,19 @@
 <script>
 import { EntryType } from '~/models/entry.model'
 import { getPageClasses } from '~/utils/get-classes'
-import { getSingleEntry } from '~/utils/graphql/requests/single'
-import { getGlobalInfo } from '~/utils/graphql/requests/global'
-import { seoHead } from '~/utils/page-seo'
 
 export default {
   scrollToTop: true,
-  async fetch () {
-    this.pageData = await getSingleEntry(this.$route.path, this.redirect);
-    // console.log({ pageData: this.pageData })
-    // this.global = await getGlobalInfo()
-    // this.$store.commit("pageData/SET_PAGE_DATA", this.pageData)
-    // return { global, pageData }
+  props: {
+    pageData: {
+      type: Object,
+      default: () => null
+    }
   },
   data () {
     return {
-      pageData: null,
       entryTypes: Object.values(EntryType)
     }
-  },
-  watch: {
-    '$route.path': '$fetch'
   },
   computed: {
     pageClasses () {
@@ -82,16 +73,7 @@ export default {
     },
     page () {
       return this.pageData
-      // return this.$store.state.pageData.data
-    },
-    seo () {
-      return null
-      // return this.$store.state.pageData.seo
     }
-  },
-  head () {
-    if (!!this.seo) return this.seo;
-    return null;
   }
 }
 </script>
