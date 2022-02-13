@@ -13,7 +13,6 @@
 
 <script lang="js">
 import { seoHead } from '~/utils/seo'
-import { getGlobalInfo } from '~/utils/graphql/requests/global'
 import { getHomepage } from '~/utils/graphql/requests/pages'
 
 export default {

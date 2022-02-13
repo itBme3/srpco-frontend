@@ -10,6 +10,3 @@ export const getFooter = async () => {
   return await $graph.request(footerQuery).then(res => parseResponse(res.footer))
 }
 
-export const getGlobalInfo = async () => {
-  return await $graph.request(globalQuery).then(res => parseResponse(res.global))
-}

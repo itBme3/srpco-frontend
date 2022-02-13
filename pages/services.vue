@@ -26,18 +26,15 @@
 
 <script lang="js">
 import { $graph } from '~/utils/graphql/init'
-import { getMetaTags } from '~/utils/seo'
+import { seoHead } from '~/utils/seo'
 import { CollectionType } from '~/models/entry.model'
 import { getCollectionPage } from '~/utils/graphql/requests/collection'
-import { getGlobalInfo } from '~/utils/graphql/requests/global'
 /* eslint-disable no-extra-boolean-cast */
 export default {
   scrollToTop: true,
   async asyncData () {
-    return {
-      page: await getCollectionPage(CollectionType.SERVICES).catch(console.error),
-      global: await getGlobalInfo().catch(console.error)
-    }
+    const page = await getCollectionPage(CollectionType.SERVICES).catch(console.error)
+    return { page }
   },
   data () {
     return {
@@ -45,23 +42,7 @@ export default {
     }
   },
   head () {
-    const { defaultSeo, siteName } = typeof this.global === 'undefined' || this.global === null ? {} : this.global
-    const { seo = {} } = this.page
-    const fullSeo = {
-      ...defaultSeo,
-      ...Object.keys(seo === null || typeof seo === 'undefined' ? {} : seo).reduce((acc, key) => {
-        if (seo[key] === null || typeof seo[key] === 'undefined') {
-          return acc
-        }
-        return { ...acc, [key]: seo[key] }
-      }, {})
-    }
-    const meta = getMetaTags(fullSeo)
-    return {
-      titleTemplate: `%s | ${siteName}`,
-      title: fullSeo.title,
-      meta
-    }
+    return seoHead(this.page)
   },
   computed: {
     modal: {
