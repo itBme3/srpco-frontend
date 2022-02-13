@@ -59,7 +59,9 @@ export const getSingleEntry = async (path: string, redirect: Function | null = n
       } else {
             return await getRedirectPath(entryType, slug)
                   .then((path: any) => {
-                        if (typeof path === 'string' && typeof redirect === 'function') { redirect(302, path) }
+                        if (typeof path === 'string' && typeof redirect === 'function') {
+                              return redirect(302, path)
+                        }
                         return path
                   })
                   .catch((err: any) => {

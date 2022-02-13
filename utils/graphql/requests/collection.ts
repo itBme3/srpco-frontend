@@ -23,20 +23,10 @@ export const getCollection = async (
 }
 
 export const getCollectionPage = async (collectionType: CollectionType) => {
-  console.log({ collectionType })
   let queryNamespace = `${collectionType}Collection`
   if (queryNamespace[queryNamespace.length - 1] === 's') {
     queryNamespace = queryNamespace.substr(0, queryNamespace.length - 1)
   }
-  console.log(`
-    query {
-      ${queryNamespace} {
-          data { attributes {
-            ${defaultCollectionPageFields}
-          }
-        }
-      }
-    }`)
   return await $graph.request(
     gql`
     query {

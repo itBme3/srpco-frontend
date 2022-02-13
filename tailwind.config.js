@@ -140,7 +140,7 @@ module.exports = {
     'layouts/**/*.vue',
     'pages/*.vue',
     'pages/**/*.vue',
-    'plugins/**/*.{js,ts}',
+    'plugins/*.{js,ts}',
     'assets/**/*.{scss,css}',
     'nuxt.config.{js,ts}',
     'tailwind.config.js',

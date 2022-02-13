@@ -67,7 +67,6 @@ export default {
     '$route.path': {
       handler () {
         this.expanded = false
-        console.log('path: ', this.$route.path);
         this.searchCollection = searchCollections.includes(this.$route.path.split('/')[1])
           ? this.$route.path.split('/')[1]
           : null
@@ -97,7 +96,6 @@ export default {
     updateSearchValue () {
       const query = JSON.parse(JSON.stringify(this.$route.query))
       this.expanded = false
-      console.log({ searchValue: this.searchValue })
       if ((typeof this.searchValue !== 'string' || this.searchValue.trim().length === 0) && Object.keys(query).includes('q')) {
         delete query.q
       } else if (query.q !== this.searchValue) {
@@ -108,18 +106,6 @@ export default {
       const path = !queryString?.length ? `/${searchCollection}` : `/${searchCollection}?${queryString}`
       if (path === this.$route.fullPath) return;
       this.$router.replace(path, success => success, console.error)
-      // if (this.searchCollection === null && this.$route.name !== 'search') {
-      //   this.$router.history.push({ name: 'search', query },
-      //     success => success,
-      //     err => console.error(err))
-      // } else if (window !== undefined) {
-      //   // const queryString = qs.stringify(query)
-      //   const searchCollection = this.searchCollection === null ? 'search' : this.searchCollection
-      //   const path = !queryString?.length ? `/${searchCollection}` : `/${searchCollection}?${queryString}`
-      //   window.history.pushState({ path }, '', path)
-      //   console.log({ $router: this.$router })
-      //   this.$router.replace({ path: searchCollection, query })
-      // }
     },
     storeSearch () {
       const storedSearches = JSON.parse(localStorage.getItem('recentSearches')) || []

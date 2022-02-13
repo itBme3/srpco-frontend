@@ -152,7 +152,6 @@ export default {
     '$route.query': {
       immediate: true,
       handler (e) {
-        console.log({ '$route.query': this.$route.query, e })
         if (!this.updateUrl) return;
         this.queryParams = this.getQueryParams()
         this.get()
@@ -162,7 +161,6 @@ export default {
       immediate: false,
       handler(val) {
         if(this.updateUrl && window !== undefined) {
-          console.log({val})
           if (!val?.length) {
             delete this.$route.query.q
           } else {
@@ -198,7 +196,6 @@ export default {
         return
       }
       const params = this.getQueryParams();
-      console.log(params.filters)
       if (objectsAreTheSame(params, this.queryParams)) {
         if (start === 0) {
           return this.$emit('updateEntries', this.entries);

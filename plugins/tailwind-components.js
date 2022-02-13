@@ -303,7 +303,7 @@ export const TailwindComponentsSettings = {
     component: TButton,
     props: {
       fixedClasses: 'transition focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
-      classes: '',
+      classes: 'rounded text-gray-700',
       variants: {
         
       }

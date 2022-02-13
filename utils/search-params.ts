@@ -44,7 +44,6 @@ export const strapiFilterParams = (queryParams: { [key: string]: any }, collecti
   if (collection === 'datasheets') {
     searchFields.push('fileContent')
   }
-  console.log({ collection })
   if (['gaskets', 'datasheets', 'resources', 'suppliers'].includes(collection)) {
     searchFields.push('content')
   }
