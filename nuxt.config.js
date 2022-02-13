@@ -76,7 +76,7 @@ export default {
         /**
          * The client endpoint url
          */
-        endpoint: process.env.BACKEND_URL || 'http://localhost:1337/graphql',
+        endpoint: process.env.BACKEND_URL || `${apiUrl}/graphql`,
         /**
          * Per-client options overrides
          * See: https://github.com/prisma-labs/graphql-request#passing-more-options-to-fetch

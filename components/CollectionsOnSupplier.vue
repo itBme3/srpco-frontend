@@ -53,7 +53,6 @@ export default {
     const haveFetched = showingCollection !== null ? [] : [showingCollection]
     return {
       haveFetched,
-      supplierCollections,
       showingCollection
     }
   },
@@ -62,6 +61,7 @@ export default {
       activeCollections: [],
       haveFetched: [],
       showingCollection: null,
+      supplierCollections,
       collectionFilters: {
         gaskets: { suppliers: { slug: { eq: this.entry.slug } } },
         datasheets: { supplier: { slug: { eq: this.entry.slug } } },
@@ -70,19 +70,9 @@ export default {
   },
   mounted () {
     this.scrollToCollections();
-    this.getEligibleCollections()
-      .then(console.log)
+    return this.getEligibleCollections()
       .catch(console.error)
   },
-  // watch: {
-  //   '$route.fullPath': {
-  //     immediate: true,
-  //     async handler () {
-  //       this.page = await getSingleEntry(this.$route.path, this.redirect)
-  //       return this.page;
-  //     }
-  //   }
-  // },
   watch: {
     '$route.hash': {
       immediate: true,
@@ -106,8 +96,8 @@ export default {
       })
 
     },
-    getEligibleCollections () {
-      return this.$graphql.default.request(gql`
+    async getEligibleCollections () {
+      const res = await this.$graphql.default.request(gql`
         query {
           gaskets(filters: { suppliers: { slug: { eq: "${this.entry.slug}" } } }, pagination: { limit: 1 }) {
             data { id }
@@ -116,13 +106,10 @@ export default {
             data { id }
           }
         }
-      `).then(res => {
-        const activeCollections = []
-        if (res.gaskets?.data?.length > 0) activeCollections.push('gaskets')
-        if (res.datasheets?.data?.length > 0) activeCollections.push('datasheets')
-        this.activeCollections = activeCollections
-        return this.activeCollections;
-      }).catch(err => console.error(err))
+      `).catch(err => console.error(err));
+      if (res.gaskets?.data?.length > 0) this.activeCollections.push('gaskets')
+      if (res.datasheets?.data?.length > 0) this.activeCollections.push('datasheets')
+      return this.activeCollections;
     },
     scrollToCollections: _.debounce(function () {
       if (window === undefined || !this.$refs?.collections?.offsetHeight || this.showingCollection === null) return;
