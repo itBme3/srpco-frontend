@@ -156,7 +156,7 @@ module.exports = {
       variants: ['sm', 'md', 'lg', 'hover', 'md:hover'],
     },
     {
-      pattern: /^(font|to|from|duration|scale)-/,
+      pattern: /^(font|to|from|duration|scale|text-shadow)-/,
       variants: [],
     },
     'text-shadow text-shadow-xs text-shadow-none text-shadow-opacity-5 text-shadow-opacity-10',
@@ -186,15 +186,22 @@ module.exports = {
       for (let i = 0; i < 11; i++) { obj[`${i * 10}`] = `${i * 10}` }
       return obj
     })(),
-      colors: {
-        transparent: 'transparent',
-        current: 'currentColor',
-        ...COLORS,
-        black: colors.black,
-        white: colors.white,
-        gray: colors.gray,
-        'srp-red': '#ed1b24'
-      },
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      ...COLORS,
+      black: colors.black,
+      white: colors.white,
+      gray: colors.gray,
+      'srp-red': '#ed1b24'
+    },
+    textShadow: {
+      none: 'none',
+      sm: '0 0 5px rgba(0, 0, 0, var(--text-shadow-opacity))',
+      md: '0 0 10px rgba(0, 0, 0, var(--text-shadow-opacity))',
+      lg: '0 0 20px rgba(0, 0, 0, var(--text-shadow-opacity))',
+      xl: '0 0 30px rgba(0, 0, 0, var(--text-shadow-opacity))',
+    },
     extend: {
       fontFamily: {
         sans: ['work-sans', 'sans-serif'],
@@ -262,7 +269,7 @@ module.exports = {
       },
       animation: {
         'fade-in-down': 'fade-in-down .2s quick-in'
-      },
+      }
     }
   },
   variants: {
@@ -275,5 +282,18 @@ module.exports = {
       scale: ['hover'],
       order: ['responsive']
     }
-  }
+  },
+  plugins: [
+    require('tailwindcss/plugin')(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value
+          }),
+        },
+        { values: theme('textShadow') }
+      )
+    })
+    
+  ]
 }
