@@ -6,8 +6,12 @@
         'opacity-0 -translate-y-full -top-40': !isExpanded
       }"
   >
+    <Blocks
+      v-if="!!siteSearch && Array.isArray(siteSearch.blocks) && siteSearch.blocks.length > 0"
+      :blocks="siteSearch.blocks"
+    />
     <!-- SECTIONS -->
-    <div
+    <!-- <div
       class="site-search-section"
       v-for="(section, i) in sections"
       :key="'site-search-section-' + i"
@@ -38,7 +42,7 @@
         </Link>
       </div>
 
-    </div>
+    </div> -->
 
     <!-- CLOSE -->
     <gButton
@@ -51,12 +55,17 @@
 </template>
 
 <script>
+import { getSiteSearch } from '~/utils/graphql/requests/global'
 export default {
   props: {
     expanded: {
       type: Boolean,
       default: false
     }
+  },
+  async fetch () {
+    this.siteSearch = await getSiteSearch()
+    return { siteSearch: this.siteSearch }
   },
   watch: {
     expanded (expanded) {
@@ -66,6 +75,7 @@ export default {
   data () {
     return {
       isExpanded: !!this.expanded,
+      siteSearch: null,
       sections: [
         {
           title: 'Custom Gaskets',

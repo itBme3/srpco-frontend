@@ -1,14 +1,8 @@
 <template>
-  <div
+  <Blocks
     v-if="!!page && !!page.blocks && !!page.blocks.length"
-    class="blocks"
-  >
-    <Block
-      v-for="block in page.blocks"
-      :key="block.__typename + '-' + block.id"
-      :block="block"
-    />
-  </div>
+    :blocks="page.blocks"
+  />
 </template>
 
 <script lang="js">
