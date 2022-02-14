@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request'
-import { blockSettingsFields } from '../fragments/blocks'
+import { blockFields, blockSettingsFields } from '../fragments/blocks'
 import { mediaFields } from '../fragments/fields'
 
 export const navigationQuery = gql`
@@ -46,30 +46,21 @@ export const footerQuery = gql`
             }
       }`
 
-export const globalQuery = gql`
-  query {
-    global {
-      data {
-            id
-            attributes {
-                  siteName
-                  defaultSeo {
-                        title
-                        description
-                        image {
-                             data {
-                                   id
-                                   attributes {
-                                         url
-                                          formats
-                                          mime
-                                          alternativeText
-                                    }
-                             }
+export const siteSearchQuery = gql`
+      query {
+            siteSearch {
+                  data {
+                        id
+                        attributes {
+                              blocks {
+                                    ... on ComponentBlockButtons { ${blockFields.ComponentBlockButtons} }
+                                    ... on ComponentBlockContent { ${blockFields.ComponentBlockContent} }
+                                    ... on ComponentBlockGroup { ${blockFields.ComponentBlockGroup} }
+                                    ... on ComponentBlockSpacer { ${blockFields.ComponentBlockSpacer} }
+                              }
                         }
                   }
             }
-      }
-    }
-  }
-`
+      }`
+
+

@@ -1,4 +1,4 @@
-import { footerQuery, navigationQuery, globalQuery } from '../queries/global'
+import { footerQuery, navigationQuery, siteSearchQuery } from '../queries/global'
 import { $graph } from '~/utils/graphql/init'
 import { parseResponse } from '../responses'
 
@@ -8,5 +8,9 @@ export const getNavigation = async () => {
 
 export const getFooter = async () => {
   return await $graph.request(footerQuery).then(res => parseResponse(res.footer))
+}
+
+export const getSiteSearch = async () => {
+  return await $graph.request(siteSearchQuery).then(res => parseResponse(res.siteSearch))
 }
 
