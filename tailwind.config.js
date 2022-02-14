@@ -1,8 +1,9 @@
+
+
 /* eslint-disable quote-props */
 
 const colors = require('tailwindcss/colors')
 require('dotenv').config()
-const enablePurge = process.env.ENABLE_PURGE || false
 
 const COLORS = {
   'red-50': '#FEEEEF',
@@ -122,36 +123,14 @@ const minHeight = {
   '80': '20rem',
   '96': '24rem'
 }
-const sizingSpacingValues = Object.keys(minHeight)
-const spacings = ['p', 'm'].map(k => `${k},${k}x,${k}y,${k}l,${k}r,${k}b`).join(',').split(',')
-const widthHeight = [ 'w', 'max-w', 'min-w', 'w', 'max-w', 'min-w']
-const widthHeightSizes = ['0','none','xs','sm','md','lg','xl','2xl','3xl','4xl','5xl','6xl','7xl','full','min','max','fit','prose','screen-sm','screen-md','screen-lg','screen-xl','screen-2xl']
-const breakpoints = ['', 'xs', 'sm', 'md', 'lg', 'xl']
-const gridCols = ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
-const opacities = ['0','5','10','20','25','30','40','50','60','70','75','80','90','95','100']
+
 module.exports = {
   prefix: '',
   important: true,
   mode: 'jit',
   content: [
-    'components/*.{vue,js,ts}',
     'components/**/*.{vue,js,ts}',
-    'layouts/*.vue',
     'layouts/**/*.vue',
-    'pages/*.vue',
-    'pages/**/*.vue',
-    'plugins/*.{js,ts}',
-    'assets/**/*.{scss,css}',
-    'nuxt.config.{js,ts}',
-    'tailwind.config.js',
-    'node_modules/vue-tailwind/dist/*.js'
-  ],
-  content: [
-    'components/*.{vue,js,ts}',
-    'components/**/*.{vue,js,ts}',
-    'layouts/*.vue',
-    'layouts/**/*.vue',
-    'pages/*.vue',
     'pages/**/*.vue',
     'plugins/**/*.{js,ts}',
     'assets/**/*.{scss,css}',
@@ -160,40 +139,31 @@ module.exports = {
     'node_modules/vue-tailwind/dist/*.js'
   ],
   safelist: [
-    ...Object.keys(COLORS).map(k => `bg-${k}`),
-    ...Object.keys(COLORS).map(k => `text-${k}`),
-    ...widthHeight.reduce((acc, k) => {
-      return breakpoints.reduce((acc1, breakpoint) => 
-        [...acc1, ...widthHeightSizes.map(size => `${breakpoint}${!!breakpoint.length ? ':' : '' }${k}-${size}`)]
-      , acc)
-    }, []),
-    ...gridCols.reduce((acc, val) => {
-      return [...acc, ...breakpoints.reduce((_acc, breakpoint) => {
-        return [..._acc, `${breakpoint}${breakpoint.length > 0 ? ':col-span-' : 'col-span-'}${val}`]
-      }, acc)]
-    }, []),
-    ...opacities.reduce((acc, val) => {
-      return [...acc, `opacity-${val}`, ...['bg', 'text', 'border'].map(t => `${t}-opacity-${val}`)]
-    }, []),
-    ...spacings.reduce((acc, k) => {
-      return [...acc, ...sizingSpacingValues.map(v => `${k}-${v}`)]
-    }, []),
-    'bg-srp-red',
-    'text-srp-red',
+    {
+      pattern: /^(m|p|mt|pt|ml|pl|mb|pb|mr|pr|inset|top|bottom|left|right)-/,
+      variants: ['xs', 'sm', 'md', 'lg', 'xl'],
+    },
+    {
+      pattern: /^-(m|p|top|bottom|left|right)-/,
+      variants: ['xs', 'sm', 'md', 'lg', 'xl'],
+    },
+    {
+      pattern: /^(m|p|w|h|min-w|min-h|max-w|max-h|col-span)-/,
+      variants: ['xs', 'sm', 'md', 'lg', 'xl'],
+    },
+    {
+      pattern: /^(bg|text|bg-opacity|text-opacity|bg-gradient)-/,
+      variants: ['sm', 'md', 'lg', 'hover', 'md:hover'],
+    },
+    {
+      pattern: /^(font|to|from|duration|scale)-/,
+      variants: [],
+    },
+    'text-shadow text-shadow-xs text-shadow-none text-shadow-opacity-5 text-shadow-opacity-10',
     'mix-blend-multiply',
     'transition',
-    'duration-1000',
     'transform',
-    'scale-95',
-    'scale-98',
     'ramp-in',
-    'sm:col-span-4', 'md:col-span-4', 'lg:col-span-4',
-    'text-left', 'text-right', 'text-center', 'text-base', 'text-sm', 'text-xs', 'text-tiny', 'text-base', 'text-lg', 'text-xl', 'text-2xl', 'text-3xl', 'text-4xl', 'text-5xl', 'text-6xl',
-    'sm:text-left', 'sm:text-right', 'sm:text-center', 'sm:text-base', 'sm:text-sm', 'sm:text-xs', 'sm:text-tiny', 'sm:text-base', 'sm:text-lg', 'sm:text-xl', 'sm:text-2xl', 'sm:text-3xl', 'sm:text-4xl', 'sm:text-5xl', 'sm:text-6xl',
-    'md:text-left', 'md:text-right', 'md:text-center', 'md:text-base', 'md:text-sm', 'md:text-xs', 'md:text-tiny', 'md:text-base', 'md:text-lg', 'md:text-xl', 'md:text-2xl', 'md:text-3xl', 'md:text-4xl', 'md:text-5xl', 'md:text-6xl',
-    'lg:text-left', 'lg:text-right', 'lg:text-center', 'lg:text-base', 'lg:text-sm', 'lg:text-xs', 'lg:text-tiny', 'lg:text-base', 'lg:text-lg', 'lg:text-xl', 'lg:text-2xl', 'lg:text-3xl', 'lg:text-4xl', 'lg:text-5xl', 'lg:text-6xl',
-    'xl:text-left', 'xl:text-right', 'xl:text-center', 'xl:text-base', 'xl:text-sm', 'xl:text-xs', 'xl:text-tiny', 'xl:text-base', 'xl:text-lg', 'xl:text-xl', 'xl:text-2xl', 'xl:text-3xl', 'xl:text-4xl', 'xl:text-5xl', 'xl:text-6xl',
-    'p-5', 'text-cyan-900'
   ],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
@@ -292,7 +262,7 @@ module.exports = {
       },
       animation: {
         'fade-in-down': 'fade-in-down .2s quick-in'
-      }
+      },
     }
   },
   variants: {
