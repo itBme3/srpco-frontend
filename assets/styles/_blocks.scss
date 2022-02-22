@@ -2,9 +2,6 @@
   --grid-gap: 0.75em;
   --block-content-color: rgba(253, 230, 130, var(--tw-text-opacity)) !important;
 }
-.blocks {
-  @apply grid gap-3 grid-cols-12;
-}
 .entry-block {
   @apply col-span-12;
   &:not(.block-ComponentBlockHero) {
@@ -24,7 +21,11 @@
     }
   }
 }
+.entries {
+  @apply grid grid-cols-12 gap-2;
+}
 .blocks {
+  @apply grid gap-3 grid-cols-12;
   .entry-block:nth-child(7n + 1) {
     --block-content-color: rgba(192, 132, 252, var(--tw-text-opacity)) !important;
   }
@@ -90,7 +91,7 @@
       column-gap: var(--grid-gap);
       row-gap: var(--grid-gap);
       &:not(.hide-sidebar) {
-        @media screen and (min-width: 821px) {
+        @media screen and (min-width: 1024px) {
           width: calc(70% - var(--grid-gap));
         }
       }
@@ -109,7 +110,7 @@
     }
     .entry-sidebar {
       @apply max-w-[400px] min-w-[200px] bg-opacity-60 bg-gray-900;
-      @media screen and (min-width: 821px) {
+      @media screen and (min-width: 1024px) {
         @apply w-[30%];
       }
     }

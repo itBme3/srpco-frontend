@@ -1,9 +1,8 @@
 <template>
-  <i
-    :class="{
+  <i :class="{
+      'icon': true,
       ['gicon-' + iconName]: true
-    }"
-  />
+    }" />
 </template>
 
 <script lang="js">

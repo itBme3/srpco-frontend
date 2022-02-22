@@ -18,15 +18,15 @@
     </gButton>
     <nav
       name="main navigation"
-      class="fixed xl:absolute z-99999 top-12"
+      class="fixed xl:absolute z-99999 mr-2 top-12 sm:top-24"
       :class="{
-        'right-0 left-auto top-12': isMobile,
-        'left-2 right-auto top-14': !isMobile,
+        'right-0 left-auto': isMobile,
+        'left-2 right-auto': !isMobile,
         'expanded shadow-2xl bg-white p-2': navExpanded,
         'bg-opacity-5 bg-block': !navExpanded
       }"
     >
-      <template :v-if="navigation.links && navigation.links[0] && navigation.links[0].link">
+      <template :v-if="!!navigation && navigation.links && navigation.links[0] && navigation.links[0].link">
         <div
           class="overlay absolute -inset-1 bg-transparent"
           :class="{
@@ -36,6 +36,7 @@
           @click="expandNav()"
           @mouseenter="navExpanded = true"
         />
+
         <div
           v-for="navLink in navigation.links"
           :key="navLink.id"
@@ -60,7 +61,7 @@
               >
               <gButton
                 :class="{
-                    'bg-opacity-100 bg-gray-100 flex content-start text-left w-full mr-0 px-2': true,
+                    'bg-opacity-100 bg-gray-100 flex content-start text-left w-full mr-0 px-2 hover:bg-white': true,
                     'bg-white bg-opacity-95': navLink.link === showNested,
                     'py-2': navExpanded
                   }"
@@ -102,10 +103,7 @@
                 :link="nestedLink.link"
                 :new-tab="!!nestedLink.openNewTab"
               >
-              <gButton
-                class="w-full mb-1 flex items-center content-start"
-                :variant="'secondary'"
-              >
+              <gButton class="w-full mb-1 flex items-center content-start hover:bg-white px-2">
                 <i :class="'my-auto -ml-3 mr-1 icon text-srp-red gicon-' + nestedLink.icon" />
                 <span class="link-text my-auto">{{ nestedLink.text }}</span>
               </gButton>
@@ -117,7 +115,7 @@
     </nav>
     <div
       v-if="navExpanded && isMobile"
-      class="overlay nav-overlay fixed z-9999 -inset-1 cursor-pointer"
+      class="overlay nav-overlay fixed z-9999 -inset-1 cursor-pointer bg-gray-900 md:bg-transparent bg-opacity-70"
       @click="navExpanded = !navExpanded"
     />
   </div>
@@ -156,7 +154,7 @@ export default {
     window.addEventListener('scroll', this.collapseNav)
   },
   unmounted () {
-    window.removeEventListener('resize', this.getDocumentDimensions)
+    // window.removeEventListener('resize', this.getDocumentDimensions)
     window.removeEventListener('scroll', this.collapseNav)
   },
   methods: {
@@ -180,6 +178,7 @@ export default {
       this.navExpanded = hovering
     },
     getDocumentDimensions () {
+      if(document === undefined) return;
       this.width = document.documentElement.clientWidth
       this.height = document.documentElement.clientHeight
       this.isMobile = this.width < 640

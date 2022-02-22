@@ -1,6 +1,6 @@
 <template>
   <Blocks
-    v-if="!!page && !!page.blocks && !!page.blocks.length"
+    v-if="!!page && Array.isArray(page.blocks) && !!page.blocks.length"
     :blocks="page.blocks"
   />
 </template>

@@ -2,8 +2,12 @@
   <div
     :style="{ 
       height: imgHeight,
-      backgroundImage: isBackground && typeof mediaSrc === 'string' && mediaSrc.length > 0 && !mediaSrc.includes('.pdf') ? 'url(' + mediaSrc + ')' : 'none' }"
-    class="media overflow-hidden relative flex items-center justify-center"
+      backgroundImage: isBackground && typeof mediaSrc === 'string' && mediaSrc.length > 0 && !mediaSrc.includes('.pdf') ? 'url(' + mediaSrc + ')' : 'none'
+    }"
+    :class="{
+      'overflow-hidden': !overlay,
+      'media flex items-center justify-center': true
+    }"
     style="background-repeat: no-repeat; background-size: cover; background-position: center;"
   >
     <template v-if="typeof mediaSrc === 'string'">
@@ -22,22 +26,35 @@
       >
     </template>
     <MediaYoutube
-      class="media-youtube"
       v-else-if="typeof youtube === 'string' && youtube.length > 0"
+      class="media-youtube"
       :src="youtube"
       :class="{ 'w-full my-auto height-full': true, 'relative z-0': !!!isBackground, 'absolute z-0 -inset-1': !!isBackground }"
-      :ratio="ratio"
+      :ratio="[null, undefined, 'auto'].includes(ratio) ? '9:16' : ratio"
+      :mute="!!videoParams.mute"
       :style="{ height: imgHeight }"
+      :autoplay="!!videoParams.autoplay"
+      :controls="!!videoParams.controls"
+      :loop="!!videoParams.loop"
+      :autohide="!!videoParams.autohide"
+      :showInfo="!!videoParams.showInfo"
+      :modestbranding="!!videoParams.modestbranding"
     />
     <div
       v-if="overlay || (typeof youtube === 'string' && youtube.length > 0)"
-      class="overlay absolute -inset-1 z-1"
-      :class="{['' + overlayClasses + '']: typeof overlayClasses === 'string' && overlayClasses.length > 0 }"
-    />
+      class="overlay absolute inset-0 z-1"
+      :class="{[overlayClasses]: typeof overlayClasses === 'string' && overlayClasses.length > 0 }"
+    >
+      <Icon
+        v-if="!!mediaSrc && !!youtube && !!youtube.length"
+        :icon-name="'play'"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="js">
+import _ from 'lodash'
 import { getThumbImageUrl } from '~/utils/funcs'
 import { getStrapiMedia } from '~/utils/medias'
 export default {
@@ -69,6 +86,20 @@ export default {
     overlayClasses: {
       type: String,
       default: null
+    },
+    videoParams: {
+      type: Object,
+      default: () => {
+        return {
+          mute: false,
+          autoplay: false,
+          controls: true,
+          loop: false,
+          autohide: false,
+          showInfo: true,
+          modestbranding: true,
+        }
+      }
     }
   },
   data () {
@@ -77,15 +108,22 @@ export default {
   },
   mounted () {
     this.setImgSrc()
-    window.addEventListener('resize', this.setImgSrc)
+    window.addEventListener('resize', () => this.onResize)
   },
-  unmounted () {
-    window.removeEventListener('resize', this.setImgSrc)
-  },
+  // unmounted () {
+  //   window.removeEventListener('resize', this.setImgSrc)
+  // },
   methods: {
     imageLoaded () {
       this.setImgSrc()
     },
+    onResize: _.debounce(function(e) {
+      if(!!!this.media || this.media?.mime?.includes('pdf')) return;
+      console.log(e)
+      setTimeout(() => {
+        this.setImgSrc();
+      }, 300)
+    }, 250),
     setImgSrc () {
       this.setImgHeight()
       if (![null, undefined].includes(this.media) && ![null, undefined].includes(this.media.mime) && this.media.mime.includes('pdf')) {
@@ -128,7 +166,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.media {
+  @apply relative;
+}
 .overlay {
   @apply bg-opacity-5;
 }

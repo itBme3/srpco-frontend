@@ -7,7 +7,7 @@
       v-debounce:400ms="updateSearchValue"
       :debounce-events="['input']"
       type="text"
-      class="search-input pr-[40px] rounded-md"
+      class="search-input pr-[40px] rounded-md w-full bg-transparent"
       :autocomplete="autocomplete"
       :fixed-classes="fixedClasses"
       :placeholder="placeholder"
@@ -74,7 +74,7 @@ export default {
   },
   data ({ _props }) {
     return {
-      fixedClasses: 'border-0 ring-non outline-none focus:border-0 focus:outline-none focus:ring-none, active:border-0 active:outline-none active:ring-none',
+      fixedClasses: 'border-0 ring-non outline-none focus:border-0 focus:outline-none focus:ring-0, active:border-0 active:outline-none active:ring-0',
       searchValue: typeof this.searchValue === 'string' ? this.searchValue : _props.search
     }
   },

@@ -2,7 +2,7 @@
   <gModal
     v-if="modalData !== null"
     v-model="showModal"
-    variant="pdf"
+    :variant="modalData.youtube && modalData.youtube.length ? 'video' : 'pdf'"
     @closed="handleClose"
   >
     <Media
@@ -12,6 +12,8 @@
       :title="modalData.title"
       :text="modalData.text"
       :embed="true"
+      :ratio="[null, undefined, 'auto'].includes(modalData.ratio) ? '16:9' : modalData.ratio"
+      :video-params="modalData.videoParams"
       class="h-full w-full rounded-md"
     />
   </gModal>
@@ -19,19 +21,22 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       showModal: false
     }
   },
+  created () {
+
+  },
   computed: {
-    modalData() {
+    modalData () {
       this.showModal = this.$store.state.modal.modalData !== null;
       return this.$store.state.modal.modalData;
     }
   },
   methods: {
-    handleClose() {
+    handleClose () {
       this.showModal = false;
       this.$store.commit('modal/close')
     }

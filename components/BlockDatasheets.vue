@@ -1,43 +1,23 @@
 <template>
-  <div>
-    <div
-      v-if="Array.isArray(entries) && entries.length > 0"
-      class="entries"
-      :class="{ [collectionType]: true }"
-    >
-      <template v-for="(entry) in entries">
-        <Card
-          v-if="![null, undefined].includes(entry)"
-          :key="entry.id"
-          :title="entry.title"
-          :media="entry.file"
-          card-style="mediaLeft"
-          :link="![null, undefined].includes(entry) && entry.type === 'datasheet' ? null : + collectionType + '/' + entry.slug"
-          media-ratio="8.5:11"
-          media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
-          class="col-span-12"
-          :class="{ [entry.type]: true }"
-        />
-      </template>
-    </div>
-    <!-- <client-only>
-      <gModal
-        v-if="![undefined, null].includes(modalData)"
-        v-model="showModal"
-        variant="pdf"
-        @closed="handleClose"
-      >
-        <Media
-          v-if="![undefined, null].includes(modalData)"
-          :media="modalData.file"
-          :youtube="modalData.youtube"
-          :title="modalData.title"
-          :text="modalData.text"
-          :embed="true"
-          class="h-full w-full rounded-md"
-        />
-      </gModal>
-    </client-only> -->
+  <div
+    v-if="Array.isArray(entries) && entries.length > 0"
+    class="entries"
+    :class="{ [collectionType]: true }"
+  >
+    <template v-for="(entry) in entries">
+      <Card
+        v-if="![null, undefined].includes(entry)"
+        :key="entry.id"
+        :title="entry.title"
+        :media="entry.file"
+        card-style="mediaLeft"
+        :link="![null, undefined].includes(entry) && entry.type === 'datasheet' ? null : + collectionType + '/' + entry.slug"
+        media-ratio="8.5:11"
+        media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
+        class="col-span-12"
+        :class="{ [entry.type]: true }"
+      />
+    </template>
   </div>
 </template>
 
@@ -92,8 +72,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.entries {
-  @apply grid grid-cols-12 gap-3;
-}
-</style>
+

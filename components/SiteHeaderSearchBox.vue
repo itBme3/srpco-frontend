@@ -46,7 +46,7 @@
 
     <!-- CLOSE -->
     <gButton
-      classes="rounded-md px-3 py-2 hover:bg-gray-200 hover:bg-opacity-5 absolute right-1 -top-1"
+      classes="rounded-md px-3 py-2 hover:bg-gray-200 hover:bg-opacity-5 absolute right-1 -top-1 w-12"
       @click="isExpanded = false; $emit('close')"
     >
       <i class="gicon-close text-red-400" />

@@ -39,7 +39,7 @@
         v-for="(section, i) in sections"
         :class="{ 'expanded': activeIndex === i }"
         :key="i + '-' + handleize(section.title) + '-2'"
-        class="panel p-1"
+        class="panel"
       >
         <gButton
           :class="{
@@ -241,11 +241,27 @@ export default {
     }
   }
   &.group-style-accordion {
+    .panel {
+      @apply mb-1;
+    }
+    .panel-heading {
+      h3 {
+        @apply font-medium text-base lg:text-sm;
+      }
+    }
     .panel-content {
-      @apply p-3;
+      @apply p-3 bg-gray-800 rounded-b;
     }
     .panels {
       @apply p-0;
+    }
+    .datasheets {
+      .card-title {
+        @apply font-medium text-base;
+      }
+      .icon {
+        @apply text-xl;
+      }
     }
   }
 }

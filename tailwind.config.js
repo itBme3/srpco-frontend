@@ -140,23 +140,19 @@ module.exports = {
   ],
   safelist: [
     {
-      pattern: /^(m|p|mt|pt|ml|pl|mb|pb|mr|pr|inset|top|bottom|left|right)-/,
-      variants: ['xs', 'sm', 'md', 'lg', 'xl'],
+      pattern: /^(m-|p-|mt-|pt-|ml-|pl-|mb-|pb-|mr-|pr-|inset-|top-|bottom-|left-|right-|min-w-|min-h-|max-w-|max-h-|col-span-)/,
+      variants: ['sm', 'md', 'lg'],
     },
     {
-      pattern: /^-(m|p|top|bottom|left|right)-/,
-      variants: ['xs', 'sm', 'md', 'lg', 'xl'],
+      pattern: /^(bg-|text-|bg-opacity-|text-opacity-|bg-gradient-)/,
+      variants: ['sm', 'md',  'hover'],
     },
     {
-      pattern: /^(m|p|w|h|min-w|min-h|max-w|max-h|col-span)-/,
-      variants: ['xs', 'sm', 'md', 'lg', 'xl'],
+      pattern: /^(border-)/,
+      variants: ['hover'],
     },
     {
-      pattern: /^(bg|text|bg-opacity|text-opacity|bg-gradient)-/,
-      variants: ['sm', 'md', 'lg', 'hover', 'md:hover'],
-    },
-    {
-      pattern: /^(font|to|from|duration|scale|text-shadow)-/,
+      pattern: /^(font-|to-|from-)/,
       variants: [],
     },
     'text-shadow text-shadow-xs text-shadow-none text-shadow-opacity-5 text-shadow-opacity-10',

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=dev NGROK=0fb3f07b3814 nuxt",
-    "build": "NODE_ENV=dev NGROK=0fb3f07b3814 nuxt build",
+    "dev": "NODE_ENV=dev NGROK=0556a7d8cd39 nuxt",
+    "build": "NODE_ENV=dev NGROK=0556a7d8cd39 nuxt build",
     "build:prod": "npm run lint && NODE_ENV=production nuxt build",
     "deploy:prod": "npm run build:prod && gcloud app deploy --project srpco-frontend",
     "start": "nuxt start",
@@ -22,6 +22,7 @@
     "vue-beautiful-chat": "^2.5.0",
     "vue-check-view": "^0.3.0",
     "vue-debounce": "^3.0.1",
+    "vue-flickity": "^1.2.1",
     "vue-json-schema": "^1.1.1",
     "vue-pdf": "^4.3.0",
     "vue-tailwind": "^2.5.0",

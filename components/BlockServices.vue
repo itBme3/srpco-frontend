@@ -66,8 +66,3 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.entries {
-  @apply grid grid-cols-12 gap-3;
-}
-</style>

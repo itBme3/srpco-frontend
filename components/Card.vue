@@ -5,7 +5,9 @@
       'has-more-links' : Array.isArray(moreLinks) && moreLinks.length > 0,
       'has-link' : hasLink,
       'no-media': [undefined, null].includes(media) && [undefined, null].includes(youtube),
-      'has-text': typeof text === 'string' && text.length > 0
+      'has-text': typeof text === 'string' && text.length > 0,
+      'has-video': typeof youtube === 'string' && youtube.length > 0,
+      'has-pdf-thumb': !!media && media.url === 'string' && media.url.includes('.pdf') && !showPdfPreview,
     }"
   >
     <Link
@@ -19,11 +21,11 @@
         'card-more-links': Array.isArray(moreLinks) && moreLinks.length > 0
       }"
       :link="link"
-      :modal-data="!!link && !!link.split && link.split('/').length > 2 && ['gaskets'].includes(link.split('/')[1]) ? null : { youtube: youtube, media: media, tile: title, text:text }"
+      :modal-data="{ youtube: youtube, media: media, title: title, text:text }"
       :open-new-tab="openNewTab === true"
       @open-modal="(e) => openModal(e)"
     >
-    <template v-if="typeof media === 'string' && media.indexOf && media.indexOf('gicon') > -1">
+    <template v-if="!!media && typeof media.url === 'string' && media.url.includes('.pdf') && !showPdfPreview">
       <Icon icon-name="datasheets" />
     </template>
     <Media
@@ -34,6 +36,7 @@
       :class="{ [mediaClasses]: mediaClasses.length > 0 }"
       :is-background="['mediaLeft', 'mediaRight', 'overlay'].includes(cardStyle)"
       :youtube="youtube"
+      :video-params="videoParams"
       class="card-media"
     />
     <div
@@ -116,6 +119,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    showPdfPreview: {
+      type: Boolean,
+      default: false
+    },
     classes: {
       type: Object,
       default: () => {
@@ -127,6 +134,20 @@ export default {
           content: ''
         }
       },
+    },
+    videoParams: {
+      type: Object,
+      default: () => {
+        return {
+          mute: false,
+          autoplay: false,
+          controls: true,
+          loop: false,
+          autohide: false,
+          showInfo: true,
+          modestbranding: true,
+        }
+      }
     }
   },
   computed: {
@@ -159,7 +180,7 @@ export default {
     openModal(modalData) {
       this.$store.commit('modal/open', modalData)
     }
-  }
+  },
 };
 </script>
 
@@ -175,6 +196,22 @@ export default {
 .card-content {
   @apply order-1 py-3;
 }
+.datasheets .card,
+.card.datasheet {
+  .card-title {
+    @apply text-gray-300 text-2xl;
+  }
+  .icon {
+    @apply text-6xl m-3 mr-4 relative -top-[.14rem] text-opacity-80;
+    color: var(--block-content-color);
+  }
+  .media {
+    @apply max-w-[100px];
+    .media-pdf {
+      @apply w-full;
+    }
+  }
+}
 .card {
   @apply transition-all ease-quick-in duration-200 rounded bg-white bg-opacity-5 shadow-md overflow-hidden;
   &.no-media {
@@ -185,14 +222,6 @@ export default {
     &:not(.has-more-links) {
       .card-link {
         @apply h-full w-full scale-100 hover:scale-[.98];
-      }
-    }
-  }
-  &.datasheet {
-    .media {
-      @apply max-w-[100px];
-      .media-pdf {
-        @apply w-full;
       }
     }
   }
@@ -219,49 +248,54 @@ export default {
       @apply text-lg sm:text-xl tracking-wider;
     }
   }
-  .card-style {
-    &-overlay {
-      @apply relative;
-      .card-media {
-        @apply relative z-1;
-      }
-      .card-content {
-        @apply absolute top-1/2 transform -translate-y-1/2 left-4 right-4 z-10;
-      }
-      .card-title,
-      .card-text * {
-        @apply order-last;
-        text-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
-      }
+  .card-style-overlay {
+    @apply relative;
+    .card-media {
+      @apply relative z-1;
     }
-    &-media {
-      &-above {
-        @apply flex-col;
-        .card-content {
-          @apply pt-2 px-4 pb-3;
-        }
-        .card-text {
-          @apply px-4;
-        }
-      }
-      &-left {
-        @apply items-center content-between;
-        .card-content {
-          @apply mr-auto w-2/3;
-        }
-        .card-media {
-          @apply mr-[.75rem] w-[calc(33.333%-.75rem)];
-        }
-      }
-      &-right {
-        @apply items-center content-between;
-        .card-content {
-          @apply mr-auto w-2/3 text-center;
-        }
-        .card-media {
-          @apply ml-2 order-2 w-1/3;
-        }
-      }
+    .card-content {
+      @apply absolute top-1/2 transform -translate-y-1/2 left-4 right-4 z-10;
+    }
+    .card-title,
+    .card-text * {
+      @apply order-last;
+      text-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+    }
+  }
+  .card-style-media-above {
+    @apply flex-col;
+    .card-content {
+      @apply pt-2 px-4 pb-3;
+    }
+    .card-text {
+      @apply px-4;
+    }
+    .card-media {
+      @apply w-full;
+    }
+  }
+  .card-style-media-left {
+    @apply items-center content-between;
+    .card-content {
+      @apply mr-auto w-2/3;
+    }
+    .card-media {
+      @apply mr-[.75rem] w-[calc(33.333%-.75rem)];
+    }
+  }
+  .card-style-media-right {
+    @apply items-center content-between;
+    .card-content {
+      @apply mr-auto w-2/3 text-center;
+    }
+    .card-media {
+      @apply ml-2 order-2 w-1/3;
+    }
+  }
+  .card-style-media-left,
+  .card-style-media-right {
+    .card-media {
+      @apply h-full #{!important};
     }
   }
   &.has-text {

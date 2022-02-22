@@ -6,8 +6,11 @@
       :schema="schema"
       @submit.prevent="submit"
     >
-      <gButton type="primary" @click="submit">
-        Subscribe
+      <gButton
+        type="primary"
+        @click="submit"
+      >
+        Submit
       </gButton>
     </form-schema>
   </div>
@@ -64,9 +67,9 @@ export default {
 </script>
 
 <style lang="scss">
-  input {
-    &[class*="focus:ring-gray-500"] {
-        --tw-ring-color: #ccc;
-    }
+input {
+  &[class*="focus:ring-gray-500"] {
+    --tw-ring-color: #ccc;
   }
+}
 </style>

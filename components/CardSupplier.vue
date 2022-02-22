@@ -2,6 +2,7 @@
   <div
     v-if="!!supplier"
     class="card supplier-card relative cursor-pointer block rounded-lg"
+    ref="supplierCard"
     :class="{
       ['card-style-' + cardStyle]: true,
       'expanded p-1': !!expanded,
@@ -10,8 +11,8 @@
       ['bg-transparent']: cardStyle !== 'standard' && !expanded,
       ['transform scale-100 hover:scale-[.98]']: cardStyle === 'standard'
     }"
-    @click="cardClicked($event)"
-    @tap="cardClicked($event)"
+    @click="cardClicked"
+    @tap="cardClicked"
   >
     <div
       class="card-inner flex items-center justify-start p-2"
@@ -84,7 +85,7 @@
       <div class="buttons flex items-center justify-start mt-3">
         <a :href="'/suppliers/' + slug">
           <button
-            class="rounded transform mr-2 scale-100 hover:scale-105 shadow-sm hover:shadow-lg"
+            class="rounded transform mr-2 px-2 whitespace-nowrap scale-95 hover:scale-100 shadow-sm hover:shadow-lg"
             :class="{ 
               ['bg-' + colors.primary]: true,
               ['text-' + colors.primary.split('-')[0] + '-900']: true,
@@ -92,7 +93,7 @@
           >Learn More</button>
         </a>
         <a :href="'/suppliers/' + slug + '#gaskets'">
-          <button class="rounded transform scale-100 hover:scale-105 shadow-sm hover:shadow-lg bg-gray-100 hover:bg-white text-gray-700">
+          <button class="rounded px-2 whitespace-nowrap transform scale-95 hover:scale-100 shadow-sm hover:shadow-lg bg-gray-100 hover:bg-white text-gray-700">
             Gaskets
           </button>
         </a>
@@ -158,7 +159,7 @@ export default {
       return { primary, secondary }
     },
     titleClasses () {
-      return !!this.classes?.title ? this.classes.title : 'text-gray-900 text-opacity-70'
+      return !!this.classes?.title ? this.classes.title : ''
     },
     mediaClasses () {
       return !!this.classes?.media ? this.classes.media : ''
@@ -168,13 +169,16 @@ export default {
     },
   },
   methods: {
-    cardClicked (e) {
+    cardClicked () {
       if (this.cardStyle === 'standard') {
         return this.$router.push({
           path: `/suppliers/${this.slug}`
         })
       }
       this.expanded = !this.expanded
+      if (this.expanded === true && window !== undefined) {
+        window.scrollTo({ top: this.$refs.supplierCard.offsetTop - 100, behavior: 'smooth' })
+      }
     }
   }
 }
@@ -201,9 +205,18 @@ export default {
     }
   }
   &.card-style-small {
-    @apply max-w-[300px] ml-0 mr-auto shadow-sm;
-    .card-inner {
-      @apply bg-gray-200;
+    @apply max-w-[300px] ml-0 mr-auto shadow-sm text-gray-300;
+    &:not(.expanded) {
+      @apply transform shadow-lg hover:shadow-sm scale-100 hover:scale-98;
+      .card-content {
+        @apply mr-auto w-full;
+      }
+      .card-title {
+        @apply text-ellipsis overflow-hidden whitespace-nowrap mr-12;
+      }
+      .card-inner {
+        @apply bg-gray-800;
+      }
     }
     .media {
       @apply shadow-xl w-12 h-12 min-w-12 min-h-12 mr-3;
@@ -211,7 +224,7 @@ export default {
   }
   &.expanded {
     @apply text-gray-900;
-    @apply rounded-lg #{!important};
+    @apply bg-gray-200 bg-opacity-100 rounded-lg #{!important};
     .description {
       padding: 0 0.5rem 0.25em;
     }

@@ -18,13 +18,12 @@ export const homepageQuery = (() => {
       'ComponentBlockGroup',
       'ComponentBlockHero',
       'ComponentBlockCard',
+      'ComponentBlockCarousel',
       'ComponentBlockIconList',
     ].reduce((acc, key: string) => {
-      return acc + `
-                                ... on ${key} {
-                                  ${blockFields[key]}
-                                }
-                              `
+      return acc + `... on ${key} {
+        ${blockFields[key]}
+      }`
     }, '')}
     }
     seo {

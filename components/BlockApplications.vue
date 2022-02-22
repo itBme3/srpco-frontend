@@ -1,22 +1,20 @@
 <template>
-  <div>
-    <div
-      class="entries"
-      :class="{ [collectionType]: true }"
-      v-if="Array.isArray(entries) && entries.length > 0"
-    >
-      <Card
-        v-for="entry in entries"
-        :key="entry.id"
-        :title="entry.title"
-        :media="entry.media"
-        card-style="mediaLeft"
-        :link="collectionType + '/' + entry.slug"
-        media-ratio="8.5:11"
-        :classes="cardClasses"
-        class="col-span-12"
-      />
-    </div>
+  <div
+    class="entries"
+    :class="{ [collectionType]: true }"
+    v-if="Array.isArray(entries) && entries.length > 0"
+  >
+    <Card
+      v-for="entry in entries"
+      :key="entry.id"
+      :title="entry.title"
+      :media="entry.media"
+      card-style="mediaLeft"
+      :link="collectionType + '/' + entry.slug"
+      media-ratio="8.5:11"
+      :classes="cardClasses"
+      class="col-span-12"
+    />
   </div>
 </template>
 
@@ -47,9 +45,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.entries {
-  @apply grid grid-cols-12 gap-3;
-}
-</style>

@@ -25,11 +25,17 @@
       <BlockCollection
         :key="'supplier-collection-' + collectionType"
         v-if="haveFetched.includes(collectionType)"
-        :class="{ 'hidden': showingCollection !== collectionType }"
+        :class="{ 
+          [collectionType]: true,
+          'hidden': showingCollection !== collectionType }"
         :filters="collectionFilters[collectionType]"
         :collection-type="collectionType"
         :infinite-scroll="true"
         :search-bar="true"
+        card-style="mediaLeft"
+        :classes="{
+          card: 'col-span-12 sm:col-span-6'
+        }"
       />
     </template>
   </div>

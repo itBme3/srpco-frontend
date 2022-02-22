@@ -18,6 +18,11 @@ export const blockFields: { [key: string]: string } = {
       ${blockSettingsFields.DEFAULT}
       ${blockSettingsFields.card}
   `,
+  ComponentBlockCarousel: `
+    slides { media { ${mediaFields.default} } content classes }
+    carouselSettings
+    ${blockSettingsFields.DEFAULT}
+  `,
   ComponentBlockHero: `
       title text youtube
       heroSettings { classes style }

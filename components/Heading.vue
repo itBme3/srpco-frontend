@@ -7,9 +7,10 @@
       'has-media': (![undefined, null].includes(media) && typeof media.url === 'string') || typeof youtube === 'string' && youtube.length > 0
     }"
   >
+
     <Breadcrumbs
       v-if="!!breadcrumbs && headingType === 'page'"
-      class="heading-breadcrumbs mb-3 mt-0 w-full"
+      class="heading-breadcrumbs m-2 mt-0 w-full"
     />
     <div class="heading-content">
 
@@ -20,7 +21,8 @@
       <Media
         v-if="![null, undefined].includes(media) && typeof media.url === 'string'"
         :media="media"
-        class="order-0"
+        class="order-0 h-full my-0"
+        :isBackground="true"
         :class="{ 'heading-media': true, [mediaClasses]: mediaClasses.length > 0 }"
         :ratio="mediaRatio"
       />
@@ -95,7 +97,7 @@ export default {
     @apply block sm:flex flex-row items-center justify-start w-full;
   }
   &-text-content {
-    @apply bg-gray-900 sm:bg-transparent px-2 my-0 h-full flex w-full sm:order-first order-last flex-col content-start relative z-1 max-w-prose;
+    @apply px-2 my-0 h-full flex w-full sm:order-first order-last flex-col content-start relative z-1 max-w-prose;
   }
   &-title {
     @apply text-gray-600 mb-2 text-opacity-50 font-black;
@@ -135,6 +137,11 @@ export default {
           box-shadow: 0 -20px 36px 30px rgba(17, 24, 39, 1) !important;
         }
       }
+    }
+  }
+  .single-entry {
+    .heading-content {
+      @apply bg-gray-900 sm:bg-transparent;
     }
   }
 }

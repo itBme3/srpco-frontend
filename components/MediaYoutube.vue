@@ -5,20 +5,22 @@
   >
     <client-only>
       <youtube-media
-        class="h-full w-full"
         :v-if="!!videoId"
+        ref="videoFrame"
+        class="h-full w-full"
         :video-id="videoId"
         :player-width="'100%'"
         :player-height="'100%'"
-        :player-vars="playVars"
+        :player-vars="playerVars"
         :mute="mute"
-        :host="'//www.youtube-nocookie.com'"
       />
     </client-only>
   </div>
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   props: {
     src: {
@@ -62,49 +64,50 @@ export default {
     return {
       videoId: null,
       videoHeight: 'auto',
-      playVars: {},
+      playerVars: {},
       origin: process.env.baseUrl
     }
   },
-  fetch () {
-    this.playVars = ['autoplay', 'controls', 'loop', 'autohide', 'showInfo', 'modestbranding'].reduce((acc, key) => {
-      return { ...acc, [key]: this[key] === true ? 1 : 0 }
-    }, {
-      rel: 0,
-      list: 'UUu_bAN6SQdiSWVR5TGJ1ELQ',
-      origin: this.origin,
-      wmode: 'opaque',
-    })
-    this.videoId = null
-    this.videoHeight = 'auto'
+  data () {
+    return {
+      videoId: !!this.videoId && this.videoId !== null ? this.videoId
+        : typeof this.src === 'string' && typeof this?.$youtube !== 'undefined'
+          ? this.$youtube.getIdFromURL(this.src)
+          : null,
+      videoHeight: 'auto',
+      playerVars: {
+        rel: 0,
+        list: 'UUu_bAN6SQdiSWVR5TGJ1ELQ',
+        origin: this.origin,
+        wmode: 'opaque',
+        mute: !!this.mute ? 1 : 0,
+        autoplay: !!this.autoplay ? 1 : 0,
+        controls: !!this.controls ? 1 : 0,
+        loop: !!this.loop ? 1 : 0,
+        autohide: !!this.autohide ? 1 : 0,
+        showInfo: !!this.showInfo ? 1 : 0,
+        modestbranding: !!this.modestbranding ? 1 : 0,
+      }
+    }
+  },
+  beforeMount () {
+    const origin = window !== undefined ? window.location.origin : process.env.baseUrl
+    this.origin = origin
     this.videoId = !!this.videoId && this.videoId !== null
       ? this.videoId
       : typeof this.src === 'string' && typeof this?.$youtube !== 'undefined'
         ? this.$youtube.getIdFromURL(this.src)
         : null
   },
-  computed: {
-
-  },
-  beforeMount () {
-    const origin = window !== undefined ? window.location.origin : process.env.baseUrl
-    this.origin = origin
-    window.addEventListener('resize', this.setVideoHeight)
-    this.setVideoHeight()
-  },
-  unmounted () {
-    window.removeEventListener('resize', this.setVideoHeight)
-  },
   methods: {
-    setVideoHeight () {
-      setTimeout(() => {
-        const elWidth = typeof this.$el !== 'undefined' && this.$el.offsetWidth > 0 ? this.$el.offsetWidth : null
-        if (elWidth > 0) {
-          const ratio = this.ratio && this.ratio?.indexOf(':') > -1 ? this.ratio.split(':') : '16:9'.split(':')
-          this.videoHeight = '' + Math.floor(elWidth / ratio[0] * ratio[1]) + 'px'
-        }
-      }, 100)
-    }
+    setVideoHeight: _.debounce(function () {
+      console.log({ videoFrame: this.$refs.videoFrame })
+      const elWidth = typeof this.$el !== 'undefined' && this.$el.offsetWidth > 0 ? this.$el.offsetWidth : null
+      if (elWidth > 0) {
+        const ratio = this.ratio && this.ratio?.indexOf(':') > -1 ? this.ratio.split(':') : '16:9'.split(':')
+        this.videoHeight = '' + Math.floor(elWidth / ratio[0] * ratio[1]) + 'px'
+      }
+    }, 250)
   }
 }
 </script>

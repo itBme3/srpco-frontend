@@ -16,7 +16,7 @@
   <button
     v-else-if="![undefined, null].includes(mData)"
     :tag-name="mData === null ? 'div' : 'gButton'"
-    @click="handleModal"
+    @click="handleModal()"
   >
     <slot />
   </button>
@@ -44,24 +44,18 @@ export default {
     }
   },
   data () {
-    const mime = objectValue('media.mime', this.modalData)
-    const youtube = objectValue('youtube', this.modalData)
-    const res = { showModal: false }
-    if (
-      (typeof mime !== 'string' || !mime.includes('pdf')) && typeof youtube !== 'string') {
-      res.mData = null
-    } else if (this.$route.fullPath.split('/').length === 2 || ['services', 'solutions', 'applications'].includes(this.$route.fullPath.split('/')[1])) {
-      res.mData = null
-    } else {
-      const { title = null, text = null, description = null, media: file = null } = this.modalData
-      res.mData = {
-        title,
-        youtube,
-        file,
+    const { title = null, text = null, description = null, media: file = null, youtube = null, videoParams = {} } = !!this.modalData ? this.modalData : {}
+    const mData = this.modalData?.media?.mime?.includes('pdf') || this.modalData?.youtube?.length
+      ? {
+        title, youtube, file,
         text: typeof description === 'string' && description.length > 0 ? description : text
       }
+      : null;
+    if (this.modalData?.youtube?.length) {
+      const defaultParams = { mute: false, autoplay: false, controls: true, loop: false, autohide: false, showInfo: true, modestbranding: true, }
+      mData.videoParams = Object.keys(videoParams).length ? { ...defaultParams, ...videoParams } : defaultParams
     }
-    return res
+    return { showModal: false, mData }
   },
   methods: {
     toggleModal () {

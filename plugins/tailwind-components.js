@@ -10,7 +10,7 @@ export const TailwindComponentsSettings = {
     component: TInput,
     props: {
       fixedClasses:
-        'hover:shadow-lg rounded active:shadow-md focus:shadow-md block w-full px-3 py-2 transition border border-gray-700 border-opacity-10 duration-100 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed ring-non outline-none focus:border-0 focus:outline-none focus:ring-none, active:border-0 active:outline-none active:ring-none',
+        'hover:shadow-lg rounded active:shadow-md focus:shadow-md block w-full px-3 py-2 transition border border-gray-700 border-opacity-10 duration-100 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed ring-non outline-none focus:border-0 focus:outline-none focus:ring-0, active:border-0 active:outline-none active:ring-0',
       classes: 'text-gray-700 placeholder-gray-400',
       placeholder: '...',
       variants: {
@@ -302,11 +302,9 @@ export const TailwindComponentsSettings = {
   gButton: {
     component: TButton,
     props: {
-      fixedClasses: 'transition focus:border-transparent focus:ring-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
-      classes: 'rounded text-gray-700',
-      variants: {
-        
-      }
+      fixedClasses: 'transition focus:border-transparent focus:ring-0 focus:outline-0 disabled:opacity-50 disabled:cursor-not-allowed',
+      classes: '',
+      variants: {}
     }
   },
   gTag: {
@@ -354,6 +352,21 @@ export const TailwindComponentsSettings = {
         pdf: {
           wrapper: 'h-full',
           modal: 'bg-transparent lg:px-12 shadow-none h-[calc(100vh-2em)] w-full mx-auto max-w-[1280px]',
+          body: 'p-0 h-full',
+          header: 'border-gray-100',
+          footer: 'bg-gray-100',
+          close: 'fixed rounded-sm w-8 sm:w-12 h-8 sm:h-12 top-1 right-1 bg-gray-700 bg-opacity-0 hover:bg-opacity-30 text-red-400',
+          closeIcon: 'w-6 h-6 sm:w-8 sm:h-8',
+          overlayEnterClass: 'opacity-0',
+          overlayEnterActiveClass: 'transition ease-out duration-100',
+          overlayEnterToClass: 'opacity-100',
+          overlayLeaveClass: 'opacity-100',
+          overlayLeaveActiveClass: 'transition ease-in duration-75',
+          overlayLeaveToClass: 'opacity-0',
+        },
+        video: {
+          wrapper: 'h-full',
+          modal: 'bg-gray-900 bg-opacity-85 lg:px-12 shadow-none h-[calc(100vh-2em)] w-full mx-auto max-w-[1280px]',
           body: 'p-0 h-full',
           header: 'border-gray-100',
           footer: 'bg-gray-100',
