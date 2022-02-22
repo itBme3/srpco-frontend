@@ -40,9 +40,13 @@
         :button-text="!!block.collectionSettings ? block.collectionSettings.buttonText : null"
         :classes="cardClasses"
       />
-      </h1>
+
       <BlockContent
         v-if="block.__typename === 'ComponentBlockContent'"
+        :block="block"
+      />
+      <BlockCarousel
+        v-if="block.__typename === 'ComponentBlockCarousel'"
         :block="block"
       />
       <BlockHero

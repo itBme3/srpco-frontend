@@ -19,9 +19,14 @@ export default {
     link: [
       { rel: 'icon', type: 'image', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
-      { rel: 'stylesheet', href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?sjun1e' }
+      { rel: 'stylesheet', href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?5crn8k' }
     ]
   },
+
+  server: {
+    port: '3001'
+  },
+
   ssr: true,
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
@@ -47,6 +52,7 @@ export default {
     '~/plugins/debounce.js',
     '~/plugins/youtube-embed.client.js',
     '~/plugins/pdf-embed.client.js',
+    '~/plugins/flickity.client.js',
     '~/plugins/scrollbar.js',
     '~/plugins/chat-box.client.js',
     '~/plugins/tailwind-components.js',
