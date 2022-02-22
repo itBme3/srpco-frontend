@@ -13,7 +13,7 @@ export const blockSettingsFields = {
 
 export const blockFields: { [key: string]: string } = {
   ComponentBlockCard: `
-      title text link openNewTab
+      title text link openNewTab youtube
       media { ${mediaFields.default} }
       ${blockSettingsFields.DEFAULT}
       ${blockSettingsFields.card}
@@ -38,7 +38,13 @@ export const blockFields: { [key: string]: string } = {
       ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockCollection: `
-      collectionType collectionSettings { sort limit infiniteScroll updateUrl }
+      collectionType collectionSettings {
+        sort limit
+        updateUrl
+        loadingMore
+        buttonLink
+        buttonText
+      }
       ${blockSettingsFields.DEFAULT}
       ${blockSettingsFields.card}
   `,
@@ -48,7 +54,9 @@ export const blockFields: { [key: string]: string } = {
         data {
           id
           attributes {
-            title slug collectionType type youtube
+            title slug
+              collectionType
+              type youtube
             media { ${mediaFields.default} }
           }
         }
@@ -74,7 +82,9 @@ export const blockFields: { [key: string]: string } = {
         data {
           id
           attributes {
-        title slug collectionType type
+        title slug
+              collectionType
+              type
         media { ${mediaFields.default} }
           }
         }
@@ -87,7 +97,9 @@ export const blockFields: { [key: string]: string } = {
         data {
             id
             attributes {
-              title slug collectionType type
+              title slug
+              collectionType
+              type
               media { ${mediaFields.default} }
             }
         }
@@ -99,7 +111,9 @@ export const blockFields: { [key: string]: string } = {
         data {
             id
             attributes {
-              title slug collectionType type
+              title slug
+              collectionType
+              type
               file { ${mediaFields.default} }
             }
         }
@@ -111,7 +125,9 @@ export const blockFields: { [key: string]: string } = {
         data {
           id
           attributes {
-            title slug collectionType type
+            title slug
+            collectionType
+            type
             media { ${mediaFields.default} }
           }
         }
@@ -128,7 +144,9 @@ export const blockFields: { [key: string]: string } = {
           data {
             id
             attributes {
-              title slug collectionType type
+              title slug
+              collectionType
+              type
               media { ${mediaFields.default} }
             }
           }
@@ -137,7 +155,9 @@ export const blockFields: { [key: string]: string } = {
           data {
             id
             attributes {
-              title slug collectionType type
+              title slug
+              collectionType
+              type
               file { ${mediaFields.default} }
             }
           }
@@ -146,7 +166,20 @@ export const blockFields: { [key: string]: string } = {
           data {
             id
             attributes {
-              title slug collectionType type
+              title slug
+              collectionType
+              type
+              media { ${mediaFields.default} }
+            }
+          }
+        }
+        resources {
+          data {
+            id
+            attributes {
+              title slug
+              collectionType
+              type
               media { ${mediaFields.default} }
             }
           }
@@ -170,27 +203,44 @@ export const blockFields: { [key: string]: string } = {
     title content
     gaskets {
       data { id attributes {
-          title slug collectionType type
+          title
+          slug
+          collectionType
+          type
           media { ${mediaFields.default} }
         }
       }
     }
     datasheets {
       data { id attributes {
-          title slug collectionType type
+          title
+          slug
+          collectionType
+          type
           file { ${mediaFields.tiny} }
         }
       }
     }
     materials {
       data { id attributes {
-          title slug collectionType type
+          title
+          slug
+          collectionType
+          type
           media { ${mediaFields.default} }
         } 
       }
     }
     ${blockSettingsFields.DEFAULT}
     ${blockSettingsFields.card}
+  `,
+  ComponentBlockIconList: `
+    title 
+    icon 
+    items { 
+      id icon text classes 
+    }
+    ${blockSettingsFields.DEFAULT}
   `
 }
 

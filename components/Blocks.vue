@@ -15,8 +15,8 @@
 export default {
   props: {
     blocks: {
-      type: Object,
-      default: () => null
+      type: Array,
+      default: () => []
     }
   }
 }

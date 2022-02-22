@@ -48,14 +48,35 @@
         />
       </template>
     </div>
+
+    <gButton
+      v-if="loadingMore === 'linkToCollection' || (!!buttonLink && buttonLink.length)"
+      class="load-more-button"
+      @click="collectionButtonClicked()"
+    >
+      <template v-if="!!buttonText && buttonText.length">
+        {{ buttonText }}
+      </template>
+      <template v-else>
+        {{ collectionType }} Collection
+      </template>
+    </gButton>
+
     <client-only>
       <gButton
-        v-if="canLoadMore === true"
+        v-if="canLoadMore === true && ['button', 'infiniteScroll'].includes(loadingMore) && (!buttonLink || !buttonLink.length)"
         v-view="infiniteScroll ? visibilityHandler : (e) => e"
-        class="mt-4 hover:bg-blue-600 bg-blue-500 uppercase text-gray-900 text-opacity-70 tracking-wide px-3 py-2 w-auto min-w-auto block"
+        :class="{
+          'load-more-button': true
+        }"
         @click="get(entries.length)"
       >
-        more {{ collectionType }}
+        <template v-if="!!buttonText && buttonText.length">
+          {{ buttonText }}
+        </template>
+        <template v-else>
+          load more {{ collectionType }}
+        </template>
       </gButton>
     </client-only>
   </div>
@@ -129,6 +150,18 @@ export default {
     filters: {
       type: Boolean,
       default: true
+    },
+    loadingMore: {
+      type: String, /* button, infiniteScroll, linkToCollection, none */
+      default: 'button'
+    },
+    buttonLink: {
+      type: String,
+      default: null
+    },
+    buttonText: {
+      type: String,
+      default: null
     }
   },
   data () {
@@ -243,7 +276,21 @@ export default {
       const routeQuery = !this.updateUrl ? !!this.searchValue?.length ? { q: this.searchValue } : {} : {...this.$route.query, q: this.searchValue}
       return strapiFilterParams({ ...routeQuery, constantFilters: this.constantFilters, pagination: {limit}, sort }, this.collectionType)
     },
+    collectionButtonClicked() {
+      if (this.buttonLink?.length) {
+        return this.$router.push({path: this.buttonLink })
+      }
+      if(this.collectionType !== 'resources') {
+        return this.$router.push({path: `/${this.collectionType}` })
+      }
+      const resourceTypes = [...new Set(this.entries.map(e => e.resourceType))];
+      if (resourceTypes.length > 1) {
+        return this.$router.push({path: `/${this.collectionType}/${resourceTypes[0]}` })
+      }
+      return this.$router.push({ path: '/resources' })
+    },
     visibilityHandler (e) {
+      if(this.loadingMore !== 'infiniteScroll') return;
       if (e.percentInView > 0.20) {
         this.canLoadMore = false
         this.get(this.entries.length)
@@ -255,19 +302,24 @@ export default {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .collection-entries {
   @apply grid grid-cols-12 gap-3 sm:gap-4 mx-auto my-0;
 }
 .collection-entry {
   @apply col-span-6 md:col-span-4 lg:col-span-3;
-  // .card-link {
-  //    @apply transform transition-all ease-quick-in duration-300 scale-100 hover:scale-102;
-  // }
   .card-title {
     @apply text-lg sm:text-xl;
   }
 }
+
+.load-more-button {
+  @apply mt-5 uppercase text-gray-900 text-opacity-80 tracking-wide px-3 py-2 w-auto block;
+  background-color: var(--block-content-color);
+}
+</style>
+
+<style lang="scss">
 .collection-container {
   .search-bar {
     @apply max-w-xs bg-gray-50 bg-opacity-3 hover:bg-opacity-5 focus-within:bg-opacity-5 mb-3;

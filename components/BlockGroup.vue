@@ -2,7 +2,10 @@
   <div
     ref="container"
     v-if="Array.isArray(sections) && sections.length > 0"
-    class="group-container rounded bg-black bg-opacity-5 shadow-lg mt-4"
+    :class="{
+      'group-container': true,
+      ['group-style-' + groupStyle]: true
+    }"
   >
 
     <client-only>
@@ -21,7 +24,7 @@
           :key="i + '-' + handleize(section.title)"
           :class="{ 
             'tab my-auto': true,
-            'active bg-red-500 text-white': activeIndex === i,
+            'active': activeIndex === i,
             [classes.buttons]: !!classes.buttons
           }"
           @click="toggleSections(i)"
@@ -31,7 +34,7 @@
       </scrollbar>
     </client-only>
 
-    <div class="panels p-3">
+    <div class="panels">
       <div
         v-for="(section, i) in sections"
         :class="{ 'expanded': activeIndex === i }"
@@ -67,7 +70,7 @@
         <div
           v-if="hasExpanded.includes(i)"
           :class="{
-            'panel-content': true,
+            'panel-content space-y-4': true,
             [classes.content]: !!classes.content,
             'expanded transition-all ease-quick-in duration-200 opacity-100 translate-y-0 animate-fade-in-down': i === activeIndex,
             'opacity-0 hidden -translate-y-full': i !== activeIndex
@@ -88,7 +91,7 @@
             :block="{ datasheets: section.datasheets, title: null }"
           />
           <div
-            class='gaskets flex flex-col justify-content-start items-center px-3 space-y-2'
+            class='gaskets entries flex flex-col justify-content-start items-center space-y-2'
             v-if="Array.isArray(section.gaskets) && section.gaskets.length > 0"
           >
             <template v-for="entry in section.gaskets">
@@ -108,17 +111,17 @@
           </div>
           <BlockMaterials
             v-if="Array.isArray(section.materials) && section.materials.length > 0"
-            class="w-full flex flex-col justify-content-start items-center px-3 space-y-2"
+            class="w-full flex flex-col justify-content-start items-center space-y-2"
             :block="{ entries: section.materials, title: null }"
           />
           <BlockApplications
             v-if="Array.isArray(section.applications) && section.applications.length > 0"
-            class="w-full flex flex-col justify-content-start items-center px-3 space-y-2"
+            class="w-full flex flex-col justify-content-start items-center space-y-2"
             :block="{ entries: section.applications, title: null }"
           />
           <BlockResources
             v-if="Array.isArray(section.resources) && section.resources.length > 0"
-            class="w-full flex flex-col justify-content-start items-center px-3 space-y-2"
+            class="w-full flex flex-col justify-content-start items-center space-y-2"
             :block="{ entries: section.resources, title: null }"
           />
 
@@ -216,14 +219,41 @@ export default {
     }
   }
 }
-.panels {
-  @apply p-2 sm:p-3;
-}
-.panel-content {
-  @apply rounded mb-3 relative p-4 bg-gray-800 shadow-lg;
+.tabs {
+  @apply bg-white bg-opacity-5 shadow-lg rounded p-2;
 }
 .tab {
-  @apply whitespace-nowrap;
+  @apply whitespace-nowrap bg-white bg-opacity-5 text-gray-400 w-auto hover:bg-opacity-100 hover:text-black hover:text-opacity-75;
+  &:hover {
+    background-color: var(--block-content-color);
+  }
+  &.active {
+    @apply text-black text-opacity-75;
+    background-color: var(--block-content-color);
+  }
+}
+.group-container {
+  @apply rounded;
+  &.group-style-tabs {
+    @apply shadow-lg mt-4 p-3 bg-white bg-opacity-5;
+    .panels {
+      @apply p-2;
+    }
+  }
+  &.group-style-accordion {
+    .panel-content {
+      @apply p-3;
+    }
+    .panels {
+      @apply p-0;
+    }
+  }
+}
+.panels {
+  @apply rounded p-4;
+}
+.panel-content {
+  @apply mb-3 relative;
 }
 .expanded {
   .tabs,

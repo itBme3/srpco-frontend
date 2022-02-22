@@ -35,6 +35,9 @@
         :card-style="!!block.cardSettings && !!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaAbove'"
         :show-excerpt="!!block.cardSettings && !!block.cardSettings.showExcerpt"
         :show-more-links="!!block.cardSettings && block.cardSettings.showMoreLinks !== false"
+        :loading-more="!!block.collectionSettings ? block.collectionSettings.loadingMore : 'button'"
+        :button-link="!!block.collectionSettings ? block.collectionSettings.buttonLink : null"
+        :button-text="!!block.collectionSettings ? block.collectionSettings.buttonText : null"
         :classes="cardClasses"
       />
       </h1>
@@ -70,6 +73,14 @@
         v-if="block.__typename === 'ComponentBlockGroup'"
         :block="block"
       />
+      <BlockButtons
+        v-if="block.__typename === 'ComponentBlockButtons'"
+        :block="block"
+      />
+      <BlockIconList
+        v-if="block.__typename === 'ComponentBlockIconList'"
+        :block="block"
+      />
     </template>
   </div>
 </template>
@@ -97,7 +108,3 @@ export default {
   }
 }
 </script>
-
-
-<style lang="scss">
-</style>

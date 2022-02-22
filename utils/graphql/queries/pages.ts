@@ -18,6 +18,7 @@ export const homepageQuery = (() => {
       'ComponentBlockGroup',
       'ComponentBlockHero',
       'ComponentBlockCard',
+      'ComponentBlockIconList',
     ].reduce((acc, key: string) => {
       return acc + `
                                 ... on ${key} {
