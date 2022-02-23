@@ -29,6 +29,7 @@
       <div class="modals">
         <Modals />
       </div>
+      <AdminEditButton />
     </client-only>
   </div>
 </template>
@@ -45,9 +46,6 @@ export default {
     if (!!window) return;
     window.addEventListener('resize', this.getDocumentDimensions)
   },
-  // unmounted () {
-  // window.removeEventListener('resize', this.getDocumentDimensions)
-  // },
   methods: {
     getDocumentDimensions () {
       if (!!document) {
