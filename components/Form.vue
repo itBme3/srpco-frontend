@@ -43,6 +43,7 @@ FormSchema.setComponent('form', FormWrapper, (vm) => {
 FormSchema.setComponent('label', TTag)
 FormSchema.setComponent('email', TInput)
 FormSchema.setComponent('text', TInput)
+FormSchema.setComponent('password', TInput)
 FormSchema.setComponent('textarea', TTextarea)
 FormSchema.setComponent('checkbox', TCheckbox)
 FormSchema.setComponent('checkbox', TToggle)
@@ -53,14 +54,20 @@ FormSchema.setComponent('option', TButton)
 
 export default {
   components: { FormSchema },
+  props: {
+    schema: {
+      type: Object,
+      default: () => require('~/form-schema/general')
+    }
+  },
   data: () => ({
-    schema: require('~/form-schema/general'),
     model: {}
   }),
   methods: {
     submit (e) {
+      e.preventDefault();
       console.log(JSON.stringify(this.model))
-      console.log({ e })
+      this.$emit('submit', this.model)
     }
   }
 }

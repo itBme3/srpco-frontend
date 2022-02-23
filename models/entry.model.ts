@@ -35,6 +35,9 @@ export enum CollectionType {
       PAGES = 'pages',
 }
 
+export const entryTypes = Object.values(EntryType);
+export const collectionTypes = Object.values(CollectionType);
+
 export enum StrapiCollectionType {
       USERS = 'users',
       WRITERS = 'writers',

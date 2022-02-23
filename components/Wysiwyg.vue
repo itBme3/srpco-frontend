@@ -48,5 +48,34 @@ export default {
   &.block-content {
     @apply leading-relaxed;
   }
+  li {
+    > a {
+      color: inherit !important;
+      border-bottom: 1px solid;
+      opacity: 0.8;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+  blockquote {
+    @apply pl-8 relative;
+    &:before {
+      @apply block absolute left-0 right-auto top-0;
+      content: "\e9b5";
+      font-family: "SRP-Icons" !important;
+      speak: never;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    + p i {
+      @apply pl-8;
+    }
+  }
 }
 </style>

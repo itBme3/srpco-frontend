@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { EntryType } from '~/models/entry.model'
+import { collectionTypes, EntryType } from '~/models/entry.model'
 import { getPageClasses } from '~/utils/get-classes'
 
 export default {
@@ -63,16 +63,36 @@ export default {
     }
   },
   data () {
+    const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
+    console.log({ pageData: this.pageData })
+    this.$store.commit('adminEdit/setAdminLink', { slug, collectionType, entryType, id })
     return {
-      entryTypes: Object.values(EntryType)
+      page: this.pageData,
+      slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
+      collectionType, entryType, id,
+      entryTypes: Object.values(EntryType),
+      pageClasses: getPageClasses(this.pageData)
     }
   },
-  computed: {
-    pageClasses () {
-      return getPageClasses(this.pageData)
-    },
-    page () {
-      return this.pageData
+  mounted () {
+    const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
+    console.log({ pageData: this.pageData })
+    this.$store.commit('adminEdit/setAdminLink', {
+      slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
+      collectionType, entryType, id: id * 1
+    })
+  },
+  watch: {
+    pageData () {
+      this.page = this.pageData;
+      console.log({ pageData: this.pageData })
+      const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
+      this.pageClasses = getPageClasses(this.pageData);
+      this.$store.commit('adminEdit/setAdminLink', {
+        id,
+        slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
+        collectionType, entryType
+      })
     }
   }
 }

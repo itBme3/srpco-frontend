@@ -1,31 +1,33 @@
 <template>
   <div class="carousel-wrapper w-full relative">
-    <flickity
-      ref="carousel"
-      class="carousel"
-      :options="flickityOptions"
-    >
-      <slot></slot>
-    </flickity>
+    <client-only>
+      <flickity
+        ref="carousel"
+        class="carousel"
+        :options="flickityOptions"
+      >
+        <slot></slot>
+      </flickity>
 
-    <button
-      @click="previous()"
-      class="next-previous-button previous"
-    >
-      <Icon
-        icon-name="angle-left"
-        class="m-auto"
-      />
-    </button>
-    <button
-      @click="next()"
-      class="next-previous-button next"
-    >
-      <Icon
-        icon-name="angle-right"
-        class="m-auto"
-      />
-    </button>
+      <button
+        @click="previous()"
+        class="next-previous-button previous"
+      >
+        <Icon
+          icon-name="angle-left"
+          class="m-auto"
+        />
+      </button>
+      <button
+        @click="next()"
+        class="next-previous-button next"
+      >
+        <Icon
+          icon-name="angle-right"
+          class="m-auto"
+        />
+      </button>
+    </client-only>
   </div>
 </template>
 

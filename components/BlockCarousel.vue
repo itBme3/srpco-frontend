@@ -3,10 +3,17 @@
   <Carousel
     v-if="slides && slides.length > 0"
     :options="options"
+    :class="{
+        [classes.content]: classes.content && classes.content.length
+    }"
   >
 
     <div
-      class="slide"
+      :class="{
+        'slide': true,
+        [classes.slides]: classes.slides && classes.slides.length,
+        [slide.classes && slide.classes.slide]: slide.classes && slide.classes.slide && slide.classes.slide.length
+      }"
       v-for="(slide, i) in slides"
       :key="'slide-' + i"
     >
@@ -15,11 +22,14 @@
         :media="slide.media"
         :is-background="true"
       />
-      <div
+      <Wysiwyg
         v-if="slide.content && slide.content.length > 0"
-        class="slide-content"
-        v-html="slide.content"
-      ></div>
+        :class="{
+          'block-content': true,
+          [slide.classes && slide.classes.content]: slide.classes && slide.classes.content && slide.classes.content.length
+        }"
+        :content="slide.content"
+      />
     </div>
   </Carousel>
 
@@ -34,11 +44,13 @@ export default {
     }
   },
   data () {
-    const { carouselSettings: options = {}, slides, blockSettings = {} } = !!this.block ? this.block : {}
+    const { carouselOptions: options = {}, slides, blockSettings = {} } = !!this.block ? this.block : {};
     return { options: options === null ? {} : options, slides, blockSettings }
   },
-  created () {
-    console.log({ block: this.block })
+  computed: {
+    classes () {
+      return !!!this.blockSettings?.classes ? { content: '', title: '', slides: '' } : this.blockSettings.classes
+    }
   }
 }
 </script>

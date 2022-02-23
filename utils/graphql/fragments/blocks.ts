@@ -20,7 +20,7 @@ export const blockFields: { [key: string]: string } = {
   `,
   ComponentBlockCarousel: `
     slides { media { ${mediaFields.default} } content classes }
-    carouselSettings
+    carouselOptions
     ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockHero: `
@@ -43,7 +43,8 @@ export const blockFields: { [key: string]: string } = {
       ${blockSettingsFields.DEFAULT}
   `,
   ComponentBlockCollection: `
-      collectionType collectionSettings {
+      collectionType title
+      collectionSettings {
         sort limit
         updateUrl
         loadingMore

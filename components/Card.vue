@@ -34,7 +34,7 @@
       :ratio="mediaRatio"
       :overlay="cardStyle === 'overlay'"
       :class="{ [mediaClasses]: mediaClasses.length > 0 }"
-      :is-background="['mediaLeft', 'mediaRight', 'overlay'].includes(cardStyle)"
+      :is-background="true"
       :youtube="youtube"
       :video-params="videoParams"
       class="card-media"
@@ -202,7 +202,7 @@ export default {
     @apply text-gray-300 text-2xl;
   }
   .icon {
-    @apply text-6xl m-3 mr-4 relative -top-[.14rem] text-opacity-80;
+    @apply text-2xl m-3 mr-4 relative -top-[.14rem] text-opacity-80;
     color: var(--block-content-color);
   }
   .media {
