@@ -19,7 +19,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
-      { rel: 'stylesheet', href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?5crn8k' }
+      { rel: 'stylesheet', href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?wjbzbf' }
     ]
   },
 

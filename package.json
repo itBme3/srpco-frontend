@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=dev NGROK=0556a7d8cd39 nuxt",
-    "build": "NODE_ENV=dev NGROK=0556a7d8cd39 nuxt build",
+    "dev": "NODE_ENV=dev NGROK=55b53341c4f8 nuxt",
+    "build": "NODE_ENV=dev NGROK=55b53341c4f8 nuxt build",
     "build:prod": "npm run lint && NODE_ENV=production nuxt build",
     "deploy:prod": "npm run build:prod && gcloud app deploy --project srpco-frontend",
     "start": "nuxt start",
