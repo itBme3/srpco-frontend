@@ -24,7 +24,7 @@
     "vue-check-view": "^0.3.0",
     "vue-debounce": "^3.0.1",
     "vue-flickity": "^1.2.1",
-    "vue-json-schema": "^1.1.1",
+    "vue-form-generator": "^2.3.4",
     "vue-pdf": "^4.3.0",
     "vue-tailwind": "^2.5.0",
     "vue-youtube-embed": "^2.2.2",

@@ -3,6 +3,8 @@
 
     <Form
       :schema="formSchema"
+      :model="model"
+      button-text="Login"
       v-if="loaded"
       class="max-w-sm mx-auto"
       @submit="loginUser"
@@ -17,32 +19,26 @@ export default {
     return {
       loaded: false,
       formSchema: {
-        "$schema": "http://json-schema.org/draft-04/schema#",
-        "type": "object",
-        "required": [
-          "email", "password"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "email": {
-            "type": "string",
-            "title": "Email",
-            "minLength": 1,
-            "attrs": {
-              "type": "email",
-              "placeholder": "email..."
-            }
+        fields: [
+          {
+            type: 'input',
+            inputType: 'email',
+            label: 'Email',
+            model: 'email',
+            required: true
           },
-          "password": {
-            "type": "string",
-            "title": "Password",
-            "minLength": 1,
-            "attrs": {
-              "type": "password",
-              "placeholder": "password..."
-            }
-          },
-        }
+          {
+            type: 'input',
+            inputType: 'password',
+            label: 'Password',
+            model: 'password',
+            required: true
+          }
+        ]
+      },
+      model: {
+        email: '',
+        password: ''
       }
     }
   },
@@ -52,10 +48,6 @@ export default {
   },
   methods: {
     loginUser ({ email, password }) {
-      console.log({
-        post: this.$axios.post,
-        path: `${process.env.apiUrl}/api/auth/local`
-      })
       return this.$axios.post(`${process.env.apiUrl}/api/auth/local`, {
         identifier: email,
         password: password,

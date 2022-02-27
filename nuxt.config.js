@@ -56,6 +56,7 @@ export default {
     '~/plugins/scrollbar.js',
     '~/plugins/chat-box.client.js',
     '~/plugins/tailwind-components.js',
+    '~/plugins/form-generator.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
