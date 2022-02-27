@@ -46,7 +46,7 @@ i {
 }
 h1,
 h2 {
-        @apply leading-[1.13] font-display font-black;
+        @apply leading-[1.4] font-display font-black;
 }
 h3,
 h4,
@@ -58,10 +58,10 @@ i:not([class*=" gicon-"]) {
         @apply leading-snug tracking-wide font-sans;
 }
 h1 {
-        @apply text-3xl md:text-4xl lg:text-5xl font-bold tracking-wider italic;
+        @apply text-3xl md:text-4xl lg:text-5xl font-bold tracking-[.11ch] italic;
 }
 h2 {
-        @apply text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide italic;
+        @apply text-2xl md:text-3xl lg:text-4xl font-bold tracking-[.11ch] italic;
 }
 h3 {
         @apply text-xl md:text-2xl lg:text-3xl font-semibold tracking-wider leading-tight;

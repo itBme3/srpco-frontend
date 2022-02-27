@@ -6,6 +6,7 @@
       'has-link' : hasLink,
       'no-media': [undefined, null].includes(media) && [undefined, null].includes(youtube),
       'has-text': typeof text === 'string' && text.length > 0,
+      'has-title': typeof title === 'string' && title.length > 0,
       'has-video': typeof youtube === 'string' && youtube.length > 0,
       'has-pdf-thumb': !!media && media.url === 'string' && media.url.includes('.pdf') && !showPdfPreview,
     }"
@@ -292,12 +293,12 @@ export default {
       @apply ml-2 order-2 w-1/3;
     }
   }
-  .card-style-media-left,
-  .card-style-media-right {
-    .card-media {
-      @apply h-full #{!important};
-    }
-  }
+  // .card-style-media-left,
+  // .card-style-media-right {
+  //   .card-media {
+  //     @apply h-full #{!important};
+  //   }
+  // }
   &.has-text {
     [class*="card-style"] {
       @apply flex-wrap;
@@ -323,6 +324,16 @@ export default {
     .card-style-media-left {
       .card-media {
         @apply rounded ml-[.5rem] mr-[.5rem] mt-[.5rem] w-[calc(33.333%-1rem)];
+      }
+    }
+  }
+  &.has-video {
+    &:not(.has-title) {
+      &:not(.has-text) {
+        @apply h-full;
+        .card-media {
+          @apply min-h-full #{!important};
+        }
       }
     }
   }

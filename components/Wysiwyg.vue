@@ -77,5 +77,16 @@ export default {
       @apply pl-8;
     }
   }
+  figure.media {
+    position: relative;
+    padding-top: 56%;
+    iframe {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 </style>

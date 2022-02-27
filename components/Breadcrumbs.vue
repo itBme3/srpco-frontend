@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="Array.isArray(breadcrumbs) && breadcrumbs.length > 1"
-    class="breadcrumbs flex items-center content-start"
+    class="breadcrumbs truncate text-gray-400"
   >
     <template v-for="(crumb, index) in breadcrumbs">
       <small
@@ -15,7 +15,6 @@
       <small
         v-else
         :key="crumb.link"
-        class="text-gray-400"
       >{{ crumb.text }}</small>
     </template>
   </div>

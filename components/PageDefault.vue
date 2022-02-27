@@ -64,7 +64,6 @@ export default {
   },
   data () {
     const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
-    console.log({ pageData: this.pageData })
     this.$store.commit('adminEdit/setAdminLink', { slug, collectionType, entryType, id })
     return {
       page: this.pageData,
@@ -76,7 +75,6 @@ export default {
   },
   mounted () {
     const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
-    console.log({ pageData: this.pageData })
     this.$store.commit('adminEdit/setAdminLink', {
       slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
       collectionType, entryType, id: id * 1
@@ -97,3 +95,24 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.single-entry {
+  &.solution {
+    .heading {
+      .heading-content {
+        @apply rounded bg-gray-800 bg-opacity-50;
+        .heading-text-content {
+          @apply p-4 sm:p-8;
+          .heading-title {
+            @apply font-semibold text-2xl sm:text-3xl md:text-4xl;
+          }
+        }
+      }
+      .heading-media {
+        @apply rounded opacity-100;
+      }
+    }
+  }
+}
+</style>

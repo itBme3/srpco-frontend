@@ -30,7 +30,7 @@
       class="media-youtube"
       :src="youtube"
       :class="{ 'w-full my-auto height-full': true, 'relative z-0': !!!isBackground, 'absolute z-0 -inset-1': !!isBackground }"
-      :ratio="[null, undefined, 'auto'].includes(ratio) ? '9:16' : ratio"
+      :ratio="'16:9'"
       :mute="!!videoParams.mute"
       :style="{ height: imgHeight }"
       :autoplay="!!videoParams.autoplay"
@@ -104,7 +104,8 @@ export default {
   },
   data () {
     const mediaSrc = typeof this.mediaSrc !== 'undefined' ? this.mediaSrc : this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
-    return { mediaSrc, imgHeight: 'auto' }
+    const mediaRatio = this.youtube?.length && !this.mediaRatio?.includes(':') ? '16:9' : this.mediaRatio;
+    return { mediaSrc, imgHeight: 'auto', mediaRatio }
   },
   mounted () {
     this.setImgSrc()
@@ -118,8 +119,7 @@ export default {
       this.setImgSrc()
     },
     onResize: _.debounce(function(e) {
-      if(!!!this.media || this.media?.mime?.includes('pdf')) return;
-      console.log(e)
+      if((!!!this.media && !!!this.youtube?.length) || this.media?.mime?.includes('pdf')) return;
       setTimeout(() => {
         this.setImgSrc();
       }, 300)
@@ -147,10 +147,10 @@ export default {
       return getStrapiMedia(thumb.url)
     },
     setImgHeight () {
-      if (typeof this.ratio !== 'string' || !this.ratio.includes || !this.ratio.includes(':') || typeof this.$el === 'undefined' || this.$el.offsetWidth < 0) {
+      if (typeof this.mediaRatio !== 'string' || !this.mediaRatio.includes || !this.mediaRatio.includes(':') || typeof this.$el === 'undefined' || this.$el.offsetWidth < 0) {
         return
       }
-      const ratio = this.ratio.split(':')
+      const ratio = this.mediaRatio.split(':')
       const width = this.$el.offsetWidth
       const height = Math.floor(width / ratio[0] * ratio[1])
       if (height > 0 && this.imgHeight !== `${height}px`) {

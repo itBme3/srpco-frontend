@@ -101,7 +101,6 @@ export default {
   },
   methods: {
     setVideoHeight: _.debounce(function () {
-      console.log({ videoFrame: this.$refs.videoFrame })
       const elWidth = typeof this.$el !== 'undefined' && this.$el.offsetWidth > 0 ? this.$el.offsetWidth : null
       if (elWidth > 0) {
         const ratio = this.ratio && this.ratio?.indexOf(':') > -1 ? this.ratio.split(':') : '16:9'.split(':')
