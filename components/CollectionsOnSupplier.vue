@@ -119,7 +119,6 @@ export default {
     },
     scrollToCollections: _.debounce(function () {
       if (window === undefined || !this.$refs?.collections?.offsetHeight || this.showingCollection === null) return;
-      console.log({ el: this.$refs.collections, top: this.$refs.collections.offsetHeight - 50, behavior: 'smooth' })
       window.scrollTo({ top: this.$refs.collections.offsetTop - 50, behavior: 'smooth' })
     }, 750)
   }

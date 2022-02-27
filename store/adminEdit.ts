@@ -8,7 +8,6 @@ export const state = () => ({
 export const mutations = {
       setAdminLink(state: any, params: { id: number | string | any, slug: string | CollectionType, entryType?: string | null, collectionType?: CollectionType | null }) {
             const { id = -1, slug, collectionType = null, entryType = null } = params;
-            console.log({ params })
             const entryId = ['string'].includes(typeof id) ? parseInt(id)
                   : !!id ? id
                         : -1;
