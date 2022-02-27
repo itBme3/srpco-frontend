@@ -42,7 +42,7 @@
       />
 
       <BlockContent
-        v-if="block.__typename === 'ComponentBlockContent'"
+        v-if="['ComponentBlockContent', 'ComponentSolutionsChallenge', 'ComponentSolutionsSolution', 'ComponentSolutionsResults', 'ComponentSolutionsUsed'].includes(block.__typename)"
         :block="block"
       />
       <BlockCarousel
@@ -53,12 +53,16 @@
         v-if="block.__typename === 'ComponentBlockHero'"
         :block="block"
       />
+      <BlockGaskets
+        v-if="block.__typename === 'ComponentBlockGaskets' || (block.__typename === 'ComponentSolutionsUsed' && block.gaskets && block.gaskets.length > 0)"
+        :block="block"
+      />
       <BlockDatasheets
-        v-if="block.__typename === 'ComponentBlockDatasheets'"
+        v-if="block.__typename === 'ComponentBlockDatasheets' || (block.__typename === 'ComponentSolutionsUsed' && block.datasheets && block.datasheets.length > 0)"
         :block="block"
       />
       <BlockMaterials
-        v-if="block.__typename === 'ComponentBlockMaterials'"
+        v-if="block.__typename === 'ComponentBlockMaterials' || (block.__typename === 'ComponentSolutionsUsed' && block.materials && block.materials.length > 0)"
         :block="block"
       />
       <BlockApplications
