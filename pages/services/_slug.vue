@@ -37,20 +37,11 @@ export default {
   async asyncData ({ route, params, redirect }) {
     const slug = params.slug
     const page = await getSingleEntry(route.path, redirect)
-    return { slug, page, redirect, global }
+    return { slug, page, redirect }
   },
   computed: {
     pageClasses () {
       return getPageClasses(this.page)
-    }
-  },
-  watch: {
-    $route: {
-      immediate: false,
-      async handler () {
-        this.page = await getSingleEntry(this.$route.path, this.redirect)
-        return this.page;
-      }
     }
   },
   head () {

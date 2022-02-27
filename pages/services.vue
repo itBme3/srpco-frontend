@@ -1,6 +1,7 @@
 
 <template>
   <div>
+
     <NuxtChild :key="$route.fullPath" />
 
     <Heading
@@ -25,7 +26,7 @@
 </template>
 
 <script lang="js">
-import { $graph } from '~/utils/graphql/init'
+// import { $graph } from '~/utils/graphql/init'
 import { seoHead } from '~/utils/seo'
 import { CollectionType } from '~/models/entry.model'
 import { getCollectionPage } from '~/utils/graphql/requests/collection'
@@ -44,16 +45,16 @@ export default {
   head () {
     return seoHead(this.page)
   },
-  computed: {
-    modal: {
-      get () {
-        return this.active
-      },
-      set (val) {
-        this.active = val
-      }
-    }
-  }
+  // computed: {
+  //   modal: {
+  //     get () {
+  //       return this.active
+  //     },
+  //     set (val) {
+  //       this.active = val
+  //     }
+  //   }
+  // }
 }
 </script>
 
