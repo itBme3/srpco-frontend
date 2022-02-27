@@ -31,8 +31,7 @@ export const getCollectionPage = async (collectionType: CollectionType) => {
     gql`
     query {
       ${queryNamespace} {
-          id
-          data { attributes {
+          data { id attributes {
             ${defaultCollectionPageFields}
           }
         }

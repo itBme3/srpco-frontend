@@ -119,10 +119,12 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
     solution: {
       page: gql`
           ${defaults.page}
-          ... on ComponentSolutionsChallenge { ${blockFields.ComponentSolutionsChallenge} }
-          ... on ComponentSolutionsSolution { ${blockFields.ComponentSolutionsSolution} }
-          ... on ComponentSolutionsResults { ${blockFields.ComponentSolutionsResults} }
-          ... on ComponentSolutionsUsed{ ${blockFields.ComponentSolutionsUsed} }
+          blocks {
+            ... on ComponentSolutionsChallenge { ${blockFields.ComponentSolutionsChallenge} }
+            ... on ComponentSolutionsSolution { ${blockFields.ComponentSolutionsSolution} }
+            ... on ComponentSolutionsResults { ${blockFields.ComponentSolutionsResults} }
+            ... on ComponentSolutionsUsed{ ${blockFields.ComponentSolutionsUsed} }
+          }
       `
     },
     page: {
