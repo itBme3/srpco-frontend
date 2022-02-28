@@ -17,6 +17,7 @@
       @input="$emit('input', $event)"
       @focus="(e) => $emit('focus', e)"
     />
+    <slot />
     <gButton
       classes="absolute top-[50%] right-0 px-3 py-2 w-auto h-auto flex items-center content-center transform -translate-y-1/2"
       class="action-button"

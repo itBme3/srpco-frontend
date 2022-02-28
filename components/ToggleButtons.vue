@@ -13,7 +13,7 @@
         v-for="item in buttons"
         :key="item.value"
         :class="item.class"
-        classes="pl-3 pr-2 py-1 rounded"
+        classes="pl-3 pr-2 py-1 rounded w-auto"
         @click="toggleValue(item.value)"
       >
         {{ item.value }} <i
@@ -26,7 +26,7 @@
         />
       </gButton>
     </scrollbar>
-    
+
   </div>
 </template>
 
@@ -47,32 +47,32 @@ export default {
       default: defaultColor
     }
   },
-  data() {
+  data () {
     return {
       colors: ['gray', 'cyan', 'blue', 'orange', 'red', 'yellow', 'green', 'purple'],
-      activeValues: Array.isArray(this.active) && this.active.length > 0 
+      activeValues: Array.isArray(this.active) && this.active.length > 0
         ? this.active
-          .map(item => ['string', 'number'].includes(typeof item) ? item : item.value ? item.value : null )
+          .map(item => ['string', 'number'].includes(typeof item) ? item : item.value ? item.value : null)
           .filter(item => !!item)
         : []
     }
   },
   computed: {
-    defaultColor() {
+    defaultColor () {
       return this.colors.includes(this.color) ? this.color : defaultColor
     },
-    buttons() {
-      if(!Array.isArray(this.items)) {
+    buttons () {
+      if (!Array.isArray(this.items)) {
         return [];
       }
       return this.items.map((item, indx) => {
-        const { value = item, label = item  } = item;
-        const color = this.color === 'rainbow' ? this.getColor(indx) : typeof item.color ==='string' ? item.color : this.color;
+        const { value = item, label = item } = item;
+        const color = this.color === 'rainbow' ? this.getColor(indx) : typeof item.color === 'string' ? item.color : this.color;
         const defaultClasses = {
-            active: `active bg-${color}-400 text-${color}-900 hover:bg-opacity-80`,
-            inactive: `bg-gray-700 text-gray-200 bg-opacity-20 hover:text-${color}-900 hover:bg-${color}-400 hover:bg-opacity-100`,
-            _default: `ml-2`
-          };
+          active: `active bg-${color}-400 text-${color}-900 hover:bg-opacity-80`,
+          inactive: `bg-gray-700 text-gray-200 bg-opacity-20 hover:text-${color}-900 hover:bg-${color}-400 hover:bg-opacity-100`,
+          _default: `ml-2`
+        };
         const itemClasses = ![undefined, null].includes(item.classes) ? item.classes : defaultClasses
         const {
           active = defaultClasses.active,
@@ -80,8 +80,8 @@ export default {
           _default = defaultClasses._default
         } = itemClasses;
         ['active', 'inactive'].forEach(key => delete itemClasses[key]);
-        return { 
-          value, color, 
+        return {
+          value, color,
           label: typeof label !== 'string' ? value : label,
           class: {
             [_default]: typeof _default === 'string' && _default.length > 0,
@@ -94,15 +94,15 @@ export default {
     }
   },
   methods: {
-    toggleValue(val) {
-      if(this.activeValues.includes(val)) {
+    toggleValue (val) {
+      if (this.activeValues.includes(val)) {
         this.activeValues = this.activeValues.filter(item => (!!item?.value && item.value === val) || (item !== val))
       } else {
         this.activeValues.push(val)
       }
       this.$emit('update', this.activeValues)
     },
-    getColor(indx) {
+    getColor (indx) {
       const colors = this.colors.filter(c => c !== 'gray');
       return colors[indx]
     },

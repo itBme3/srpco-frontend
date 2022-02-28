@@ -57,7 +57,7 @@ export default {
   data () {
     return {
       searchCollections,
-      activeCollections: searchCollections.filter(c => ['gaskets', 'resources', 'datasheets'].includes(c)),
+      activeCollections: [],
       emptyCollections: searchCollections.reduce((acc, handle) => {
         return { ...acc, [handle]: false }
       }, {})

@@ -12,14 +12,30 @@
         :placeholder="placeholder"
         :tabindex="0"
         :search="searchValue"
-        class="site-search-input bg-gray-800 hover:bg-opacity-100 z-[1005]"
+        class="site-search-input bg-gray-800 hover:bg-opacity-100 z-[1005] flex items-center pr-12"
         :class="{ 'bg-opacity-40': !expanded }"
         variant="header"
         @clear="searchValue = ''"
         @focus="inputFocused"
         @search="searchValue = $event"
         @blur="storeSearch()"
-      />
+      >
+        <gButton
+          @click="() => {
+            searchCollection = 'search';
+            if(!!searchValue && !!searchValue.length) {
+              updateSearchValue()
+            }
+          }"
+          v-if="![null, 'search'].includes(searchCollection)"
+          class="scale-80 text-sm bg-orange-400 text-orange-900 p-1 w-auto"
+        ><span class="my-auto">{{ searchCollection }}</span>
+          <Icon
+            class="my-auto ml-2 text-orange-900"
+            icon-name="close"
+          />
+        </gButton>
+      </SearchInput>
       <Link
         v-if="!expanded"
         :link="'/contact'"
@@ -50,38 +66,32 @@ const searchCollections = ['search', 'gaskets', 'datasheets', 'resources']
 export default {
   data () {
     const { q: searchValue = '' } = this.$route.query
+    const searchCollection = searchCollections.includes(this.$route.path.split('/')[1])
+      ? this.$route.path.split('/')[1]
+      : null;
     return {
       placeholder: 'What are you looking for?',
-      searchCollection: null,
+      searchCollection,
       expanded: false,
       searchValue,
       recentSearches: []
     }
   },
-  fetch () {
-    this.searchCollection = searchCollections.includes(this.$route.path.split('/')[1])
-      ? this.$route.path.split('/')[1]
-      : null
-  },
   watch: {
-    '$route.path': {
-      handler () {
-        this.expanded = false
-        this.searchCollection = searchCollections.includes(this.$route.path.split('/')[1])
-          ? this.$route.path.split('/')[1]
-          : null
-        if (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2) {
-          this.searchValue = ''
-        }
+    '$route.path' () {
+      this.expanded = false
+      this.searchCollection = searchCollections.includes(this.$route.path.split('/')[1])
+        ? this.$route.path.split('/')[1]
+        : null
+      if (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2) {
+        this.searchValue = ''
       }
     },
-    searchValue: {
-      handler () {
-        if (!this.searchValue?.length && (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2)) {
-          return;
-        }
-        this.updateSearchValue()
+    searchValue () {
+      if (!this.searchValue?.length && (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2)) {
+        return;
       }
+      this.updateSearchValue()
     }
   },
   mounted () {
@@ -156,19 +166,15 @@ export default {
 :not(.search-expanded) {
   .site-search {
     @apply max-w-[1150px] mx-auto right-auto left-auto;
-  }
-}
-
-.site-search-input {
-  input {
-    @apply relative top-px py-[.45em] sm:placeholder-gray-500 placeholder-gray-800;
-  }
-  i[class*="gicon-"] {
-    @apply text-gray-300;
-  }
-  .action-button {
-    @apply px-2 bg-gray-800;
-    box-shadow: -3px 0 6px 0px rgba(31, 41, 55, 1) !important;
+    .search-input {
+      @apply bg-transparent #{!important};
+      i[class*="gicon-"] {
+        @apply text-gray-300;
+      }
+      .action-button {
+        @apply px-2 bg-transparent;
+      }
+    }
   }
 }
 </style>
