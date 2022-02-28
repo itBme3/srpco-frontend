@@ -24,8 +24,3 @@ export const mutations = {
       }
 }
 
-export const actions: any = {
-      getModalData({ state }: any) {
-            return state.modalData
-      }
-}
