@@ -1,6 +1,7 @@
 <template>
   <div
     class="card flex flex-col items-start hover:scale-102"
+    @click="(e) => $emit('click', e)"
     :class="{
       'has-more-links' : Array.isArray(moreLinks) && moreLinks.length > 0,
       'has-link' : hasLink,

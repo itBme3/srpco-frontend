@@ -2,9 +2,9 @@
   <div
     v-if="![null, undefined].includes(page)"
     :class="{
-      'single-entry': !!page.type && entryTypes.includes(page.type),
-      [page.type]: !!page.type && entryTypes.includes(page.type),
-      'collection': !!!page.type || !entryTypes.includes(page.type),
+      'single-entry': isSingleEntry,
+      [page.type]: isSingleEntry,
+      'collection': !isSingleEntry,
       [page.type + 's']:  !!page.type && page.type.includes('Collection'),
       [pageClasses.container]: !!pageClasses.container
     }"
@@ -24,8 +24,9 @@
       v-if="![undefined, null].includes(page) && page.type && page.type === 'supplier'"
       :entry="page"
     />
+
     <div
-      v-if="![null, undefined].includes(page) && Array.isArray(page.blocks) && page.blocks.length > 0"
+      v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content)"
       class="blocks grid-cols-12"
     >
       <div
@@ -42,16 +43,19 @@
         />
       </template>
     </div>
+
     <EntrySideBar
       :v-if="!!page && entryTypes.includes(page.type)"
       :entry="page"
     />
 
+    <NextPreviousEntries v-if="isSingleEntry" />
+
   </div>
 </template>
 
 <script>
-import { collectionTypes, EntryType } from '~/models/entry.model'
+import { collectionTypes, entryTypes } from '~/models/entry.model'
 import { getPageClasses } from '~/utils/get-classes'
 
 export default {
@@ -65,11 +69,13 @@ export default {
   data () {
     const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
     this.$store.commit('adminEdit/setAdminLink', { slug, collectionType, entryType, id })
+    this.$store.commit('nextPrevious/setCollectionType', collectionType)
+    this.$store.commit('nextPrevious/setEntry', this.pageData)
     return {
       page: this.pageData,
       slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
       collectionType, entryType, id,
-      entryTypes: Object.values(EntryType),
+      entryTypes,
       pageClasses: getPageClasses(this.pageData)
     }
   },
@@ -79,6 +85,11 @@ export default {
       slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
       collectionType, entryType, id: id * 1
     })
+  },
+  computed: {
+    isSingleEntry () {
+      return !!this?.page?.type && this.entryTypes.includes(this.page.type)
+    }
   },
   watch: {
     pageData () {
@@ -91,6 +102,8 @@ export default {
         slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
         collectionType, entryType
       })
+      this.$store.commit('nextPrevious/setCollectionType', collectionType)
+      this.$store.commit('nextPrevious/setEntry', this.pageData)
     }
   }
 }

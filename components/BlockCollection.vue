@@ -17,7 +17,7 @@
       id="masonCollection"
       :class="{[gridClasses]: gridClasses.length > 0}"
     >
-      <template v-for="entry in entries">
+      <template v-for="(entry, i) in entries">
         <Card
           v-if="![null, undefined].includes(entry)"
           :key="entry.type + '-' + entry.id"
@@ -45,6 +45,7 @@
           :youtube="typeof entry.youtube === 'string' ? entry.youtube : null"
           :is-background="entry.type !== 'datasheet'"
           :more-links="['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0 ? entry.gaskets : null"
+          @click="storeFromCollection(entry)"
         />
       </template>
     </div>
@@ -296,6 +297,9 @@ export default {
         this.get(this.entries.length)
           .catch(console.error)
       }
+    },
+    storeFromCollection(entry) {
+      this.$store.commit('nextPrevious/setFromCollection', { entry, collection: this.collection, sort: this.sort, filters: this.filters })
     }
   }
 }

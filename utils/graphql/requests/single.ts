@@ -4,7 +4,6 @@ import { CollectionType, EntryType } from '~/models/entry.model'
 import { getEntryFields } from '~/utils/graphql/fragments/entries'
 import { getCollectionPage } from '~/utils/graphql/requests/collection'
 import { parseResponse } from '../responses'
-import { capitalize } from '~/utils/funcs'
 
 export const entryBySlug = async (entryType: EntryType | null, slug: string, redirect: Function | null = null) => {
       if (entryType === null) { return }
