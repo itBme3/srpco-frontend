@@ -1,3 +1,4 @@
 main {
-	@apply min-h-[80vh] pt-2 md:pt-0 mt-14 px-2 max-w-6xl mx-auto inline-block h-auto overflow-y-visible;
+	@apply min-h-[80vh] pt-2 md:pt-0 mt-16 px-2 mx-auto inline-block h-auto overflow-y-visible;
+	max-width: var(--site-max-width);
 }

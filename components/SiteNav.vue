@@ -1,14 +1,13 @@
 
 <template>
-  <div
-    class="site-navigation"
-    :class="{ 'pr-18': navExpanded && !isMobile }"
-    @mouseenter="!isMobile ? navHovered(true) : null"
-    @mouseleave="!isMobile ? navHovered(false) : null"
-  >
+  <div :class="{
+      'site-navigation': true,
+      'is-mobile': this.isMobile,
+      'expanded': navExpanded
+    }">
     <gButton
       v-if="isMobile"
-      class="mobile-menu-trigger flex items-center justify-center h-full mr-px px-3 pb-3 ml-auto bg-transparent hover:bg-gray-800 hover:text-gray-900"
+      class="mobile-menu-trigger flex items-center justify-center h-full mr-px px-3 py-3 ml-auto bg-transparent hover:bg-gray-800 hover:text-gray-900"
       @click="navExpanded = !navExpanded"
     >
       <i
@@ -16,18 +15,9 @@
         :class="{ 'gicon-menu': !navExpanded, 'gicon-close': navExpanded }"
       />
     </gButton>
-    <nav
-      name="main navigation"
-      class="fixed xl:absolute z-99999 mr-2 top-12 sm:top-24"
-      :class="{
-        'right-0 left-auto': isMobile,
-        'left-2 right-auto': !isMobile,
-        'expanded shadow-2xl bg-white p-2': navExpanded,
-        'bg-opacity-5 bg-block': !navExpanded
-      }"
-    >
+    <nav name="main navigation">
       <template :v-if="!!navigation && navigation.links && navigation.links[0] && navigation.links[0].link">
-        <div
+        <!-- <div
           class="overlay absolute -inset-1 bg-transparent"
           :class="{
             'z-0': navExpanded,
@@ -35,25 +25,24 @@
           }"
           @click="expandNav()"
           @mouseenter="navExpanded = true"
-        />
+        /> -->
 
         <div
           v-for="navLink in navigation.links"
           :key="navLink.id"
-          class="nav-link-item mb-1 relative"
           :class="{
-            'z-0': !navExpanded,
-            'z-1': navExpanded,
+            'nav-link-item': true,
+            'has-nested-links': Array.isArray(navLink.nested) && navLink.nested.length > 0,
+            'bg-gray-200 text-gray-700': showNested === navLink.link
           }"
+          @mouseenter="!isMobile ? toggleNested(navLink.link) : ''"
+          @mouseleave="showNested = isMobile ? showNested : nestedHovered !== navLink.link ? false : navLink.link;"
         >
           <div
             v-if="navLink !== undefined && navLink !== null"
             class="nav-link w-full flex content-between items-center"
           >
-            <div
-              class="w-full flex items-center content-start"
-              @click="collapseNav()"
-            >
+            <div class="w-full flex items-center content-start">
               <Link
                 :link="navLink.link"
                 :new-tab="!!navLink.openNewTab"
@@ -61,26 +50,19 @@
               >
               <gButton
                 :class="{
-                    'bg-opacity-100 bg-gray-100 flex content-start text-left w-full mr-0 px-2 hover:bg-white': true,
+                    'bg-opacity-100 bg-transparent text-center w-full mr-0 px-2 hover:bg-white': true,
                     'bg-white bg-opacity-95': navLink.link === showNested,
-                    'py-2': navExpanded
+                    'pr-1': Array.isArray(navLink.nested) && navLink.nested.length > 0
                   }"
                 :variant="'light'"
               >
-                <i :class="{
-                      ['my-auto mr-1 icon text-srp-red gicon-' + navLink.icon]: true,
-                      'text-2xl ml-0': isMobile || navExpanded,
-                      'text-3xl': !isMobile && !navExpanded
-                    }" />
-                <span :class="{'link-text my-auto': true, 'hidden': !isMobile && !navExpanded }">
-                  {{ navLink.text }}
-                </span>
+                {{ navLink.text }}
               </gButton>
               </Link>
             </div>
             <gButton
-              v-if="Array.isArray(navLink.nested) && navLink.nested.length > 0 && (isMobile || navExpanded)"
-              class="toggle-nested px-0 w-12 h-full my-0 ml-px hover:bg-white shadow-none hover:shadow-lg"
+              v-if="Array.isArray(navLink.nested) && navLink.nested.length > 0"
+              class="toggle-nested px-0 w-8 h-full my-0 ml-px bg-transparent hover:bg-white shadow-none hover:shadow-lg"
               :class="{ '!bg-white bg-opacity-100': showNested !== null && navLink.link === showNested }"
               :variant="'secondary'"
               @click="toggleNested(navLink.link)"
@@ -91,52 +73,64 @@
           <div
             v-if="Array.isArray(navLink.nested) && navLink.nested.length > 0"
             :class="{
-              'nested-links text-left': true,
-              'hidden': !navExpanded || navLink.link !== showNested,
-              'p-2 bg-white shadow-2xl mb-2 rounded-md overflow-hidden' : navLink.link === showNested
+              'nested-links-wrapper': true,
+              'hidden': navLink.link !== showNested,
             }"
             @click="collapseNav()"
+            @mouseenter="nestedHovered = navLink.link"
+            @mouseleave="nestedHovered = false"
           >
-            <template v-for="nestedLink in navLink.nested">
-              <Link
-                :key="nestedLink.id"
-                :link="nestedLink.link"
-                :new-tab="!!nestedLink.openNewTab"
-              >
-              <gButton class="w-full mb-1 flex items-center content-start hover:bg-white px-2">
-                <i :class="'my-auto -ml-3 mr-1 icon text-srp-red gicon-' + nestedLink.icon" />
-                <span class="link-text my-auto">{{ nestedLink.text }}</span>
-              </gButton>
-              </Link>
-            </template>
+            <div class="nested-links">
+              <template v-for="nestedLink in navLink.nested">
+                <Link
+                  :key="nestedLink.id"
+                  :link="nestedLink.link"
+                  :new-tab="!!nestedLink.openNewTab"
+                >
+                <gButton class="w-full mb-1 text-center hover:bg-white px-2">
+                  <!-- <i :class="'my-auto -ml-3 mr-1 icon text-srp-red gicon-' + nestedLink.icon" /> -->
+                  {{ nestedLink.text }}
+                </gButton>
+                </Link>
+              </template>
+            </div>
           </div>
+          <div
+            v-if="Array.isArray(navLink.nested) && navLink.nested.length > 0 && isMobile && showNested !== navLink.link"
+            class="bg-transparent absolute inset-0 left-1/2"
+            @click="showNested = navLink.link"
+          />
         </div>
       </template>
     </nav>
     <div
-      v-if="navExpanded && isMobile"
+      v-if="navExpanded && isMobile || !!showNested"
       class="overlay nav-overlay fixed z-9999 -inset-1 cursor-pointer bg-gray-900 md:bg-transparent bg-opacity-70"
-      @click="navExpanded = !navExpanded"
+      @click="collapseNav"
     />
   </div>
 </template>
 
 <script lang="js">
-/* eslint-disable no-extra-boolean-cast */
-import { $graph } from '~/utils/graphql/init'
 import { getNavigation } from '~/utils/graphql/requests/global'
 
 export default {
   asyncData ({ route }) {
     return { fullPath: route.fullPath }
   },
+  props: {
+    mobile: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       navigation: null,
-      isMobile: false,
       showNested: null,
       navExpanded: false,
-      hoveringNav: false
+      isMobile: false,
+      nestedHovered: false
     }
   },
   async fetch () {
@@ -144,29 +138,17 @@ export default {
   },
   watch: {
     '$route.fullPath' () {
-      this.collapseNav()
-      window.scrollTo(0,0)
+      this.collapseNav();
+      window.scrollTo({ top: 0 });
+    },
+    mobile(value) {
+      this.isMobile = value
     }
-  },
-  mounted () {
-    this.getDocumentDimensions()
-    window.addEventListener('resize', this.getDocumentDimensions)
-    window.addEventListener('scroll', this.collapseNav)
-  },
-  unmounted () {
-    // window.removeEventListener('resize', this.getDocumentDimensions)
-    window.removeEventListener('scroll', this.collapseNav)
   },
   methods: {
     toggleNested (val) {
       this.showNested = val === this.showNested ? null : val
-    },
-    expandNav () {
-      if (!this.isMobile) {
-        this.navExpanded = false
-        return
-      }
-      this.navExpanded = !this.navExpanded
+      this.nestedHovered = !this.showNested ? false : this.nestedHovered
     },
     collapseNav () {
       if (this.showNested !== null || this.navExpanded === true) {
@@ -176,13 +158,6 @@ export default {
     },
     navHovered (hovering) {
       this.navExpanded = hovering
-    },
-    getDocumentDimensions () {
-      if(document === undefined) return;
-      this.width = document.documentElement.clientWidth
-      this.height = document.documentElement.clientHeight
-      this.isMobile = this.width < 640
-      this.navExpanded = false
     }
   }
 }
@@ -190,57 +165,11 @@ export default {
 </script>
 
 <style lang="scss">
-nav {
-  @apply rounded shadow-xl bg-gray-900;
-  button {
-    @apply items-center justify-start bg-gray-100 rounded #{!important};
-  }
-  .nav-link {
-    @apply whitespace-nowrap;
-    button {
-      &:not(.toggle-nested) {
-        i {
-          @apply mx-auto;
-        }
-      }
-      &.toggle-nested {
-        @apply justify-center;
-        i {
-          @apply mx-auto;
-        }
-      }
-    }
-  }
-  &:hover {
-    :not(.toggle-nested) {
-      i {
-        @apply mr-3 ml-0;
-      }
-      .link-text {
-        @apply sm:text-base;
-      }
-    }
-  }
-  @media screen and (min-width: 640px) {
-    &:not(:hover) {
-      .nav-link {
-        button {
-          @apply flex-col text-center justify-center w-[60px];
-        }
-      }
-      .link-text {
-        @apply text-[7px];
-      }
-    }
-  }
-  @media screen and (max-width: 639px) {
-    @apply w-[240px];
-    &:not(.expanded) {
-      @apply hidden;
-    }
-    &.expanded {
-      @apply shadow-2xl rounded overflow-hidden p-2;
-    }
-  }
-}
+// .header {
+//   &:not(.is-mobile) {
+//     .nested-links {
+//       @apply absolute top-11 z-999999;
+//     }
+//   }
+// }
 </style>

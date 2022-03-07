@@ -1,9 +1,14 @@
 @import "./_typography.scss";
 @import "./_layout.scss";
+@import "./_header.scss";
 @import "./_blocks.scss";
 @import "./_inputs.scss";
 @import "./_buttons.scss";
 @import "./_scrollbar.scss";
+
+:root {
+        --site-max-width: 1300px;
+}
 
 [class^="gicon-"]:before,
 [class*=" gicon-"]:before {

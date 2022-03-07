@@ -19,7 +19,7 @@
     />
     <slot />
     <gButton
-      classes="absolute top-[50%] right-0 px-3 py-2 w-auto h-auto flex items-center content-center transform -translate-y-1/2"
+      classes="absolute top-[50%] right-0 px-3 py-2 w-auto h-auto flex items-center content-center transform -translate-y-1/2 text-gray-400"
       class="action-button"
       @click="inputButtonClicked"
     >
