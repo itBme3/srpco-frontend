@@ -10,7 +10,7 @@ export const getEntryFields = (entryType: EntryType | null | string, fragmentTyp
   if (entryType === null) {
     return null
   }
-  const fields = ['title', 'description', 'slug', 'type', 'createdAt', 'updatedAt', 'publishedAt', 'order', ...(Array.isArray(addedKeys) ? addedKeys : '')]
+  const fields = ['title', 'description', 'slug', 'type', 'createdAt', 'updatedAt', 'publishedAt', ...(Array.isArray(addedKeys) ? addedKeys : '')]
     .filter(k => !!k?.length).join(' ');
   const defaults = {
     default: `
