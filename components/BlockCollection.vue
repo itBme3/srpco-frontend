@@ -19,6 +19,7 @@
       <template v-for="(entry, i) in entries">
         <Card
           v-if="![null, undefined].includes(entry)"
+          :lazy="i > 6"
           :key="entry.type + '-' + entry.id + '-' + i"
           :card-style="(['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0) || collectionType === 'datasheets' ? 'mediaLeft' : cardStyle"
           :title="entry.title"
@@ -85,8 +86,6 @@
 </template>
 
 <script lang="js">
-/* eslint-disable no-extra-boolean-cast */
-import _ from 'lodash'
 import qs from 'qs'
 import { getCollection } from '~/utils/graphql/requests/collection'
 import { objectsAreTheSame } from '~/utils/funcs'
@@ -165,6 +164,15 @@ export default {
       default: null
     }
   },
+  fetch () {
+    const collection = this.collection
+    // this.queryParams = this.getQueryParams()
+    if (collection === null) {
+      return {}
+    }
+    this.searchValue = this.updateUrl && this.$route?.query?.q?.length ? this.$route.query.q : ''
+    return this.get(0).catch(console.error);
+  },
   data () {
     const { grid: gridClasses = '', searchBar: searchBarClasses = '', title = '', card = '', media = '', text = '', content = '' } = !!this.classes ? this.classes : {}
     const collection = this?.collectionType ? this.collectionType : null
@@ -173,6 +181,7 @@ export default {
       entries: null,
       nextEntries: null,
       searchValue: '',
+      lastSearch: '',
       canLoadMore: false,
       cardClasses: { title, card, text, media, content },
       gridClasses,
@@ -182,38 +191,31 @@ export default {
       queryParams: { }
     }
   },
-  async fetch () {
-    const collection = this.collection
-    // this.queryParams = this.getQueryParams()
-    if (collection === null) {
-      return {}
-    }
-    return await this.get()
-  },
   watch: {
     '$route.query': {
       immediate: true,
       handler () {
         if (!this.updateUrl) return;
         this.queryParams = this.getQueryParams()
-        this.get()
+        // this.get()
       }
     },
-    searchValue: {
-      immediate: false,
-      handler(val) {
-        if(this.updateUrl && window !== undefined) {
-          if (!val?.length) {
-            delete this.$route.query.q
-          } else {
-            this.$route.query.q = val
-          }
-          const queryString = qs.stringify(this.$route.query);
-          const path = !queryString?.length ? this.$route.path : `${this.$route.path}?${queryString}`
-          window.history.pushState({path}, '', path)
-        }
-        this.get().catch(console.error)
+    searchValue(val) {
+      if (this.lastSearch === val) {
+        return;
       }
+      this.lastSearch = val
+      if(this.updateUrl && window !== undefined) {
+        if (!val?.length) {
+          delete this.$route.query.q
+        } else {
+          this.$route.query.q = val
+        }
+        const queryString = qs.stringify(this.$route.query);
+        const path = !queryString?.length ? this.$route.path : `${this.$route.path}?${queryString}`
+        window.history.pushState({path}, '', path)
+      }
+      this.get().catch(console.error)
     }
   },
   mounted() {

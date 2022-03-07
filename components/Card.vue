@@ -32,6 +32,7 @@
     </template>
     <Media
       v-else-if="(!!media && !!media.url) || (typeof youtube === 'string' && youtube.length > 0)"
+      :lazy="lazy"
       :media="media"
       :ratio="mediaRatio"
       :overlay="cardStyle === 'overlay'"
@@ -150,6 +151,10 @@ export default {
           modestbranding: true,
         }
       }
+    },
+    lazy: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -301,7 +306,7 @@ export default {
   //   }
   // }
   &.has-text {
-    [class*="card-style"] {
+    [class*='card-style'] {
       @apply flex-wrap;
       .card-text {
         @apply order-last;

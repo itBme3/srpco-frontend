@@ -11,8 +11,15 @@
     style="background-repeat: no-repeat; background-size: cover; background-position: center;"
   >
     <client-only>
-      <template v-if="typeof mediaSrc === 'string'">
-        <MediaPdf
+      <div
+        v-if="!seen"
+        v-view="visibilityHandler"
+        class="loading-placeholder w-full py-[30%] bg-white bg-opacity-3 rounded"
+      >
+        loading...
+      </div>
+      <template v-else-if="typeof mediaSrc === 'string'">
+        <LazyMediaPdf
           v-if="![null, undefined].includes(media) && ![null, undefined].includes(media.mime) && media.mime.includes('pdf')"
           :src="mediaSrc"
         />
@@ -24,7 +31,7 @@
           @load="imageLoaded"
         >
       </template>
-      <MediaYoutube
+      <LazyMediaYoutube
         v-else-if="typeof youtube === 'string' && youtube.length > 0"
         class="media-youtube"
         :src="youtube"
@@ -49,12 +56,20 @@
           :icon-name="'play'"
         />
       </div>
+      <template #placeholder>
+        <div
+          v-if="!seen"
+          v-view="visibilityHandler"
+          class="loading-placeholder w-full py-[30%] bg-white bg-opacity-3 rounded"
+        >
+          loading...
+        </div>
+      </template>
     </client-only>
   </div>
 </template>
 
 <script lang="js">
-import _ from 'lodash'
 import { getThumbImageUrl } from '~/utils/funcs'
 import { getStrapiMedia } from '~/utils/medias'
 export default {
@@ -100,12 +115,21 @@ export default {
           modestbranding: true,
         }
       }
+    },
+    lazy: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     const mediaSrc = typeof this.mediaSrc !== 'undefined' ? this.mediaSrc : this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
     const mediaRatio = this.youtube?.length && !this.mediaRatio?.includes(':') ? '16:9' : this.mediaRatio;
-    return { mediaSrc, imgHeight: 'auto', mediaRatio }
+    return {
+      mediaSrc,
+      imgHeight: 'auto',
+      mediaRatio,
+      seen: !this.lazy
+    }
   },
   mounted () {
     this.setImgSrc()
@@ -116,6 +140,15 @@ export default {
     }
   },
   methods: {
+    visibilityHandler (e) {
+      if (this.seen) {
+        return
+      };
+      console.log(this.mediaSrc)
+      if (e.percentInView > 0.20) {
+        this.seen = true
+      }
+    },
     imageLoaded () {
       this.setImgSrc()
     },
