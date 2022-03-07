@@ -11,7 +11,6 @@
       :youtube="modalData.youtube"
       :title="modalData.title"
       :text="modalData.text"
-      :embed="true"
       :ratio="[null, undefined, 'auto'].includes(modalData.ratio) ? '16:9' : modalData.ratio"
       :video-params="modalData.videoParams"
       class="h-full w-full rounded-md"

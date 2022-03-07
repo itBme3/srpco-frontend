@@ -24,7 +24,6 @@
     <Media
       v-if="page.type === 'datasheet'"
       :media="page.file"
-      :embed="true"
       ratio="8:11"
       class="h-[calc(100vh-80px)] w-full rounded-md"
     />

@@ -19,7 +19,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
-      { rel: 'stylesheet', href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?wjbzbf' }
+      { rel: 'stylesheet', defer: true, href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?vcqm1a' }
     ]
   },
 
@@ -51,7 +51,6 @@ export default {
     '~/plugins/graphql-accessor.ts',
     '~/plugins/debounce.js',
     '~/plugins/youtube-embed.client.js',
-    '~/plugins/pdf-embed.client.js',
     '~/plugins/flickity.client.js',
     '~/plugins/scrollbar.js',
     '~/plugins/chat-box.client.js',

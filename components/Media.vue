@@ -16,7 +16,6 @@
           class="media-pdf"
           v-if="![null, undefined].includes(media) && ![null, undefined].includes(media.mime) && media.mime.includes('pdf')"
           :src="mediaSrc"
-          :embed="embed"
         />
         <img
           v-else-if="mediaSrc.length > 0"
