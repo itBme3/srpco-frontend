@@ -10,46 +10,48 @@
     }"
     style="background-repeat: no-repeat; background-size: cover; background-position: center;"
   >
-    <template v-if="typeof mediaSrc === 'string'">
-      <MediaPdf
-        class="media-pdf"
-        v-if="![null, undefined].includes(media) && ![null, undefined].includes(media.mime) && media.mime.includes('pdf')"
-        :src="mediaSrc"
-        :embed="embed"
+    <client-only>
+      <template v-if="typeof mediaSrc === 'string'">
+        <MediaPdf
+          class="media-pdf"
+          v-if="![null, undefined].includes(media) && ![null, undefined].includes(media.mime) && media.mime.includes('pdf')"
+          :src="mediaSrc"
+          :embed="embed"
+        />
+        <img
+          v-else-if="mediaSrc.length > 0"
+          :src="mediaSrc"
+          class="media-image w-full h-auto relative z-0"
+          :class="{ 'opacity-0': isBackground }"
+          @load="imageLoaded"
+        >
+      </template>
+      <MediaYoutube
+        v-else-if="typeof youtube === 'string' && youtube.length > 0"
+        class="media-youtube"
+        :src="youtube"
+        :class="{ 'w-full my-auto height-full': true, 'relative z-0': !!!isBackground, 'absolute z-0 -inset-1': !!isBackground }"
+        :ratio="'16:9'"
+        :mute="!!videoParams.mute"
+        :style="{ height: imgHeight }"
+        :autoplay="!!videoParams.autoplay"
+        :controls="!!videoParams.controls"
+        :loop="!!videoParams.loop"
+        :autohide="!!videoParams.autohide"
+        :showInfo="!!videoParams.showInfo"
+        :modestbranding="!!videoParams.modestbranding"
       />
-      <img
-        v-else-if="mediaSrc.length > 0"
-        :src="mediaSrc"
-        class="media-image w-full h-auto relative z-0"
-        :class="{ 'opacity-0': isBackground }"
-        @load="imageLoaded"
+      <div
+        v-if="overlay || (typeof youtube === 'string' && youtube.length > 0)"
+        class="overlay absolute inset-0 z-1"
+        :class="{[overlayClasses]: typeof overlayClasses === 'string' && overlayClasses.length > 0 }"
       >
-    </template>
-    <MediaYoutube
-      v-else-if="typeof youtube === 'string' && youtube.length > 0"
-      class="media-youtube"
-      :src="youtube"
-      :class="{ 'w-full my-auto height-full': true, 'relative z-0': !!!isBackground, 'absolute z-0 -inset-1': !!isBackground }"
-      :ratio="'16:9'"
-      :mute="!!videoParams.mute"
-      :style="{ height: imgHeight }"
-      :autoplay="!!videoParams.autoplay"
-      :controls="!!videoParams.controls"
-      :loop="!!videoParams.loop"
-      :autohide="!!videoParams.autohide"
-      :showInfo="!!videoParams.showInfo"
-      :modestbranding="!!videoParams.modestbranding"
-    />
-    <div
-      v-if="overlay || (typeof youtube === 'string' && youtube.length > 0)"
-      class="overlay absolute inset-0 z-1"
-      :class="{[overlayClasses]: typeof overlayClasses === 'string' && overlayClasses.length > 0 }"
-    >
-      <Icon
-        v-if="!!mediaSrc && !!youtube && !!youtube.length"
-        :icon-name="'play'"
-      />
-    </div>
+        <Icon
+          v-if="!!mediaSrc && !!youtube && !!youtube.length"
+          :icon-name="'play'"
+        />
+      </div>
+    </client-only>
   </div>
 </template>
 
@@ -118,7 +120,7 @@ export default {
     imageLoaded () {
       this.setImgSrc()
     },
-    onResize: _.debounce(function(e) {
+    onResize: _.debounce(function() {
       if((!!!this.media && !!!this.youtube?.length) || this.media?.mime?.includes('pdf')) return;
       setTimeout(() => {
         this.setImgSrc();

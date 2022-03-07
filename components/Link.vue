@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import { objectValue } from '~/utils/funcs'
 
 export default {
   props: {

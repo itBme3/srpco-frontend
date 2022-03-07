@@ -12,6 +12,7 @@ export default {
   scrollToTop: true,
   async asyncData ({ redirect, route }) {
     const pageData = await getSingleEntry(route.path, redirect);
+    console.log({ pageData })
     return { pageData }
   },
   head () {

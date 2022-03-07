@@ -50,9 +50,9 @@ export default {
     loginUser ({ email, password }) {
       return this.$axios.post(`${process.env.apiUrl}/api/auth/local`, {
         identifier: email,
-        password: password,
+        password,
       })
-        .then(async response => {
+        .then(response => {
           // console.log('User profile', response.data.user);
           // console.log('User token', response.data.jwt);
           const { user, jwt } = response.data;
@@ -70,7 +70,6 @@ export default {
         })
         .catch(error => {
           alert('An error occurred:', error);
-          return
         });
     }
   }

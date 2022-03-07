@@ -1,8 +1,8 @@
 <template>
   <div
     v-if="!!supplier"
-    class="card supplier-card relative cursor-pointer block rounded-lg"
     ref="supplierCard"
+    class="card supplier-card relative cursor-pointer block rounded-lg"
     :class="{
       ['card-style-' + cardStyle]: true,
       'expanded p-1': !!expanded,
@@ -24,7 +24,7 @@
       <Media
         v-if="!!media && !!media.url"
         :media="media"
-        ratio="5:4"
+        ratio="1:1"
         :overlay="false"
         :class="{
           [mediaClasses]: mediaClasses.length > 0,
@@ -32,7 +32,7 @@
           'rounded-lg': cardStyle === 'standard' && !mediaClasses.includes('rounded')
         }"
         :is-background="true"
-        class="card-media"
+        class="card-media p-0"
       />
       <div
         v-if="(title && title.length > 0) || (description && description.length > 0)"
@@ -127,7 +127,7 @@ export default {
       }
     },
     cardStyle: {
-      type: 'small' | 'standard',
+      type: String /* 'small' | 'standard' */,
       default: 'standard'
     }
   },
@@ -151,7 +151,7 @@ export default {
     },
     colors () {
       const color = !!this?.supplier?.color ? this.supplier.color.replace('_', '-') : 'gray-100'
-      const primary = !color.includes('-') ? `${color}-500` : color;
+      let primary = !color.includes('-') ? `${color}-500` : color;
       if (!primary.includes('-')) primary = `${primary}-500`;
       const primaryShade = parseInt(primary.split('-')[1])
       const colorName = primary.split('-')[0]

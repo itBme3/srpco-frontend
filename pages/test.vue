@@ -20,8 +20,6 @@
 </template>
 
 <script>
-import { CollectionType } from '~/models/entry.model'
-import { getCollection } from '~/utils/graphql/requests/collection'
 export default {
   // async asyncData () {
   //   const data = await getCollection(CollectionType.SUPPLIERS, { sort: ['order:ASC'] });

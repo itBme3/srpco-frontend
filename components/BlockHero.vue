@@ -115,6 +115,7 @@ export default {
       youtube: typeof this?.block?.youtube === 'string' && this.block.youtube.length > 0 ? this.block.youtube : null,
       mediaClasses,
       titleClasses,
+      buttonsClasses,
       textClasses,
       contentClasses,
       overlayClasses,
@@ -138,7 +139,9 @@ export default {
   @apply transition-all ease-quick-in duration-200 shadow-md overflow-visible relative px-4 py-8 md:px-8 md:py-16 min-h-[50vh];
   * {
     &:not(.overlay) {
-      @apply z-1 relative;
+      &:not(iframe) {
+        @apply z-1 relative;
+      }
     }
   }
   &.has-link {

@@ -141,8 +141,8 @@ export default {
       default: null
     },
     initialIndex: {
-      type: Number | null,
-      default: null
+      type: [Number, null],
+      default: () => null
     }
   },
   mounted () {

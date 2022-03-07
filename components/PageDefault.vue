@@ -20,14 +20,26 @@
       }"
       :titleClasses="pageClasses.title"
     />
+
+    <Media
+      v-if="page.type === 'datasheet'"
+      :media="page.file"
+      :embed="true"
+      ratio="8:11"
+      class="h-[calc(100vh-80px)] w-full rounded-md"
+    />
+
     <CollectionsOnSupplier
       v-if="![undefined, null].includes(page) && page.type && page.type === 'supplier'"
       :entry="page"
     />
 
     <div
-      v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content)"
-      class="blocks grid-cols-12"
+      v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || type === 'datasheet')"
+      :class="{
+        'blocks grid-cols-12': true,
+        'hide-sidebar': page.type !== 'gaskets'
+      }"
     >
       <div
         v-if="![undefined, null].includes(page) && typeof page.content === 'string'"
@@ -45,11 +57,11 @@
     </div>
 
     <EntrySideBar
-      :v-if="!!page && entryTypes.includes(page.type)"
+      :v-if="!!page && ['gasket'].includes(page.type)"
       :entry="page"
     />
 
-    <NextPreviousEntries v-if="isSingleEntry" />
+    <NextPreviousEntries v-if="isSingleEntry && ['solution', 'resource'].includes(page.type)" />
 
   </div>
 </template>
@@ -125,6 +137,12 @@ export default {
       .heading-media {
         @apply rounded opacity-100;
       }
+    }
+  }
+  &.supplier {
+    .heading-media {
+      max-width: 200px;
+      max-height: 200px;
     }
   }
 }

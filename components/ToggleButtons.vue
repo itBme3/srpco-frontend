@@ -36,11 +36,11 @@ export default {
   props: {
     items: {
       type: Array,
-      default: []
+      default: () => []
     },
     active: {
       type: Array,
-      default: []
+      default: () => []
     },
     color: {
       type: String,

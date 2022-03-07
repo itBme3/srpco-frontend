@@ -24,8 +24,7 @@
 export default {
   data () {
     return {
-      breadcrumbs: null,
-      fullPath: null
+      breadcrumbs: null
     }
   },
   fetch () {
@@ -33,12 +32,8 @@ export default {
     this.setCrumbs()
   },
   watch: {
-    '$route.fullPath': {
-      immediate: true,
-      handler (val) {
-        this.full
-        this.setCrumbs()
-      }
+    '$route.fullPath' (value) {
+      this.setCrumbs()
     }
   },
   methods: {

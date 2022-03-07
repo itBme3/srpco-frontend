@@ -23,16 +23,14 @@
 export default {
   data () {
     return {
-      showModal: false
+      showModal: false,
+      modalData: null
     }
   },
-  created () {
-
-  },
-  computed: {
-    modalData () {
-      this.showModal = this.$store.state.modal.modalData !== null;
-      return this.$store.state.modal.modalData;
+  watch: {
+    '$store.state.modal.modalData' (value) {
+      this.showModal = value !== null;
+      this.modalData = value
     }
   },
   methods: {

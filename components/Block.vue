@@ -12,7 +12,7 @@
     <template v-if="![undefined, null].includes(block)">
       <gTag
         v-if="!!title && !!title.length && !['ComponentBlockHero'].includes(block.__typename)"
-        :tagName="title.length < 85 ? 'h4' : 'h5' "
+        :tag-name="title.length < 85 ? 'h4' : 'h5' "
         :class="{
           'block-title': true,
           [titleClasses]: !!titleClasses.length

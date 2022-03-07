@@ -43,5 +43,6 @@ export const entryQuery = (data: { queryParams: { [key: string]: any }, entryTyp
                   }
             }
       `
+  console.log({ query, variables })
   return { query, variables }
 }

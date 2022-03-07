@@ -3,25 +3,25 @@
     <beautiful-chat
       class="chat-box"
       :participants="participants"
-      :titleImageUrl="titleImageUrl"
-      :onMessageWasSent="onMessageWasSent"
-      :messageList="messageList"
-      :newMessagesCount="newMessagesCount"
-      :isOpen="isChatOpen"
+      :title-image-url="titleImageUrl"
+      :on-message-masSent="onMessageWasSent"
+      :message-list="messageList"
+      :new-messages-count="newMessagesCount"
+      :is-open="isChatOpen"
       :close="closeChat"
       :open="openChat"
-      :showEmoji="true"
+      :show-emoji="true"
       :showFile="true"
-      :showEdition="true"
-      :showDeletion="true"
-      :deletionConfirmation="true"
-      :showTypingIndicator="showTypingIndicator"
-      :showLauncher="true"
-      :showCloseButton="true"
-      :alwaysScrollToBottom="alwaysScrollToBottom"
-      :disableUserListToggle="false"
-      :messageStyling="messageStyling"
-      @onType="handleOnType"
+      :show-edition="true"
+      :show-deletion="true"
+      :deletion-confirmation="true"
+      :show-typing-indicator="showTypingIndicator"
+      :show-launcher="true"
+      :show-close-button="true"
+      :always-scroll-bo-bottom="alwaysScrollToBottom"
+      :disable-user-list-toggle="false"
+      :message-styling="messageStyling"
+      @on-type="handleOnType"
       @edit="editMessage"
     />
   </client-only>
@@ -95,7 +95,7 @@ export default {
   .sc-chat-window {
     box-shadow: 0 30px 30px -20px rgba(0, 0, 0, 0.563),
       0 30px 60px 10px rgba(0, 0, 0, 0.515) !important;
-    @apply bg-gray-800 #{!important};
+    @apply bg-gray-800;
     @apply z-999 rounded-xl bg-gray-800 overflow-hidden;
   }
   .sc-header {
@@ -125,8 +125,8 @@ export default {
       &:before {
         @apply text-opacity-80 text-gray-900 flex h-[50px] w-[50px] content-center items-center text-center m-auto;
         font-size: 1.5em;
-        content: "\e919" !important;
-        font-family: "SRP-Icons" !important;
+        content: '\e919' !important;
+        font-family: 'SRP-Icons' !important;
         speak: never;
         font-style: normal;
         font-weight: normal;

@@ -62,14 +62,7 @@ export default {
   },
   data () {
     return {
-      videoId: null,
-      videoHeight: 'auto',
-      playerVars: {},
-      origin: process.env.baseUrl
-    }
-  },
-  data () {
-    return {
+      origin: process.env.baseUrl,
       videoId: !!this.videoId && this.videoId !== null ? this.videoId
         : typeof this.src === 'string' && typeof this?.$youtube !== 'undefined'
           ? this.$youtube.getIdFromURL(this.src)
@@ -110,3 +103,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.video-embed {
+  > div {
+    @apply relative pt-[56%];
+    iframe {
+      @apply absolute inset-0;
+    }
+  }
+}
+</style>

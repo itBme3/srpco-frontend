@@ -1,7 +1,7 @@
 <template>
   <div
-    class="edit-admin-button"
     v-if="isAdmin && typeof adminLink === 'string' && adminLink.length > 0"
+    class="edit-admin-button"
   >
     <a
       :href="link"
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { collectionTypes } from '~/models/entry.model';
+// import { collectionTypes } from '~/models/entry.model';
 // function getLinkFromPath(path) {
 //   const collectionOrSlug = route.path.split('/')[1];
 //   const collectionType = collectionTypes.includes(collectionOrSlug) 

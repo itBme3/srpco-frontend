@@ -8,7 +8,7 @@
         :placeholder="'search in ' + collectionType + '...'"
         :debounce-events="['input']"
         :class="{[searchBarClasses]: searchBarClasses.length > 0}"
-        @clear="(e) => searchValue = ''"
+        @clear="() => searchValue = ''"
       />
     </template>
     <div
@@ -20,7 +20,7 @@
       <template v-for="(entry, i) in entries">
         <Card
           v-if="![null, undefined].includes(entry)"
-          :key="entry.type + '-' + entry.id"
+          :key="entry.type + '-' + entry.id + '-' + i"
           :card-style="(['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0) || collectionType === 'datasheets' ? 'mediaLeft' : cardStyle"
           :title="entry.title"
           :text="!showExcerpt || ['gasket'].includes(entry.type)
@@ -31,6 +31,8 @@
               ? '4:2' 
               : collectionType === 'gaskets'
               ? '4:3' 
+              : collectionType === 'suppliers'
+              ? '1:1'
               : collectionType === 'datasheets'
               ? '8:ll'
               : mediaRatio"
@@ -86,12 +88,11 @@
 <script lang="js">
 /* eslint-disable no-extra-boolean-cast */
 
+import qs from 'qs';
 import { getCollection } from '~/utils/graphql/requests/collection'
 import { objectsAreTheSame } from '~/utils/funcs'
 import { strapiFilterParams } from '~/utils/search-params'
-import { getCardClasses } from '~/utils/get-classes'
 import { CardStyle } from '~/models/blocks.model.ts'
-import qs from 'qs';
 
 export default {
   props: {
@@ -148,10 +149,10 @@ export default {
       type: Boolean,
       default: false
     },
-    filters: {
-      type: Boolean,
-      default: true
-    },
+    // filters: {
+    //   type: Boolean,
+    //   default: true
+    // },
     loadingMore: {
       type: String, /* button, infiniteScroll, linkToCollection, none */
       default: 'button'
@@ -168,7 +169,7 @@ export default {
   data () {
     const { grid: gridClasses = '', searchBar: searchBarClasses = '', title = '', card = '', media = '', text = '', content = '' } = !!this.classes ? this.classes : {}
     const collection = this?.collectionType ? this.collectionType : null
-    const mediaRatio = this.ratio !== null && this.ratio?.indexOf(':') > -1 ? this.ratio : ['services', 'materials', 'applications'].includes(collection) ? '16:9' : 'auto'
+    const mediaRatio = this.ratio !== null && this.ratio?.indexOf(':') > -1 ? this.ratio : ['services', 'materials', 'applications'].includes(collection) ? '16:9' : collection === 'suppliers' ? '1:1' : 'auto'
     return {
       entries: null,
       nextEntries: null,
@@ -186,14 +187,14 @@ export default {
     const collection = this.collection
     // this.queryParams = this.getQueryParams()
     if (collection === null) {
-      return
+      return {}
     }
     return await this.get()
   },
   watch: {
     '$route.query': {
       immediate: true,
-      handler (e) {
+      handler () {
         if (!this.updateUrl) return;
         this.queryParams = this.getQueryParams()
         this.get()
@@ -217,7 +218,7 @@ export default {
     }
   },
   mounted() {
-    if(!Array.isArray(this.entries)) return;
+    if(!Array.isArray(this.entries)) return null;
     this.$emit('updateEntries', this.entries)
   },
   computed: {
@@ -240,7 +241,8 @@ export default {
       const params = this.getQueryParams();
       if (objectsAreTheSame(params, this.queryParams)) {
         if (start === 0) {
-          return this.$emit('updateEntries', this.entries);
+          this.$emit('updateEntries', this.entries);
+          return
         }
       }
       this.queryParams = params
@@ -262,9 +264,8 @@ export default {
             window.scrollTo({top: window.scrollY - 1})
           }, 100)
         }
+        return this.entries;
       } catch {
-        return 
-      } finally {
         return this.entries;
       }
     },
@@ -309,6 +310,11 @@ export default {
 <style lang="scss" scoped>
 .collection-entries {
   @apply grid grid-cols-12 gap-3 sm:gap-4 mx-auto my-0;
+  .datasheet {
+    .icon {
+      @apply text-gray-600;
+    }
+  }
 }
 .collection-entry {
   @apply col-span-6 md:col-span-4 lg:col-span-3;

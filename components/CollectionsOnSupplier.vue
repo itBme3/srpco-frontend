@@ -54,7 +54,7 @@ export default {
       default: () => { return {} }
     }
   },
-  async fetch ({ route }) {
+  fetch ({ route }) {
     const showingCollection = supplierCollections.includes(route?.hash) ? route.hash : null
     const haveFetched = showingCollection !== null ? [] : [showingCollection]
     return {
@@ -75,6 +75,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.collectionFilters)
     this.scrollToCollections();
     return this.getEligibleCollections()
       .catch(console.error)

@@ -26,8 +26,7 @@
 </template>
 
 <script lang="js">
-import {camelToHandle} from '~/utils/funcs'
-import { getHeroClasses } from '~/utils/get-classes'
+
 export default {
   props: {
     block: {
