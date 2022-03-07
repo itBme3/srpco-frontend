@@ -13,7 +13,6 @@
     <client-only>
       <template v-if="typeof mediaSrc === 'string'">
         <MediaPdf
-          class="media-pdf"
           v-if="![null, undefined].includes(media) && ![null, undefined].includes(media.mime) && media.mime.includes('pdf')"
           :src="mediaSrc"
         />
@@ -110,21 +109,24 @@ export default {
   },
   mounted () {
     this.setImgSrc()
-    window.addEventListener('resize', () => this.onResize)
   },
-  // unmounted () {
-  //   window.removeEventListener('resize', this.setImgSrc)
-  // },
+  watch: {
+    '$store.state.screen'() {
+      this.onResize()
+    }
+  },
   methods: {
     imageLoaded () {
       this.setImgSrc()
     },
-    onResize: _.debounce(function() {
-      if((!!!this.media && !!!this.youtube?.length) || this.media?.mime?.includes('pdf')) return;
+    onResize() {
+      if((!!!this.media && !!!this.youtube?.length) || this.media?.mime?.includes('pdf')) {
+        return
+      };
       setTimeout(() => {
         this.setImgSrc();
       }, 300)
-    }, 250),
+    },
     setImgSrc () {
       this.setImgHeight()
       if (![null, undefined].includes(this.media) && ![null, undefined].includes(this.media.mime) && this.media.mime.includes('pdf')) {

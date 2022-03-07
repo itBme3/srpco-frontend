@@ -50,7 +50,6 @@ export default {
     '~/plugins/check-view.js',
     '~/plugins/graphql-accessor.ts',
     '~/plugins/debounce.js',
-    '~/plugins/youtube-embed.client.js',
     '~/plugins/flickity.client.js',
     '~/plugins/scrollbar.js',
     '~/plugins/chat-box.client.js',
