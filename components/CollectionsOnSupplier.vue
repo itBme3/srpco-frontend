@@ -32,6 +32,7 @@
         :collection-type="collectionType"
         :infinite-scroll="true"
         :search-bar="true"
+        :update-url="false"
         card-style="mediaLeft"
         :classes="{
           card: 'col-span-12 sm:col-span-6'

@@ -4,8 +4,6 @@
     <gInput
       ref="searchInput"
       v-model="searchValue"
-      v-debounce:400ms="updateSearchValue"
-      :debounce-events="['input']"
       type="text"
       class="search-input pr-[40px] rounded-md w-full bg-transparent"
       :autocomplete="autocomplete"
@@ -14,7 +12,10 @@
       :tabindex="tabindex"
       :name="name"
       :variant="variant"
-      @input="$emit('input', $event)"
+      @input="(e) => {
+        $emit('input', e);
+        updateSearchValue(e);
+      }"
       @focus="(e) => $emit('focus', e)"
     />
     <slot />
@@ -33,7 +34,7 @@
 </template>
 
 <script lang="js">
-
+import _ from 'lodash'
 export default {
   props: {
     placeholder: {
@@ -91,10 +92,10 @@ export default {
     }
   },
   methods: {
-    updateSearchValue (val) {
+    updateSearchValue: _.debounce (function(val) {
       this.searchValue = val 
       this.$emit('search', val)
-    },
+    }, 400),
     focusInput () {
       if (![null, undefined].includes(this.$refs) && ![null, undefined].includes(this.$refs.searchInput)) {
         this.$refs.searchInput.$el.focus()
@@ -107,9 +108,6 @@ export default {
       }
       this.focusInput()
     }
-    // searchValueFromQuery () {
-    //   this.$data.searchValue = typeof this.$route?.query?.q === 'string' && this.$route?.query?.q?.length > 0 ? this.$route.query.q : ''
-    // }
   }
 }
 </script>

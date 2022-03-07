@@ -49,7 +49,6 @@ export default {
   plugins: [
     '~/plugins/check-view.js',
     '~/plugins/graphql-accessor.ts',
-    '~/plugins/debounce.js',
     '~/plugins/flickity.client.js',
     '~/plugins/scrollbar.js',
     '~/plugins/chat-box.client.js',

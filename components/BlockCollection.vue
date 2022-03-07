@@ -3,11 +3,10 @@
   <div class="collection-container h-auto">
     <template v-if="searchBar === true">
       <SearchInput
-        v-debounce:400ms="(e) => e !== searchValue ? searchValue = e : ''"
         :autocomplete="'on'"
         :placeholder="'search in ' + collectionType + '...'"
-        :debounce-events="['input']"
         :class="{[searchBarClasses]: searchBarClasses.length > 0}"
+        @search="(e) => searchValue !== e ? searchValue = e : ''"
         @clear="() => searchValue = ''"
       />
     </template>
@@ -87,8 +86,8 @@
 
 <script lang="js">
 /* eslint-disable no-extra-boolean-cast */
-
-import qs from 'qs';
+import _ from 'lodash'
+import qs from 'qs'
 import { getCollection } from '~/utils/graphql/requests/collection'
 import { objectsAreTheSame } from '~/utils/funcs'
 import { strapiFilterParams } from '~/utils/search-params'
