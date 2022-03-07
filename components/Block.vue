@@ -20,13 +20,25 @@
       >
         {{ title }}
       </gTag>
-      <BlockCard
-        v-if="block.__typename === 'ComponentBlockCard'"
+
+      <client-only>
+        <div
+          v-if="!seen"
+          v-view="visibilityHandler"
+          class="loading-placeholder w-full py-[30%] bg-white bg-opacity-3 rounded"
+        >
+          loading...
+        </div>
+      </client-only>
+
+      <LazyBlockCard
+        v-if="seen && block.__typename === 'ComponentBlockCard'"
         :class="{ [!!cardClasses &&  !!cardClasses.card ? cardClasses.card : '']: !!cardClasses.card.length }"
         :block="block"
       />
-      <BlockCollection
-        v-if="block.__typename === 'ComponentBlockCollection'"
+
+      <LazyBlockCollection
+        v-if="seen && block.__typename === 'ComponentBlockCollection'"
         :collection-type="block.collectionType"
         :limit="![null, undefined].includes(block.collectionSettings) && block.collectionSettings.limit > 0 ? block.collectionSettings.limit : 6"
         :sort="!!block.collectionSettings && !!block.collectionSettings.sort ? block.collectionSettings.sort.split(',') : ['publishedAt:ASC']"
@@ -41,52 +53,52 @@
         :classes="cardClasses"
       />
 
-      <BlockContent
-        v-if="['ComponentBlockContent', 'ComponentSolutionsChallenge', 'ComponentSolutionsSolution', 'ComponentSolutionsResults', 'ComponentSolutionsUsed'].includes(block.__typename)"
+      <LazyBlockContent
+        v-if="seen && ['ComponentBlockContent', 'ComponentSolutionsChallenge', 'ComponentSolutionsSolution', 'ComponentSolutionsResults', 'ComponentSolutionsUsed'].includes(block.__typename)"
         :block="block"
       />
-      <BlockCarousel
-        v-if="block.__typename === 'ComponentBlockCarousel'"
+      <LazyBlockCarousel
+        v-if="seen && block.__typename === 'ComponentBlockCarousel'"
         :block="block"
       />
-      <BlockHero
-        v-if="block.__typename === 'ComponentBlockHero'"
+      <LazyBlockHero
+        v-if="seen && block.__typename === 'ComponentBlockHero'"
         :block="block"
       />
-      <BlockGaskets
-        v-if="block.__typename === 'ComponentBlockGaskets' || (block.__typename === 'ComponentSolutionsUsed' && block.gaskets && block.gaskets.length > 0)"
+      <LazyBlockGaskets
+        v-if="seen && block.__typename === 'ComponentBlockGaskets' || (block.__typename === 'ComponentSolutionsUsed' && block.gaskets && block.gaskets.length > 0)"
         :block="block"
       />
-      <BlockDatasheets
-        v-if="block.__typename === 'ComponentBlockDatasheets' || (block.__typename === 'ComponentSolutionsUsed' && block.datasheets && block.datasheets.length > 0)"
+      <LazyBlockDatasheets
+        v-if="seen && block.__typename === 'ComponentBlockDatasheets' || (block.__typename === 'ComponentSolutionsUsed' && block.datasheets && block.datasheets.length > 0)"
         :block="block"
       />
-      <BlockMaterials
-        v-if="block.__typename === 'ComponentBlockMaterials' || (block.__typename === 'ComponentSolutionsUsed' && block.materials && block.materials.length > 0)"
+      <LazyBlockMaterials
+        v-if="seen && block.__typename === 'ComponentBlockMaterials' || (block.__typename === 'ComponentSolutionsUsed' && block.materials && block.materials.length > 0)"
         :block="block"
       />
-      <BlockApplications
-        v-if="block.__typename === 'ComponentBlockApplications'"
+      <LazyBlockApplications
+        v-if="seen && block.__typename === 'ComponentBlockApplications'"
         :block="block"
       />
-      <BlockServices
-        v-if="block.__typename === 'ComponentBlockServices'"
+      <LazyBlockServices
+        v-if="seen && block.__typename === 'ComponentBlockServices'"
         :block="block"
       />
-      <BlockResources
-        v-if="block.__typename === 'ComponentBlockResources'"
+      <LazyBlockResources
+        v-if="seen && block.__typename === 'ComponentBlockResources'"
         :block="block"
       />
-      <BlockGroup
-        v-if="block.__typename === 'ComponentBlockGroup'"
+      <LazyBlockGroup
+        v-if="seen && block.__typename === 'ComponentBlockGroup'"
         :block="block"
       />
-      <BlockButtons
-        v-if="block.__typename === 'ComponentBlockButtons'"
+      <LazyBlockButtons
+        v-if="seen && block.__typename === 'ComponentBlockButtons'"
         :block="block"
       />
-      <BlockIconList
-        v-if="block.__typename === 'ComponentBlockIconList'"
+      <LazyBlockIconList
+        v-if="seen && block.__typename === 'ComponentBlockIconList'"
         :block="block"
       />
     </template>
@@ -101,6 +113,10 @@ export default {
     block: {
       type: Object,
       default: () => { return {} }
+    },
+    lazy: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -111,8 +127,20 @@ export default {
       titleClasses,
       buttonsClasses,
       cardClasses: { card, title: cardTitle, media: cardMedia, text: cardText },
-      title: ![null, undefined].includes(this.block) && !this.block.__typename.includes('Card') ? this.block.title : null
+      title: ![null, undefined].includes(this.block) && !this.block.__typename.includes('Card') ? this.block.title : null,
+      seen: !this.lazy
     }
+  },
+  methods: {
+    visibilityHandler (e) {
+      if (this.seen) {
+        return
+      };
+      console.log({ __typename: this.block.__typename })
+      if (e.percentInView > 0.20) {
+        this.seen = true
+      }
+    },
   }
 }
 </script>
