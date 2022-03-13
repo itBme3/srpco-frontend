@@ -5,7 +5,8 @@
       class="mx-auto max-w-lg"
       :schema="formSchema"
       :model="model"
-      @submit="formSubmit"
+      success-redirec="/gaskets"
+      @success="successfulSubmit"
     />
   </div>
 </template>
@@ -77,8 +78,12 @@ export default {
     }
   },
   methods: {
-    formSubmit (data) {
-      console.log({ data })
+    successfulSubmit (data) {
+      console.log(data)
+    },
+    submitCallback (data) {
+      console.log('Custom Callback: ', data)
+      return data;
     }
   }
 }
