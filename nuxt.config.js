@@ -3,6 +3,9 @@ const apiUrl = typeof process.env.NGROK === 'string' && process.env.NGROK.length
   : typeof process.env.API_URL === 'string' && process.env.API_URL.length > 0
     ? process.env.API_URL 
     : 'http://localhost:1337';
+
+const gaId = process.env.NODE_ENV === 'production' && process.env.GA_ENV !== 'dev' ? process.env.GA : process.env.GA_DEV;
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -19,7 +22,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
-      { rel: 'stylesheet', defer: true, href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?vcqm1a' }
+      { rel: 'stylesheet', defer: true, href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?vcqm1a' },
     ]
   },
 
@@ -64,7 +67,8 @@ export default {
     '@nuxt/typescript-build',
     '@nuxtjs/tailwindcss',
     '@nuxt/postcss8',
-    'nuxt-graphql-request'
+    'nuxt-graphql-request',
+    '@nuxtjs/google-analytics'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -72,6 +76,16 @@ export default {
     '@nuxtjs/axios',
     'nuxt-vuex-localstorage'
   ],
+  googleAnalytics: {
+    id: gaId,
+    layer: 'dataLayer',
+    pageTracking: true,
+    debug: {
+      enabled: false,
+      trace: false,
+      sendHitTask: true
+    }
+  },
   graphql: {
     /**
      * An Object of your GraphQL clients
