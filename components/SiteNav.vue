@@ -2,12 +2,12 @@
 <template>
   <div :class="{
       'site-navigation': true,
-      'is-mobile': this.isMobile,
+      'is-mobile': $store.state.screen.isMobile,
       'expanded': navExpanded
     }">
     <gButton
-      v-if="isMobile"
-      class="mobile-menu-trigger flex items-center justify-center h-full mr-px px-3 py-3 ml-auto bg-transparent hover:bg-gray-800 hover:text-gray-900"
+      v-if="$store.state.screen.isMobile"
+      class="mobile-menu-trigger flex items-center justify-center h-full mr-px px-3 py-3 ml-auto bg-gray-800 bg-opacity-50 hover:bg-opacity-100 hover:text-gray-900"
       @click="navExpanded = !navExpanded"
     >
       <i
@@ -35,8 +35,8 @@
             'has-nested-links': Array.isArray(navLink.nested) && navLink.nested.length > 0,
             'bg-gray-200 text-gray-700': showNested === navLink.link
           }"
-          @mouseenter="!isMobile ? toggleNested(navLink.link) : ''"
-          @mouseleave="showNested = isMobile ? showNested : nestedHovered !== navLink.link ? false : navLink.link;"
+          @mouseenter="!$store.state.screen.isMobile ? toggleNested(navLink.link) : ''"
+          @mouseleave="showNested = $store.state.screen.isMobile ? showNested : nestedHovered !== navLink.link ? false : navLink.link;"
         >
           <div
             v-if="navLink !== undefined && navLink !== null"
@@ -96,7 +96,7 @@
             </div>
           </div>
           <div
-            v-if="Array.isArray(navLink.nested) && navLink.nested.length > 0 && isMobile && showNested !== navLink.link"
+            v-if="Array.isArray(navLink.nested) && navLink.nested.length > 0 && $store.state.screen.isMobile && showNested !== navLink.link"
             class="bg-transparent absolute inset-0 left-1/2"
             @click="showNested = navLink.link"
           />
@@ -104,7 +104,7 @@
       </template>
     </nav>
     <div
-      v-if="navExpanded && isMobile || !!showNested"
+      v-if="navExpanded && $store.state.screen.isMobile || !!showNested"
       class="overlay nav-overlay fixed z-9999 -inset-1 cursor-pointer bg-gray-900 md:bg-transparent bg-opacity-70"
       @click="collapseNav"
     />
@@ -129,7 +129,6 @@ export default {
       navigation: null,
       showNested: null,
       navExpanded: false,
-      isMobile: false,
       nestedHovered: false
     }
   },
@@ -140,9 +139,6 @@ export default {
     '$route.fullPath' () {
       this.collapseNav();
       window.scrollTo({ top: 0 });
-    },
-    mobile(value) {
-      this.isMobile = value
     }
   },
   methods: {

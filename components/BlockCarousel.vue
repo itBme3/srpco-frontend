@@ -25,7 +25,6 @@
       <Wysiwyg
         v-if="slide.content && slide.content.length > 0"
         :class="{
-          'block-content': true,
           [slide.classes && slide.classes.content]: slide.classes && slide.classes.content && slide.classes.content.length
         }"
         :content="slide.content"

@@ -1,8 +1,8 @@
 <template>
   <div
     v-if="!!activeCollections && !!activeCollections.length"
-    class="collections-on-supplier w-full"
     ref="collections"
+    class="collections-on-supplier w-full"
   >
     <div class="toggle-collections flex w-full">
       <gButton
@@ -16,15 +16,15 @@
       >
         {{ collectionType }}
         <Icon
-          :iconName="showingCollection === collectionType ? 'close' : 'angle-down'"
+          :icon-name="showingCollection === collectionType ? 'close' : 'angle-down'"
           class="transform scale-80 ml-1"
         />
       </gButton>
     </div>
     <template v-for="collectionType in activeCollections">
       <BlockCollection
-        :key="'supplier-collection-' + collectionType"
         v-if="haveFetched.includes(collectionType)"
+        :key="'supplier-collection-' + collectionType"
         :class="{ 
           [collectionType]: true,
           'hidden': showingCollection !== collectionType }"
@@ -55,14 +55,6 @@ export default {
       default: () => { return {} }
     }
   },
-  fetch ({ route }) {
-    const showingCollection = supplierCollections.includes(route?.hash) ? route.hash : null
-    const haveFetched = showingCollection !== null ? [] : [showingCollection]
-    return {
-      haveFetched,
-      showingCollection
-    }
-  },
   data () {
     return {
       activeCollections: [],
@@ -75,11 +67,13 @@ export default {
       }
     }
   },
-  mounted () {
-    console.log(this.collectionFilters)
-    this.scrollToCollections();
-    return this.getEligibleCollections()
-      .catch(console.error)
+  fetch ({ route }) {
+    const showingCollection = supplierCollections.includes(route?.hash) ? route.hash : null
+    const haveFetched = showingCollection !== null ? [] : [showingCollection]
+    return {
+      haveFetched,
+      showingCollection
+    }
   },
   watch: {
     '$route.hash': {
@@ -96,6 +90,12 @@ export default {
         }
       }
     }
+  },
+  mounted () {
+    console.log(this.collectionFilters)
+    this.scrollToCollections();
+    return this.getEligibleCollections()
+      .catch(console.error)
   },
   methods: {
     setHash (collectionType = null) {

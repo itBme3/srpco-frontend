@@ -16,7 +16,6 @@
 
 <script>
 import qs from 'qs'
-import _ from 'lodash'
 
 export default {
   props: {

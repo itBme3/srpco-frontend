@@ -43,7 +43,7 @@
         :controls="!!videoParams.controls"
         :loop="!!videoParams.loop"
         :autohide="!!videoParams.autohide"
-        :showInfo="!!videoParams.showInfo"
+        :show-info="!!videoParams.showInfo"
         :modestbranding="!!videoParams.modestbranding"
       />
       <div
@@ -131,20 +131,19 @@ export default {
       seen: !this.lazy
     }
   },
-  mounted () {
-    this.setImgSrc()
-  },
   watch: {
     '$store.state.screen'() {
       this.onResize()
     }
+  },
+  mounted () {
+    this.setImgSrc()
   },
   methods: {
     visibilityHandler (e) {
       if (this.seen) {
         return
       };
-      console.log(this.mediaSrc)
       if (e.percentInView > 0.20) {
         this.seen = true
       }

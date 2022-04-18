@@ -11,16 +11,16 @@
       />
     </template>
     <div
+      id="masonCollection"
       :v-if="!!entries && !!entries.length"
       class="collection-entries grid"
-      id="masonCollection"
       :class="{[gridClasses]: gridClasses.length > 0}"
     >
       <template v-for="(entry, i) in entries">
         <Card
           v-if="![null, undefined].includes(entry)"
-          :lazy="i > 6"
           :key="entry.type + '-' + entry.id + '-' + i"
+          :lazy="i > 6"
           :card-style="(['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0) || collectionType === 'datasheets' ? 'mediaLeft' : cardStyle"
           :title="entry.title"
           :text="!showExcerpt || ['gasket'].includes(entry.type)
@@ -164,15 +164,6 @@ export default {
       default: null
     }
   },
-  fetch () {
-    const collection = this.collection
-    // this.queryParams = this.getQueryParams()
-    if (collection === null) {
-      return {}
-    }
-    this.searchValue = this.updateUrl && this.$route?.query?.q?.length ? this.$route.query.q : ''
-    return this.get(0).catch(console.error);
-  },
   data () {
     const { grid: gridClasses = '', searchBar: searchBarClasses = '', title = '', card = '', media = '', text = '', content = '' } = !!this.classes ? this.classes : {}
     const collection = this?.collectionType ? this.collectionType : null
@@ -189,6 +180,39 @@ export default {
       collection,
       mediaRatio,
       queryParams: { }
+    }
+  },
+  fetch () {
+    const collection = this.collection
+    // this.queryParams = this.getQueryParams()
+    if (collection === null) {
+      return {}
+    }
+    this.searchValue = this.updateUrl && this.$route?.query?.q?.length ? this.$route.query.q : ''
+    return this.get(0).catch(console.error);
+  },
+  computed: {
+    constantFilters() {
+      try {
+        return Object.keys(this.filters).length === 0 ? {} : this.filters
+      } catch(e) {
+        return {}
+      }
+    },
+    collectionSort() {
+      let sorts = this.updateUrl && this.$route.query?.sort?.length ? this.$route.query.sort : this.sort;
+      if(!Array.isArray(sorts)) { sorts = [sorts] }
+      return sorts.map(sort => {
+        let sortKey = sort?.split(':')[0] || 'publishedAt';
+        if (['created', 'updated', 'published'].includes(sortKey)) {
+          sortKey = `${sortKey}At`
+        }
+        let sortDirection = sort?.split(':')[0]?.toUpperCase();
+        if (!['asc','desc'].includes(sortDirection?.toLowerCase())) {
+          sortDirection = ['created', 'updated', 'published'].includes(sortKey) ? 'DESC' : 'ASC'
+        }
+        return `${sortKey}:${sortDirection}`
+      })
     }
   },
   watch: {
@@ -222,15 +246,6 @@ export default {
     if(!Array.isArray(this.entries)) return null;
     this.$emit('updateEntries', this.entries)
   },
-  computed: {
-    constantFilters() {
-      try {
-        return Object.keys(this.filters).length === 0 ? {} : this.filters
-      } catch(e) {
-        return {}
-      }
-    }
-  },
   methods: {
     async get (start = 0) {
       const collection = this.collection
@@ -247,7 +262,7 @@ export default {
         }
       }
       this.queryParams = params
-      this.nextEntries = await getCollection(this.collection, { ...this.queryParams, pagination: { limit: this.limit, start } } )
+      this.nextEntries = await getCollection(this.collection, { filters: {...this.constantFilters}, sort: this.collectionSort, pagination: { limit: this.limit, start } } )
         .then(res => {
           this.canLoadMore = res.length === this.limit
           return res;

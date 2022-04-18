@@ -25,6 +25,8 @@
         :isBackground="true"
         :class="{ 'heading-media': true, [mediaClasses]: mediaClasses.length > 0 }"
         :ratio="mediaRatio"
+        :overlay="typeof overlayClasses === 'string' && overlayClasses.length > 0"
+        :overlayClasses="overlayClasses"
       />
       <div class="heading-text-content">
         <gTag
@@ -76,6 +78,10 @@ export default {
       default: ''
     },
     mediaClasses: {
+      type: String,
+      default: ''
+    },
+    overlayClasses: {
       type: String,
       default: ''
     },

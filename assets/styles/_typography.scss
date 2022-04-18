@@ -79,6 +79,11 @@ i {
 p {
         @apply text-base tracking-wider font-normal;
 }
+.wysiwyg {
+        p {
+                @apply mb-6;
+        }
+}
 a {
         text-decoration: inherit;
 }

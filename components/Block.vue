@@ -136,7 +136,6 @@ export default {
       if (this.seen) {
         return
       };
-      console.log({ __typename: this.block.__typename })
       if (e.percentInView > 0.20) {
         this.seen = true
       }

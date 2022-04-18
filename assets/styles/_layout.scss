@@ -6,9 +6,9 @@
 	.header {
 		@apply fixed z-999999 top-0 left-auto right-auto w-screen;
 		.top-bar {
-			@apply flex flex-nowrap items-center justify-center py-1 px-3 mb-2 relative top-0 overflow-hidden text-xs bg-gray-800 bg-opacity-60 text-gray-400;
+			@apply flex flex-nowrap items-center justify-center h-9 px-4 mb-2 relative top-0 overflow-hidden w-full text-xs bg-gray-800 bg-opacity-60 text-gray-400;
 			.top-bar-content {
-				@apply flex items-center justify-between space-x-2;
+				@apply flex items-center justify-between w-full max-w-lg mx-auto pr-4;
 				> * {
 					@apply my-auto whitespace-nowrap;
 					font-size: inherit;

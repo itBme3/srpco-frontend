@@ -6,7 +6,6 @@
     <Wysiwyg
       v-if="content !== null && content !== undefined"
       :class="{
-        'block-content': true,
         [contentClasses]: typeof contentClasses === 'string' && contentClasses.length > 0
       }"
       :content="content"

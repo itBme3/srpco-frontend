@@ -3,41 +3,42 @@
     v-if="![null, undefined].includes(page)"
     :class="{
       'single-entry': isSingleEntry,
-      [page.type]: isSingleEntry,
+      [entryType]: isSingleEntry,
       'collection': !isSingleEntry,
-      [page.type + 's']:  !!page.type && page.type.includes('Collection'),
+      [entryType + 's']:  !!entryType && entryType.includes('Collection'),
       [pageClasses.container]: !!pageClasses.container
     }"
   >
     <Heading
       v-if="![null, undefined].includes(page)"
       :title="page.title"
-      :heading-type="!!!page.type || !entryTypes.includes(page.type) ? 'collection' : 'page'"
+      :heading-type="!!!entryType || !entryTypes.includes(entryType) ? 'collection' : 'page'"
       :description="page.description"
       :media="page.media"
       :class="{
-        [pageClasses.heading]: !!pageClasses.heading && !!ageClasses.heading.length
+        [pageClasses.heading]: !!pageClasses.heading && !!pageClasses.heading.length
       }"
-      :titleClasses="pageClasses.title"
+      :title-classes="pageClasses.title"
+      :overlay-classes="entryType === 'solution' ? 'solutions-header-media-overlay' : ''"
     />
 
     <Media
-      v-if="page.type === 'datasheet'"
+      v-if="entryType === 'datasheet'"
       :media="page.file"
       ratio="8:11"
       class="h-[calc(100vh-80px)] w-full rounded-md"
     />
 
     <CollectionsOnSupplier
-      v-if="![undefined, null].includes(page) && page.type && page.type === 'supplier'"
+      v-if="![undefined, null].includes(page) && entryType && entryType === 'supplier'"
       :entry="page"
     />
 
     <div
-      v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || type === 'datasheet')"
+      v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType === 'datasheet')"
       :class="{
         'blocks grid-cols-12': true,
-        'hide-sidebar': page.type !== 'gaskets'
+        'hide-sidebar': entryType !== 'gasket'
       }"
     >
       <div
@@ -56,11 +57,11 @@
     </div>
 
     <EntrySideBar
-      :v-if="!!page && ['gasket'].includes(page.type)"
+      :v-if="!!page && ['gasket'].includes(entryType)"
       :entry="page"
     />
 
-    <NextPreviousEntries v-if="isSingleEntry && ['solution', 'resource'].includes(page.type)" />
+    <NextPreviousEntries v-if="isSingleEntry && ['solution', 'resource'].includes(entryType)" />
 
   </div>
 </template>
@@ -90,16 +91,9 @@ export default {
       pageClasses: getPageClasses(this.pageData)
     }
   },
-  mounted () {
-    const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
-    this.$store.commit('adminEdit/setAdminLink', {
-      slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
-      collectionType, entryType, id: id * 1
-    })
-  },
   computed: {
     isSingleEntry () {
-      return !!this?.page?.type && this.entryTypes.includes(this.page.type)
+      return !!this?.page?.type && this.entryTypes.includes(this.entryType)
     }
   },
   watch: {
@@ -116,6 +110,15 @@ export default {
       this.$store.commit('nextPrevious/setCollectionType', collectionType)
       this.$store.commit('nextPrevious/setEntry', this.pageData)
     }
+  },
+  mounted () {
+    const { slug: initialSlug = null, collectionType = null, type: entryType = null, id } = this.pageData;
+    const slug = !!!initialSlug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : initialSlug;
+    this.$store.commit('adminEdit/setAdminLink', {
+      slug,
+      collectionType,
+      entryType, id: id * 1
+    })
   }
 }
 </script>
@@ -125,16 +128,58 @@ export default {
   &.solution {
     .heading {
       .heading-content {
-        @apply rounded bg-gray-800 bg-opacity-50;
+        @apply rounded relative sm:px-0 bg-opacity-50;
         .heading-text-content {
-          @apply p-4 sm:p-8;
+          @apply p-4 sm:p-8  mx-auto max-w-prose;
           .heading-title {
             @apply font-semibold text-2xl sm:text-3xl md:text-4xl;
           }
         }
       }
       .heading-media {
-        @apply rounded opacity-100;
+        @apply rounded absolute w-1/2 opacity-50;
+        .overlay {
+          @apply bg-gradient-to-l from-gray-900 to-transparent;
+        }
+      }
+    }
+    .blocks {
+      @apply mx-auto px-3 pt-5;
+      .entry-block {
+        &[class*='block-ComponentSolutions'] {
+          @apply max-w-prose mx-auto p-3 bg-transparent shadow-none w-full overflow-visible;
+          .block-content {
+            @apply p-7 rounded-md bg-gray-800 bg-opacity-50 shadow-xl w-full;
+          }
+        }
+        .block-title {
+          @apply mb-0;
+          &:after {
+            @apply relative;
+            content: ':';
+            left: -0.3ch;
+          }
+        }
+        &.block-ComponentSolutionsChallenge {
+          .block-title {
+            @apply text-red-500;
+          }
+        }
+        &.block-ComponentSolutionsSolution {
+          .block-title {
+            @apply text-green-500;
+          }
+        }
+        &.block-ComponentSolutionsResults {
+          .block-title {
+            @apply text-blue-500;
+          }
+        }
+        &.block-ComponentSolutionsUsed {
+          .block-title {
+            @apply text-cyan-600;
+          }
+        }
       }
     }
   }

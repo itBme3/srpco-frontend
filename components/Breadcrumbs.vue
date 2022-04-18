@@ -32,7 +32,7 @@ export default {
     this.setCrumbs()
   },
   watch: {
-    '$route.fullPath' (value) {
+    '$route.fullPath' () {
       this.setCrumbs()
     }
   },
