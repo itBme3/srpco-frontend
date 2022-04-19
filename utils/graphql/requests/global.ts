@@ -3,7 +3,10 @@ import { $graph } from '~/utils/graphql/init'
 import { parseResponse } from '../responses'
 
 export const getNavigation = async () => {
-  return await $graph.request(navigationQuery).then(res => parseResponse(res.navigation))
+  return await $graph.request(navigationQuery).then(res => {
+    console.log(res)
+    return parseResponse(res.navigation)
+  })
 }
 
 export const getFooter = async () => {
