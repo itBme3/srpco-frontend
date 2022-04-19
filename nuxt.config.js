@@ -1,7 +1,7 @@
-const apiUrl = typeof process.env.API_URL === 'string' && process.env.API_URL.length > 0
-  ? process.env.API_URL 
-    : typeof process.env.NGROK === 'string' && process.env.NGROK.length > 0
+const apiUrl = typeof process.env.NGROK === 'string' && process.env.NGROK.length > 0
   ? `https://${process.env.NGROK}.ngrok.io`
+    : typeof process.env.API_URL === 'string' && process.env.API_URL.length > 0
+  ? process.env.API_URL 
     : 'http://localhost:1337';
 
 console.log({ apiUrl })
