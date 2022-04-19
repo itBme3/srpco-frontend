@@ -70,12 +70,14 @@ export default {
     '@nuxt/postcss8',
     'nuxt-graphql-request',
     '@nuxtjs/google-analytics'
+    
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    'nuxt-vuex-localstorage'
+    'nuxt-vuex-localstorage',
+    '@nuxt/content'
   ],
   googleAnalytics: {
     id: gaId,
