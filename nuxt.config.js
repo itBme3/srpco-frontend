@@ -1,10 +1,12 @@
+import { collectionTypes } from './models/entry.model';
+
 const apiUrl = typeof process.env.NGROK === 'string' && process.env.NGROK.length > 0
   ? `https://${process.env.NGROK}.ngrok.io`
     : typeof process.env.API_URL === 'string' && process.env.API_URL.length > 0
   ? process.env.API_URL 
     : 'http://localhost:1337';
 
-console.log({ apiUrl })
+// console.log({ apiUrl })
 
 const gaId = process.env.NODE_ENV === 'production' && process.env.GA_ENV !== 'dev' ? process.env.GA : process.env.GA_DEV;
 
@@ -52,7 +54,6 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/check-view.js',
-    '~/plugins/graphql-accessor.ts',
     '~/plugins/flickity.client.js',
     '~/plugins/scrollbar.js',
     '~/plugins/chat-box.client.js',
@@ -68,14 +69,15 @@ export default {
     '@nuxt/typescript-build',
     '@nuxtjs/tailwindcss',
     '@nuxt/postcss8',
-    'nuxt-graphql-request',
     '@nuxtjs/google-analytics'
+    
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    'nuxt-vuex-localstorage'
+    'nuxt-vuex-localstorage',
+    '@nuxt/content'
   ],
   googleAnalytics: {
     id: gaId,
@@ -87,31 +89,14 @@ export default {
       sendHitTask: true
     }
   },
-  graphql: {
-    /**
-     * An Object of your GraphQL clients
-     */
-    clients: {
-      default: {
-        /**
-         * The client endpoint url
-         */
-        endpoint: process.env.BACKEND_URL || `${apiUrl}/graphql`,
-        /**
-         * Per-client options overrides
-         * See: https://github.com/prisma-labs/graphql-request#passing-more-options-to-fetch
-         */
-        options: {}
-      }
-      // ...your other clients
-    },
-    options: {},
-    useFetchPolyfill: true,
-    includeNodeModules: true
-  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-   postcss: {
+    extend (config) {
+      config.node = {
+        fs: 'empty'
+      }
+    },
+    postcss: {
       plugins: {
         tailwindcss: {},
         autoprefixer: {},
@@ -125,5 +110,43 @@ export default {
     apiUrl
     // apiUrl: 'https://0602e58a0d03.ngrok.io'
 
+  },
+  content: {
+    liveEdit: false,
+    nestedProperties: true
+  },
+  generate: {
+    ready () {
+      const paths = [
+        '/',
+        ...collectionTypes.map(c => `/${c}`)
+      ];
+      console.log({paths})
+      return paths
+    }
+  //   async ready () {
+  //     const { $content } = require('@nuxt/content');
+  //     const files = await $content({ deep: true }).only(['path']).fetch();
+  //     const paths = [];
+  //     await Promise.all(
+  //       files.map(async file => {
+  //         const path = file.path === '/homepage'
+  //           ? '/'
+  //           : file.path.indexOf('/entries') === 0
+  //             ? file.path.replace('/entries', '')
+  //             : files.path.indexOf('/collection') === 0
+  //               ? file.path.replace('/collection', '')
+  //               : files.path;
+  //         if (!file.path.indexOf('/entries') !== 0) {
+  //           paths.push(path)
+  //         } else {
+  //           const entries = await $content(path.split('/').pop()).only(['slug']).fetch();
+  //           entries.forEach(entry => paths.push(`${path}/${entry.slug}`))
+  //         };
+  //         return path
+  //     }))
+  //     console.log(paths)
+  //     return paths;
+  //   }
   }
 }

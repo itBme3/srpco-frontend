@@ -4,7 +4,7 @@
 }
 .entry-block {
   @apply col-span-12;
-  &:not(.block-ComponentBlockHero) {
+  &:not(.block-hero) {
     @apply p-4 sm:p-8;
   }
   --block-content-color: rgba(253, 230, 130, var(--tw-text-opacity));
@@ -97,15 +97,12 @@
       }
       .entry-block {
         @apply p-6 bg-opacity-50 bg-gray-800 col-span-12 h-auto;
-        &:not(.block-ComponentBlockCollection) {
+        &:not(.block-block-collection) {
           @apply lg:col-span-6;
         }
         &.page-content {
           @apply m-0 col-span-12;
         }
-        // .block-title {
-        //   @apply text-gray-600;
-        // }
       }
     }
     .entry-sidebar {

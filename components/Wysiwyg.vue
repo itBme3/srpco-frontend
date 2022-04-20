@@ -7,7 +7,8 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     content: {
       type: String,
@@ -30,7 +31,7 @@ export default {
       return res
     }
   }
-}
+})
 </script>
 
 <style lang="scss">
@@ -62,8 +63,8 @@ export default {
     @apply pl-8 relative;
     &:before {
       @apply block absolute left-0 right-auto top-0;
-      content: "\e9b5";
-      font-family: "SRP-Icons" !important;
+      content: '\e9b5';
+      font-family: 'SRP-Icons' !important;
       speak: never;
       font-style: normal;
       font-weight: normal;

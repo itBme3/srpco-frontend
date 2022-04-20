@@ -1,9 +1,9 @@
 <template>
   <div>
     <div
+      v-if="Array.isArray(entries) && entries.length > 0"
       class="entries"
       :class="{ [collectionType]: true }"
-      v-if="Array.isArray(entries) && entries.length > 0"
     >
       <Card
         v-for="entry in entries"
@@ -21,7 +21,8 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   scrollToTop: true,
   props: {
     block: Object,
@@ -58,5 +59,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
-    :to="link"
     v-if="typeof link === 'string' && !!link.indexOf && link.indexOf('/') === 0 && openNewTab !== true"
+    :to="link"
   >
     <slot />
   </nuxt-link>
@@ -27,7 +27,8 @@
 
 <script>
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     openNewTab: {
       type: Boolean,
@@ -64,5 +65,5 @@ export default {
       this.$emit('open-modal', this.mData)
     }
   }
-}
+})
 </script>

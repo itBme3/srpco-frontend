@@ -5,19 +5,19 @@
   />
 </template>
 
-<script lang="js">
+<script>
+import Vue from 'vue'
 import { seoHead } from '~/utils/seo'
-import { getHomepage } from '~/utils/graphql/requests/pages'
 
-export default {
+export default Vue.extend({
   scrollToTop: true,
-  async asyncData () {
-    const page = await getHomepage()
+  async asyncData ({ $content }) {
+    const page = await $content('homepage').fetch()
     return { page }
   },
   head () {
     return seoHead(this.page)
   }
 
-}
+})
 </script>

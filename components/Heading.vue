@@ -22,11 +22,11 @@
         v-if="![null, undefined].includes(media) && typeof media.url === 'string'"
         :media="media"
         class="order-0 h-full my-0"
-        :isBackground="true"
+        :is-background="true"
         :class="{ 'heading-media': true, [mediaClasses]: mediaClasses.length > 0 }"
         :ratio="mediaRatio"
         :overlay="typeof overlayClasses === 'string' && overlayClasses.length > 0"
-        :overlayClasses="overlayClasses"
+        :overlay-classes="overlayClasses"
       />
       <div class="heading-text-content">
         <gTag
@@ -47,7 +47,8 @@
   </div>
 </template>
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     headingType: {
       type: String,
@@ -94,7 +95,7 @@ export default {
       default: 'auto'
     }
   }
-}
+})
 </script>
 <style lang="scss">
 .heading {

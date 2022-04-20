@@ -5,12 +5,14 @@
     }" />
 </template>
 
-<script lang="js">
-export default {
+<script>
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     iconName: {
-      type: String
+      type: String,
+      default: 'plus'
     }
   }
-}
+})
 </script>

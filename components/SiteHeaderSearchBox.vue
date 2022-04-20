@@ -6,10 +6,6 @@
         'opacity-0 -translate-y-full -top-40': !isExpanded
       }"
   >
-    <!-- <Blocks
-      v-if="!!siteSearch && Array.isArray(siteSearch.blocks) && siteSearch.blocks.length > 0"
-      :blocks="siteSearch.blocks"
-    /> -->
 
     <div class="grid grid-cols-12">
 
@@ -17,20 +13,20 @@
         <div class="custom-gaskets section col-span-6 border-gray-900 rounded-md border-2 border-opacity-25 p-6 flex flex-wrap mt-4">
           <h3 class="section-title w-full mb-4">Custom Gaskets</h3>
           <gButton
-            @click="$router.push('/applications')"
             class="bg-opacity-50 w-[calc(33.33%-.25rem)] mr-1"
+            @click="$router.push('/applications')"
           >
             By Application
           </gButton>
           <gButton
-            @click="$router.push('/materials')"
             class="bg-opacity-50 w-[calc(33.33%-.25rem)] mr-1"
+            @click="$router.push('/materials')"
           >
             By Material
           </gButton>
           <gButton
-            @click="$router.push('/gaskets')"
             class="bg-opacity-50 w-[calc(33.33%-.25rem)]"
+            @click="$router.push('/gaskets')"
           >
             All Gaskets
           </gButton>
@@ -38,11 +34,11 @@
         <div class="resources section col-span-6 flex flex-wrap px-0 mt-4">
           <template v-for="(link, i) in ['Solutions', 'Services', 'Datasheets', 'Resources']">
             <gButton
+              :key="link"
               :class="{
                 'border border-gray-700 hover:bg-gray-700 w-[calc(50%-.25rem)] mb-2': true,
                 'mr-2': [0, 2].includes(i),
               }"
-              :key="link"
               @click="$router.push('/' + link.toLowerCase())"
             >
               {{ link }}
@@ -78,8 +74,8 @@
         <div class="p-6 bg-gray-700 bg-opacity-50 rounded-md">
           <h3 class="text-gray-400">SRP is a Preferred Converter</h3>
           <gButton
-            @click="$router.push('/suppliers')"
             class="bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-full mt-5 text-sm shadow-lg w-auto mr-auto"
+            @click="$router.push('/suppliers')"
           >
             why that matters
           </gButton>
@@ -92,8 +88,8 @@
           <h5 class="text-blue-500 text-center">TYPICAL RESPONSE WITHIN 48 BUSINESS HOURS</h5>
         </div>
         <gButton
-          @click="$router.push('/contact')"
           class="bg-blue-500 text-blue-900 mt-5 shadow-lg mr-auto w-1/4 text-xl uppercase font-bold"
+          @click="$router.push('/contact')"
         >
           Schedule<br> Consultation
         </gButton>
@@ -112,27 +108,17 @@
 </template>
 
 <script>
-import { getSiteSearch } from '~/utils/graphql/requests/global'
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     expanded: {
       type: Boolean,
       default: false
     }
   },
-  async fetch () {
-    this.siteSearch = await getSiteSearch()
-    return { siteSearch: this.siteSearch }
-  },
-  watch: {
-    expanded (expanded) {
-      this.isExpanded = expanded
-    }
-  },
   data () {
     return {
       isExpanded: !!this.expanded,
-      siteSearch: null,
       sections: [
         {
           title: 'Custom Gaskets',
@@ -149,8 +135,13 @@ export default {
         }
       ]
     }
+  },
+  watch: {
+    expanded (expanded) {
+      this.isExpanded = expanded
+    }
   }
-}
+})
 </script>
 <style lang="scss" scoped>
 .section {

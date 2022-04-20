@@ -117,8 +117,9 @@
 <script>
 import qs from 'qs'
 import _ from 'lodash'
+import Vue from 'vue'
 const searchCollections = ['search', 'gaskets', 'datasheets', 'resources']
-export default {
+export default Vue.extend({
   data () {
     const { q: searchValue = '' } = this.$route.query
     const searchCollection = searchCollections.includes(this.$route.path.split('/')[1])
@@ -196,7 +197,7 @@ export default {
       localStorage.setItem('recentSearches', JSON.stringify(this.recentSearches))
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

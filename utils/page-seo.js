@@ -1,4 +1,4 @@
-import { getMetaTags } from '~/utils/seo'
+import { getMetaTags } from '../seo'
 
 export const seoHead = (globalSeo, page) => {
     const { defaultSeo = {}, siteName = 'SRPCO' } = [null, undefined].includes(globalSeo) ? {} :globalSeo

@@ -67,10 +67,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { collectionTypes, entryTypes } from '~/models/entry.model'
 import { getPageClasses } from '~/utils/get-classes'
 
-export default {
+export default Vue.extend({
   scrollToTop: true,
   props: {
     pageData: {
@@ -99,7 +100,6 @@ export default {
   watch: {
     pageData () {
       this.page = this.pageData;
-      console.log({ pageData: this.pageData })
       const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
       this.pageClasses = getPageClasses(this.pageData);
       this.$store.commit('adminEdit/setAdminLink', {
@@ -120,7 +120,7 @@ export default {
       entryType, id: id * 1
     })
   }
-}
+})
 </script>
 
 <style lang="scss">
@@ -146,7 +146,7 @@ export default {
     .blocks {
       @apply mx-auto px-3 pt-5;
       .entry-block {
-        &[class*='block-ComponentSolutions'] {
+        &[class*='block-solutions'] {
           @apply max-w-prose mx-auto p-3 bg-transparent shadow-none w-full overflow-visible;
           .block-content {
             @apply p-7 rounded-md bg-gray-800 bg-opacity-50 shadow-xl w-full;
@@ -160,22 +160,22 @@ export default {
             left: -0.3ch;
           }
         }
-        &.block-ComponentSolutionsChallenge {
+        &.block-solutions-challenge {
           .block-title {
             @apply text-red-500;
           }
         }
-        &.block-ComponentSolutionsSolution {
+        &.block-solutions-solution {
           .block-title {
             @apply text-green-500;
           }
         }
-        &.block-ComponentSolutionsResults {
+        &.block-solutions-results {
           .block-title {
             @apply text-blue-500;
           }
         }
-        &.block-ComponentSolutionsUsed {
+        &.block-solutions-used {
           .block-title {
             @apply text-cyan-600;
           }

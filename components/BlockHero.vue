@@ -13,7 +13,7 @@
       v-if="(!!media && !!media.url) || (typeof youtube === 'string' && youtube.length > 0)"
       :media="media"
       :ratio="'auto'"
-      :overlayClasses="overlayClasses"
+      :overlay-classes="overlayClasses"
       :overlay="typeof overlayClasses === 'string' && overlayClasses.length > 0"
       :class="{ [mediaClasses]: mediaClasses.length > 0 }"
       :is-background="true"
@@ -71,10 +71,11 @@
   </div>
 </template>
 
-<script lang="js">
-import {camelToHandle} from '~/utils/funcs'
+<script>
+import Vue from 'vue'
+import { camelToHandle } from '~/utils/funcs'
 import { getHeroClasses } from '~/utils/get-classes'
-export default {
+export default Vue.extend({
   props: {
     block: {
       type: Object,
@@ -103,14 +104,14 @@ export default {
     return {
       media: !!this?.block?.media?.url ? this.block.media : null,
       title: typeof this?.block?.title === 'string' &&
-      this.block.title.length > 0
+        this.block.title.length > 0
         ? this.block.title
         : null,
       text: typeof this?.block?.text === 'string' &&
-      this.block.text.length > 0
+        this.block.text.length > 0
         ? this.block.text
         : null,
-      buttons: Array.isArray(this?.block?.buttons) ? this.block.buttons: [],
+      buttons: Array.isArray(this?.block?.buttons) ? this.block.buttons : [],
       heroStyle: [undefined, null].includes(this?.block?.heroSettings?.style) ? 'overlay' : camelToHandle(this.block.heroSettings.style),
       youtube: typeof this?.block?.youtube === 'string' && this.block.youtube.length > 0 ? this.block.youtube : null,
       mediaClasses,
@@ -121,7 +122,7 @@ export default {
       overlayClasses,
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

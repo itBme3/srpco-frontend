@@ -1,7 +1,7 @@
 <template>
   <div
-    class="entry-sidebar"
     v-if="!!entry"
+    class="entry-sidebar"
   >
     <div
       v-if="Array.isArray(suppliers) && suppliers.length > 0"
@@ -12,7 +12,7 @@
         <CardSupplier
           :key="'supplier-' + supplier.slug + '-on-single-entry'"
           :supplier="supplier"
-          cardStyle="small"
+          card-style="small"
         />
       </template>
     </div>
@@ -20,8 +20,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { EntryType } from '~/models/entry.model'
-export default {
+export default Vue.extend({
   props: {
     entry: {
       type: Object,
@@ -44,7 +45,7 @@ export default {
           ? [this.entry.supplier] : null
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

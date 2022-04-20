@@ -127,7 +127,6 @@ const minHeight = {
 module.exports = {
   prefix: '',
   important: true,
-  mode: 'jit',
   content: [
     'components/**/*.{vue,js,ts}',
     'layouts/**/*.vue',

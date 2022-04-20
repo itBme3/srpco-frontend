@@ -2,10 +2,10 @@
   <div class="login">
 
     <Form
+      v-if="loaded"
       :schema="formSchema"
       :model="model"
       button-text="Login"
-      v-if="loaded"
       class="max-w-sm mx-auto"
       @submit="loginUser"
     />
@@ -14,7 +14,8 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   data () {
     return {
       loaded: false,
@@ -44,7 +45,6 @@ export default {
   },
   mounted () {
     this.loaded = true
-    console.log({ sessionStorage: this.$store.state.sessionStorage })
   },
   methods: {
     loginUser ({ email, password }) {
@@ -63,7 +63,6 @@ export default {
               Authorization: `Bearer ${response.data.jwt}`
             }
           }).then(res => {
-            console.log(res.data);
             return this.$store.commit('sessionStorage/setUser', { user, jwt, isAdmin: res?.data?.role?.name === 'Admin' });
             // return sessionStorage.setItem('isAdmin', res?.data?.role?.name === 'Admin');
           }).catch(err => alert(err.message))
@@ -73,5 +72,5 @@ export default {
         });
     }
   }
-}
+})
 </script>

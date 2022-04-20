@@ -1,7 +1,7 @@
 <template>
   <div
-    class="next-previous-entries flex flex-wrap sm:flex-nowrap space-y-3 sm:space-y-0 sm:space-x-2"
     v-if="['resources', 'solutions'].includes(collectionType) && (!!nextEntry || !!previousEntry)"
+    class="next-previous-entries flex flex-wrap sm:flex-nowrap space-y-3 sm:space-y-0 sm:space-x-2"
   >
 
     <Card
@@ -26,11 +26,8 @@
 </template>
 
 <script>
-
-export default {
-  mounted () {
-    this.$store.dispatch('nextPrevious/getNextPreviousEntries');
-  },
+import Vue from 'vue'
+export default Vue.extend({
   computed: {
     nextEntry () {
       return this?.$store?.state?.nextPrevious?.next || null
@@ -41,6 +38,9 @@ export default {
     collectionType () {
       return this?.$store?.state?.nextPrevious?.collection
     }
+  },
+  mounted () {
+    this.$store.dispatch('nextPrevious/getNextPreviousEntries');
   }
-}
+})
 </script>

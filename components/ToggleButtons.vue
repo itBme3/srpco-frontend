@@ -31,8 +31,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
 const defaultColor = 'cyan';
-export default {
+export default Vue.extend({
   props: {
     items: {
       type: Array,
@@ -110,8 +111,6 @@ export default {
       return { e, eventName }
     }
   }
-}
-// hover:bg-cyan-900 hover:bg-blue-900 hover:bg-purple-900 hover:bg-red-900 hover:bg-orange-900 hover:bg-yellow-900 hover:bg-green-900 hover:bg-gray-900
-// hover:bg-cyan-400 hover:bg-blue-400 hover:bg-purple-400 hover:bg-red-400 hover:bg-orange-400 hover:bg-yellow-400 hover:bg-green-400 hover:bg-gray-400
-// hover:text-cyan-900 hover:text-blue-900 hover:text-purple-900 hover:text-red-900 hover:text-orange-900 hover:text-yellow-900 hover:text-green-900 hover:text-gray-900
+})
+
 </script>

@@ -28,34 +28,34 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { getPageClasses } from '~/utils/get-classes'
-import { getSingleEntry } from '~/utils/graphql/requests/single'
 import { seoHead } from '~/utils/seo'
 
-export default {
+export default Vue.extend({
   scrollToTop: true,
-  async asyncData ({ route, params, redirect }) {
+  async asyncData ({ route, params, redirect, store }) {
     const slug = params.slug
-    const page = await getSingleEntry(route.path, redirect)
+    const page = await store.dispatch('getEntry', { path: route.path, redirect })
     return { slug, page, redirect }
   },
-  watch: {
-    $route: {
-      immediate: false,
-      async handler () {
-        this.page = await getSingleEntry(this.$route.path, this.redirect)
-        return this.page;
-      }
-    }
+  head () {
+    return seoHead(this.page)
   },
   computed: {
     pageClasses () {
       return getPageClasses(this.page)
     }
   },
-  head () {
-    return seoHead(this.page)
+  watch: {
+    $route: {
+      immediate: false,
+      async handler () {
+        this.page = await store.dispatch('getEntry', { path: this.$route.path, redirect: this.redirect })
+        return this.page;
+      }
+    }
   }
-}
+})
 </script>
 

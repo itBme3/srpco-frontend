@@ -44,11 +44,11 @@
 </template>
 
 <script>
-import { gql } from 'graphql-request'
+import Vue from 'vue'
 import _ from 'lodash'
 const supplierCollections = ['gaskets', 'datasheets']
 
-export default {
+export default Vue.extend({
   props: {
     entry: {
       type: Object,
@@ -92,7 +92,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.collectionFilters)
     this.scrollToCollections();
     return this.getEligibleCollections()
       .catch(console.error)
@@ -105,18 +104,13 @@ export default {
 
     },
     async getEligibleCollections () {
-      const res = await this.$graphql.default.request(gql`
-        query {
-          gaskets(filters: { suppliers: { slug: { eq: "${this.entry.slug}" } } }, pagination: { limit: 1 }) {
-            data { id }
-          }
-          datasheets(filters: { supplier: { slug: { eq: "${this.entry.slug}" } } }, pagination: { limit: 1 }) {
-            data { id }
-          }
-        }
-      `).catch(err => console.error(err));
-      if (res.gaskets?.data?.length > 0) this.activeCollections.push('gaskets')
-      if (res.datasheets?.data?.length > 0) this.activeCollections.push('datasheets')
+      await Promise.all(['gaskets', 'datasheets'].map(collectionType =>
+        this.$content(collectionType)
+          .where({ [collectionType === 'datasheets' ? 'supplier.slug' : 'suppliers.slug']: this.entry.slug })
+          .limit(1)
+          .fetch()
+          .then(res => res.length ? this.activeCollections.push(collectionType) : '')
+      ))
       return this.activeCollections;
     },
     scrollToCollections: _.debounce(function () {
@@ -124,5 +118,5 @@ export default {
       window.scrollTo({ top: this.$refs.collections.offsetTop - 50, behavior: 'smooth' })
     }, 750)
   }
-}
+})
 </script>

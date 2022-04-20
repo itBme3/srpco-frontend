@@ -60,20 +60,19 @@
   </footer>
 </template>
 
-<script lang="js">
-import { $graph } from '~/utils/graphql/init'
-import { footerQuery } from '~/utils/graphql/queries/global'
+<script>
+import Vue from 'vue'
 
-export default {
+export default Vue.extend({
   data () {
     return {
       footer: null
     }
   },
   async fetch () {
-    this.footer = await $graph.request(footerQuery).then(res => res.footer)
+    this.footer = await this.$content('footer').fetch()
   }
-}
+})
 
 </script>
 
