@@ -10,8 +10,8 @@
       </flickity>
 
       <button
-        @click="previous()"
         class="next-previous-button previous"
+        @click="previous()"
       >
         <Icon
           icon-name="angle-left"
@@ -19,8 +19,8 @@
         />
       </button>
       <button
-        @click="next()"
         class="next-previous-button next"
+        @click="next()"
       >
         <Icon
           icon-name="angle-right"
@@ -34,13 +34,14 @@
 <script>
 // import Flickity from 'vue-flickity';
 
+import Vue from 'vue'
 const defaultFlickityOptions = {
   pageDots: false,
   contain: true,
   wrapAround: true,
   adaptiveHeight: true
 };
-export default {
+export default Vue.extend({
   // components: {
   //   Flickity
   // },
@@ -69,7 +70,7 @@ export default {
       this.$refs.carousel.previous();
     }
   }
-}
+})
 </script>
 
 

@@ -58,8 +58,8 @@
             }"
           >
             <h3
-              class="collection-title font-black text-lg md:text-xl w-full uppercase mb-2"
               v-view="(e) => collectionInView(e, collection)"
+              class="collection-title font-black text-lg md:text-xl w-full uppercase mb-2"
             >
               {{ collection }}:
             </h3>
@@ -89,9 +89,10 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
 import ToggleButtons from '../../components/ToggleButtons.vue'
 const searchCollections = ['gaskets', 'resources', 'datasheets', 'materials', 'applications']
-export default {
+export default Vue.extend({
   components: { ToggleButtons },
   data () {
     return {
@@ -116,7 +117,7 @@ export default {
       }
     }
   }
-}
+})
 
 </script>
 

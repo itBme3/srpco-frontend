@@ -14,8 +14,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Wysiwyg from './Wysiwyg.vue'
-export default {
+export default Vue.extend({
   components: { Wysiwyg },
   props: {
     block: {
@@ -57,7 +58,7 @@ export default {
       return res
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

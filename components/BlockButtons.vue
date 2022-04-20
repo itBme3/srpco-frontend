@@ -15,8 +15,8 @@
         :open-new-tab="btn.openNewTab"
       >
       <gButton :class="{ 
-        ['' + btn.buttonClasses + '']: typeof btn.buttonClasses === 'string' && btn.buttonClasses.length > 0,
-        [buttonsClasses]: !!buttonsClasses.length
+          ['' + btn.buttonClasses + '']: typeof btn.buttonClasses === 'string' && btn.buttonClasses.length > 0,
+          [buttonsClasses]: !!buttonsClasses.length
         }">
         {{ btn.text }}
       </gButton>
@@ -27,7 +27,9 @@
 
 <script lang="js">
 
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   props: {
     block: {
       type: Object,
@@ -50,7 +52,7 @@ export default {
       return !!this.block?.blockSettings?.classes?.content?.length ? this.block.blockSettings.classes.content : ''
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

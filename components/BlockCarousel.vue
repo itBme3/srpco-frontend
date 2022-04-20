@@ -9,13 +9,13 @@
   >
 
     <div
+      v-for="(slide, i) in slides"
+      :key="'slide-' + i"
       :class="{
         'slide': true,
         [classes.slides]: classes.slides && classes.slides.length,
         [slide.classes && slide.classes.slide]: slide.classes && slide.classes.slide && slide.classes.slide.length
       }"
-      v-for="(slide, i) in slides"
-      :key="'slide-' + i"
     >
       <Media
         v-if="slide.media && slide.media.url"
@@ -35,7 +35,8 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     block: {
       type: Object,
@@ -51,5 +52,5 @@ export default {
       return !!!this.blockSettings?.classes ? { content: '', title: '', slides: '' } : this.blockSettings.classes
     }
   }
-}
+})
 </script>

@@ -15,14 +15,8 @@
 </template>
 
 <script>
-// import { collectionTypes } from '~/models/entry.model';
-// function getLinkFromPath(path) {
-//   const collectionOrSlug = route.path.split('/')[1];
-//   const collectionType = collectionTypes.includes(collectionOrSlug) 
-//     ? collectionOrSlug : 'pages';
-//   if ()
-// }
-export default {
+import Vue from 'vue'
+export default Vue.extend({
 
   data () {
     return {
@@ -45,7 +39,7 @@ export default {
       return !!this?.$store?.state?.sessionStorage?.isAdmin
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

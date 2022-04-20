@@ -11,7 +11,7 @@
       :close="closeChat"
       :open="openChat"
       :show-emoji="true"
-      :showFile="true"
+      :show-file="true"
       :show-edition="true"
       :show-deletion="true"
       :deletion-confirmation="true"
@@ -28,7 +28,8 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   data () {
     return {
       participants: [
@@ -87,7 +88,7 @@ export default {
       m.data.text = message.data.text;
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

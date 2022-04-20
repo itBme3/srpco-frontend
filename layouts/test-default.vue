@@ -12,24 +12,12 @@
 </template>
 <script>
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   data () {
     return {
       isMobile: true
     }
-  },
-  // mounted () {
-  //   this.getDocumentDimensions()
-  //   window.addEventListener('resize', this.getDocumentDimensions)
-  // },
-  // unmounted () {
-  //   window.removeEventListener('resize', this.getDocumentDimensions)
-  // },
-  // methods: {
-  //   getDocumentDimensions () {
-  //     this.isMobile = document.documentElement.clientWidth < 640
-  //     this.mobileNavOpened = false
-  //   }
-  // }
-}
+  }
+})
 </script>

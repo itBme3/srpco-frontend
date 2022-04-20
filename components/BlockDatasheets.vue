@@ -22,7 +22,8 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     block: {
       type: Object,
@@ -60,16 +61,7 @@ export default {
       }
     }
   }
-
-  // methods: {
-  //   handleClose (e) {
-  //     this.$store.commit('modal/close', null)
-  //   },
-  //   handleModal (mData) {
-  //     this.$store.commit('modal/open', mData)
-  //   }
-  // }
-}
+})
 </script>
 
 

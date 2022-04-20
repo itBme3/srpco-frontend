@@ -17,7 +17,8 @@
 <script>
 import qs from 'qs'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     src: {
       type: String,
@@ -98,7 +99,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

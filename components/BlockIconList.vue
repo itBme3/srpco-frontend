@@ -22,18 +22,19 @@
         }"
       />
       <span
-        v-html="item.text"
         :class="{
           'list-item-text': true, 
            [!!item.classes && item.classes.text ? item.classes.text : '']: true
         }"
+        v-html="item.text"
       />
     </li>
   </ul>
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     block: {
       type: Object,
@@ -56,7 +57,7 @@ export default {
       return this?.block?.icon?.length ? this.block.icon : 'check'
     }
   }
-}
+})
 </script>
 
 

@@ -9,7 +9,7 @@
     :link="link"
     :open-new-tab="openNewTab === true"
     :ratio="!!youtube.length && (!media || !media.url) ? '16:9' : '5:4'"
-    :videoParams="{
+    :video-params="{
       mute: cardStyle === 'overlay',
       loop: cardStyle === 'overlay',
       autoplay: cardStyle === 'overlay',
@@ -21,10 +21,11 @@
   />
 </template>
 
-<script lang="js">
+<script>
+import Vue from 'vue'
 import { CardStyle } from '~/models/blocks.model'
 import { getCardClasses } from '~/utils/get-classes'
-export default {
+export default Vue.extend({
   props: {
     block: {
       type: Object,
@@ -46,5 +47,5 @@ export default {
       openNewTab: block?.openNewTab === true
     }
   }
-}
+})
 </script>

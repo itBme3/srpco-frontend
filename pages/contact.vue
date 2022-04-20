@@ -12,7 +12,8 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   scrollToTop: true,
 
   data () {
@@ -82,11 +83,10 @@ export default {
       console.log(data)
     },
     submitCallback (data) {
-      console.log('Custom Callback: ', data)
       return data;
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

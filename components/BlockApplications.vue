@@ -1,8 +1,8 @@
 <template>
   <div
+    v-if="Array.isArray(entries) && entries.length > 0"
     class="entries"
     :class="{ [collectionType]: true }"
-    v-if="Array.isArray(entries) && entries.length > 0"
   >
     <Card
       v-for="entry in entries"
@@ -19,11 +19,14 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { getCardClasses } from '~/utils/get-classes'
-export default {
+export default Vue.extend({
   props: {
-    block: Object,
-    default: () => null
+    block: {
+      type: Object,
+      default: () => null
+    }
   },
   data () {
     return {
@@ -43,5 +46,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

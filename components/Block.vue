@@ -106,9 +106,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { getCardClasses, getBlockClasses } from '~/utils/get-classes';
 /* eslint-disable no-constant-condition */
-export default {
+export default Vue.extend({
   props: {
     block: {
       type: Object,
@@ -141,5 +142,5 @@ export default {
       }
     },
   }
-}
+})
 </script>

@@ -33,9 +33,10 @@
   </div>
 </template>
 
-<script lang="js">
+<script>
+import Vue from 'vue'
 import _ from 'lodash'
-export default {
+export default Vue.extend({
   props: {
     placeholder: {
       type: String,
@@ -92,8 +93,8 @@ export default {
     }
   },
   methods: {
-    updateSearchValue: _.debounce (function(val) {
-      this.searchValue = val 
+    updateSearchValue: _.debounce(function (val) {
+      this.searchValue = val
       this.$emit('search', val)
     }, 400),
     focusInput () {
@@ -109,5 +110,5 @@ export default {
       this.focusInput()
     }
   }
-}
+})
 </script>

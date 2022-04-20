@@ -1,14 +1,15 @@
 <template>
   <PageDefault
     v-if="pageData !== null"
-    :pageData="pageData"
+    :page-data="pageData"
   />
 </template>
 
 <script>
+import Vue from 'vue'
 import { getSingleEntry } from '~/utils/graphql/requests/single'
 import { seoHead } from '~/utils/seo';
-export default {
+export default Vue.extend({
   scrollToTop: true,
   async asyncData ({ redirect, route }) {
     const pageData = await getSingleEntry(route.path, redirect);
@@ -17,5 +18,5 @@ export default {
   head () {
     return seoHead(this.pageData)
   }
-}
+})
 </script>

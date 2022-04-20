@@ -5,11 +5,12 @@
   />
 </template>
 
-<script lang="js">
+<script>
+import Vue from 'vue'
 import { seoHead } from '~/utils/seo'
 import { getHomepage } from '~/utils/graphql/requests/pages'
 
-export default {
+export default Vue.extend({
   scrollToTop: true,
   async asyncData () {
     const page = await getHomepage()
@@ -19,5 +20,5 @@ export default {
     return seoHead(this.page)
   }
 
-}
+})
 </script>

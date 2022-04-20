@@ -1,7 +1,6 @@
 <template>
   <div
     class="card flex flex-col items-start hover:scale-102"
-    @click="(e) => $emit('click', e)"
     :class="{
       'has-more-links' : Array.isArray(moreLinks) && moreLinks.length > 0,
       'has-link' : hasLink,
@@ -11,6 +10,7 @@
       'has-video': typeof youtube === 'string' && youtube.length > 0,
       'has-pdf-thumb': !!media && media.url === 'string' && media.url.includes('.pdf') && !showPdfPreview,
     }"
+    @click="(e) => $emit('click', e)"
   >
     <Link
       class="card-link"
@@ -82,9 +82,10 @@
   </div>
 </template>
 
-<script lang="js">
+<script>
+import Vue from 'vue'
 import { CardStyle } from "~/models/blocks.model";
-export default {
+export default Vue.extend({
   props: {
     media: {
       type: [Object, String],
@@ -158,7 +159,7 @@ export default {
     }
   },
   computed: {
-    hasLink() {
+    hasLink () {
       if (
         (typeof this.link === "string" && this.link.length > 0) ||
         (typeof this.youtube === "string" && this.youtube.length > 0) ||
@@ -170,25 +171,25 @@ export default {
       }
       return false;
     },
-    titleClasses() {
+    titleClasses () {
       return !!this?.classes?.title ? this.classes.title : ''
     },
-    mediaClasses() {
+    mediaClasses () {
       return !!this?.classes?.media ? this.classes.media : ''
     },
-    cardClasses() {
+    cardClasses () {
       return !!this?.classes?.card ? this.classes.card : ''
     },
-    textClasses() {
+    textClasses () {
       return !!this?.classes?.text ? this.classes.text : ''
     }
   },
   methods: {
-    openModal(modalData) {
+    openModal (modalData) {
       this.$store.commit('modal/open', modalData)
     }
   },
-};
+});
 </script>
 
 <style lang="scss">

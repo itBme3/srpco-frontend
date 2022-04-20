@@ -6,9 +6,9 @@
     />
     <div class="maps grid gap-4 grid-cols-12 w-full h-auto">
       <div
-        class="col-span-12 md:col-span-6"
         v-for="location in locations"
         :key="location.title"
+        class="col-span-12 md:col-span-6"
       >
         <iframe
           class="w-full h-[65vw] sm:h-[33vw]"
@@ -21,7 +21,8 @@
   </div>
 </template>
 
-<script lang="js">
+<script>
+import Vue from 'vue'
 const apiKey = 'AIzaSyAKlNQvaXSHG-CQietQjo0RRtvVNJie30U'
 const locations = [
   {
@@ -45,7 +46,7 @@ const locations = [
     src: `https://maps.googleapis.com/maps/embed/v1/place?key=${apiKey}&center=22.3643969,113.536515&q=Zhuhai,+Guangdong+Province,+China&zoom=11`
   }
 ]
-export default {
+export default Vue.extend({
   scrollToTop: true,
   props: {
     mapConfig: {
@@ -87,5 +88,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

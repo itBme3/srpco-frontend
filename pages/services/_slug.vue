@@ -28,16 +28,25 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { getPageClasses } from '~/utils/get-classes'
 import { getSingleEntry } from '~/utils/graphql/requests/single'
 import { seoHead } from '~/utils/seo'
 
-export default {
+export default Vue.extend({
   scrollToTop: true,
   async asyncData ({ route, params, redirect }) {
     const slug = params.slug
     const page = await getSingleEntry(route.path, redirect)
     return { slug, page, redirect }
+  },
+  head () {
+    return seoHead(this.page)
+  },
+  computed: {
+    pageClasses () {
+      return getPageClasses(this.page)
+    }
   },
   watch: {
     $route: {
@@ -47,15 +56,7 @@ export default {
         return this.page;
       }
     }
-  },
-  computed: {
-    pageClasses () {
-      return getPageClasses(this.page)
-    }
-  },
-  head () {
-    return seoHead(this.page)
   }
-}
+})
 </script>
 

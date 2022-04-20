@@ -85,14 +85,15 @@
   </div>
 </template>
 
-<script lang="js">
+<script>
 import qs from 'qs'
+import Vue from 'vue'
 import { getCollection } from '~/utils/graphql/requests/collection'
 import { objectsAreTheSame } from '~/utils/funcs'
 import { strapiFilterParams } from '~/utils/search-params'
 import { CardStyle } from '~/models/blocks.model.ts'
 
-export default {
+export default Vue.extend({
   props: {
     collectionType: {
       type: String,
@@ -121,7 +122,7 @@ export default {
     },
     sort: {
       type: Array,
-      default: () => {return ['publishedAt:DESC']}
+      default: () => { return ['publishedAt:DESC'] }
     },
     limit: {
       type: Number,
@@ -179,7 +180,7 @@ export default {
       searchBarClasses,
       collection,
       mediaRatio,
-      queryParams: { }
+      queryParams: {}
     }
   },
   fetch () {
@@ -192,23 +193,23 @@ export default {
     return this.get(0).catch(console.error);
   },
   computed: {
-    constantFilters() {
+    constantFilters () {
       try {
         return Object.keys(this.filters).length === 0 ? {} : this.filters
-      } catch(e) {
+      } catch (e) {
         return {}
       }
     },
-    collectionSort() {
+    collectionSort () {
       let sorts = this.updateUrl && this.$route.query?.sort?.length ? this.$route.query.sort : this.sort;
-      if(!Array.isArray(sorts)) { sorts = [sorts] }
+      if (!Array.isArray(sorts)) { sorts = [sorts] }
       return sorts.map(sort => {
         let sortKey = sort?.split(':')[0] || 'publishedAt';
         if (['created', 'updated', 'published'].includes(sortKey)) {
           sortKey = `${sortKey}At`
         }
         let sortDirection = sort?.split(':')[0]?.toUpperCase();
-        if (!['asc','desc'].includes(sortDirection?.toLowerCase())) {
+        if (!['asc', 'desc'].includes(sortDirection?.toLowerCase())) {
           sortDirection = ['created', 'updated', 'published'].includes(sortKey) ? 'DESC' : 'ASC'
         }
         return `${sortKey}:${sortDirection}`
@@ -224,12 +225,12 @@ export default {
         // this.get()
       }
     },
-    searchValue(val) {
+    searchValue (val) {
       if (this.lastSearch === val) {
         return;
       }
       this.lastSearch = val
-      if(this.updateUrl && window !== undefined) {
+      if (this.updateUrl && window !== undefined) {
         if (!val?.length) {
           delete this.$route.query.q
         } else {
@@ -237,13 +238,13 @@ export default {
         }
         const queryString = qs.stringify(this.$route.query);
         const path = !queryString?.length ? this.$route.path : `${this.$route.path}?${queryString}`
-        window.history.pushState({path}, '', path)
+        window.history.pushState({ path }, '', path)
       }
       this.get().catch(console.error)
     }
   },
-  mounted() {
-    if(!Array.isArray(this.entries)) return null;
+  mounted () {
+    if (!Array.isArray(this.entries)) return null;
     this.$emit('updateEntries', this.entries)
   },
   methods: {
@@ -262,7 +263,10 @@ export default {
         }
       }
       this.queryParams = params
-      this.nextEntries = await getCollection(this.collection, { filters: {...this.constantFilters}, sort: this.collectionSort, pagination: { limit: this.limit, start } } )
+      this.nextEntries = await getCollection({
+        collectionType: this.collection,
+        params: { filters: { ...this.constantFilters }, sort: this.collectionSort, pagination: { limit: this.limit, start } }
+      })
         .then(res => {
           this.canLoadMore = res.length === this.limit
           return res;
@@ -276,8 +280,8 @@ export default {
       try {
         if (this.infiniteScroll && window !== undefined) {
           setTimeout(() => {
-            window.scrollTo({top: window.scrollY === 0 ? 1 : window.scrollY + 1})
-            window.scrollTo({top: window.scrollY - 1})
+            window.scrollTo({ top: window.scrollY === 0 ? 1 : window.scrollY + 1 })
+            window.scrollTo({ top: window.scrollY - 1 })
           }, 100)
         }
         return this.entries;
@@ -288,39 +292,38 @@ export default {
     getQueryParams () {
       const limit = this.limit && this.limit > 0 ? this.limit : 6
       const sort = typeof this.sort === 'string' && this.sort.length > 0 ? this.sort : 'publishedAt:DESC'
-      if(this.updateUrl) {
+      if (this.updateUrl) {
         this.searchValue = this.$route.query.q
       }
-      const routeQuery = !this.updateUrl ? !!this.searchValue?.length ? { q: this.searchValue } : {} : {...this.$route.query, q: this.searchValue}
-      return strapiFilterParams({ ...routeQuery, constantFilters: this.constantFilters, pagination: {limit}, sort }, this.collectionType)
+      const routeQuery = !this.updateUrl ? !!this.searchValue?.length ? { q: this.searchValue } : {} : { ...this.$route.query, q: this.searchValue }
+      return strapiFilterParams({ ...routeQuery, constantFilters: this.constantFilters, pagination: { limit }, sort }, this.collectionType)
     },
-    collectionButtonClicked() {
+    collectionButtonClicked () {
       if (this.buttonLink?.length) {
-        return this.$router.push({path: this.buttonLink })
+        return this.$router.push({ path: this.buttonLink })
       }
-      if(this.collectionType !== 'resources') {
-        return this.$router.push({path: `/${this.collectionType}` })
+      if (this.collectionType !== 'resources') {
+        return this.$router.push({ path: `/${this.collectionType}` })
       }
       const resourceTypes = [...new Set(this.entries.map(e => e.resourceType))];
       if (resourceTypes.length > 1) {
-        return this.$router.push({path: `/${this.collectionType}/${resourceTypes[0]}` })
+        return this.$router.push({ path: `/${this.collectionType}/${resourceTypes[0]}` })
       }
       return this.$router.push({ path: '/resources' })
     },
     visibilityHandler (e) {
-      if(this.loadingMore !== 'infiniteScroll') return;
+      if (this.loadingMore !== 'infiniteScroll') return;
       if (e.percentInView > 0.20) {
         this.canLoadMore = false
         this.get(this.entries.length)
           .catch(console.error)
       }
     },
-    storeFromCollection(entry) {
+    storeFromCollection (entry) {
       this.$store.commit('nextPrevious/setFromCollection', { entry, collection: this.collection, sort: this.sort, filters: this.filters })
     }
   }
-}
-
+})
 </script>
 
 <style lang="scss" scoped>

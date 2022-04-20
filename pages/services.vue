@@ -25,16 +25,15 @@
   </div>
 </template>
 
-<script lang="js">
-// import { $graph } from '~/utils/graphql/init'
+<script>
+import Vue from 'vue'
 import { seoHead } from '~/utils/seo'
 import { CollectionType } from '~/models/entry.model'
-import { getCollectionPage } from '~/utils/graphql/requests/collection'
 /* eslint-disable no-extra-boolean-cast */
-export default {
+export default Vue.extend({
   scrollToTop: true,
-  async asyncData () {
-    const page = await getCollectionPage(CollectionType.SERVICES).catch(console.error)
+  async asyncData ({ $content }) {
+    const page = await $content(`collection/${CollectionType.SERVICES}`).fetch()
     return { page }
   },
   data () {
@@ -44,18 +43,8 @@ export default {
   },
   head () {
     return seoHead(this.page)
-  },
-  // computed: {
-  //   modal: {
-  //     get () {
-  //       return this.active
-  //     },
-  //     set (val) {
-  //       this.active = val
-  //     }
-  //   }
-  // }
-}
+  }
+})
 </script>
 
 <style lang="scss">

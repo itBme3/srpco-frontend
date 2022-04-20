@@ -44,11 +44,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { gql } from 'graphql-request'
 import _ from 'lodash'
 const supplierCollections = ['gaskets', 'datasheets']
 
-export default {
+export default Vue.extend({
   props: {
     entry: {
       type: Object,
@@ -92,7 +93,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.collectionFilters)
     this.scrollToCollections();
     return this.getEligibleCollections()
       .catch(console.error)
@@ -124,5 +124,5 @@ export default {
       window.scrollTo({ top: this.$refs.collections.offsetTop - 50, behavior: 'smooth' })
     }, 750)
   }
-}
+})
 </script>

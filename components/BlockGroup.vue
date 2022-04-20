@@ -1,7 +1,7 @@
 <template>
   <div
-    ref="container"
     v-if="Array.isArray(sections) && sections.length > 0"
+    ref="container"
     :class="{
       'group-container': true,
       ['group-style-' + groupStyle]: true
@@ -37,18 +37,18 @@
     <div class="panels">
       <div
         v-for="(section, i) in sections"
-        :class="{ 'expanded': activeIndex === i }"
         :key="i + '-' + handleize(section.title) + '-2'"
+        :class="{ 'expanded': activeIndex === i }"
         class="panel"
       >
         <gButton
+          v-if="groupStyle === 'accordion' && ![undefined, null].includes(section) && typeof section.title === 'string'"
           :class="{
             'panel-heading': true,
             [classes.buttons]: !!classes.buttons,
             'bg-opacity-100': activeIndex === i,
             'bg-opacity-50': activeIndex !== i
           }"
-          v-if="groupStyle === 'accordion' && ![undefined, null].includes(section) && typeof section.title === 'string'"
           @click="toggleSections(i)"
         >
           <scrollbar
@@ -78,8 +78,8 @@
         >
 
           <BlockContent
-            class="wysiwyg-content"
             v-if="![undefined, null].includes(section) && typeof section.content === 'string' && section.content.length > 0"
+            class="wysiwyg-content"
             :block="{
               title: null,
               content: section.content
@@ -91,8 +91,8 @@
             :block="{ datasheets: section.datasheets, title: null }"
           />
           <div
-            class='gaskets entries flex flex-col justify-content-start items-center space-y-2'
             v-if="Array.isArray(section.gaskets) && section.gaskets.length > 0"
+            class='gaskets entries flex flex-col justify-content-start items-center space-y-2'
           >
             <template v-for="entry in section.gaskets">
               <Card
@@ -133,8 +133,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { handleize } from '~/utils/funcs'
-export default {
+export default Vue.extend({
   props: {
     block: {
       type: Object,
@@ -143,17 +144,6 @@ export default {
     initialIndex: {
       type: [Number, null],
       default: () => null
-    }
-  },
-  mounted () {
-    if (typeof this.activeIndex !== 'number' && this.block.groupStyle === 'tabs') {
-      this.active = 0;
-      this.hasExpanded.push(0)
-    }
-  },
-  computed: {
-    activeIndex () {
-      return this.active
     }
   },
   data () {
@@ -174,6 +164,17 @@ export default {
       blockClasses: this.block?.blockSettings?.classes ? this.block.blockSettings.classes : {},
       hasExpanded: [],
       classes
+    }
+  },
+  computed: {
+    activeIndex () {
+      return this.active
+    }
+  },
+  mounted () {
+    if (typeof this.activeIndex !== 'number' && this.block.groupStyle === 'tabs') {
+      this.active = 0;
+      this.hasExpanded.push(0)
     }
   },
   // mounted () {
@@ -203,7 +204,7 @@ export default {
       return { e, eventName }
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

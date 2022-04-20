@@ -111,13 +111,10 @@
   </div>
 </template>
 
-<script lang="js">
-import { getNavigation } from '~/utils/graphql/requests/global'
+<script>
 
-export default {
-  asyncData ({ route }) {
-    return { fullPath: route.fullPath }
-  },
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     mobile: {
       type: Boolean,
@@ -126,6 +123,7 @@ export default {
   },
   data () {
     return {
+      fullPath: this.$route.fullPath,
       navigation: null,
       showNested: null,
       navExpanded: false,
@@ -133,7 +131,7 @@ export default {
     }
   },
   async fetch () {
-    this.navigation = await getNavigation()
+    this.navigation = await this.$content('navigation').fetch()
   },
   watch: {
     '$route.fullPath' () {
@@ -156,7 +154,7 @@ export default {
       this.navExpanded = hovering
     }
   }
-}
+})
 
 </script>
 

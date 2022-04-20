@@ -19,7 +19,8 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   data () {
     return {
       showModal: false,
@@ -38,5 +39,5 @@ export default {
       this.$store.commit('modal/close')
     }
   }
-}
+})
 </script>

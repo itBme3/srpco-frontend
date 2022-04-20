@@ -69,10 +69,11 @@
   </div>
 </template>
 
-<script lang="js">
+<script >
+import Vue from 'vue'
 import { getThumbImageUrl } from '~/utils/funcs'
 import { getStrapiMedia } from '~/utils/medias'
-export default {
+export default Vue.extend({
   props: {
     media: {
       type: Object,
@@ -132,7 +133,7 @@ export default {
     }
   },
   watch: {
-    '$store.state.screen'() {
+    '$store.state.screen' () {
       this.onResize()
     }
   },
@@ -151,8 +152,8 @@ export default {
     imageLoaded () {
       this.setImgSrc()
     },
-    onResize() {
-      if((!!!this.media && !!!this.youtube?.length) || this.media?.mime?.includes('pdf')) {
+    onResize () {
+      if ((!!!this.media && !!!this.youtube?.length) || this.media?.mime?.includes('pdf')) {
         return
       };
       setTimeout(() => {
@@ -198,7 +199,7 @@ export default {
       this.imgHeight = 'auto'
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

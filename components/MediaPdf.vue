@@ -13,8 +13,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { getStrapiMedia } from '~/utils/medias'
-export default {
+export default Vue.extend({
   props: {
     src: {
       type: String,
@@ -30,6 +31,9 @@ export default {
   },
   mounted () {
     this.setSrc();
+  },
+  errorCaptured () {
+    return false
   },
   methods: {
     setSrc (tried = 0) {
@@ -62,9 +66,6 @@ export default {
       }, delay)
 
     }
-  },
-  errorCaptured () {
-    return false
   }
-}
+})
 </script>

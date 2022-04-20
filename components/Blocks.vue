@@ -1,7 +1,7 @@
 <template>
   <div
-    class="blocks"
     v-if="Array.isArray(blocks) && blocks.length > 0"
+    class="blocks"
   >
     <template v-for="(block, i) in blocks">
       <Block
@@ -15,12 +15,13 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     blocks: {
       type: Array,
       default: () => []
     }
   }
-}
+})
 </script>

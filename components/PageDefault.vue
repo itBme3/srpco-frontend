@@ -67,10 +67,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { collectionTypes, entryTypes } from '~/models/entry.model'
 import { getPageClasses } from '~/utils/get-classes'
 
-export default {
+export default Vue.extend({
   scrollToTop: true,
   props: {
     pageData: {
@@ -99,7 +100,6 @@ export default {
   watch: {
     pageData () {
       this.page = this.pageData;
-      console.log({ pageData: this.pageData })
       const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
       this.pageClasses = getPageClasses(this.pageData);
       this.$store.commit('adminEdit/setAdminLink', {
@@ -120,7 +120,7 @@ export default {
       entryType, id: id * 1
     })
   }
-}
+})
 </script>
 
 <style lang="scss">
