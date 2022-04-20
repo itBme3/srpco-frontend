@@ -88,7 +88,6 @@
 <script>
 import qs from 'qs'
 import Vue from 'vue'
-import { getCollection } from '~/utils/graphql/requests/collection'
 import { objectsAreTheSame } from '~/utils/funcs'
 import { strapiFilterParams } from '~/utils/search-params'
 import { CardStyle } from '~/models/blocks.model.ts'
@@ -148,10 +147,6 @@ export default Vue.extend({
       type: Boolean,
       default: false
     },
-    // filters: {
-    //   type: Boolean,
-    //   default: true
-    // },
     loadingMore: {
       type: String, /* button, infiniteScroll, linkToCollection, none */
       default: 'button'
@@ -263,15 +258,17 @@ export default Vue.extend({
         }
       }
       this.queryParams = params
-      this.nextEntries = await getCollection({
-        collectionType: this.collection,
-        params: { filters: { ...this.constantFilters }, sort: this.collectionSort, pagination: { limit: this.limit, start } }
-      })
-        .then(res => {
+      this.nextEntries = await this.$content(this.collection)
+        .where({ ...(this.queryParams?.filters || {}) })
+        .sortBy(Array.isArray(this.collectionSort) ? this.collectionSort[0] : this.collectionSort)
+        .skip(start)
+        .limit(this.limit)
+        .fetch().then(res => {
+          console.log({ res })
           this.canLoadMore = res.length === this.limit
-          return res;
-        }).catch(console.error)
-      if (start === 0 || !!!this.entries || !!!this.entries.length) {
+          return res
+        })
+      if (start === 0 || !this.entries || !this.entries.length) {
         this.entries = this.nextEntries
       } else {
         this.entries = [...this.entries, ...this.nextEntries.filter(e => !this.entries.map(c => c.slug).includes(e.slug))]

@@ -6,10 +6,6 @@
         'opacity-0 -translate-y-full -top-40': !isExpanded
       }"
   >
-    <!-- <Blocks
-      v-if="!!siteSearch && Array.isArray(siteSearch.blocks) && siteSearch.blocks.length > 0"
-      :blocks="siteSearch.blocks"
-    /> -->
 
     <div class="grid grid-cols-12">
 
@@ -113,7 +109,6 @@
 
 <script>
 import Vue from 'vue'
-import { getSiteSearch } from '~/utils/graphql/requests/global'
 export default Vue.extend({
   props: {
     expanded: {
@@ -124,7 +119,6 @@ export default Vue.extend({
   data () {
     return {
       isExpanded: !!this.expanded,
-      siteSearch: null,
       sections: [
         {
           title: 'Custom Gaskets',
@@ -141,10 +135,6 @@ export default Vue.extend({
         }
       ]
     }
-  },
-  async fetch () {
-    this.siteSearch = await getSiteSearch()
-    return { siteSearch: this.siteSearch }
   },
   watch: {
     expanded (expanded) {

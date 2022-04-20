@@ -45,7 +45,6 @@
 
 <script>
 import Vue from 'vue'
-import { gql } from 'graphql-request'
 import _ from 'lodash'
 const supplierCollections = ['gaskets', 'datasheets']
 
@@ -105,18 +104,13 @@ export default Vue.extend({
 
     },
     async getEligibleCollections () {
-      const res = await this.$graphql.default.request(gql`
-        query {
-          gaskets(filters: { suppliers: { slug: { eq: "${this.entry.slug}" } } }, pagination: { limit: 1 }) {
-            data { id }
-          }
-          datasheets(filters: { supplier: { slug: { eq: "${this.entry.slug}" } } }, pagination: { limit: 1 }) {
-            data { id }
-          }
-        }
-      `).catch(err => console.error(err));
-      if (res.gaskets?.data?.length > 0) this.activeCollections.push('gaskets')
-      if (res.datasheets?.data?.length > 0) this.activeCollections.push('datasheets')
+      await Promise.all(['gaskets', 'datasheets'].map(collectionType =>
+        this.$content(collectionType)
+          .where({ [collectionType === 'datasheets' ? 'supplier.slug' : 'suppliers.slug']: this.entry.slug })
+          .limit(1)
+          .fetch()
+          .then(res => res.length ? this.activeCollections.push(collectionType) : '')
+      ))
       return this.activeCollections;
     },
     scrollToCollections: _.debounce(function () {

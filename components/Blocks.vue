@@ -5,7 +5,7 @@
   >
     <template v-for="(block, i) in blocks">
       <Block
-        :key="block.__typename + '-' + block.id"
+        :key="block.__component + '-' + block.id"
         :block="block"
         :lazy="i >= 3"
       />

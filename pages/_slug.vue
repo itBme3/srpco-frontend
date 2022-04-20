@@ -7,12 +7,11 @@
 
 <script>
 import Vue from 'vue'
-import { getSingleEntry } from '~/utils/graphql/requests/single'
 import { seoHead } from '~/utils/seo';
 export default Vue.extend({
   scrollToTop: true,
-  async asyncData ({ redirect, route }) {
-    const pageData = await getSingleEntry(route.path, redirect);
+  async asyncData ({ redirect, route, store }) {
+    const pageData = await store.dispatch('getEntry', { path: route.path, redirect });
     return { pageData }
   },
   head () {

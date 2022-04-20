@@ -146,7 +146,7 @@ export default Vue.extend({
     .blocks {
       @apply mx-auto px-3 pt-5;
       .entry-block {
-        &[class*='block-ComponentSolutions'] {
+        &[class*='block-solutions'] {
           @apply max-w-prose mx-auto p-3 bg-transparent shadow-none w-full overflow-visible;
           .block-content {
             @apply p-7 rounded-md bg-gray-800 bg-opacity-50 shadow-xl w-full;
@@ -160,22 +160,22 @@ export default Vue.extend({
             left: -0.3ch;
           }
         }
-        &.block-ComponentSolutionsChallenge {
+        &.block-solutions-challenge {
           .block-title {
             @apply text-red-500;
           }
         }
-        &.block-ComponentSolutionsSolution {
+        &.block-solutions-solution {
           .block-title {
             @apply text-green-500;
           }
         }
-        &.block-ComponentSolutionsResults {
+        &.block-solutions-results {
           .block-title {
             @apply text-blue-500;
           }
         }
-        &.block-ComponentSolutionsUsed {
+        &.block-solutions-used {
           .block-title {
             @apply text-cyan-600;
           }

@@ -18,7 +18,7 @@
     >
       <Block
         v-for="block in page.blocks"
-        :key="block.__typename + '-' + block.id"
+        :key="block.__component + '-' + block.id"
         :block="block"
       />
     </div>
@@ -33,7 +33,7 @@ import { CollectionType } from '~/models/entry.model'
 export default Vue.extend({
   scrollToTop: true,
   async asyncData ({ $content }) {
-    const page = await $content(`collection/${CollectionType.SERVICES}`).fetch()
+    const page = await $content(`${CollectionType.SERVICES}-collection`).fetch()
     return { page }
   },
   data () {
