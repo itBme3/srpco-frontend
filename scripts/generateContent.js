@@ -1,7 +1,11 @@
 const fs = require('fs')
 const path = require('path')
 const axios = require('axios');
-const apiUrl = 'https://srp-admin.herokuapp.com'
+const apiUrl = typeof process.env.NGROK === 'string' && process.env.NGROK.length > 0
+  ? `https://${process.env.NGROK}.ngrok.io`
+    : typeof process.env.API_URL === 'string' && process.env.API_URL.length > 0
+  ? process.env.API_URL 
+    : 'http://localhost:1337';
 
 const collectionTypes = [
       'gaskets',
@@ -11,8 +15,7 @@ const collectionTypes = [
       'resources',
       'services',
       'datasheets',
-      'solutions',
-      'pages',
+      'solutions'
 ]
 
 const populate = ['media', 'seo.image', 'file',
@@ -24,6 +27,7 @@ const populate = ['media', 'seo.image', 'file',
       'settings',
       'supplier',
       'links',
+      'nested',
       ...collectionTypes,
       ...collectionTypes.map(collectionType => `blocks.${collectionType}`),
       ...collectionTypes.map(collectionType => `blocks.sections.${collectionType}`),

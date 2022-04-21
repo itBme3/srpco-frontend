@@ -42,7 +42,6 @@ export default Vue.extend({
       this.checkIframeLoaded(tried);
     },
     checkIframeLoaded (tried) {
-      console.log({ tried })
       if (tried > 20) {
         this.loading = 'Error loading pdf.'
         return

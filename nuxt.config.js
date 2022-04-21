@@ -6,12 +6,11 @@ const apiUrl = typeof process.env.NGROK === 'string' && process.env.NGROK.length
   ? process.env.API_URL 
     : 'http://localhost:1337';
 
-// console.log({ apiUrl })
 
 const gaId = process.env.NODE_ENV === 'production' && process.env.GA_ENV !== 'dev' ? process.env.GA : process.env.GA_DEV;
 
 export default {
-  // Global page headers: https://go.nuxtjs.dev/config-head
+
   head: {
     title: 'SRPCO',
     htmlAttrs: {
@@ -105,10 +104,8 @@ export default {
   },
   env: {
     mapsApiKey: 'AIzaSyAKlNQvaXSHG-CQietQjo0RRtvVNJie30U',
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    // apiUrl: process.env.API_URL || 'http://localhost:1337'
+    baseUrl: process.env.BASE_URL || 'http://localhost:3001',
     apiUrl
-    // apiUrl: 'https://0602e58a0d03.ngrok.io'
 
   },
   content: {
@@ -116,37 +113,19 @@ export default {
     nestedProperties: true
   },
   generate: {
-    ready () {
-      const paths = [
+    async routes () {
+      const { $content } = require('@nuxt/content')
+      const routes = [
         '/',
         ...collectionTypes.map(c => `/${c}`)
       ];
-      console.log({paths})
-      return paths
+      await Promise.all(['pages',...collectionTypes].map(async c => {
+        const entries = await $content(c).only(['slug']).fetch();
+        entries.forEach(e => routes.push(`${c === 'pages' ? `/${e.slug}` : `/${c}/${e.slug}`}`))
+        
+      }))
+      console.log({routes})
+      return routes
     }
-  //   async ready () {
-  //     const { $content } = require('@nuxt/content');
-  //     const files = await $content({ deep: true }).only(['path']).fetch();
-  //     const paths = [];
-  //     await Promise.all(
-  //       files.map(async file => {
-  //         const path = file.path === '/homepage'
-  //           ? '/'
-  //           : file.path.indexOf('/entries') === 0
-  //             ? file.path.replace('/entries', '')
-  //             : files.path.indexOf('/collection') === 0
-  //               ? file.path.replace('/collection', '')
-  //               : files.path;
-  //         if (!file.path.indexOf('/entries') !== 0) {
-  //           paths.push(path)
-  //         } else {
-  //           const entries = await $content(path.split('/').pop()).only(['slug']).fetch();
-  //           entries.forEach(entry => paths.push(`${path}/${entry.slug}`))
-  //         };
-  //         return path
-  //     }))
-  //     console.log(paths)
-  //     return paths;
-  //   }
   }
 }
