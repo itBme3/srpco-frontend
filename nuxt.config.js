@@ -25,6 +25,7 @@ export default {
       { rel: 'icon', type: 'image', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
       { rel: 'stylesheet', defer: true, href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?vcqm1a' },
+      { src: `https://www.googletagmanager.com/gtag/js?id=${gaId}`, async: true, type: 'text/partytown' },
     ]
   },
 
@@ -76,13 +77,19 @@ export default {
     '@nuxtjs/axios',
     'nuxt-vuex-localstorage',
     '@nuxt/content',
-    '@nuxtjs/proxy'
+    '@nuxtjs/proxy',
+    '@nuxtjs/partytown'
   ],
+
+  partytown: {
+    forward: ['dataLayer.push']
+  },
 
   googleAnalytics: {
     id: gaId,
     layer: 'dataLayer',
     pageTracking: true,
+    disableScriptLoader: true,
     debug: {
       enabled: false,
       trace: false,
