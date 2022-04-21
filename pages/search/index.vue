@@ -28,7 +28,7 @@
           <BlockCollection
             :collection-type="collection"
             :limit="6"
-            :sort="['gaskets', 'suppliers', 'materials', 'applications'].includes(collection) ? ['order:ASC'] : ['publishedAt:DESC']"
+            :sort="['gaskets', 'suppliers', 'materials', 'applications'].includes(collection) ? 'order:ASC' : 'publishedAt:DESC'"
             card-style="mediaLeft"
             :ratio="['datasheets'].includes(collection) ? '9:10' : ['services'].includes(collection) ? '16:9' : '5:4'"
             :search-bar="false"

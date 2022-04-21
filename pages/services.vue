@@ -1,6 +1,11 @@
 
 <template>
-  <div>
+  <div
+    class="collection services"
+    :class="{
+      [pageClasses.container]: !!pageClasses.container
+    }"
+  >
 
     <NuxtChild :key="$route.fullPath" />
 
@@ -29,6 +34,8 @@
 import Vue from 'vue'
 import { seoHead } from '~/utils/seo'
 import { CollectionType } from '~/models/entry.model'
+import { getPageClasses } from '~/utils/get-classes'
+
 /* eslint-disable no-extra-boolean-cast */
 export default Vue.extend({
   scrollToTop: true,
@@ -43,11 +50,29 @@ export default Vue.extend({
   },
   head () {
     return seoHead(this.page)
+  },
+  computed: {
+    pageClasses () {
+      return getPageClasses(this.page)
+    }
+  },
+  mounted () {
+    this.$store.dispatch('getEntryUpdates', { path: 'services-collection' })
+      .then(res => {
+        try {
+          this.page = {
+            ...this.page,
+            ...res
+          }
+        } catch { }
+      })
   }
 })
 </script>
 
 <style lang="scss">
+.collection.services {
+}
 .card-link {
   &.nuxt-link-exact-active {
     @apply hidden;

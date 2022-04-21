@@ -126,7 +126,8 @@ export default {
   },
   content: {
     liveEdit: false,
-    nestedProperties: true
+    nestedProperties: true,
+    fullTextSearchFields: ['title', 'slug', 'content', 'description', 'fileContent']
   },
   generate: {
     async routes () {

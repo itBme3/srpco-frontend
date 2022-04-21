@@ -288,7 +288,7 @@ export default Vue.extend({
       @apply mr-auto w-2/3;
     }
     .card-media {
-      @apply mr-[.75rem] w-[calc(33.333%-.75rem)];
+      @apply mr-4 sm:mr-6 w-[calc(33.333%-.75rem)];
     }
   }
   .card-style-media-right {
@@ -297,7 +297,7 @@ export default Vue.extend({
       @apply mr-auto w-2/3 text-center;
     }
     .card-media {
-      @apply ml-2 order-2 w-1/3;
+      @apply ml-4 sm:ml-6 order-2 w-1/3;
     }
   }
   // .card-style-media-left,

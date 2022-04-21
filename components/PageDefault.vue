@@ -89,19 +89,20 @@ export default Vue.extend({
       slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
       collectionType, entryType, id,
       entryTypes,
-      pageClasses: getPageClasses(this.pageData)
     }
   },
   computed: {
     isSingleEntry () {
       return !!this?.page?.type && this.entryTypes.includes(this.entryType)
+    },
+    pageClasses () {
+      return getPageClasses(this.page)
     }
   },
   watch: {
     pageData () {
       this.page = this.pageData;
       const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
-      this.pageClasses = getPageClasses(this.pageData);
       this.$store.commit('adminEdit/setAdminLink', {
         id,
         slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
@@ -119,7 +120,7 @@ export default Vue.extend({
       collectionType,
       entryType, id: id * 1
     })
-    this.$store.dispatch('getEntryUpdates', { slug: initialSlug, path: collectionType }).then((res) => {
+    this.$store.dispatch('getEntryUpdates', { slug: this.isSingleEntry ? slug : null, path: !!collectionType ? collectionType : initialSlug }).then((res) => {
       console.log({ res });
       try {
         this.page = {

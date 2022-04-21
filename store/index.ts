@@ -82,7 +82,11 @@ export const actions: any = {
       async getEntryUpdates({ }, props: { path: string, slug?: string, params?: { [key: string]: any } }) {
             const { slug = null } = props;
             let { params = {}, path } = props;
-            if (path.indexOf('/') === 0) {
+            console.log({ slug, path })
+            if (!path) {
+                  return
+            }
+            if (path?.indexOf('/') === 0) {
                   path = path.substring(1, path.length)
             }
             try {

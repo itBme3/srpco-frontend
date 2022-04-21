@@ -120,8 +120,8 @@ export default Vue.extend({
       }
     },
     sort: {
-      type: Array,
-      default: () => { return ['publishedAt:DESC'] }
+      type: String,
+      default: 'publishedAt:DESC'
     },
     limit: {
       type: Number,
@@ -247,7 +247,6 @@ export default Vue.extend({
       const collection = this.collection
       if (typeof collection !== 'string') {
         this.$emit('updateEntries', this.entries)
-        console.error(`collection: ${collection}`)
         return
       }
       const params = this.getQueryParams();
@@ -258,10 +257,18 @@ export default Vue.extend({
         }
       }
       this.queryParams = params
+      const collectionSort = !this.collectionSort
+        ? 'publishedAt:desc'
+        : Array.isArray(this.collectionSort)
+          ? this.collectionSort[0]
+          : this.collectionSort;
+      const sortField = collectionSort.split(':')[0] || 'publishedAt';
+      const sortDirection = collectionSort.split(':')[1] || 'desc';
       this.nextEntries = await this.$content(this.collection)
         .where({ ...(this.queryParams?.filters || {}) })
-        .sortBy(Array.isArray(this.collectionSort) ? this.collectionSort[0] : this.collectionSort)
+        .sortBy(sortField, sortDirection)
         .skip(start)
+        .search(typeof this.queryParams?.search === 'string' ? this.queryParams.search : '')
         .limit(this.limit)
         .fetch().then(res => {
           this.canLoadMore = res.length === this.limit
