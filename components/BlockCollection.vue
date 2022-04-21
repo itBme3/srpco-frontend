@@ -264,7 +264,6 @@ export default Vue.extend({
         .skip(start)
         .limit(this.limit)
         .fetch().then(res => {
-          console.log({ res })
           this.canLoadMore = res.length === this.limit
           return res
         })

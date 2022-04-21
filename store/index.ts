@@ -25,7 +25,6 @@ export const actions: any = {
                         .fetch()
                         .then((e: any) => Array.isArray(e) ? e[0] : null)
             }
-            console.log({ entry })
             if (!!entry) {
                   return entry
             } else {
