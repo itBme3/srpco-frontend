@@ -45,8 +45,6 @@ const populate = ['media', 'seo.image', 'file',
       ...collectionTypes.map(collectionType => `blocks.sections.${collectionType}`),
 ]
 
-
-
 const parseResponse = (_obj) => {
       if (!isJsonObject(_obj)) { return _obj }
       if (Array.isArray(_obj)) {
