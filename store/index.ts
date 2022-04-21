@@ -107,7 +107,7 @@ export const actions: any = {
                         ...(params ? params : {})
                   }
                   const contentEntry = slug
-                        ? await this.$content(`/${path}`, slug)
+                        ? await this.$content(`${path?.indexOf('/') !== 0 ? '/' : ''}${path}`, slug)
                               .fetch()
                         : await this.$content(path)
                               .fetch();

@@ -61,8 +61,27 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
-.single-entry {
+<style lang="scss">
+.single-entry.service {
   @apply max-w-4xl mx-auto;
+}
+.collection {
+  &.services {
+    .single-entry {
+      + .heading {
+        max-width: 780px !important;
+        margin-right: auto;
+        margin-left: auto;
+        .heading-title {
+          display: none;
+        }
+        + .blocks {
+          max-width: 780px !important;
+          margin-right: auto;
+          margin-left: auto;
+        }
+      }
+    }
+  }
 }
 </style>
