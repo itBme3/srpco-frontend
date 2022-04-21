@@ -75,8 +75,10 @@ export default {
   modules: [
     '@nuxtjs/axios',
     'nuxt-vuex-localstorage',
-    '@nuxt/content'
+    '@nuxt/content',
+    '@nuxtjs/proxy'
   ],
+
   googleAnalytics: {
     id: gaId,
     layer: 'dataLayer',
@@ -105,7 +107,22 @@ export default {
     mapsApiKey: 'AIzaSyAKlNQvaXSHG-CQietQjo0RRtvVNJie30U',
     baseUrl: process.env.BASE_URL || 'http://localhost:3001',
     apiUrl
-
+  },
+  axios: {
+    baseURL: apiUrl,
+    proxy: true,
+    proxyHeaders: false,
+    headers: {
+      common: {
+        Accept: 'application/json, text/plain, */*',
+      },
+    },
+  },
+  proxy: {
+    '/api/': {
+      target: apiUrl,
+      pathRewrite: { '^/api/': '' },
+    },
   },
   content: {
     liveEdit: false,

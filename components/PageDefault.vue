@@ -119,6 +119,15 @@ export default Vue.extend({
       collectionType,
       entryType, id: id * 1
     })
+    this.$store.dispatch('getEntryUpdates', { slug: initialSlug, path: collectionType }).then((res) => {
+      console.log({ res });
+      try {
+        this.page = {
+          ...this.page,
+          ...res
+        }
+      } catch { }
+    })
   }
 })
 </script>
