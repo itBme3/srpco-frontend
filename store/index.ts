@@ -106,16 +106,17 @@ export const actions: any = {
                   const callParams = {
                         ...(params ? params : {})
                   }
-                  const _path = path?.indexOf('/') !== 0 ? `/${path}` : path
                   const contentEntry = slug
-                        ? await this.$content(_path, slug)
+                        ? await this.$content(path, slug)
                               .fetch()
                         : await this.$content(path)
                               .fetch();
-                  const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api${_path}?${qs.stringify({
+                  const queryString = qs.stringify({
                         ...callParams,
                         fields: ['updatedAt']
-                  }, { encodeValuesOnly: true })}`).then((res: any) => {
+                  }, { encodeValuesOnly: true });
+                  console.log('should fetch: ', `${process.env.apiUrl}/api/${path}?${queryString}`)
+                  const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`).then((res: any) => {
                         const entry = Array.isArray(res.data) && res.data[0]?.attributes
                               ? res.data[0]?.attributes
                               : res.data?.attributes;
@@ -125,7 +126,9 @@ export const actions: any = {
                   });
                   callParams.populate = populate;
                   if (shouldFetchUpdates) {
-                        return this.$axios.$get(`${process.env.apiUrl}/api${_path}?${qs.stringify(callParams, { encodeValuesOnly: true })}`)
+                        const queryString = qs.stringify(callParams, { encodeValuesOnly: true })
+                        console.log('get entry: ', `${process.env.apiUrl}/api/${path}?${queryString}`)
+                        return this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`)
                               .then((res: any) => res?.data ? parseResponse(Array.isArray(res.data) ? res.data[0] : res.data) : {})
                   }
                   return {}
