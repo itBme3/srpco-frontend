@@ -23,7 +23,19 @@
     </client-only>
   </div>
 </template>
-
+<script>
+import Vue from 'vue'
+export default Vue.extend({
+  watch: {
+    '$route.path' () {
+      this.$store.dispatch('adminEdit/setLink', this.$route);
+    }
+  },
+  mounted () {
+    this.$store.dispatch('adminEdit/setLink', this.$route);
+  }
+})
+</script>
 
 <style lang="scss">
 .site-container {
