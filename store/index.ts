@@ -106,12 +106,13 @@ export const actions: any = {
                   const callParams = {
                         ...(params ? params : {})
                   }
+                  const _path = path?.indexOf('/') !== 0 ? `/${path}` : path
                   const contentEntry = slug
-                        ? await this.$content(`${path?.indexOf('/') !== 0 ? '/' : ''}${path}`, slug)
+                        ? await this.$content(_path, slug)
                               .fetch()
                         : await this.$content(path)
                               .fetch();
-                  const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api${path?.indexOf('/') !== 0 ? '/' : ''}${path}?${qs.stringify({
+                  const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api${_path}?${qs.stringify({
                         ...callParams,
                         fields: ['updatedAt']
                   }, { encodeValuesOnly: true })}`).then((res: any) => {
@@ -124,7 +125,7 @@ export const actions: any = {
                   });
                   callParams.populate = populate;
                   if (shouldFetchUpdates) {
-                        return this.$axios.$get(`${process.env.apiUrl}/api/${path}?${qs.stringify(callParams, { encodeValuesOnly: true })}`)
+                        return this.$axios.$get(`${process.env.apiUrl}/api${_path}?${qs.stringify(callParams, { encodeValuesOnly: true })}`)
                               .then((res: any) => res?.data ? parseResponse(Array.isArray(res.data) ? res.data[0] : res.data) : {})
                   }
                   return {}
