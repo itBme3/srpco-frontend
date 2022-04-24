@@ -111,7 +111,7 @@ export const actions: any = {
                               .fetch()
                         : await this.$content(path)
                               .fetch();
-                  const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api/${path}?${qs.stringify({
+                  const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api${path?.indexOf('/') !== 0 ? '/' : ''}${path}?${qs.stringify({
                         ...callParams,
                         fields: ['updatedAt']
                   }, { encodeValuesOnly: true })}`).then((res: any) => {
