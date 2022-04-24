@@ -44,6 +44,9 @@
       <div
         v-if="![undefined, null].includes(page) && typeof page.content === 'string'"
         class="page-content entry-block col-span-12"
+        :class="{
+          'hidden': page.content.trim().length === 0
+        }"
       >
         <BlockContent :block="{ content: page.content }" />
       </div>
@@ -81,7 +84,6 @@ export default Vue.extend({
   },
   data () {
     const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
-    this.$store.commit('adminEdit/setAdminLink', { slug, collectionType, entryType, id })
     this.$store.commit('nextPrevious/setCollectionType', collectionType)
     this.$store.commit('nextPrevious/setEntry', this.pageData)
     return {
@@ -102,24 +104,19 @@ export default Vue.extend({
   watch: {
     pageData () {
       this.page = this.pageData;
-      const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
-      this.$store.commit('adminEdit/setAdminLink', {
-        id,
-        slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
-        collectionType, entryType
-      })
+      const { collectionType = null } = this.pageData;
       this.$store.commit('nextPrevious/setCollectionType', collectionType)
       this.$store.commit('nextPrevious/setEntry', this.pageData)
     }
   },
   mounted () {
-    const { slug: initialSlug = null, collectionType = null, type: entryType = null, id } = this.pageData;
+    const { slug: initialSlug = null } = this.pageData;
+    let { collectionType = null } = this.pageData;
+    if (!collectionType) {
+      collectionType = this.$route.params.collection
+    }
     const slug = !!!initialSlug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : initialSlug;
-    this.$store.commit('adminEdit/setAdminLink', {
-      slug,
-      collectionType,
-      entryType, id: id * 1
-    })
+
     this.$store.dispatch('getEntryUpdates', { slug: this.isSingleEntry ? slug : null, path: !!collectionType ? collectionType : initialSlug }).then((res) => {
       console.log({ res });
       try {
@@ -132,72 +129,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style lang="scss">
-.single-entry {
-  &.solution {
-    .heading {
-      .heading-content {
-        @apply rounded relative sm:px-0 bg-opacity-50;
-        .heading-text-content {
-          @apply p-4 sm:p-8  mx-auto max-w-prose;
-          .heading-title {
-            @apply font-semibold text-2xl sm:text-3xl md:text-4xl;
-          }
-        }
-      }
-      .heading-media {
-        @apply rounded absolute w-1/2 opacity-50;
-        .overlay {
-          @apply bg-gradient-to-l from-gray-900 to-transparent;
-        }
-      }
-    }
-    .blocks {
-      @apply mx-auto px-3 pt-5;
-      .entry-block {
-        &[class*='block-solutions'] {
-          @apply max-w-prose mx-auto p-3 bg-transparent shadow-none w-full overflow-visible;
-          .block-content {
-            @apply p-7 rounded-md bg-gray-800 bg-opacity-50 shadow-xl w-full;
-          }
-        }
-        .block-title {
-          @apply mb-0;
-          &:after {
-            @apply relative;
-            content: ':';
-            left: -0.3ch;
-          }
-        }
-        &.block-solutions-challenge {
-          .block-title {
-            @apply text-red-500;
-          }
-        }
-        &.block-solutions-solution {
-          .block-title {
-            @apply text-green-500;
-          }
-        }
-        &.block-solutions-results {
-          .block-title {
-            @apply text-blue-500;
-          }
-        }
-        &.block-solutions-used {
-          .block-title {
-            @apply text-cyan-600;
-          }
-        }
-      }
-    }
-  }
-  &.supplier {
-    .heading-media {
-      max-width: 200px;
-      max-height: 200px;
-    }
-  }
-}
-</style>

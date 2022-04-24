@@ -1,6 +1,6 @@
 <template>
   <div class="media-pdf w-full h-full">
-    <div v-if="loading">{{ loading }}</div>
+    <Loading v-if="loading" />
     <iframe
       v-if="![undefined, null].includes(mediaSrc)"
       ref="iFrame"
@@ -26,7 +26,7 @@ export default Vue.extend({
     return {
       mediaSrc: null,
       embedSrc: null,
-      loading: 'loading...'
+      loading: true
     }
   },
   mounted () {
@@ -46,7 +46,7 @@ export default Vue.extend({
         this.loading = 'Error loading pdf.'
         return
       };
-      const delay = 2000;
+      const delay = 500;
       setTimeout(() => {
         // console.log({ Iframe: this.$refs.iFrame });
         try {
@@ -55,7 +55,8 @@ export default Vue.extend({
             this.embedSrc = null;
             setTimeout(() => {
               this.setSrc(tried + 1)
-            }, delay + 250);
+              this.loading = this.$refs.iFrame.contentWindow.document.querySelector('body').innerHTML.length === 0
+            }, delay + 500);
             return
           }
           this.loading = false

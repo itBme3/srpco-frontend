@@ -9,38 +9,6 @@ const apiUrl = process.env.NODE_ENV === 'production' && typeof process.env.API_U
 
 console.log({apiUrl})
 const { collectionTypes, populate, parseResponse } = require('../static/axiosDefaults')
-// const collectionTypes = [
-//       'gaskets',
-//       'applications',
-//       'materials',
-//       'suppliers',
-//       'resources',
-//       'services',
-//       'datasheets',
-//       'solutions'
-// ]
-
-// const populate = ['media', 'seo.image', 'file',
-//       'blocks.media', 'blocks.file', 'blocks.sections',
-//       'blocks.blockSettings',
-//       'blocks.collectionSettings',
-//       'blocks.heroSettings',
-//       'buttons',
-//       'blocks.cardSettings',
-//       'pageSettings',
-//       'settings',
-//       'supplier',
-//       'links',
-//       'links.nested',
-//       'supplier.media',
-//       ...collectionTypes,
-//       ...collectionTypes.map(collectionType => `${collectionType}.${collectionType === 'datasheets' ? 'file' : 'media' }`),
-//       ...collectionTypes.map(collectionType => `blocks.${collectionType}`),
-//       ...collectionTypes.map(collectionType => `blocks.${collectionType}.${collectionType === 'datasheets' ? 'file' : 'media' }`),
-//       ...collectionTypes.map(collectionType => `blocks.sections.${collectionType}`),
-// ]
-
-
 
 const getEntries = async (collectionType, params = {}) => {
       return await axios(`${apiUrl}/api/${collectionType}`, {

@@ -10,7 +10,7 @@
 
     <Breadcrumbs
       v-if="!!breadcrumbs && headingType === 'page'"
-      class="heading-breadcrumbs m-2 mt-0 w-full"
+      class="heading-breadcrumbs"
     />
     <div class="heading-content">
 
@@ -100,20 +100,20 @@ export default Vue.extend({
 <style lang="scss">
 .heading {
   @apply flex items-start content-start py-2 sm:py-0;
-  &-content {
+  .heading-content {
     @apply block sm:flex flex-row items-center justify-start w-full;
   }
-  &-text-content {
+  .heading-text-content {
     @apply px-2 my-0 h-full flex w-full sm:order-first order-last flex-col content-start relative z-1 max-w-prose;
   }
-  &-title {
-    @apply text-gray-600 mb-2 text-opacity-50 font-black;
+  .heading-title {
+    @apply text-gray-600 mb-2 font-black;
   }
-  &-description {
+  .heading-description {
     @apply text-base font-normal tracking-wide text-gray-500 leading-snug mt-4 font-medium;
   }
-  &-media {
-    @apply rounded-md sm:rounded-sm absolute sm:relative z-0 opacity-30 sm:opacity-100 sm:mx-2 shadow-2xl w-full sm:w-5/12 mx-0 sm:ml-auto;
+  .heading-media {
+    @apply rounded-md sm:rounded-sm absolute sm:relative z-0 sm:mx-2 shadow-2xl w-full sm:w-5/12 mx-0 sm:ml-auto;
     @media screen and (max-width: 639px) {
       max-height: 33vw;
     }
@@ -121,15 +121,15 @@ export default Vue.extend({
       max-height: 50vw;
     }
   }
-  &-breadcrumbs {
-    @apply justify-start;
+  .heading-breadcrumbs {
+    @apply justify-start w-full sm:mt-2;
   }
-  &-page {
+  .heading-page {
     .heading-title {
       @apply text-gray-300;
     }
   }
-  &-simple {
+  .heading-simple {
     .heading-text-content {
       @apply w-full text-center self-center;
     }

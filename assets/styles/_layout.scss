@@ -129,8 +129,13 @@
 	}
 	&:not(.is-mobile) {
 		.header {
+			.has-nested-links {
+				.nav-link {
+					@apply relative z-10;
+				}
+			}
 			.nested-links-wrapper {
-				@apply absolute top-10 pt-1;
+				@apply absolute top-0 pt-10 z-0;
 			}
 		}
 	}

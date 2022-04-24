@@ -28,16 +28,12 @@
           v-view="visibilityHandler"
           class="loading-placeholder w-full py-[30%] bg-white bg-opacity-3 rounded"
         >
-          loading...
+          <Loading class="m-auto" />
         </div>
       </client-only>
-      <transition
-        name="up-fade"
-        :duration="1000"
-      >
+      <transition name="entry-block-reveal">
         <LazyBlockCard
           v-if="seen && block.__component === 'block.card'"
-          stye="transition-delay: .3s"
           :class="{ [!!cardClasses &&  !!cardClasses.card ? cardClasses.card : '']: !!cardClasses.card.length }"
           :block="block"
         />
@@ -152,8 +148,4 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-.entry-block {
-  transition-delay: 2s !important;
-  transition-duration: 2s !important;
-}
 </style>
