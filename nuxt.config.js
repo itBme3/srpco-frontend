@@ -133,7 +133,9 @@ export default {
   },
   content: {
     liveEdit: false,
-    nestedProperties: true,
+    nestedProperties: [
+      ...['supplier', ...collectionTypes].map(c => `${c}.slug`)
+    ],
     fullTextSearchFields: ['title', 'slug', 'content', 'description', 'fileContent']
   },
   generate: {
