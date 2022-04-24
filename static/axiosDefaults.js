@@ -43,6 +43,7 @@ const populate = ['media', 'seo.image', 'file',
       ...collectionTypes.map(collectionType => `blocks.${collectionType}`),
       ...collectionTypes.map(collectionType => `blocks.${collectionType}.${collectionType === 'datasheets' ? 'file' : 'media' }`),
       ...collectionTypes.map(collectionType => `blocks.sections.${collectionType}`),
+      ...collectionTypes.map(collectionType => `blocks.sections.${collectionType}.${collectionType === 'datasheets' ? 'file' : 'media' }`),
 ]
 
 const parseResponse = (_obj) => {
