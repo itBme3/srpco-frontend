@@ -345,4 +345,15 @@ export default Vue.extend({
     }
   }
 }
+.entries {
+  &.datasheets,
+  &.gaskets {
+    .card-style-media-left,
+    .card-style-media-right {
+      .card-media {
+        @apply max-w-[80px];
+      }
+    }
+  }
+}
 </style>

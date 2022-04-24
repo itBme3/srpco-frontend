@@ -11,7 +11,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "generate:dev": "nuxt generate",
-    "pregenerate:dev": "node scripts/generateContent",
+    "pregenerate:dev": "NODE_ENV=dev NGROK=4240a1ebd79c node scripts/generateContent",
     "pregenerate": "node scripts/generateContent",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "npm run lint:js"

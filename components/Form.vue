@@ -30,7 +30,10 @@
     <form
       ref="form"
       :class="{ 'hidden': ['success', 'sending'].includes(formState) }"
-      @submit="submit"
+      @submit="(e) => {
+        e.preventDefault()
+        $emit('submit', formModel)
+      }"
       @change="log"
     >
       <vue-form-generator
@@ -71,10 +74,6 @@ export default Vue.extend({
       type: String,
       default: ''
     },
-    submitCallback: {
-      type: [Function, null],
-      default: null
-    },
     successMessage: {
       type: String,
       default: '<h2>Success!</h2> <p>Your message has been successfully sent.</p>'
@@ -108,54 +107,6 @@ export default Vue.extend({
         this.errorMessage = null
       }
       console.log(e);
-    },
-    toBase64 (file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-      });
-    },
-    async submit (e) {
-      e.preventDefault();
-      this.formState = 'sending'
-      try {
-        const model = JSON.parse(JSON.stringify(this.formModel));
-        if (Object.keys(model).includes('file')) {
-          const file = this.$refs.form.querySelector('input[type="file"]').files[0];
-          const maxSize = 1000000 * 2; // 2mb
-          if (file.size > maxSize) {
-            this.formState = 'error';
-            this.errorMessage = 'File exceeds max file size (2MB).';
-            return alert('File exceeds max file size (2MB).');
-          }
-          const fileBase64 = await this.toBase64(file);
-          model.file = fileBase64;
-        }
-        let res = null;
-        if ([null, undefined].includes(this.submitCallback)) {
-          res = await this.$axios.post(`${process.env.apiUrl}/api/email-contact`, model)
-          if (res.error?.length) {
-            this.formState = 'error';
-            this.errorMessage = `<h2>Error</h2><p>${res.error}</p>`
-            return this.$emit('error', res.error)
-          }
-        } else {
-          const submitted = this.submitCallback(model);
-          res = submitted?.then ? await submitted : submitted;
-        }
-        this.formState = 'success';
-        this.$emit('success', model)
-        if (this.successRedirect?.indexOf('/') === 0) {
-          return this.$route.push(this.successRedirect)
-        }
-      } catch (err) {
-        this.formState = 'error';
-        this.errorMessage = 'Error sending.'
-        this.$emit('error', this.errorMessage)
-        console.error(err)
-      }
     }
   }
 })
