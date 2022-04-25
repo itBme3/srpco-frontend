@@ -80,8 +80,18 @@ p {
         @apply text-base tracking-wider font-normal;
 }
 .wysiwyg {
-        p {
+        p,
+        ul {
                 @apply mb-6;
+        }
+        br {
+                @apply mb-3 block;
+                content: "";
+        }
+        > * {
+                &:nth-last-child(1) {
+                        @apply mb-0 #{!important};
+                }
         }
 }
 a {

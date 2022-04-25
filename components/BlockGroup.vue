@@ -92,7 +92,7 @@
           />
           <div
             v-if="Array.isArray(section.gaskets) && section.gaskets.length > 0"
-            class='gaskets entries flex flex-col justify-content-start items-center space-y-2'
+            class='gaskets entries flex flex-col justify-content-start items-center space-y-1'
           >
             <template v-for="entry in section.gaskets">
               <Card
@@ -111,17 +111,17 @@
           </div>
           <BlockMaterials
             v-if="Array.isArray(section.materials) && section.materials.length > 0"
-            class="w-full flex flex-col justify-content-start items-center space-y-2"
+            class="w-full flex flex-col justify-content-start items-center space-y-1"
             :block="{ entries: section.materials, title: null }"
           />
           <BlockApplications
             v-if="Array.isArray(section.applications) && section.applications.length > 0"
-            class="w-full flex flex-col justify-content-start items-center space-y-2"
+            class="w-full flex flex-col justify-content-start items-center space-y-1"
             :block="{ entries: section.applications, title: null }"
           />
           <BlockResources
             v-if="Array.isArray(section.resources) && section.resources.length > 0"
-            class="w-full flex flex-col justify-content-start items-center space-y-2"
+            class="w-full flex flex-col justify-content-start items-center space-y-1"
             :block="{ entries: section.resources, title: null }"
           />
 

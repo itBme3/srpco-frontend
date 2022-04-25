@@ -11,7 +11,9 @@
         :title="entry.title"
         :media="entry.file"
         card-style="mediaLeft"
-        :link="![null, undefined].includes(entry) && entry.type === 'datasheet' ? null : + collectionType + '/' + entry.slug"
+        :link="![null, undefined].includes(entry) && entry.type === 'datasheet' 
+          ? null 
+          : `${collectionType}/${entry.slug}`"
         media-ratio="8.5:11"
         media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
         class="col-span-12"

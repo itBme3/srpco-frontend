@@ -16,7 +16,7 @@
         v-view="visibilityHandler"
         class="loading-placeholder w-full py-[30%] bg-white bg-opacity-3 rounded"
       >
-        loading...
+        <Loading class="m-auto" />
       </div>
       <template v-else-if="typeof mediaSrc === 'string'">
         <LazyMediaPdf
@@ -62,7 +62,7 @@
           v-view="visibilityHandler"
           class="loading-placeholder w-full py-[30%] bg-white bg-opacity-3 rounded"
         >
-          loading...
+          <Loading class="m-auto" />
         </div>
       </template>
     </client-only>

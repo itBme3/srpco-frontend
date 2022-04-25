@@ -1,8 +1,7 @@
-
-
 /* eslint-disable quote-props */
 
 const colors = require('tailwindcss/colors')
+const defaultTheme = require('tailwindcss/defaultTheme')
 require('dotenv').config()
 
 const COLORS = {
@@ -87,41 +86,41 @@ const COLORS = {
 }
 
 const minHeight = {
-  '0': '0px',
-  'px': '1px',
-  '0.5': '0.125rem',
-  '1': '0.25rem',
-  '1.5': '0.375rem',
-  '2': '0.5rem',
-  '2.5': '0.625rem',
-  '3': '0.75rem',
-  '3.5': '0.875rem',
-  '4': '1rem',
-  '5': '1.25rem',
-  '6': '1.5rem',
-  '7': '1.75rem',
-  '8': '2rem',
-  '9': '2.25rem',
-  '10': '2.5rem',
-  '11': '2.75rem',
-  '12': '3rem',
-  '14': '3.5rem',
-  '16': '4rem',
-  '20': '5rem',
-  '24': '6rem',
-  '28': '7rem',
-  '32': '8rem',
-  '36': '9rem',
-  '40': '10rem',
-  '44': '11rem',
-  '48': '12rem',
-  '52': '13rem',
-  '56': '14rem',
-  '60': '15rem',
-  '64': '16rem',
-  '72': '18rem',
-  '80': '20rem',
-  '96': '24rem'
+  0: '0px',
+  px: '1px',
+  0.5: '0.125rem',
+  1: '0.25rem',
+  1.5: '0.375rem',
+  2: '0.5rem',
+  2.5: '0.625rem',
+  3: '0.75rem',
+  3.5: '0.875rem',
+  4: '1rem',
+  5: '1.25rem',
+  6: '1.5rem',
+  7: '1.75rem',
+  8: '2rem',
+  9: '2.25rem',
+  10: '2.5rem',
+  11: '2.75rem',
+  12: '3rem',
+  14: '3.5rem',
+  16: '4rem',
+  20: '5rem',
+  24: '6rem',
+  28: '7rem',
+  32: '8rem',
+  36: '9rem',
+  40: '10rem',
+  44: '11rem',
+  48: '12rem',
+  52: '13rem',
+  56: '14rem',
+  60: '15rem',
+  64: '16rem',
+  72: '18rem',
+  80: '20rem',
+  96: '24rem'
 }
 
 module.exports = {
@@ -139,46 +138,57 @@ module.exports = {
   ],
   safelist: [
     {
-      pattern: /^(m-|p-|mt-|pt-|ml-|pl-|mb-|pb-|mr-|pr-|inset-|top-|bottom-|left-|right-|min-w-|min-h-|max-w-|max-h-|col-span-)/,
-      variants: ['sm', 'md', 'lg'],
+      pattern:
+        /^(m-|p-|mt-|pt-|ml-|pl-|mb-|pb-|mr-|pr-|inset-|top-|bottom-|left-|right-|min-w-|min-h-|max-w-|max-h-|col-span-)/,
+      variants: ['sm', 'md', 'lg']
     },
     {
       pattern: /^(bg-|text-|bg-opacity-|text-opacity-|bg-gradient-)/,
-      variants: ['sm', 'md',  'hover'],
+      variants: ['sm', 'md', 'hover']
     },
     {
       pattern: /^(border-)/,
-      variants: ['hover'],
+      variants: ['hover']
     },
     {
       pattern: /^(font-|to-|from-)/,
-      variants: [],
+      variants: []
     },
     'text-shadow text-shadow-xs text-shadow-none text-shadow-opacity-5 text-shadow-opacity-10',
     'mix-blend-multiply',
     'transition',
     'transform',
-    'ramp-in',
+    'ramp-in'
   ],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     fontSize: {
-      'xs': '.75rem',
-      'sm': '.875rem',
-      'tiny': '.875rem',
-      'base': '1rem',
-      'lg': '1.125rem',
-      'xl': '1.25rem',
+      xs: '.75rem',
+      sm: '.875rem',
+      tiny: '.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
       '2xl': '1.5rem',
       '3xl': '1.875rem',
       '4xl': '2.25rem',
       '5xl': '3rem',
       '6xl': '4rem',
-      '7xl': '5rem',
+      '7xl': '5rem'
     },
     zIndex: (() => {
-      const obj = { 1: '1', 0: '0', 999: '999', 9999: '9999', 99999: '99999', 999999: '999999' }
-      for (let i = 0; i < 11; i++) { obj[`${i * 10}`] = `${i * 10}` }
+      const obj = {
+        1: '1',
+        0: '0',
+        999: '999',
+        9999: '9999',
+        99999: '99999',
+        999999: '999999',
+        modal: '9999999'
+      }
+      for (let i = 0; i < 11; i++) {
+        obj[`${i * 10}`] = `${i * 10}`
+      }
       return obj
     })(),
     colors: {
@@ -195,29 +205,30 @@ module.exports = {
       sm: '0 0 5px rgba(0, 0, 0, var(--text-shadow-opacity))',
       md: '0 0 10px rgba(0, 0, 0, var(--text-shadow-opacity))',
       lg: '0 0 20px rgba(0, 0, 0, var(--text-shadow-opacity))',
-      xl: '0 0 30px rgba(0, 0, 0, var(--text-shadow-opacity))',
+      xl: '0 0 30px rgba(0, 0, 0, var(--text-shadow-opacity))'
+    },
+    screens: {
+      xs: '480px',
+      ...defaultTheme.screens
     },
     extend: {
       fontFamily: {
         sans: ['work-sans', 'sans-serif'],
         display: ['adelle-sans', 'sans-serif']
       },
-      screens: {
-        xs: '480px'
-      },
       opacity: {
-        '3': '.03',
-        '2': '.02',
+        3: '.03',
+        2: '.02',
         '025': '.025',
-        '1': '.01',
+        1: '.01',
         '013': '.013'
       },
       scale: {
-        '70': '.7',
-        '80': '.8',
-        '98': '.98',
-        '97': '.97',
-        '103': '1.03'
+        70: '.7',
+        80: '.8',
+        98: '.98',
+        97: '.97',
+        103: '1.03'
       },
       translate: {
         '1/7': '14.2857143%',
@@ -228,11 +239,11 @@ module.exports = {
         '6/7': '85.7142857%'
       },
       width: {
-        '150': '150%',
-        '200': '200%'
+        150: '150%',
+        200: '200%'
       },
       minWidth: {
-        '0': '0',
+        0: '0',
         ...minHeight,
         '1/4': '25%',
         '1/2': '50%',
@@ -246,7 +257,7 @@ module.exports = {
         'site-lg': '1200px',
         'site-xl': '1400px'
       },
-      rounded: {
+      borderRadius: {
         xs: '.03em',
         sm: '.13em'
       },
@@ -257,8 +268,16 @@ module.exports = {
       keyframes: {
         'fade-in-down': {
           '0%': { display: 'none', transform: 'translateY(-100%)', opacity: 0 },
-          '1%': { display: 'block', transform: 'translateY(-100%)', opacity: 0 },
-          '70%': { display: 'block', transform: 'translateY(-30%)', opacity: 0.3 },
+          '1%': {
+            display: 'block',
+            transform: 'translateY(-100%)',
+            opacity: 0
+          },
+          '70%': {
+            display: 'block',
+            transform: 'translateY(-30%)',
+            opacity: 0.3
+          },
           '100%': { transform: 'translateY(0)', opacity: 1 }
         }
       },
@@ -284,11 +303,10 @@ module.exports = {
         {
           'text-shadow': (value) => ({
             textShadow: value
-          }),
+          })
         },
         { values: theme('textShadow') }
       )
     })
-    
   ]
 }

@@ -181,3 +181,6 @@ export const isJsonObject = (item: any) => {
 
   return false;
 }
+
+export const asyncDelay = (ms: number) =>
+  new Promise(resolve => setTimeout(() => resolve(null), ms))

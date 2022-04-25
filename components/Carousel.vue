@@ -33,8 +33,8 @@
 
 <script>
 // import Flickity from 'vue-flickity';
-
 import Vue from 'vue'
+import { asyncDelay } from '~/utils/funcs'
 const defaultFlickityOptions = {
   pageDots: false,
   contain: true,
@@ -61,13 +61,35 @@ export default Vue.extend({
       }
     }
   },
+  mounted () {
+    this.initialResize().catch(console.error)
+
+  },
   methods: {
     next () {
       this.$refs.carousel.next();
     },
-
     previous () {
       this.$refs.carousel.previous();
+    },
+    async initialResize () {
+      let done = false;
+      for (let i = 0; i < 10 && !done; i++) {
+        await (async () => {
+          await asyncDelay(250);
+          console.log(i)
+          if (!this.$slots?.default?.length || !this.$refs.carousel) { return }
+          const carouselHeight = this.$refs.carousel._vnode.elm.offsetHeight;
+          const shortestSlideHeight = this.$slots.default.map(vNode => vNode.elm.offsetWidth).sort((a, b) => a < b ? 1 : a > b ? -1 : 0).pop();
+          if ((carouselHeight + 10) < shortestSlideHeight) {
+            return this.$refs.carousel.resize()
+          }
+          done = true
+        })();
+        if (done || i === 9) {
+          return
+        }
+      }
     }
   }
 })

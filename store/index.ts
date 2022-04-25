@@ -1,4 +1,6 @@
+import qs from "qs";
 import { CollectionType, EntryType } from "~/models/entry.model";
+import { parseResponse, populate } from '~/static/axiosDefaults'
 
 export const state = () => ({})
 
@@ -75,6 +77,64 @@ export const actions: any = {
                   if (i === collectionTypes.length - 1) {
                         return '404'
                   }
+            }
+      },
+      async getEntryUpdates({ }, props: { path: string, slug?: string, params?: { [key: string]: any } }) {
+            const { slug = null } = props;
+            let { params = {}, path } = props;
+            console.log({ slug, path })
+            if (!path) {
+                  return
+            }
+            if (path?.indexOf('/') === 0) {
+                  path = path.substring(1, path.length)
+            }
+            try {
+                  if (Object.keys(params).length === 0) {
+                        params = {}
+                  }
+            } catch {
+                  params = {}
+            }
+            try {
+                  if (slug) {
+                        if (!params.filters) {
+                              params.filters = {}
+                        }
+                        params.filters.slug = slug
+                  }
+                  const callParams = {
+                        ...(params ? params : {})
+                  }
+                  const contentEntry = slug
+                        ? await this.$content(path, slug)
+                              .fetch()
+                        : await this.$content(path)
+                              .fetch();
+                  const queryString = qs.stringify({
+                        ...callParams,
+                        fields: ['updatedAt']
+                  }, { encodeValuesOnly: true });
+                  console.log('should fetch: ', `${process.env.apiUrl}/api/${path}?${queryString}`)
+                  const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`).then((res: any) => {
+                        const entry = Array.isArray(res.data) && res.data[0]?.attributes
+                              ? res.data[0]?.attributes
+                              : res.data?.attributes;
+                        const contentEntryUpdated = new Date(contentEntry?.updatedAt || 0).getTime();
+                        const updatedAt = new Date(entry?.updatedAt || Date.now()).getTime();
+                        return !contentEntry?.updatedAt || updatedAt > contentEntryUpdated
+                  });
+                  callParams.populate = populate;
+                  if (shouldFetchUpdates) {
+                        const queryString = qs.stringify(callParams, { encodeValuesOnly: true })
+                        console.log('get entry: ', `${process.env.apiUrl}/api/${path}?${queryString}`)
+                        return this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`)
+                              .then((res: any) => res?.data ? parseResponse(Array.isArray(res.data) ? res.data[0] : res.data) : {})
+                  }
+                  return {}
+            } catch (err) {
+                  console.error(err);
+                  return {}
             }
       }
 }

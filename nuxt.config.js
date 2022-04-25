@@ -25,6 +25,7 @@ export default {
       { rel: 'icon', type: 'image', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
       { rel: 'stylesheet', defer: true, href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?vcqm1a' },
+      { src: `https://www.googletagmanager.com/gtag/js?id=${gaId}`, async: true, type: 'text/partytown' },
     ]
   },
 
@@ -75,12 +76,20 @@ export default {
   modules: [
     '@nuxtjs/axios',
     'nuxt-vuex-localstorage',
-    '@nuxt/content'
+    '@nuxt/content',
+    '@nuxtjs/proxy',
+    '@nuxtjs/partytown'
   ],
+
+  partytown: {
+    forward: ['dataLayer.push']
+  },
+
   googleAnalytics: {
     id: gaId,
     layer: 'dataLayer',
     pageTracking: true,
+    disableScriptLoader: true,
     debug: {
       enabled: false,
       trace: false,
@@ -105,11 +114,29 @@ export default {
     mapsApiKey: 'AIzaSyAKlNQvaXSHG-CQietQjo0RRtvVNJie30U',
     baseUrl: process.env.BASE_URL || 'http://localhost:3001',
     apiUrl
-
+  },
+  axios: {
+    baseURL: apiUrl,
+    proxy: true,
+    proxyHeaders: false,
+    headers: {
+      common: {
+        Accept: 'application/json, text/plain, */*',
+      },
+    },
+  },
+  proxy: {
+    '/api/': {
+      target: apiUrl,
+      pathRewrite: { '^/api/': '' },
+    },
   },
   content: {
     liveEdit: false,
-    nestedProperties: true
+    nestedProperties: [
+      ...['supplier', ...collectionTypes].map(c => `${c}.slug`)
+    ],
+    fullTextSearchFields: ['title', 'slug', 'content', 'description', 'fileContent']
   },
   generate: {
     async routes () {

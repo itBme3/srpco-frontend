@@ -18,6 +18,7 @@
         :media="entry.file"
         card-style="mediaLeft"
         :link="collectionType + '/' + entry.slug"
+        :sow-excerpt="true"
         media-ratio="16:9"
         media-classes="shadow-2xl rounded my-2 ml-2 mr-4"
         class="col-span-12"

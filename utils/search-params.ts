@@ -11,17 +11,17 @@ export const strapiFilterParams = (queryParams: { [key: string]: any }, collecti
   } = queryParams
   const query: { [key: string]: any } = {
     pagination: { limit, start },
-    sort: Array.isArray(sort) ? sort : [sort],
+    sort: Array.isArray(sort) ? sort[0] : sort,
     filters: {
       ...constantFilters,
       supplier: {
-        slug: { [Array.isArray(supplier) ? 'in' : 'eq']: supplier }
+        slug: { [Array.isArray(supplier) ? '$in' : '$eq']: supplier }
       },
       suppliers: {
-        slug: { [Array.isArray(suppliers) ? 'in' : 'eq']: suppliers }
+        slug: { [Array.isArray(suppliers) ? '$in' : '$eq']: suppliers }
       },
       resourceType: {
-        [Array.isArray(type) ? 'containsi' : 'eq']: type
+        [Array.isArray(type) ? '$contains' : '$eq']: type
       }
     }
   }
@@ -34,26 +34,29 @@ export const strapiFilterParams = (queryParams: { [key: string]: any }, collecti
       || (!['suppliers', 'supplier'].includes(key) && ((typeof query.filters[key][operator] !== 'string' && !Array.isArray(query.filters[key][operator])) || !query.filters[key][operator]?.length))
     ) {
       delete query.filters[key]
+    } else {
+      query.filters[`${key}.slug`] = query.filters[key].slug
     }
   }
-  if (typeof q !== 'string' || q.length === 0) {
-    return query
-  }
-  const queryFilters = query.filters
-  const searchFields = ['title', 'description', 'slug']
-  if (collection === 'datasheets') {
-    searchFields.push('fileContent')
-  }
-  if (['gaskets', 'datasheets', 'resources', 'suppliers'].includes(collection)) {
-    searchFields.push('content')
-  }
+  query.search = typeof q !== 'string' || q.length === 0 ? '' : q
 
-  return {
-    ...query,
-    filters: {
-      or: searchFields.reduce((acc: any[], key: string) => {
-        return [...acc, { ...queryFilters, [key]: { containsi: q } }]
-      }, [])
-    }
-  }
+  return query
+
+  // const queryFilters = query.filters
+  // const searchFields = ['title', 'description', 'slug']
+  // if (collection === 'datasheets') {
+  //   searchFields.push('fileContent')
+  // }
+  // if (['gaskets', 'datasheets', 'resources', 'suppliers'].includes(collection)) {
+  //   searchFields.push('content')
+  // }
+
+  // return {
+  //   ...query,
+  //   filters: {
+  //     or: searchFields.reduce((acc: any[], key: string) => {
+  //       return [...acc, { ...queryFilters, [key]: { containsi: q } }]
+  //     }, [])
+  //   }
+  // }
 }

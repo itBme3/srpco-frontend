@@ -1,8 +1,18 @@
 <template>
   <div class="login">
-
+    <template v-if="user && user.email">
+      <p class="mt-12 text-center">
+        <small class="opacity-30 block mb-2">logged in:</small> {{ user.email }}
+      </p>
+      <gButton
+        class="bg-gray-900 hover:bg-gray-800 mt-10 mx-auto w-auto px-3 text-gray-200"
+        @click="logoutUser"
+      >
+        logout
+      </gButton>
+    </template>
     <Form
-      v-if="loaded"
+      v-else-if="loaded"
       :schema="formSchema"
       :model="model"
       button-text="Login"
@@ -43,6 +53,11 @@ export default Vue.extend({
       }
     }
   },
+  computed: {
+    user () {
+      return this.$store.state.sessionStorage?.user || null
+    }
+  },
   mounted () {
     this.loaded = true
   },
@@ -53,23 +68,21 @@ export default Vue.extend({
         password,
       })
         .then(response => {
-          // console.log('User profile', response.data.user);
-          // console.log('User token', response.data.jwt);
           const { user, jwt } = response.data;
-          // sessionStorage.setItem('jwt', response.data.jwt);
-          // sessionStorage.setItem('user', JSON.stringify(response.data.user));
           return this.$axios.get(`${process.env.apiUrl}/api/users/me`, {
             headers: {
               Authorization: `Bearer ${response.data.jwt}`
             }
           }).then(res => {
             return this.$store.commit('sessionStorage/setUser', { user, jwt, isAdmin: res?.data?.role?.name === 'Admin' });
-            // return sessionStorage.setItem('isAdmin', res?.data?.role?.name === 'Admin');
           }).catch(err => alert(err.message))
         })
         .catch(error => {
           alert('An error occurred:', error);
         });
+    },
+    logoutUser () {
+      this.$store.commit('sessionStorage/resetUser')
     }
   }
 })

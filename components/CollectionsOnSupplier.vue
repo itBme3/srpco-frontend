@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="!!activeCollections && !!activeCollections.length"
+    v-if="activeCollections.length"
     ref="collections"
     class="collections-on-supplier w-full"
   >
@@ -33,6 +33,7 @@
         :infinite-scroll="true"
         :search-bar="true"
         :update-url="false"
+        sort="title:desc"
         card-style="mediaLeft"
         :classes="{
           card: 'col-span-12 sm:col-span-6'
@@ -56,14 +57,15 @@ export default Vue.extend({
     }
   },
   data () {
+    const entrySlug = `${this.entry.slug}`
     return {
       activeCollections: [],
       haveFetched: [],
       showingCollection: null,
       supplierCollections,
       collectionFilters: {
-        gaskets: { suppliers: { slug: { eq: this.entry.slug } } },
-        datasheets: { supplier: { slug: { eq: this.entry.slug } } },
+        gaskets: { 'suppliers.slug': { $contains: entrySlug } },
+        datasheets: { 'supplier.slug': { $eq: entrySlug } },
       }
     }
   },
@@ -104,13 +106,18 @@ export default Vue.extend({
 
     },
     async getEligibleCollections () {
-      await Promise.all(['gaskets', 'datasheets'].map(collectionType =>
-        this.$content(collectionType)
-          .where({ [collectionType === 'datasheets' ? 'supplier.slug' : 'suppliers.slug']: this.entry.slug })
+      this.activeCollections = await Promise.all(['gaskets', 'datasheets'].map(collectionType => {
+        console.log(collectionType, this.collectionFilters[collectionType])
+        return this.$content(collectionType)
+          .where(this.collectionFilters[collectionType])
+          .only(['slug'])
           .limit(1)
           .fetch()
-          .then(res => res.length ? this.activeCollections.push(collectionType) : '')
-      ))
+          .then(res => {
+            console.log(res)
+            return res.length ? collectionType : null
+          })
+      })).then(res => res.filter(c => !!c))
       return this.activeCollections;
     },
     scrollToCollections: _.debounce(function () {

@@ -4,6 +4,7 @@
     class="single-entry service"
   >
     <Heading
+      v-if="$route.path.split('/').length > 2"
       :title="page.title"
       :description="page.description"
       heading-type="page"
@@ -20,10 +21,11 @@
       :mute="true"
     />
     <div
-      v-if="page !== null && typeof page.content === 'string' && content !== null"
+      v-if="page !== null && typeof page.content === 'string'"
       class="page-content"
       v-html="page.content"
     />
+
   </div>
 </template>
 
@@ -59,3 +61,27 @@ export default Vue.extend({
 })
 </script>
 
+<style lang="scss">
+.single-entry.service {
+  @apply max-w-4xl mx-auto;
+}
+.collection {
+  &.services {
+    .single-entry {
+      + .heading {
+        max-width: 780px !important;
+        margin-right: auto;
+        margin-left: auto;
+        .heading-title {
+          display: none;
+        }
+        + .blocks {
+          max-width: 780px !important;
+          margin-right: auto;
+          margin-left: auto;
+        }
+      }
+    }
+  }
+}
+</style>
