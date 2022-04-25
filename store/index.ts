@@ -5,25 +5,31 @@ import { parseResponse, populate } from '~/static/axiosDefaults'
 export const state = () => ({})
 
 export const actions: any = {
-      async getEntry({ dispatch }: any, props: { path: string, redirect?: Function | null }): Promise<{ [key: string]: any } | string | null> {
-            const { path, redirect = null } = props;
-            const collectionTypes: { [key: string]: CollectionType } = {};
-            Object.values(CollectionType).forEach((key: CollectionType) => {
-                  collectionTypes[`${key}`] = key
-            }, {});
-            const pathSegments = path.replace('/', '').split('/')
-            const collectionType = Object.keys(collectionTypes).includes(pathSegments[0])
-                  ? collectionTypes[pathSegments[0]]
-                  : CollectionType.PAGES;
+      async getEntry({ dispatch }: any, props: { route: any, only?: string[] }): Promise<{ [key: string]: any } | string> {
+            const { route = null, only = null } = props;
+            if (!route) {
+                  throw new Error('route was not defined')
+            }
+            const collectionTypes: CollectionType[] = Object.values(CollectionType);
+            const pathSegments = route.path.replace('/', '').split('/')
+            const collectionType = collectionTypes.includes(route?.slug)
+                  ? route.slug
+                  : collectionTypes.includes(route?.collection)
+                        ? route.collection
+                        : collectionTypes.includes(pathSegments[0])
+                              ? pathSegments[0]
+                              : CollectionType.PAGES;
             const entryType = collectionType[collectionType.length - 1] === 's' ? collectionType.slice(0, collectionType.length - 1) : collectionType;
-            const slug = path.split('/').pop();
+            const slug = route?.params?.slug ? route.params.slug : route.path.split('/').pop();
             let entry: any;
             if (slug === collectionType) {
                   entry = await dispatch('getCollectionPage', collectionType).catch(console.error)
             } else {
-                  entry = await this.$content(collectionType)
+                  let entryCall = this.$content(collectionType)
                         .where({ slug: slug })
-                        .limit(1)
+                        .limit(1);
+                  if (only?.length) { entryCall = entryCall.only(only) }
+                  entry = await entryCall
                         .fetch()
                         .then((e: any) => Array.isArray(e) ? e[0] : null)
             }
@@ -31,12 +37,6 @@ export const actions: any = {
                   return entry
             } else {
                   return await dispatch('getRedirectPath', { entryType, slug })
-                        .then((path: any) => {
-                              if (typeof path === 'string' && typeof redirect === 'function') {
-                                    return redirect(302, path)
-                              }
-                              return path
-                        })
                         .catch((err: any) => {
                               console.error(err);
                               return null;
@@ -46,6 +46,20 @@ export const actions: any = {
       async getCollectionPage({ }, collectionType: CollectionType) {
             return await this.$content(`${collectionType}-collection`).fetch()
                   .catch(console.error)
+      },
+      async checkShouldRedirect({ dispatch }: any, { route }: any): Promise<string | false> {
+            const old = {
+                  resources: ['posts', 'news']
+            };
+            console.log({ route })
+            if (old.resources.includes(route?.params?.slug)) {
+                  return '/resources'
+            }
+            if (old.resources.includes(route?.params?.collection)) {
+                  return `/resources/${route.params.slug}`
+            }
+            const redirectPath = await dispatch('getEntry', { only: ['slug', 'collectionType', 'type'], route });
+            return typeof redirectPath === 'string' ? redirectPath : false
       },
       async getRedirectPath({ }, { entryType, slug }: { entryType: EntryType, slug: string }) {
             const _collectionTypes = Object.values(CollectionType).map(t => `${t}`);

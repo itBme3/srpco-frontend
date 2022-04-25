@@ -16,7 +16,7 @@
       />
     </gButton>
     <nav name="main navigation">
-      <template :v-if="!!navigation && navigation.links && navigation.links[0] && navigation.links[0].link">
+      <template :v-if="navLinks && navLinks[0] && navLinks[0].link">
         <!-- <div
           class="overlay absolute -inset-1 bg-transparent"
           :class="{
@@ -28,7 +28,7 @@
         /> -->
 
         <div
-          v-for="navLink in navigation.links"
+          v-for="navLink in navLinks"
           :key="navLink.id"
           :class="{
             'nav-link-item': true,
@@ -132,6 +132,11 @@ export default Vue.extend({
   },
   async fetch () {
     this.navigation = await this.$content('navigation').fetch()
+  },
+  computed: {
+    navLinks () {
+      return Array.isArray(this.navigation?.links) ? this.navigation?.links : []
+    }
   },
   watch: {
     '$route.fullPath' () {

@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="footer-preferred-converter-carousel">
       <h3 class="block-title text-red-400">
-        Your Preferred Converter For The Industry's Leading Suppliers
+        Preferred Converter For The Industry's Leading Suppliers
       </h3>
       <Carousel
         v-if="preferredConverter.length"

@@ -38,7 +38,7 @@ export default Vue.extend({
   scrollToTop: true,
   async asyncData ({ route, params, redirect, store }) {
     const slug = params.slug
-    const page = await store.dispatch('getEntry', { path: route.path, redirect })
+    const page = await store.dispatch('getEntry', { route })
     return { slug, page, redirect }
   },
   head () {
@@ -53,7 +53,7 @@ export default Vue.extend({
     $route: {
       immediate: false,
       async handler () {
-        this.page = await store.dispatch('getEntry', { path: this.$route.path, redirect: this.redirect })
+        this.page = await store.dispatch('getEntry', { route: this.$route })
         return this.page;
       }
     }

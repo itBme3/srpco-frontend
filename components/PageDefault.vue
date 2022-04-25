@@ -60,8 +60,8 @@
     </div>
 
     <EntrySideBar
-      :v-if="!!page && ['gasket'].includes(entryType)"
-      :entry="page"
+      :v-if="!!page && typeof page !== 'string' && ['gasket'].includes(entryType)"
+      :entry="typeof page === 'object' ? page : {}"
     />
 
     <NextPreviousEntries v-if="isSingleEntry && ['solution', 'resource'].includes(entryType)" />

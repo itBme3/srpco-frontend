@@ -115,6 +115,9 @@ export default {
     baseUrl: process.env.BASE_URL || 'http://localhost:3001',
     apiUrl
   },
+  router: {
+    middleware: 'redirecting'
+  },
   axios: {
     baseURL: apiUrl,
     proxy: true,
@@ -139,6 +142,7 @@ export default {
     fullTextSearchFields: ['title', 'slug', 'content', 'description', 'fileContent']
   },
   generate: {
+    crawler: false,
     async routes () {
       const { $content } = require('@nuxt/content')
       const routes = [
@@ -150,7 +154,6 @@ export default {
         entries.forEach(e => routes.push(`${c === 'pages' ? `/${e.slug}` : `/${c}/${e.slug}`}`))
         
       }))
-      console.log({routes})
       return routes
     }
   }
