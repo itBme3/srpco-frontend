@@ -55,7 +55,17 @@ const writeFile = (path, data) => {
       })
 }
 
+const ensureContentDirectory = async () => {
+      const contentFolderMissing = !(await readdir('.'))
+            .includes('content');
+      if (!contentFolderMissing) { return true }
+      (await mkdir(path.join('content')))
+      return true
+}
+
+
 const getDirectories = async () => {
+      await ensureContentDirectory();
       return (await readdir('content', { withFileTypes: true }))
             .filter(dirent => dirent.isDirectory())
             .map(dirent => {
