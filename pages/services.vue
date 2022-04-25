@@ -10,15 +10,15 @@
     <NuxtChild :key="$route.fullPath" />
 
     <Heading
-      v-if="page !== null && page !== undefined"
-      :title="![undefined, null].includes(page) ? page.title : null"
+      v-if="![undefined, null].includes(page)"
+      :title="![undefined, null].includes(page) ? `${page.title}:` : null"
       :description="![undefined, null].includes(page) ? page.description : null"
       :media="![undefined, null].includes(page) ? page.media : null"
       :breadcrumbs="false"
       heading-type="collection"
     />
     <div
-      v-if="page !== null && page !== undefined && typeof page.blocks !== undefined && page.blocks.length > 0"
+      v-if="![undefined, null].includes(page) && typeof page.blocks !== undefined && page.blocks.length > 0"
       class="blocks"
     >
       <Block
@@ -71,8 +71,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-.collection.services {
-}
+// .collection.services {
+// }
 .card-link {
   &.nuxt-link-exact-active {
     @apply hidden;

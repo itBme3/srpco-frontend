@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="![null, undefined].includes(page)"
-    class="single-entry service"
+    class="single-entry service mb-10"
   >
     <Heading
       v-if="$route.path.split('/').length > 2"
@@ -72,9 +72,6 @@ export default Vue.extend({
         max-width: 780px !important;
         margin-right: auto;
         margin-left: auto;
-        .heading-title {
-          display: none;
-        }
         + .blocks {
           max-width: 780px !important;
           margin-right: auto;

@@ -60,10 +60,9 @@ export default Vue.extend({
   data () {
     return {
       // origin: null,
-      videoId: !!this.videoId && this.videoId !== null ? this.videoId
-        : typeof this.src === 'string' && typeof this?.$youtube !== 'undefined'
-          ? this.src.split('/').pop().split('?')[0]
-          : null,
+      videoId: typeof this.src === 'string' && this.src.length
+        ? this.src.split('/').pop().split('?')[0]
+        : null,
       videoHeight: 'auto',
       host: 'https://www.youtube-nocookie.com',
       embedSrc: null,

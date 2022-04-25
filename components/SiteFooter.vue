@@ -7,6 +7,13 @@
       <Carousel
         v-if="preferredConverter.length"
         class="w-full"
+        :options="{
+          autoPlay: true,
+          initialIndex: preferredConverter.length / 2,
+          groupCells: '40%',
+          selectedAttraction: 0.02,
+          friction: 0.20
+        }"
       >
         <nuxt-link
           v-for="entry in preferredConverter"
@@ -138,21 +145,21 @@ export default Vue.extend({
 .footer {
   @apply flex flex-wrap mt-16;
   .footer-preferred-converter-carousel {
-    @apply w-full text-center py-12 px-4 mb-8 bg-[rgba(5,11,20,.71)];
+    @apply w-full text-center py-20 px-0 mb-8;
     .block-title {
       @apply italic max-w-2xl leading-10 m-auto mb-8 font-black font-display tracking-widest block mx-auto;
     }
     .carousel-wrapper {
-      padding: 0 1rem;
+      @apply px-10;
     }
     .slide {
       @apply p-0 h-auto py-12 w-28 flex flex-col text-center items-center content-start;
 
       .media {
-        @apply w-20 bg-white border-[.5rem] border-gray-300 m-auto mb-2 transform scale-100 transition-all ease-in-out duration-150;
-        @apply h-20 #{!important};
+        @apply w-16 bg-white border-[.3rem] border-gray-300 m-auto mb-2 transform scale-100 transition-all ease-in-out duration-150;
+        @apply h-16 #{!important};
         @apply group-hover:border-white group-hover:scale-103;
-        box-shadow: 0 0 40px rgba(255, 255, 255, 0.3),
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.3),
           0 -1px 10px rgba(255, 255, 255, 0.1);
       }
       small {
@@ -161,9 +168,17 @@ export default Vue.extend({
       }
     }
     .next-previous-button {
-      @apply shadow-gray-900/60 bg-[rgba(5,11,20,.71)] right-4 text-gray-300 hover:text-gray-50;
-      &.previous {
-        @apply left-4;
+      @apply px-8 bg-transparent;
+      i {
+        @apply rounded-full bg-transparent text-gray-300 hover:bg-gray-800 hover:text-white p-2 shadow-lg;
+        &:before {
+          @apply top-0;
+        }
+      }
+      &.next {
+        &:before {
+          @apply left-[.075rem];
+        }
       }
     }
   }

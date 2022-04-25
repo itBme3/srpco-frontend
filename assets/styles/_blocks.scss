@@ -129,7 +129,7 @@
       }
     }
     .entry-sidebar {
-      @apply max-w-[400px] min-w-[200px] bg-opacity-60 bg-gray-900;
+      @apply max-w-[400px] min-w-[200px];
       @media screen and (min-width: 1024px) {
         @apply w-[30%];
       }
@@ -137,17 +137,25 @@
   }
   &.solution {
     .heading {
-      @apply max-w-4xl mx-auto #{!important};
+      @apply max-w-2xl mx-auto #{!important};
       .heading-content {
-        @apply relative py-10;
+        @apply relative mt-4;
         .heading-text-content {
-          @apply z-10 relative p-8;
+          @apply z-10 relative;
           > * {
             @apply text-white;
           }
         }
+      }
+      &.has-media {
+        .heading-content {
+          @apply py-10;
+          .heading-text-content {
+            @apply p-8;
+          }
+        }
         .heading-media {
-          @apply absolute w-full inset-0 opacity-10 z-0 max-h-full;
+          @apply absolute w-full inset-0 opacity-30 z-0 max-h-full;
         }
       }
     }
@@ -157,11 +165,13 @@
         &[class*="block-solutions"] {
           @apply max-w-prose mx-auto p-3 bg-transparent shadow-none w-full overflow-visible;
           .block-content {
-            @apply p-7 rounded-md bg-gray-800 bg-opacity-50 shadow-xl w-full;
+            @apply p-7 rounded-b-md rounded-t-sm bg-gray-800 bg-opacity-50 shadow-xl w-full;
+            border-top: 2px solid var(--block-color);
           }
         }
         .block-title {
           @apply mb-0;
+          color: var(--block-color);
           &:after {
             @apply relative;
             content: ":";
@@ -169,24 +179,16 @@
           }
         }
         &.block-solutions-challenge {
-          .block-title {
-            @apply text-red-500;
-          }
+          --block-color: rgb(244 63 94 / var(--tw-text-opacity));
         }
         &.block-solutions-solution {
-          .block-title {
-            @apply text-green-500;
-          }
+          --block-color: rgb(34 197 94 / var(--tw-text-opacity));
         }
         &.block-solutions-results {
-          .block-title {
-            @apply text-blue-500;
-          }
+          --block-color: rgb(59 130 246 / var(--tw-text-opacity));
         }
         &.block-solutions-used {
-          .block-title {
-            @apply text-cyan-600;
-          }
+          --block-color: rgb(55 176 186 / var(--tw-text-opacity));
         }
       }
     }

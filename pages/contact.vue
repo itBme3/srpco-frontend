@@ -1,6 +1,6 @@
 <template>
   <div class="page contact">
-    <h1 class="text-center">Contact Us</h1>
+    <h1 class="text-center pb-8 pt-14">Contact Us</h1>
     <Form
       class="mx-auto max-w-lg"
       :schema="formSchema"

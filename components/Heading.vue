@@ -104,10 +104,11 @@ export default Vue.extend({
     @apply block sm:flex flex-row items-center justify-start w-full;
   }
   .heading-text-content {
-    @apply px-2 my-0 h-full flex w-full sm:order-first order-last flex-col content-start relative z-1 max-w-prose;
+    @apply px-2 my-0 h-full flex w-full sm:order-first order-last flex-col content-start relative z-1 max-w-[75ch];
+    text-shadow: 3px 4px 14px rgba(7, 14, 32, 0.6), 0 0 60px rgb(7 14 26);
   }
   .heading-title {
-    @apply text-gray-600 mb-2 font-black;
+    @apply text-gray-200 mb-2 font-black;
   }
   .heading-description {
     @apply text-base font-normal tracking-wide text-gray-500 leading-snug mt-4 font-medium;
@@ -122,7 +123,7 @@ export default Vue.extend({
     }
   }
   .heading-breadcrumbs {
-    @apply justify-start w-full sm:mt-2;
+    @apply justify-start w-full mt-2 mb-3;
   }
   .heading-page {
     .heading-title {

@@ -4,11 +4,11 @@
     :class="{
       'has-more-links' : Array.isArray(moreLinks) && moreLinks.length > 0,
       'has-link' : hasLink,
-      'no-media': [undefined, null].includes(media) && [undefined, null].includes(youtube),
+      'no-media': ([undefined, null].includes(media) || typeof media.url !== 'string' || !media.url.length) && ([undefined, null].includes(youtube) || !youtube.length),
       'has-text': typeof text === 'string' && text.length > 0,
       'has-title': typeof title === 'string' && title.length > 0,
       'has-video': typeof youtube === 'string' && youtube.length > 0,
-      'has-pdf-thumb': !!media && media.url === 'string' && media.url.includes('.pdf') && !showPdfPreview,
+      'has-pdf-thumb': !!media && media.url === 'string' && media.url.includes('.pdf') && !showPdfPreview
     }"
     @click="(e) => $emit('click', e)"
   >
@@ -51,7 +51,7 @@
     >
       <gTag
         v-if="title && title.length > 0"
-        :tag-name="cardStyle === 'overlay' ? 'h2' : 'h3'"
+        :tag-name="titleTag ? titleTag : cardStyle === 'overlay' ? 'h3' : 'h4'"
         :class="{ [titleClasses]: titleClasses.length > 0 }"
         class="card-title"
       >
@@ -156,6 +156,10 @@ export default Vue.extend({
     lazy: {
       type: Boolean,
       default: false
+    },
+    titleTag: {
+      type: String,
+      default: null
     }
   },
   computed: {
@@ -282,30 +286,26 @@ export default Vue.extend({
       @apply w-full;
     }
   }
-  .card-style-media-left {
-    @apply items-center content-between;
-    .card-content {
-      @apply mr-auto w-2/3;
+  &:not(.no-media) {
+    .card-style-media-left {
+      @apply items-center content-between;
+      .card-content {
+        @apply mr-auto w-2/3;
+      }
+      .card-media {
+        @apply mr-4 sm:mr-6 w-[calc(33.333%-.75rem)];
+      }
     }
-    .card-media {
-      @apply mr-4 sm:mr-6 w-[calc(33.333%-.75rem)];
+    .card-style-media-right {
+      @apply items-center content-between;
+      .card-content {
+        @apply mr-auto w-2/3 text-center;
+      }
+      .card-media {
+        @apply ml-4 sm:ml-6 order-2 w-1/3;
+      }
     }
   }
-  .card-style-media-right {
-    @apply items-center content-between;
-    .card-content {
-      @apply mr-auto w-2/3 text-center;
-    }
-    .card-media {
-      @apply ml-4 sm:ml-6 order-2 w-1/3;
-    }
-  }
-  // .card-style-media-left,
-  // .card-style-media-right {
-  //   .card-media {
-  //     @apply h-full #{!important};
-  //   }
-  // }
   &.has-text {
     [class*='card-style'] {
       @apply flex-wrap;
@@ -345,13 +345,16 @@ export default Vue.extend({
     }
   }
 }
-.entries {
-  &.datasheets,
-  &.gaskets {
-    .card-style-media-left,
-    .card-style-media-right {
-      .card-media {
-        @apply max-w-[80px];
+.collection-entries {
+  .card {
+    &.datasheet,
+    &.gasket {
+      .card-style-media-left,
+      .card-style-media-right {
+        @apply p-4;
+        .card-media {
+          @apply max-w-[80px] rounded-md;
+        }
       }
     }
   }

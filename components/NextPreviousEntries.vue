@@ -4,24 +4,23 @@
     class="next-previous-entries flex flex-wrap sm:flex-nowrap space-y-3 sm:space-y-0 sm:space-x-2"
   >
 
-    <Card
-      v-if="!!previousEntry"
-      class="previous-entry w-full sm:w-1/2"
-      :title="previousEntry.title"
-      :media="previousEntry.media"
-      :text="previousEntry.description"
-      :link="'/' + collectionType + '/' + previousEntry.slug"
-      style="media-right"
-    />
-    <Card
-      v-if="!!nextEntry"
-      class="next-entry w-full sm:w-1/2"
-      :title="nextEntry.title"
-      :media="nextEntry.media"
-      :text="nextEntry.description"
-      :link="'/' + collectionType + '/' + nextEntry.slug"
-      style="media-left"
-    />
+    <template v-for="direction in ['previous', 'next']">
+      <Card
+        v-if="(direction === 'next' && !!nextEntry) || (direction === 'previous' && !!previousEntry)"
+        :key="direction"
+        class="next-entry w-full sm:w-1/2 p-3"
+        :title="direction === 'next' ? nextEntry.title : previousEntry.title"
+        :media="direction === 'next' ? nextEntry.media : previousEntry.media"
+        :text="direction === 'next' ? nextEntry.description : previousEntry.description"
+        :link="'/' + collectionType + '/' + (direction === 'next' ? nextEntry.slug : previousEntry.slug)"
+        title-tag="h5"
+        :classes="{
+          title: 'my-auto font-medium text-base',
+          content: 'flex flex-col content-center'
+        }"
+        :card-style="direction === 'previous' ? 'mediaLeft' : 'mediaRight'"
+      />
+    </template>
   </div>
 </template>
 
@@ -44,3 +43,9 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.next-previous-entries {
+  @apply border-4 border-dashed border-x-0 border-b-0 border-gray-800 my-14 mx-8 py-14;
+}
+</style>
