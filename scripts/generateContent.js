@@ -7,7 +7,6 @@ const apiUrl = process.env.NODE_ENV === 'production' && typeof process.env.API_U
   ? `https://${process.env.NGROK}.ngrok.io` 
     : 'http://localhost:1337';
 
-console.log({apiUrl})
 const { collectionTypes, populate, parseResponse } = require('../static/axiosDefaults')
 
 const getEntries = async (collectionType, params = {}) => {
@@ -96,7 +95,6 @@ const generateContent = async () => {
                         })
                   }
             }
-            console.log({generated: outputPath})
             return await writeFile(outputPath, data)
       }))
 }

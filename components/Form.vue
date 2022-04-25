@@ -106,7 +106,6 @@ export default Vue.extend({
         this.formState = 'ready'
         this.errorMessage = null
       }
-      console.log(e);
     }
   }
 })

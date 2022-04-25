@@ -118,7 +118,6 @@ export default Vue.extend({
     const slug = !!!initialSlug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : initialSlug;
 
     this.$store.dispatch('getEntryUpdates', { slug: this.isSingleEntry ? slug : null, path: !!collectionType ? collectionType : initialSlug }).then((res) => {
-      console.log({ res });
       try {
         this.page = {
           ...this.page,

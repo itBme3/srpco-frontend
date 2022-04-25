@@ -39,8 +39,6 @@ export const entryTypes = Object.values(EntryType);
 export const collectionTypes = Object.values(CollectionType);
 
 export enum StrapiCollectionType {
-      USERS = 'users',
-      WRITERS = 'writers',
       TAGS = 'tags',
       GASKETS = 'gaskets',
       APPLICATIONS = 'applications',

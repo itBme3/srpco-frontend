@@ -91,3 +91,6 @@ sw.*
 
 
 app.yaml
+
+content/*.json
+content/**/*.json

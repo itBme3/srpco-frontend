@@ -107,14 +107,12 @@ export default Vue.extend({
     },
     async getEligibleCollections () {
       this.activeCollections = await Promise.all(['gaskets', 'datasheets'].map(collectionType => {
-        console.log(collectionType, this.collectionFilters[collectionType])
         return this.$content(collectionType)
           .where(this.collectionFilters[collectionType])
           .only(['slug'])
           .limit(1)
           .fetch()
           .then(res => {
-            console.log(res)
             return res.length ? collectionType : null
           })
       })).then(res => res.filter(c => !!c))

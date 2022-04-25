@@ -77,7 +77,6 @@ export default Vue.extend({
       for (let i = 0; i < 10 && !done; i++) {
         await (async () => {
           await asyncDelay(250);
-          console.log(i)
           if (!this.$slots?.default?.length || !this.$refs.carousel) { return }
           const carouselHeight = this.$refs.carousel._vnode.elm.offsetHeight;
           const shortestSlideHeight = this.$slots.default.map(vNode => vNode.elm.offsetWidth).sort((a, b) => a < b ? 1 : a > b ? -1 : 0).pop();

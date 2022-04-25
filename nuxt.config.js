@@ -25,7 +25,7 @@ export default {
       { rel: 'icon', type: 'image', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
       { rel: 'stylesheet', defer: true, href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?vcqm1a' },
-      { src: `https://www.googletagmanager.com/gtag/js?id=${gaId}`, async: true, type: 'text/partytown' },
+      // { src: `https://www.googletagmanager.com/gtag/js?id=${gaId}`, async: true, type: 'text/partytown' },
     ]
   },
 
@@ -77,13 +77,8 @@ export default {
     '@nuxtjs/axios',
     'nuxt-vuex-localstorage',
     '@nuxt/content',
-    '@nuxtjs/proxy',
-    '@nuxtjs/partytown'
+    '@nuxtjs/proxy'
   ],
-
-  partytown: {
-    forward: ['dataLayer.push']
-  },
 
   googleAnalytics: {
     id: gaId,
@@ -149,7 +144,7 @@ export default {
         '/',
         ...collectionTypes.map(c => `/${c}`)
       ];
-      await Promise.all(['pages',...collectionTypes].map(async c => {
+      await Promise.all(['pages', 'redirects', ...collectionTypes].map(async c => {
         const entries = await $content(c).only(['slug']).fetch();
         entries.forEach(e => routes.push(`${c === 'pages' ? `/${e.slug}` : `/${c}/${e.slug}`}`))
         

@@ -1,5 +1,5 @@
 
-export default async function ({ route, redirect, app: { store: { dispatch }, nuxt } }: any) {
+export default async function ({ route, redirect, store: { dispatch }, error }: any) {
       const old = {
             resources: ['posts', 'news']
       };
@@ -11,9 +11,14 @@ export default async function ({ route, redirect, app: { store: { dispatch }, nu
             redirect(301, { path: `/resources/${route.params.slug}` })
             return
       }
-      // const shouldRedirect = await dispatch('checkShouldRedirect', { route });
-      // console.log({ shouldRedirect })
-      // if (!shouldRedirect) { return }
-      // if (shouldRedirect === '404') { return nuxt.error({ statusCode: 404, message: 'Page Not Found' }) }
-      // return redirect(301, `${shouldRedirect.indexOf('/') === 0 ? '' : '/'}${shouldRedirect}`);
+      try {
+            const redirectPath = await dispatch('getEntry', { only: ['slug', 'collectionType', 'type'], route });
+            if (typeof redirectPath !== 'string') { return }
+            if (redirectPath === '404') {
+                  return error({ statusCode: 404, message: 'Page Not Found' })
+            }
+            return redirect(301, { path: `${redirectPath.indexOf('/') === 0 ? '' : '/'}${redirectPath}` });
+      } catch (err) {
+            return error({ statusCode: 404, message: 'Page Not Found' })
+      }
 }

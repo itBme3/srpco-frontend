@@ -39,27 +39,13 @@ export const actions: any = {
                   return await dispatch('getRedirectPath', { entryType, slug })
                         .catch((err: any) => {
                               console.error(err);
-                              return null;
+                              return '404';
                         });
             }
       },
       async getCollectionPage({ }, collectionType: CollectionType) {
             return await this.$content(`${collectionType}-collection`).fetch()
                   .catch(console.error)
-      },
-      async checkShouldRedirect({ dispatch }: any, { route }: any): Promise<string | false> {
-            const old = {
-                  resources: ['posts', 'news']
-            };
-            console.log({ route })
-            if (old.resources.includes(route?.params?.slug)) {
-                  return '/resources'
-            }
-            if (old.resources.includes(route?.params?.collection)) {
-                  return `/resources/${route.params.slug}`
-            }
-            const redirectPath = await dispatch('getEntry', { only: ['slug', 'collectionType', 'type'], route });
-            return typeof redirectPath === 'string' ? redirectPath : false
       },
       async getRedirectPath({ }, { entryType, slug }: { entryType: EntryType, slug: string }) {
             const _collectionTypes = Object.values(CollectionType).map(t => `${t}`);
@@ -74,7 +60,7 @@ export const actions: any = {
                   ? [...priorityCollectionTypes[collectionType], ..._collectionTypes.filter(t => !priorityCollectionTypes[collectionType].includes(t))]
                   : _collectionTypes;
 
-            let foundRedirect: any = await this.$content('redirects').where({ old: path }).limit(1).fetch()
+            let foundRedirect: any = await this.$content('redirects').where({ old: { $eq: path } }).limit(1).fetch()
                   .then((res: any) => Array.isArray(res) ? res[0] : null);
             if (foundRedirect?.new) {
                   return foundRedirect.new
@@ -96,7 +82,6 @@ export const actions: any = {
       async getEntryUpdates({ }, props: { path: string, slug?: string, params?: { [key: string]: any } }) {
             const { slug = null } = props;
             let { params = {}, path } = props;
-            console.log({ slug, path })
             if (!path) {
                   return
             }
@@ -129,7 +114,6 @@ export const actions: any = {
                         ...callParams,
                         fields: ['updatedAt']
                   }, { encodeValuesOnly: true });
-                  console.log('should fetch: ', `${process.env.apiUrl}/api/${path}?${queryString}`)
                   const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`).then((res: any) => {
                         const entry = Array.isArray(res.data) && res.data[0]?.attributes
                               ? res.data[0]?.attributes
@@ -141,7 +125,6 @@ export const actions: any = {
                   callParams.populate = populate;
                   if (shouldFetchUpdates) {
                         const queryString = qs.stringify(callParams, { encodeValuesOnly: true })
-                        console.log('get entry: ', `${process.env.apiUrl}/api/${path}?${queryString}`)
                         return this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`)
                               .then((res: any) => res?.data ? parseResponse(Array.isArray(res.data) ? res.data[0] : res.data) : {})
                   }
