@@ -142,6 +142,7 @@ const generateContent = async () => {
             }))
       });
 }
-
-generateContent()
-      .catch(console.error)
+(async () => {
+      return await generateContent ()
+            .catch(console.error)
+})();

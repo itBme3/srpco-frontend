@@ -158,7 +158,7 @@ export default Vue.extend({
   },
   unmounted () {
     window.removeEventListener('resize', this.getDocumentDimensions)
-    window.addEventListener('scroll', this.setScrolling)
+    window.removeEventListener('scroll', this.setScrolling)
   },
   methods: {
     setScrolling () {
