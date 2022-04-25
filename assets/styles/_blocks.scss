@@ -28,9 +28,12 @@
 .page-content {
   @apply bg-gray-600 bg-opacity-5 rounded py-8 px-6;
 }
-
+.single-entry,
+.collection {
+  @apply pt-4 sm:pt-2 md:pt-3 w-[calc(100%-2rem)] max-w-4xl mx-auto;
+}
 .single-entry {
-  @apply flex flex-wrap py-0 px-3 sm:px-10 md:px-12 lg:px-16 rounded-lg shadow-lg;
+  @apply flex flex-wrap py-0 px-3 sm:px-10 md:px-12 lg:px-16 rounded-lg shadow-lg max-w-6xl;
   column-gap: var(--grid-gap);
   row-gap: var(--grid-gap);
   .entry-block {
@@ -119,7 +122,7 @@
         }
       }
       .entry-block {
-        @apply p-6 bg-opacity-50 bg-gray-800 col-span-12 h-auto;
+        @apply bg-opacity-50 bg-gray-800 col-span-12 h-auto;
         &:not(.block-block-collection) {
           @apply lg:col-span-6;
         }
