@@ -174,7 +174,7 @@ export default Vue.extend({
   &.hero-style {
     &-overlay,
     &-overlay-centered {
-      @apply relative px-3 py-8 flex items-center justify-center;
+      @apply relative px-3 flex items-center justify-center py-16 md:py-24 lg:py-32;
       .hero-media {
         @apply absolute inset-0 z-1;
       }
@@ -184,6 +184,9 @@ export default Vue.extend({
       .hero-title,
       .hero-text * {
         text-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+      }
+      .hero-text {
+        @apply font-normal mt-4;
       }
     }
     &-overlay-centered {

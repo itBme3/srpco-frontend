@@ -1,12 +1,12 @@
 <template>
   <footer class="footer">
     <div class="footer-preferred-converter-carousel">
-      <h3 class="block-title text-red-400">
+      <h3 class="block-title text-gray-600 leading-relaxed">
         Preferred Converter For The Industry's Leading Suppliers
       </h3>
       <Carousel
         v-if="preferredConverter.length"
-        class="w-full"
+        class="w-full max-w-[52rem] mx-auto"
         :options="{
           autoPlay: true,
           initialIndex: preferredConverter.length / 2,
@@ -145,7 +145,7 @@ export default Vue.extend({
 .footer {
   @apply flex flex-wrap mt-16;
   .footer-preferred-converter-carousel {
-    @apply w-full text-center py-20 px-0 mb-8;
+    @apply w-full text-center pt-24 pb-32 px-0 mb-8;
     .block-title {
       @apply italic max-w-2xl leading-10 m-auto mb-8 font-black font-display tracking-widest block mx-auto;
     }

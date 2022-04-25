@@ -199,9 +199,7 @@
       max-height: 200px;
     }
   }
+  &.resource {
+    @apply max-w-3xl mx-auto;
+  }
 }
-// w-1/2
-// flex-col sm:flex-col md:flex-col lg:flex-col xl:flex-col
-// flex-row sm:flex-row md:flex-row lg:flex-row xl:flex-row
-// mb-2 sm:mb-0 sm:mr-4 w-full sm:w-1/2 rounded-lg shadow-lg m-0 sm:mr-4 min-h-full
-// font-serif
