@@ -83,7 +83,7 @@ dist
 # Service worker
 sw.*
 
-content/**/*
+content/**/*.json
 
 # macOS
 .DS_Store
