@@ -59,7 +59,6 @@ const getDirectories = async () => {
       return (await readdir('content', { withFileTypes: true }))
             .filter(dirent => dirent.isDirectory())
             .map(dirent => {
-                  console.log(dirent)
                   return dirent.name
             })
 }
@@ -73,7 +72,6 @@ const getFilesInDir = async (dir) => {
 const purgeCurrentContent = async () => {
       const directories = await getDirectories();
       const missingDirs = dirs.filter(dir => !directories.includes(dir))
-      console.log(missingDirs);
       const currentFiles = await getFilesInDir('content');
       return await Promise.all([
             ...missingDirs.map(async dir => (await mkdir(path.join('content', dir), { recursive: true }))),

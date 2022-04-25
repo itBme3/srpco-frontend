@@ -1,5 +1,9 @@
 
-export default async function ({ route, redirect, store: { dispatch }, error }: any) {
+export default async function ({ route, redirect, $content, store: { dispatch }, error }: any) {
+      const whitelist = ['/'];
+      if (whitelist.includes(route.path)) {
+            return;
+      }
       const old = {
             resources: ['posts', 'news']
       };
