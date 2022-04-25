@@ -1,4 +1,5 @@
 const fs = require('fs')
+const { promises: { readdir, unlink, mkdir } } = require('fs')
 const path = require('path')
 const axios = require('axios');
 const apiUrl = process.env.NODE_ENV === 'production' && typeof process.env.API_URL === 'string' && process.env.API_URL.length > 0
@@ -8,6 +9,8 @@ const apiUrl = process.env.NODE_ENV === 'production' && typeof process.env.API_U
     : 'http://localhost:1337';
 
 const { collectionTypes, populate, parseResponse } = require('../static/axiosDefaults')
+      
+const dirs = ['pages', ...collectionTypes.filter(c => !['tags'].includes(c))];
 
 const getEntries = async (collectionType, params = {}) => {
       return await axios(`${apiUrl}/api/${collectionType}`, {
@@ -52,7 +55,39 @@ const writeFile = (path, data) => {
       })
 }
 
+const getDirectories = async () => {
+      return (await readdir('content', { withFileTypes: true }))
+            .filter(dirent => dirent.isDirectory())
+            .map(dirent => {
+                  console.log(dirent)
+                  return dirent.name
+            })
+}
+
+const getFilesInDir = async (dir) => {
+      return (await readdir(dir, { withFileTypes: true }))
+            .filter(dirent => dirent.isFile())
+            .map(dirent => dirent.name)
+}
+
+const purgeCurrentContent = async () => {
+      const directories = await getDirectories();
+      const missingDirs = dirs.filter(dir => !directories.includes(dir))
+      console.log(missingDirs);
+      const currentFiles = await getFilesInDir('content');
+      return await Promise.all([
+            ...missingDirs.map(async dir => (await mkdir(path.join('content', dir), { recursive: true }))),
+            ...currentFiles.map(async p => (await unlink(path.join('content', p)))),
+            ...directories.map(async directory => {
+                  const paths = (await readdir(path.join('content', directory)));
+                  return await Promise.all(paths
+                        .map(async p => (await unlink(path.join('content', directory, p)))))
+            }),
+      ])
+}
+
 const generateContent = async () => {
+      await purgeCurrentContent();
       const filePaths = [
             ...['navigation', 'footer', 'homepage', 'tags', 'redirects'].map(slug => path.join('/', slug)),
             ...collectionTypes.map(slug => `/${slug}-collection`),
