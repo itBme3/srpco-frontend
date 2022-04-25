@@ -85,51 +85,52 @@ const purgeCurrentContent = async () => {
 }
 
 const generateContent = async () => {
-      await purgeCurrentContent();
-      const filePaths = [
-            ...['navigation', 'footer', 'homepage', 'tags', 'redirects'].map(slug => path.join('/', slug)),
-            ...collectionTypes.map(slug => `/${slug}-collection`),
-            ...['pages', ...collectionTypes].map(slug => `/${slug}`)
-      ]
-      return await Promise.all(filePaths.map(async filePath => {
-            const pathSegments = filePath.split('/');
-            const slug = (() => {
-                  const _slug = pathSegments.pop()
-                  if (typeof _slug === 'string') { return _slug }
-                  return null
-            })();
-            const dir = (() => {
-                  const _dir = pathSegments.pop()
-                  if (typeof _dir === 'string') {
-                        return !_dir.length ? '/' : _dir
-                  }
-                  return null
-            })();
-            if (!dir || !slug) {
-                  return;
-            }
-            const data = await fetchContent({ dir, slug });
-            if (!data) { return }
-            if (['pages', ...collectionTypes].includes(slug)) {
-                  return await Promise.all((Array.isArray(data) ? data : [data]).map(async entry => {
-                        if (!entry || !entry.slug) {
-                              console.error('missing slug')
-                              return
+      return await purgeCurrentContent().then(async () => {
+            const filePaths = [
+                  ...['navigation', 'footer', 'homepage', 'tags', 'redirects'].map(slug => path.join('/', slug)),
+                  ...collectionTypes.map(slug => `/${slug}-collection`),
+                  ...['pages', ...collectionTypes].map(slug => `/${slug}`)
+            ]
+            return await Promise.all(filePaths.map(async filePath => {
+                  const pathSegments = filePath.split('/');
+                  const slug = (() => {
+                        const _slug = pathSegments.pop()
+                        if (typeof _slug === 'string') { return _slug }
+                        return null
+                  })();
+                  const dir = (() => {
+                        const _dir = pathSegments.pop()
+                        if (typeof _dir === 'string') {
+                              return !_dir.length ? '/' : _dir
                         }
-                        const outputPath = path.join(`content`, filePath, `${entry.slug}.json`)
-                        return await writeFile(outputPath, entry)
-                  }))
-            }
-            const outputPath = path.join(`content`, `${filePath}.json`)
-            if (dir === '/') {
-                  if (slug === 'redirects' && Array.isArray(data)) {
-                        data.forEach((entry) => {
-                              entry.slug = entry.old
-                        })
+                        return null
+                  })();
+                  if (!dir || !slug) {
+                        return;
                   }
-            }
-            return await writeFile(outputPath, data)
-      }))
+                  const data = await fetchContent({ dir, slug });
+                  if (!data) { return }
+                  if (['pages', ...collectionTypes].includes(slug)) {
+                        return await Promise.all((Array.isArray(data) ? data : [data]).map(async entry => {
+                              if (!entry || !entry.slug) {
+                                    console.error('missing slug')
+                                    return
+                              }
+                              const outputPath = path.join(`content`, filePath, `${entry.slug}.json`)
+                              return await writeFile(outputPath, entry)
+                        }))
+                  }
+                  const outputPath = path.join(`content`, `${filePath}.json`)
+                  if (dir === '/') {
+                        if (slug === 'redirects' && Array.isArray(data)) {
+                              data.forEach((entry) => {
+                                    entry.slug = entry.old
+                              })
+                        }
+                  }
+                  return await writeFile(outputPath, data)
+            }))
+      });
 }
 
 generateContent()

@@ -96,10 +96,17 @@ const parseResponse = (_obj) => {
                   return { ...acc, [key]: obj[key] };
             }, {})
       }
-
+const pathWhitelist = [
+      '/',
+      '/locations',
+      '/contact',
+      '/login',
+      '/search',
+]
 
 module.exports = {
       collectionTypes,
       populate,
-      parseResponse
+      parseResponse,
+      pathWhitelist
 }

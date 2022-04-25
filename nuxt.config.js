@@ -138,6 +138,7 @@ export default {
   },
   generate: {
     crawler: false,
+    fallback: true,
     async routes () {
       const { $content } = require('@nuxt/content')
       const routes = [

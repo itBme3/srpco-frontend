@@ -60,25 +60,25 @@ export const actions: any = {
                   ? [...priorityCollectionTypes[collectionType], ..._collectionTypes.filter(t => !priorityCollectionTypes[collectionType].includes(t))]
                   : _collectionTypes;
 
-            let foundRedirect: any = await this.$content('redirects').where({ old: { $eq: path } }).limit(1).fetch()
+            let foundRedirect: any = await this.$content('redirects').where({ old: path }).limit(1).fetch()
                   .then((res: any) => Array.isArray(res) ? res[0] : null);
             if (foundRedirect?.new) {
                   return foundRedirect.new
             }
-            for (let i = 0; i < collectionTypes.length && !foundRedirect; i++) {
-                  await (async () => {
-                        foundRedirect = await this.$content(collectionTypes[i]).where({ slug: slug }).limit(1).fetch()
-                              .then((res: any) => Array.isArray(res) && res[0]?.slug ? `${collectionTypes[i] === 'pages' ? `/${res[0]?.slug}` : `/${collectionTypes[i]}/${res[0]?.slug}`}` : null);
-                        return foundRedirect
-                  })()
-                  if (foundRedirect) {
-                        return foundRedirect
-                  }
-                  if (i === collectionTypes.length - 1) {
-                        return '404'
-                  }
+            const entriesWithMatchingSlug: any[] = await this.$content({ deep: true }).where({ slug: slug }).only(['slug', 'collectionType']).fetch()
+            let foundMatch: any = null;
+            for (let i = 0; i < collectionTypes.length && !foundMatch; i++) {
+                  foundMatch = entriesWithMatchingSlug.filter(entry => entry.collectionType === collectionTypes[i])[0]
             }
+
+            if (foundMatch) {
+                  return `/${foundMatch.collectionType === 'pages' ? '' : `${foundMatch.collectionType}/`}${foundMatch.slug}`
+            }
+
+            return '404'
+
       },
+
       async getEntryUpdates({ }, props: { path: string, slug?: string, params?: { [key: string]: any } }) {
             const { slug = null } = props;
             let { params = {}, path } = props;

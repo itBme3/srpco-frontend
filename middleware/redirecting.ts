@@ -1,7 +1,7 @@
+import { pathWhitelist } from '~/static/axiosDefaults';
 
 export default async function ({ route, redirect, $content, store: { dispatch }, error }: any) {
-      const whitelist = ['/'];
-      if (whitelist.includes(route.path)) {
+      if (pathWhitelist.includes(route.path)) {
             return;
       }
       const old = {
