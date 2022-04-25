@@ -13,7 +13,7 @@
         <Nuxt :key="$route.fullPath" />
       </main>
     </div>
-    <!-- <SiteFooter /> -->
+    <SiteFooter />
     <client-only>
       <!-- <ChatBox /> -->
       <div class="modals">
