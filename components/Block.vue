@@ -4,7 +4,7 @@
     v-if="![undefined, null].includes(block)"
     :class="{
       'entry-block': true,
-      [blockClasses]: true,
+      [classes.block]: true,
       ['block-' + block.__component.split('.').filter(w => w !== 'block').join('-')]: true
     }"
   >
@@ -17,7 +17,7 @@
         :tag-name="title.length < 85 ? 'h4' : 'h5' "
         :class="{
           'block-title': true,
-          [titleClasses]: !!titleClasses.length
+          [classes.title]: !!classes.title.length
         }"
       >
         {{ title }}
@@ -52,7 +52,7 @@
           :loading-more="!!block.collectionSettings ? block.collectionSettings.loadingMore : 'button'"
           :button-link="!!block.collectionSettings ? block.collectionSettings.buttonLink : null"
           :button-text="!!block.collectionSettings ? block.collectionSettings.buttonText : null"
-          :classes="cardClasses"
+          :classes="{...cardClasses}"
         />
 
         <LazyBlockContent
@@ -124,19 +124,21 @@ export default Vue.extend({
     }
   },
   data () {
-    const { block: blockClasses = '', title: titleClasses = '', buttons: buttonsClasses = '' } = getBlockClasses(this.block);
-    const { card = '', title: cardTitle = '', text: cardText = '', media: cardMedia = '' } = getCardClasses(this.block);
     return {
-      blockClasses,
-      titleClasses,
-      buttonsClasses,
-      cardClasses: { card, title: cardTitle, media: cardMedia, text: cardText },
       seen: !this.lazy
     }
   },
   computed: {
     title() {
       return ![null, undefined].includes(this.block) && (!this.block.__component || !this.block.__component.includes('card')) ? this.block.title : null
+    },
+    cardClasses() {
+      const { card = '', title: cardTitle = '', text: cardText = '', media: cardMedia = '' } = getCardClasses(this.block)
+      return { card, title: cardTitle, media: cardMedia, text: cardText }
+    },
+    classes() {
+      const { block, title, buttons } = getBlockClasses(this.block);
+      return { block, title, buttons }
     }
   },
   methods: {

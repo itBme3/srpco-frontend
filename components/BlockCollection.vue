@@ -5,7 +5,7 @@
       <SearchInput
         :autocomplete="'on'"
         :placeholder="'search in ' + collectionType + '...'"
-        :class="{[searchBarClasses]: searchBarClasses.length > 0}"
+        :class="{[classes.searchBar || '']: !!classes.searchBar}"
         @search="(e) => searchValue !== e ? searchValue = e : ''"
         @clear="() => searchValue = ''"
       />
@@ -14,7 +14,7 @@
       id="masonCollection"
       :v-if="!!entries && !!entries.length"
       class="collection-entries grid"
-      :class="{[gridClasses]: gridClasses.length > 0}"
+      :class="{[classes.grid || '']: !!classes && classes.grid}"
     >
       <template v-for="(entry, i) in entries">
         <Card
@@ -159,7 +159,7 @@ export default Vue.extend({
     }
   },
   data () {
-    const { grid: gridClasses = '', searchBar: searchBarClasses = '', title = '', card = '', media = '', text = '', content = '' } = !!this.classes ? this.classes : {}
+    const { grid: gridClasses = '' } = !!this.classes ? this.classes : {}
     const collection = this?.collectionType ? this.collectionType : null
     const mediaRatio = this.ratio !== null && this.ratio?.indexOf(':') > -1 ? this.ratio : ['services', 'materials', 'applications'].includes(collection) ? '16:9' : collection === 'suppliers' ? '1:1' : 'auto'
     return {
@@ -168,9 +168,7 @@ export default Vue.extend({
       searchValue: '',
       lastSearch: '',
       canLoadMore: false,
-      cardClasses: { title, card, text, media, content },
       gridClasses,
-      searchBarClasses,
       collection,
       mediaRatio,
       queryParams: {}
@@ -186,6 +184,10 @@ export default Vue.extend({
     return this.get(0).catch(console.error);
   },
   computed: {
+    cardClasses() {
+      const {title = '', card = '', media = '', text = '', content = ''} = this.classes || {};
+      return {title, card, media, text, content}
+    },
     constantFilters () {
       try {
         return Object.keys(this.filters).length === 0 ? {} : this.filters

@@ -22,7 +22,7 @@ export default Vue.extend({
     this.$store.dispatch('getEntryUpdates', { path: '/' })
       .then(res => {
         console.log(res)
-        this.page = res
+        this.page = {...this.page, ...res}
       }).catch(console.error);
   }
 
