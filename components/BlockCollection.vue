@@ -21,21 +21,19 @@
           v-if="![null, undefined].includes(entry)"
           :key="entry.type + '-' + entry.id + '-' + i"
           :lazy="i > 6"
-          :card-style="(['materials', 'applications'].includes(collectionType) && entry !== null && entry !== undefined && !!entry.gaskets && entry.gaskets.length > 0) || collectionType === 'datasheets' ? 'mediaLeft' : cardStyle"
+          :card-style="collectionType === 'datasheets' ? 'mediaLeft' : cardStyle"
           :title="entry.title"
           :text="!showExcerpt || ['gasket'].includes(entry.type)
               ? null
               : entry.description"
           :media="![null, undefined].includes(entry.file) ? entry.file : entry.media"
-          :media-ratio="['materials', 'applications'].includes(collectionType) && (!Array.isArray(entry.gaskets) || entry.gaskets.length === 0) 
-              ? '4:2' 
-              : collectionType === 'gaskets'
-              ? '4:3' 
-              : collectionType === 'suppliers'
-              ? '1:1'
-              : collectionType === 'datasheets'
-              ? '8:ll'
-              : mediaRatio"
+          :media-ratio="['materials', 'applications', 'suppliers'].includes(collectionType) 
+            ? '1:1'
+            : collectionType === 'gaskets'
+            ? '4:3' 
+            : collectionType === 'datasheets'
+            ? '8:ll'
+            : mediaRatio"
           :link="'/' + collectionType + '/' + entry.slug"
           :open-new-tab="false"
           class="collection-entry"
@@ -104,7 +102,7 @@ export default Vue.extend({
     },
     cardStyle: {
       type: String,
-      default: CardStyle.MEDIA_ABOVE
+      default: CardStyle.MEDIA_LEFT
     },
     classes: {
       type: Object,

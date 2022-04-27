@@ -86,7 +86,11 @@ export const actions: any = {
                   return
             }
             if (path?.indexOf('/') === 0) {
-                  path = path.substring(1, path.length)
+                  if (path === '/') {
+                        path = 'homepage'
+                  } else {
+                        path = path.substring(1, path.length)
+                  }
             }
             try {
                   if (Object.keys(params).length === 0) {

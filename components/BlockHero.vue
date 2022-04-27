@@ -5,17 +5,16 @@
     :class="{[
     'hero-style-' + heroStyle]: heroStyle,
     'no-media': [undefined, null].includes(media) && [undefined, null].includes(youtube),
-    'has-video': typeof youtube === 'string' && youtube.length > 0,
+    'has-video': typeof youtube === 'string' && youtube,
     }"
   >
-
     <Media
-      v-if="(!!media && !!media.url) || (typeof youtube === 'string' && youtube.length > 0)"
+      v-if="(!!media && !!media.url) || (typeof youtube === 'string' && youtube)"
       :media="media"
       :ratio="'auto'"
-      :overlay-classes="overlayClasses"
-      :overlay="typeof overlayClasses === 'string' && overlayClasses.length > 0"
-      :class="{ [mediaClasses]: mediaClasses.length > 0 }"
+      :overlay-classes="classes.overlay"
+      :overlay="typeof classes.overlay === 'string' && classes.overlay.length > 0"
+      :class="{ [classes.media]: classes.media.length > 0 }"
       :is-background="true"
       :youtube="youtube"
       :video-params=" {
@@ -33,12 +32,12 @@
       v-if="(title && title.length > 0) || (text && text.length > 0)"
       :class="{
         'hero-content': true,
-        [contentClasses]: contentClasses.length > 0
+        [classes.content]: classes.content.length > 0
         }"
     >
       <h1
         v-if="title && title.length > 0"
-        :class="{ [titleClasses]: titleClasses.length > 0 }"
+        :class="{ [classes.title]: classes.title.length > 0 }"
         class="hero-title"
       >
         {{ title }}
@@ -46,13 +45,14 @@
       <template v-if="![null, undefined].includes(text)">
         <div
           class="hero-text text-sm"
-          :class="{ [textClasses]: textClasses.length > 0 }"
+          :class="{ [classes.text]: classes.text.length > 0 }"
           v-html="text"
         />
       </template>
       <div
         v-if="Array.isArray(buttons) && buttons.length > 0"
         class="hero-buttons"
+        :class="{}"
       >
         <Link
           v-for="btn in buttons"
@@ -60,7 +60,8 @@
           :link="btn.link"
           :open-new-tab="btn.openNewTab"
         >
-        <gButton :class="{ 
+        <gButton
+:class="{ 
           ['' + btn.buttonClasses + '']: typeof btn.buttonClasses === 'string' && btn.buttonClasses.length > 0
           }">
           {{ btn.text }}
@@ -74,7 +75,6 @@
 <script>
 import Vue from 'vue'
 import { camelToHandle } from '~/utils/funcs'
-import { getHeroClasses } from '~/utils/get-classes'
 export default Vue.extend({
   props: {
     block: {
@@ -99,27 +99,57 @@ export default Vue.extend({
       }
     }
   },
-  data () {
-    const { media: mediaClasses = '', title: titleClasses = '', text: textClasses = '', content: contentClasses = '', buttons: buttonsClasses = '', overlay: overlayClasses = '' } = getHeroClasses(this.block)
-    return {
-      media: !!this?.block?.media?.url ? this.block.media : null,
-      title: typeof this?.block?.title === 'string' &&
+  computed: {
+     media() { 
+       return !!this?.block?.media?.url ? this.block.media : null
+      },
+      title() { 
+        return typeof this?.block?.title === 'string' &&
         this.block.title.length > 0
         ? this.block.title
-        : null,
-      text: typeof this?.block?.text === 'string' &&
+        : null
+      },
+      text() { 
+        return typeof this?.block?.text === 'string' &&
         this.block.text.length > 0
         ? this.block.text
-        : null,
-      buttons: Array.isArray(this?.block?.buttons) ? this.block.buttons : [],
-      heroStyle: [undefined, null].includes(this?.block?.heroSettings?.style) ? 'overlay' : camelToHandle(this.block.heroSettings.style),
-      youtube: typeof this?.block?.youtube === 'string' && this.block.youtube.length > 0 ? this.block.youtube : null,
-      mediaClasses,
-      titleClasses,
-      buttonsClasses,
-      textClasses,
-      contentClasses,
-      overlayClasses,
+        : null
+        },
+      buttons() { 
+        return Array.isArray(this?.block?.buttons) ? this.block.buttons : []
+      },
+      heroStyle() { 
+        return [undefined, null].includes(this?.heroSettings?.style) ? 'overlay' : camelToHandle(this.heroSettings.style)
+      },
+      youtube() { 
+        return typeof this?.block?.youtube === 'string' && this.block.youtube.length > 0 ? this.block.youtube : null
+      },
+    heroSettings() {
+      return this.block?.heroSettings || {
+            style: 'overlay',
+            classes: {
+              media: '',
+              content: '',
+              title: '',
+              overlay: '',
+            }
+          }
+    },
+    classes() {
+      const { 
+        media = '',
+        title = '',
+        text = '',
+        content = '',
+        overlay = '',
+      } = this.block?.heroSettings?.classes || {};
+      return {
+        media,
+        title,
+        text,
+        content,
+        overlay,
+      }
     }
   }
 })
@@ -166,7 +196,7 @@ export default Vue.extend({
     @apply flex overflow-hidden w-full transition-all duration-200 ease-quick-in scale-100;
   }
   .hero-buttons {
-    @apply flex space-x-2 mt-2;
+    @apply flex space-x-2 mt-6;
     button {
       @apply bg-white text-gray-700 hover:bg-srp-red hover:text-white;
     }

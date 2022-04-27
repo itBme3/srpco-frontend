@@ -9,6 +9,7 @@
     }"
   >
 
+
     <template v-if="![undefined, null].includes(block)">
 
       <gTag
@@ -45,7 +46,7 @@
           :sort="!!block.collectionSettings && !!block.collectionSettings.sort ? block.collectionSettings.sort : 'publishedAt:ASC'"
           :infinite-scroll="!!block.collectionSettings && block.collectionSettings.loadingMore === 'infiniteScroll'"
           :update-url="!!block.collectionSettings && block.collectionSettings.updateUrl"
-          :card-style="!!block.cardSettings && !!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaAbove'"
+          :card-style="!!block.cardSettings && !!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaLeft'"
           :show-excerpt="!!block.cardSettings && !!block.cardSettings.showExcerpt"
           :show-more-links="!!block.cardSettings && block.cardSettings.showMoreLinks !== false"
           :loading-more="!!block.collectionSettings ? block.collectionSettings.loadingMore : 'button'"
@@ -130,8 +131,12 @@ export default Vue.extend({
       titleClasses,
       buttonsClasses,
       cardClasses: { card, title: cardTitle, media: cardMedia, text: cardText },
-      title: ![null, undefined].includes(this.block) && (!this.block.__component || !this.block.__component.includes('card')) ? this.block.title : null,
       seen: !this.lazy
+    }
+  },
+  computed: {
+    title() {
+      return ![null, undefined].includes(this.block) && (!this.block.__component || !this.block.__component.includes('card')) ? this.block.title : null
     }
   },
   methods: {

@@ -7,6 +7,9 @@
   &:not(.block-hero) {
     @apply p-4 sm:p-8;
   }
+  &.block-content {
+    @apply p-6 sm:p-8;
+  }
   --block-content-color: rgba(253, 230, 130, var(--tw-text-opacity));
   .block-title {
     @apply capitalize pb-2 mb-2;
@@ -30,10 +33,10 @@
 }
 .single-entry,
 .collection {
-  @apply pt-4 sm:pt-2 md:pt-3 w-[calc(100%-2rem)] max-w-4xl mx-auto;
+  @apply pt-4 sm:pt-2 md:pt-3 w-[calc(100%-1rem)] max-w-4xl mx-auto;
 }
 .single-entry {
-  @apply flex flex-wrap py-0 px-3 sm:px-10 md:px-12 lg:px-16 rounded-lg shadow-lg max-w-6xl;
+  @apply flex flex-wrap py-0 px-0 sm:px-10 md:px-12 lg:px-16 rounded-lg shadow-lg max-w-6xl;
   column-gap: var(--grid-gap);
   row-gap: var(--grid-gap);
   .entry-block {
@@ -98,16 +101,16 @@
     .heading-content,
     .entry-block,
     .entry-sidebar {
-      @apply m-0 p-2 shadow-lg;
+      @apply m-0 shadow-lg;
     }
     .entry-sidebar {
       @apply shadow-none;
     }
+    .heading-media {
+      @apply opacity-60 xs:opacity-100 mt-0 mb-4 rounded-lg xs:mr-0 mr-auto xs:ml-auto ml-0 max-w-[320px] max-h-[120px] pb-4 xs:pb-0 sm:max-h-[260px] xs:float-right translate-x-0 xs:translate-x-4;
+    }
     .heading-content {
       @apply p-2 pl-0 bg-transparent shadow-none flex flex-col space-y-3 items-start xs:block md:flex md:flex-row md:items-center;
-      .heading-media {
-        @apply opacity-60 xs:opacity-100 my-0 rounded-lg xs:mr-0 mr-auto xs:ml-auto ml-0 max-w-[320px] max-h-[120px] pb-4 xs:pb-0 sm:max-h-[260px] xs:float-right translate-x-0 xs:translate-x-4;
-      }
       .heading-text-content {
         @apply xs:inline;
       }

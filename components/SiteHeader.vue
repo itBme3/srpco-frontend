@@ -6,7 +6,8 @@
       'is-mobile': $store.state.screen.isMobile
     }"
   >
-    <div :class="{
+    <div
+:class="{
       'top-bar': true,
       'hidden': $store.state.scrolling.direction !== 'up' || expanded
     }">
@@ -15,7 +16,8 @@
           <span class="text-gray-500 whitespace-nowrap">{{ $store.state.screen.width >= 480 ? 'Certified ISO' : 'ISO' }}:</span> 9001:2015
         </p>
 
-        <p :class="{
+        <p
+:class="{
             'certified-iso': true,
             'hidden': $store.state.screen.width < 600
           }">
@@ -155,10 +157,12 @@ export default Vue.extend({
     this.$store.commit('screen/set')
     window.addEventListener('resize', this.getDocumentDimensions, { passive: true })
     window.addEventListener('scroll', this.setScrolling, { passive: true })
+    window.addEventListener('keyup', this.handleKeyupEsc, {passive: true})
   },
   unmounted () {
     window.removeEventListener('resize', this.getDocumentDimensions)
     window.removeEventListener('scroll', this.setScrolling)
+    window.removeEventListener('keyup', this.handleKeyupEsc)
   },
   methods: {
     setScrolling () {
@@ -195,6 +199,12 @@ export default Vue.extend({
         }
       }
       localStorage.setItem('recentSearches', JSON.stringify(this.recentSearches))
+    },
+    handleKeyupEsc (e) {
+      const key = e.key || e.keyCode;
+      if (key === 'Escape' || key === 'Esc' || key === 27) {
+        this.expanded = false
+      }
     }
   }
 })

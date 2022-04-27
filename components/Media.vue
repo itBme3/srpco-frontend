@@ -124,7 +124,7 @@ export default Vue.extend({
   },
   data () {
     const mediaSrc = typeof this.mediaSrc !== 'undefined' ? this.mediaSrc : this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
-    const mediaRatio = this.youtube?.length && !this.mediaRatio?.includes(':') ? '16:9' : this.mediaRatio;
+    const mediaRatio = this.youtube?.length && !this.ratio?.includes(':') ? '16:9' : this.ratio;
     return {
       mediaSrc,
       imgHeight: 'auto',

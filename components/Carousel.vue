@@ -42,9 +42,7 @@ const defaultFlickityOptions = {
   adaptiveHeight: true
 };
 export default Vue.extend({
-  // components: {
-  //   Flickity
-  // },
+  
   props: {
     options: {
       type: Object,
@@ -63,7 +61,9 @@ export default Vue.extend({
   },
   mounted () {
     this.initialResize().catch(console.error)
-
+    setTimeout(() => {
+      console.log(this.$refs.carousel)
+    }, 1000)
   },
   methods: {
     next () {

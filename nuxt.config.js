@@ -1,4 +1,5 @@
 import { collectionTypes } from './models/entry.model';
+import 'dotenv/config'
 
 const apiUrl = process.env.NODE_ENV === 'production' && typeof process.env.API_URL === 'string' && process.env.API_URL.length > 0
   ? process.env.API_URL

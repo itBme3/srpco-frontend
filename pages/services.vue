@@ -51,6 +51,7 @@ export default Vue.extend({
   head () {
     return seoHead(this.page)
   },
+  
   computed: {
     pageClasses () {
       return getPageClasses(this.page)
@@ -66,7 +67,8 @@ export default Vue.extend({
           }
         } catch { }
       })
-  }
+  },
+  
 })
 </script>
 

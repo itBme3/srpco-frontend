@@ -30,6 +30,7 @@
     <template v-if="!!media && typeof media.url === 'string' && media.url.includes('.pdf') && !showPdfPreview">
       <Icon icon-name="datasheets" />
     </template>
+    
     <Media
       v-else-if="(!!media && !!media.url) || (typeof youtube === 'string' && youtube.length > 0)"
       :lazy="lazy"
@@ -105,7 +106,7 @@ export default Vue.extend({
     },
     cardStyle: {
       type: String,
-      default: CardStyle.MEDIA_ABOVE,
+      default: CardStyle.MEDIA_LEFT,
     },
     mediaRatio: {
       type: String,

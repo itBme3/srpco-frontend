@@ -17,6 +17,13 @@ export default Vue.extend({
   },
   head () {
     return seoHead(this.page)
+  },
+  mounted() {
+    this.$store.dispatch('getEntryUpdates', { path: '/' })
+      .then(res => {
+        console.log(res)
+        this.page = res
+      }).catch(console.error);
   }
 
 })

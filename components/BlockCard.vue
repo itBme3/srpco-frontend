@@ -36,7 +36,7 @@ export default Vue.extend({
     const block = typeof this.block === 'undefined' ? {} : this.block
     const cardClasses = getCardClasses(block);
     return {
-      cardStyle: Object.values(CardStyle).map(v => `${v}`).includes(block?.cardSettings?.style) ? block?.cardSettings?.style : CardStyle.MEDIA_ABOVE,
+      cardStyle: Object.values(CardStyle).map(v => `${v}`).includes(block?.cardSettings?.style) ? block?.cardSettings?.style : CardStyle.MEDIA_LEFT,
       media: block?.media?.url ? block.media : block?.file?.url ? block.file : null,
       file: block?.file?.url ? block.file : null,
       title: block?.title?.length > 0 ? block.title : null,

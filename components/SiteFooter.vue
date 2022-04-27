@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="footer-preferred-converter-carousel">
-      <h3 class="block-title text-gray-600 leading-relaxed">
+      <h3 class="block-title text-gray-600 leading-relaxed px-6">
         Preferred Converter For The Industry's Leading Suppliers
       </h3>
       <Carousel
@@ -10,7 +10,7 @@
         :options="{
           autoPlay: true,
           initialIndex: preferredConverter.length / 2,
-          groupCells: '40%',
+          groupCells: '60%',
           selectedAttraction: 0.02,
           friction: 0.20
         }"
@@ -150,7 +150,7 @@ export default Vue.extend({
       @apply italic max-w-2xl leading-10 m-auto mb-8 font-black font-display tracking-widest block mx-auto;
     }
     .carousel-wrapper {
-      @apply px-10;
+      @apply px-0;
     }
     .slide {
       @apply p-0 h-auto py-12 w-28 flex flex-col text-center items-center content-start;
@@ -168,14 +168,19 @@ export default Vue.extend({
       }
     }
     .next-previous-button {
-      @apply px-8 bg-transparent;
+      @apply px-6;
+      background: var(--site-bg);
       i {
         @apply rounded-full bg-transparent text-gray-300 hover:bg-gray-800 hover:text-white p-2 shadow-lg;
         &:before {
           @apply top-0;
         }
       }
+      &.previous {
+        box-shadow: 20px 0 20px var(--site-bg);
+      }
       &.next {
+        box-shadow: -20px 0 20px var(--site-bg);
         &:before {
           @apply left-[.075rem];
         }

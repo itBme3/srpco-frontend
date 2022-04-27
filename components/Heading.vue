@@ -21,7 +21,7 @@
       <Media
         v-if="![null, undefined].includes(media) && typeof media.url === 'string'"
         :media="media"
-        class="order-0 h-full my-0"
+        class="order-0 h-full"
         :is-background="true"
         :class="{ 'heading-media': true, [mediaClasses]: mediaClasses.length > 0 }"
         :ratio="mediaRatio"
@@ -111,7 +111,7 @@ export default Vue.extend({
     @apply text-gray-200 mb-2 font-black;
   }
   .heading-description {
-    @apply text-base font-normal tracking-wide text-gray-500 leading-snug mt-4 font-medium;
+    @apply text-base font-normal tracking-wide text-gray-500 leading-snug mt-4;
   }
   .heading-media {
     @apply rounded-md sm:rounded-sm absolute sm:relative z-0 sm:mx-2 shadow-2xl w-full sm:w-5/12 mx-0 sm:ml-auto;
