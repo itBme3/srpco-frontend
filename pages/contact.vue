@@ -1,6 +1,8 @@
 <template>
   <div class="page contact mx-auto max-w-lg">
     <h1 class="text-center pb-8 pt-14">Contact Us</h1>
+    
+    
     <template
       v-if="['ready', 'error'].includes(formState)"
     >
@@ -10,16 +12,15 @@
       <h3 class="text-center mb-2 text-red-500">Error:</h3>
       <p v-if="errorMessage" class="text-center" >{{errorMessage}}</p>
       </template>
-      <ClientOnly>
-        <Form
-          ref="form"
-          class="mx-auto"
-          :schema="formSchema"
-          :model="model"
-          @submit="submit"
-          @file="e => file = e"
-        />
-      </ClientOnly>
+
+      <Form
+        ref="form"
+        class="mx-auto"
+        :schema="formSchema"
+        :model="model"
+        @submit="submit"
+      />
+    
     </template>
     <template v-else-if="formState === 'sending'">
       <h3 class="text-center">Sending...</h3>
@@ -32,6 +33,7 @@
         class="text-sm bg-gray-800 text-gray-200 mt-8 mx-auto w-auto"
         @click="resetForm">RESET</gButton>
     </template>
+
   </div>
 </template>
 
@@ -93,7 +95,6 @@ export default Vue.extend({
           },
         ]
       },
-      file: null,
       model: {
         name: '',
         email: '',
@@ -105,11 +106,6 @@ export default Vue.extend({
       errorMessage: null
     }
   },
-  watch: {
-    file(file) {
-      console.log({file})
-    }
-  },
   methods: {
     resetForm() {
       this.model = {
@@ -119,7 +115,6 @@ export default Vue.extend({
         file: '',
         message: '',
       }
-      this.file = null
       this.formState = 'ready'
       this.errorMessage = null
     },
@@ -135,14 +130,15 @@ export default Vue.extend({
       this.formState = 'sending'
       try {
         const model = JSON.parse(JSON.stringify(formModel));
-        if (this.file) {
+        const file = this.$refs.form.$el.querySelector('input[type="file"]').files[0];
+        if (file) {
           const maxSize = 1000000 * 2; // 2mb
-          if (this.file.size > maxSize) {
+          if (file.size > maxSize) {
             this.formState = 'error';
             this.errorMessage = 'File exceeds max file size (2MB).';
             return alert('File exceeds max file size (2MB).');
           }
-          const fileBase64 = await this.toBase64(this.file);
+          const fileBase64 = await this.toBase64(file);
           model.file = fileBase64;
         }
         let res = null;

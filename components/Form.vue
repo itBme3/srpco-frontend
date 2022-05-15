@@ -1,58 +1,30 @@
 <template>
-  <div
-    v-if="schema !== null && formModel !== null"
-    class="form"
-  >
-
-    <gButton
-      v-if="formState === 'success'"
-      class="w-auto mr-0 ml-auto bg-gray-800 text-gray-300"
-      @click="formState = 'ready'; errorMessage = null; formModel = initialModel"
-    >
-      reset
-    </gButton>
-
-    <h4
-      v-if="formState === 'sending'"
-      class="my-6 text-center"
-    >sending...</h4>
-
-    <div
-      v-if="['success', 'error'].includes(formState)"
-      class="form-message p-2 rounded shadow my-6 text-center"
-      :class="{
-        'success bg-red-500 text-red-900': formState === 'error',
-        'success bg-green-400 text-green-900': formState === 'success',
-      }"
-      v-html="formState === 'success' ? successMessage : errorMessage"
-    />
-
+  <keep-alive>
     <form
-      ref="form"
-      :class="{ 'hidden': ['success', 'sending'].includes(formState) }"
-      @submit="(e) => {
-        e.preventDefault()
-        $emit('submit', formModel)
-      }"
-      @change="log"
-    >
-      <vue-form-generator
-        ref="formEl"
-        :schema="schema"
-        :model="formModel"
-        :options="formOptions"
-      ></vue-form-generator>
-      {{formModel}}
-      <gButton
-        type="submit"
-        :class="{
-          [buttonClasses]: typeof buttonClasses === 'string' && buttonClasses.length > 0
+      v-if="schema !== null && formModel !== null"
+        ref="form"
+        class="form"
+        :class="{ 'hidden': ['success', 'sending'].includes(formState) }"
+        @submit="(e) => {
+          e.preventDefault()
+          $emit('submit', formModel)
         }"
       >
-        {{ buttonText }}
-      </gButton>
+          <vue-form-generator
+            :schema="schema"
+            :model="formModel"
+            :options="formOptions"
+          ></vue-form-generator>
+        <gButton
+          type="submit"
+          :class="{
+            [buttonClasses]: typeof buttonClasses === 'string' && buttonClasses.length > 0
+          }"
+        >
+          {{ buttonText }}
+        </gButton>
     </form>
-  </div>
+  </keep-alive>
 </template>
 
 <script>
@@ -94,29 +66,11 @@ export default Vue.extend({
         validateAfterChanged: true
       },
       initialModel: JSON.parse(JSON.stringify(this.model)),
-      formModel: this.model
+      formModel: JSON.parse(JSON.stringify({...this.model, file: ''}))
     }
   },
-  watch: {
-    'formModel.file'() {
-      this.emitFile()
-    }
-  },
-  methods: {
-    emitFile() {
-      this.$emit('file', this.$refs.form.querySelector('input[type="file"]').files[0])
-    },
-    log (e) {
-      if (this.errorMessage?.toLowerCase()?.includes('file exceeds')) {
-        if (e.target.getAttribute('type') === 'file') {
-          this.formState = 'ready'
-          this.errorMessage = null
-        }
-      } else if (this.formState === 'error') {
-        this.formState = 'ready'
-        this.errorMessage = null
-      }
-    }
+  mounted() {
+    console.log('mounted')
   }
 })
 </script>
