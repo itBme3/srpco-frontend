@@ -25,12 +25,14 @@ import Vue from 'vue'
 export default Vue.extend({
   scrollToTop: true,
   props: {
-    block: Object,
-    default: () => null
+    block: {
+      type: Object,
+      default: () => null
+    }
   },
   data () {
     return {
-      collectionType: 'materials'
+      collectionType: 'gaskets'
     }
   },
   computed: {

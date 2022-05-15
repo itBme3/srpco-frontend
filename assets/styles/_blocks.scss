@@ -170,7 +170,7 @@
       .entry-block {
         &[class*="block-solutions"] {
           @apply max-w-prose mx-auto p-3 bg-transparent shadow-none w-full overflow-visible;
-          .block-content {
+          .entry-block-content {
             @apply p-7 rounded-b-md rounded-t-sm bg-gray-800 bg-opacity-50 shadow-xl w-full;
             border-top: 2px solid var(--block-color);
           }

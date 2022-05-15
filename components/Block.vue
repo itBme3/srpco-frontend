@@ -32,15 +32,20 @@
           <Loading class="m-auto" />
         </div>
       </client-only>
-      <transition name="entry-block-reveal">
+      <component
+        :is="lazy ? 'TransitionGroup' : 'div'"
+        class="entry-block-content"
+        :name="lazy ? 'up-fade' : undefined">
         <LazyBlockCard
           v-if="seen && block.__component === 'block.card'"
+          :key="block.__component"
           :class="{ [!!cardClasses &&  !!cardClasses.card ? cardClasses.card : '']: !!cardClasses.card.length }"
           :block="block"
         />
 
         <LazyBlockCollection
           v-if="seen && block.__component === 'block.collection'"
+          :key="block.__component"
           :collection-type="block.collectionType"
           :limit="![null, undefined].includes(block.collectionSettings) && block.collectionSettings.limit > 0 ? block.collectionSettings.limit : 6"
           :sort="!!block.collectionSettings && !!block.collectionSettings.sort ? block.collectionSettings.sort : 'publishedAt:ASC'"
@@ -57,53 +62,65 @@
 
         <LazyBlockContent
           v-if="seen && ['block.content', 'solutions.challenge', 'solutions.solution', 'solutions.results', 'solutions.used'].includes(block.__component)"
+          :key="block.__component"
           :block="block"
         />
         <LazyBlockCarousel
           v-if="seen && block.__component === 'block.carousel'"
+          :key="block.__component"
           :block="block"
         />
         <LazyBlockHero
           v-if="seen && block.__component === 'block.hero'"
+          :key="block.__component"
           :block="block"
         />
         <LazyBlockGaskets
-          v-if="seen && block.__component === 'block.gaskets' || (block.__component === 'solutions.used' && block.gaskets && block.gaskets.length > 0)"
+          v-if="seen && block.__component === 'block.gaskets' || (block.__component === 'solutions.used' && block.gaskets)"
+          :key="block.__component"
           :block="block"
         />
         <LazyBlockDatasheets
           v-if="seen && block.__component === 'block.datasheets' || (block.__component === 'solutions.used' && block.datasheets && block.datasheets.length > 0)"
+          :key="block.__component"
           :block="block"
         />
         <LazyBlockMaterials
           v-if="seen && block.__component === 'block.materials' || (block.__component === 'solutions.used' && block.materials && block.materials.length > 0)"
+          :key="block.__component"
           :block="block"
         />
         <LazyBlockApplications
           v-if="seen && block.__component === 'block.applications'"
+          :key="block.__component"
           :block="block"
         />
         <LazyBlockServices
           v-if="seen && block.__component === 'block.services'"
+          :key="block.__component"
           :block="block"
         />
         <LazyBlockResources
           v-if="seen && block.__component === 'block.resources'"
+          :key="block.__component"
           :block="block"
         />
         <LazyBlockGroup
-          v-if="seen && block.__component === 'block.group'"
+          v-if="seen && ['block.group'].includes(block.__component)"
+          :key="block.__component"
           :block="block"
         />
         <LazyBlockButtons
           v-if="seen && block.__component === 'block.buttons'"
+          :key="block.__component"
           :block="block"
         />
         <LazyBlockIconList
           v-if="seen && block.__component === 'block.icon-list'"
+          :key="block.__component"
           :block="block"
         />
-      </transition>
+      </component>
     </template>
   </div>
 </template>
