@@ -37,10 +37,12 @@
       @change="log"
     >
       <vue-form-generator
+        ref="formEl"
         :schema="schema"
         :model="formModel"
         :options="formOptions"
       ></vue-form-generator>
+      {{formModel}}
       <gButton
         type="submit"
         :class="{
@@ -95,7 +97,15 @@ export default Vue.extend({
       formModel: this.model
     }
   },
+  watch: {
+    'formModel.file'() {
+      this.emitFile()
+    }
+  },
   methods: {
+    emitFile() {
+      this.$emit('file', this.$refs.form.querySelector('input[type="file"]').files[0])
+    },
     log (e) {
       if (this.errorMessage?.toLowerCase()?.includes('file exceeds')) {
         if (e.target.getAttribute('type') === 'file') {

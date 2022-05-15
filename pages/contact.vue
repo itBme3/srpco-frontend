@@ -17,6 +17,7 @@
           :schema="formSchema"
           :model="model"
           @submit="submit"
+          @file="e => file = e"
         />
       </ClientOnly>
     </template>
@@ -92,6 +93,7 @@ export default Vue.extend({
           },
         ]
       },
+      file: null,
       model: {
         name: '',
         email: '',
@@ -103,6 +105,11 @@ export default Vue.extend({
       errorMessage: null
     }
   },
+  watch: {
+    file(file) {
+      console.log({file})
+    }
+  },
   methods: {
     resetForm() {
       this.model = {
@@ -112,6 +119,7 @@ export default Vue.extend({
         file: '',
         message: '',
       }
+      this.file = null
       this.formState = 'ready'
       this.errorMessage = null
     },
@@ -127,15 +135,14 @@ export default Vue.extend({
       this.formState = 'sending'
       try {
         const model = JSON.parse(JSON.stringify(formModel));
-        const file = this.$refs.form.$el.querySelector('input[type="file"]').files[0];
-        if (file) {
+        if (this.file) {
           const maxSize = 1000000 * 2; // 2mb
-          if (file.size > maxSize) {
+          if (this.file.size > maxSize) {
             this.formState = 'error';
             this.errorMessage = 'File exceeds max file size (2MB).';
             return alert('File exceeds max file size (2MB).');
           }
-          const fileBase64 = await this.toBase64(file);
+          const fileBase64 = await this.toBase64(this.file);
           model.file = fileBase64;
         }
         let res = null;
