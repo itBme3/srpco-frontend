@@ -10,13 +10,15 @@
       <h3 class="text-center mb-2 text-red-500">Error:</h3>
       <p v-if="errorMessage" class="text-center" >{{errorMessage}}</p>
       </template>
-      <Form
-        ref="form"
-        class="mx-auto"
-        :schema="formSchema"
-        :model="model"
-        @submit="submit"
-      />
+      <ClientOnly>
+        <Form
+          ref="form"
+          class="mx-auto"
+          :schema="formSchema"
+          :model="model"
+          @submit="submit"
+        />
+      </ClientOnly>
     </template>
     <template v-else-if="formState === 'sending'">
       <h3 class="text-center">Sending...</h3>
