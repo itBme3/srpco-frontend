@@ -55,7 +55,6 @@ export default {
     '~/plugins/check-view.js',
     '~/plugins/flickity.client.js',
     '~/plugins/scrollbar.js',
-    '~/plugins/chat-box.client.js',
     '~/plugins/tailwind-components.js',
     '~/plugins/form-generator.js'
   ],
