@@ -3,6 +3,9 @@
     class="site-container w-screen block"
     :class="{ 'is-mobile': $store.state.screen.isMobile }"
   >
+  <ClientOnly>
+    <link rel="stylesheet" defer href="https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?vcqm1a" />
+  </ClientOnly>
 
     <SiteHeader />
     <div class="site-wrapper overflow-visible mt-12 sm:mt-0 mx-auto">

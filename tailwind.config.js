@@ -213,8 +213,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['work-sans', 'sans-serif'],
-        display: ['adelle-sans', 'sans-serif']
+        sans: ['"Source Sans Pro"', 'sans-serif'],
+        display: ['"Source Sans Pro"', 'sans-serif']
       },
       opacity: {
         3: '.03',

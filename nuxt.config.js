@@ -24,8 +24,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image', href: '/favicon.png' },
-      { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
-      { rel: 'stylesheet', defer: true, href: 'https://d1azc1qln24ryf.cloudfront.net/99224/SRPMicrosites/style-cf.css?vcqm1a' },
+      // { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
       // { src: `https://www.googletagmanager.com/gtag/js?id=${gaId}`, async: true, type: 'text/partytown' },
     ]
   },
@@ -67,10 +66,21 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxt/typescript-build',
+    [
+      '@nuxtjs/google-fonts',
+      {
+        display: 'swap',
+        families: {
+          'Source+Sans+Pro': {
+            wght: [200,300,400,600,900],
+            ital: [200,300,400,600,900],
+          }
+        },
+      },
+    ],
     '@nuxtjs/tailwindcss',
     '@nuxt/postcss8',
-    '@nuxtjs/google-analytics'
-    
+    '@nuxtjs/google-analytics',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
