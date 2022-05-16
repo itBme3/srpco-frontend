@@ -21,7 +21,6 @@ export default Vue.extend({
   mounted() {
     this.$store.dispatch('getEntryUpdates', { path: '/' })
       .then(res => {
-        console.log(res)
         this.page = {...this.page, ...res}
       }).catch(console.error);
   }

@@ -33,7 +33,6 @@ export default Vue.extend({
   },
   mounted () {
     this.$store.dispatch('adminEdit/setLink', this.$route);
-    console.log(process.env)
   }
 })
 </script>

@@ -68,9 +68,6 @@ export default Vue.extend({
       initialModel: JSON.parse(JSON.stringify(this.model)),
       formModel: JSON.parse(JSON.stringify({...this.model, file: ''}))
     }
-  },
-  mounted() {
-    console.log('mounted')
   }
 })
 </script>

@@ -8,6 +8,10 @@
       frameborder="0"
       height="100%"
       width="100%"
+      :class="{
+        'opacity-0': loading,
+        'opacity-100': !loading
+      }"
     />
   </div>
 </template>
@@ -42,13 +46,12 @@ export default Vue.extend({
       this.checkIframeLoaded(tried);
     },
     checkIframeLoaded (tried) {
-      if (tried > 20) {
+      if (tried > 5) {
         this.loading = 'Error loading pdf.'
         return
       };
-      const delay = 500;
+      const delay = 2500;
       setTimeout(() => {
-        // console.log({ Iframe: this.$refs.iFrame });
         try {
           if (this.$refs.iFrame.contentWindow.document.querySelector('body').innerHTML.length === 0) {
             this.mediaSrc = null;

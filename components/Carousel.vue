@@ -61,9 +61,6 @@ export default Vue.extend({
   },
   mounted () {
     this.initialResize().catch(console.error)
-    setTimeout(() => {
-      console.log(this.$refs.carousel)
-    }, 1000)
   },
   methods: {
     next () {

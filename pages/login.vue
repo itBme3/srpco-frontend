@@ -11,14 +11,19 @@
         logout
       </gButton>
     </template>
-    <Form
-      v-else-if="loaded"
-      :schema="formSchema"
-      :model="model"
-      button-text="Login"
-      class="max-w-sm mx-auto"
-      @submit="loginUser"
-    />
+    <template v-else>
+      <Loading
+        v-if="formState === 'loading'"
+        class="mx-auto" />
+      <Form
+        v-else
+        :schema="formSchema"
+        :model="model"
+        button-text="Login"
+        class="max-w-sm mx-auto"
+        @submit="loginUser"
+      />
+    </template>
 
   </div>
 </template>
@@ -28,7 +33,7 @@ import Vue from 'vue'
 export default Vue.extend({
   data () {
     return {
-      loaded: false,
+      formState: 'ready',
       formSchema: {
         fields: [
           {
@@ -58,11 +63,9 @@ export default Vue.extend({
       return this.$store.state.sessionStorage?.user || null
     }
   },
-  mounted () {
-    this.loaded = true
-  },
   methods: {
     loginUser ({ email, password }) {
+      this.formState = 'loading'
       return this.$axios.post(`${process.env.apiUrl}/api/auth/local`, {
         identifier: email,
         password,
@@ -74,10 +77,15 @@ export default Vue.extend({
               Authorization: `Bearer ${response.data.jwt}`
             }
           }).then(res => {
+            this.formState = 'ready'
             return this.$store.commit('sessionStorage/setUser', { user, jwt, isAdmin: res?.data?.role?.name === 'Admin' });
-          }).catch(err => alert(err.message))
+          }).catch(err => {
+            this.formState = 'ready'
+            alert(err.message)
+          })
         })
         .catch(error => {
+          this.formState = 'ready'
           alert('An error occurred:', error);
         });
     },
