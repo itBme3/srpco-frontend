@@ -144,9 +144,9 @@ export default {
       const { $content } = require('@nuxt/content')
       const routes = [
         '/',
-        ...collectionTypes.map(c => `/${c}`)
+        ...collectionTypes.filter(c => c !== 'pages').map(c => `/${c}`)
       ];
-      await Promise.all(['pages', ...collectionTypes].map(async c => {
+      await Promise.all(collectionTypes.map(async c => {
         const entries = await $content(c).only(['slug']).fetch();
         entries.forEach(e => routes.push(`${c === 'pages' ? `/${e.slug}` : `/${c}/${e.slug}`}`))
         return entries;
