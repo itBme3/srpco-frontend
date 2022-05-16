@@ -63,7 +63,7 @@ export default Vue.extend({
   },
   methods: {
     loginUser ({ email, password }) {
-      return this.$axios.post(`${process.env.apiUrl}/api/auth/auth0`, {
+      return this.$axios.post(`${process.env.apiUrl}/api/auth/local`, {
         identifier: email,
         password,
       })
