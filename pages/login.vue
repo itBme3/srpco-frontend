@@ -69,6 +69,7 @@ export default Vue.extend({
       })
         .then(response => {
           const { user, jwt } = response.data;
+          console.log({responseData: response.data})
           return this.$axios.get(`${process.env.apiUrl}/api/users/me`, {
             headers: {
               Authorization: `Bearer ${response.data.jwt}`
