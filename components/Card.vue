@@ -58,21 +58,12 @@
       >
         {{ title }}
       </gTag>
-      <template v-if="text && text.length > 0 && ['overlay', 'mediaAbove'].includes(cardStyle)">
         <div
           class="card-text text-sm opacity-60"
           :class="{ [textClasses]: textClasses.length > 0 }"
           v-html="text"
         />
-      </template>
     </div>
-    <template v-if="text && text.length > 0 && !['overlay', 'mediaAbove'].includes(cardStyle)">
-      <div
-        class="card-text text-sm opacity-60"
-        :class="{ [textClasses]: textClasses.length > 0 }"
-        v-html="text"
-      />
-    </template>
     </Link>
     <CardMoreLinks
       :v-if="Array.isArray(moreLinks) && moreLinks.length > 0"
@@ -228,7 +219,7 @@ export default Vue.extend({
 .card {
   @apply transition-all ease-quick-in duration-200 rounded bg-white bg-opacity-5 shadow-md overflow-hidden;
   &.no-media {
-    @apply p-8;
+    @apply p-6 sm:p-8;
   }
   &.has-link {
     @apply transform hover:shadow-none hover:bg-opacity-025;
@@ -247,9 +238,9 @@ export default Vue.extend({
     @apply flex overflow-hidden w-full transition-all duration-200 ease-quick-in scale-100;
   }
   &.has-more-links {
-    @apply p-3;
+    @apply p-2;
     .card-link {
-      @apply rounded-md transition-all ease-quick-in duration-200 transform shadow-xl bg-gray-700 bg-opacity-20 hover:bg-opacity-30 hover:scale-100 scale-[.98];
+      @apply rounded-md transition-all ease-quick-in duration-200 transform shadow-xl bg-gray-700 bg-opacity-20 hover:bg-opacity-30 hover:scale-[1.02] scale-100;
       .button-link {
         @apply text-gray-200;
       }
@@ -291,7 +282,7 @@ export default Vue.extend({
     .card-style-media-left {
       @apply items-center content-between;
       .card-content {
-        @apply mr-auto w-2/3;
+        @apply mr-auto w-2/3 px-4;
       }
       .card-media {
         @apply mr-4 sm:mr-6 w-[calc(33.333%-.75rem)];
@@ -311,7 +302,7 @@ export default Vue.extend({
     [class*='card-style'] {
       @apply flex-wrap;
       .card-text {
-        @apply order-last;
+        @apply order-last mt-2 sm:mt-4;
       }
     }
     .card-style-media-above,
@@ -322,9 +313,6 @@ export default Vue.extend({
     }
     .card-style-media-left,
     .card-style-media-right {
-      .card-text {
-        @apply p-3;
-      }
       .card-media {
         @apply h-full my-0;
       }
@@ -347,9 +335,8 @@ export default Vue.extend({
   }
 }
 .collection-entries {
-  .card {
-    &.datasheet,
-    &.gasket {
+  .card { 
+    &:not(.service) {
       .card-style-media-left,
       .card-style-media-right {
         @apply p-4;

@@ -1,5 +1,6 @@
 {
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
+  "editor.insertSpaces": false,
   "vetur.validation.template": false,
   "eslint.alwaysShowStatus": true,
   "eslint.options": {

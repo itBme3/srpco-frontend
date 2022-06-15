@@ -97,7 +97,7 @@ const purgeCurrentContent = async () => {
 const generateContent = async () => {
       return await purgeCurrentContent().then(async () => {
             const filePaths = [
-                  ...['navigation', 'footer', 'homepage', 'tags', 'redirects'].map(slug => path.join('/', slug)),
+                  ...['navigation', 'homepage', 'tags', 'redirects'].map(slug => path.join('/', slug)),
                   ...collectionTypes.map(slug => `/${slug}-collection`),
                   ...['pages', ...collectionTypes].map(slug => `/${slug}`)
             ]

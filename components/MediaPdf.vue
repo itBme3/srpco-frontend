@@ -19,6 +19,7 @@
 <script>
 import Vue from 'vue'
 import { getStrapiMedia } from '~/utils/medias'
+import { asyncDelay } from '~/utils/funcs'
 export default Vue.extend({
   props: {
     src: {
@@ -45,28 +46,29 @@ export default Vue.extend({
       this.embedSrc = `https://docs.google.com/viewer?url=${this.mediaSrc}&embedded=true`
       this.checkIframeLoaded(tried);
     },
-    checkIframeLoaded (tried) {
-      if (tried > 5) {
+    async checkIframeLoaded (tried) {
+      if (tried > 10) {
         this.loading = 'Error loading pdf.'
         return
       };
-      const delay = 2500;
-      setTimeout(() => {
-        try {
-          if (this.$refs.iFrame.contentWindow.document.querySelector('body').innerHTML.length === 0) {
-            this.mediaSrc = null;
-            this.embedSrc = null;
-            setTimeout(() => {
-              this.setSrc(tried + 1)
-              this.loading = this.$refs.iFrame.contentWindow.document.querySelector('body').innerHTML.length === 0
-            }, delay + 500);
-            return
-          }
-          this.loading = false
-        } catch (err) {
-          this.loading = false
+      const delay = 1000
+      await asyncDelay(delay);
+      try {
+        if (this.$refs.iFrame.contentWindow.document.querySelector('body').innerHTML.length === 0) {
+          this.mediaSrc = null;
+          this.embedSrc = null;
+          await asyncDelay(delay);
+          this.setSrc(tried + 1)
+          console.log({ tried, iFrame: this.$refs.iFrame })
+          this.loading = !this.$refs?.iFrame?.contentWindow?.document?.querySelector('body')?.innerHTML?.length
+          return this.loading
         }
-      }, delay)
+        this.loading = false
+        return this.loading
+      } catch (err) {
+        this.loading = false
+        return this.loading
+      }
 
     }
   }
