@@ -15,7 +15,7 @@
 
       <Form
         ref="form"
-        class="mx-auto"
+        class="mx-auto max-w-md rounded-md bg-gray-50 shadow-md"
         :schema="formSchema"
         :model="model"
         @submit="submit"

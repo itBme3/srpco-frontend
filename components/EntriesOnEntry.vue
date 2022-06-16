@@ -1,30 +1,48 @@
 <template>
-  <div class="entries-on-entry">
-
+  <div 
+    v-if="entry && entries.length"
+    class="entries-on-entry">
+    <BlockCollection
+      :collection-type="collectionType"
+      :limit="3"
+      card-style="mediaLeft"
+      :ratio="['datasheets'].includes(collectionType) ? '9:10' : ['services'].includes(collectionType) ? '16:9' : '5:4'"
+      :search-bar="false"
+      :infinite-scroll="false"
+      :update-url="false"
+      :entries="entries"
+      :classes="{
+        grid: 'w-full grid grid-cols-1 gap-4',
+        card: 'col-span-1 p-1 bg-gray-900',
+        media: 'rounded',
+        title: 'text-xl font-regular tracking-wide',
+        text: ''
+      }"
+    />
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
 
 export default Vue.extend({
   props: {
-    onEntryType: {
-      type: String,
-      default: null
+    entry: {
+      type: Object,
+      default: () => null
     },
     collectionType: {
       type: String,
       default: null
     },
-    ids: {
-      type: Array,
-      default: () => null
-    }
   },
-  data() {
-    return {
-
+  computed: {
+    entries () {
+      if (this.entry && Array.isArray(this.entry[this.collectionType]) && this.entry[this.collectionType].length) {
+        return this.entry[this.collectionType]
+      }
+      this.$emit('noEntries', true)
+      return []
     }
   }
 })

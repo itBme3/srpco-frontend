@@ -2,14 +2,14 @@
   <div class="collection-container h-auto">
     <template v-if="searchBar === true">
       <SearchInput
-:autocomplete="'on'"
-                   :placeholder="'search in ' + collectionType + '...'"
-                   :class="{ [classes.searchBar || '']: !!classes.searchBar }"
-                   @search="(e) => (searchValue !== e ? (searchValue = e) : '')"
-                   @clear="() => (searchValue = '')" />
+        :autocomplete="'on'"
+        :placeholder="'search in ' + collectionType + '...'"
+        :class="{ [classes.searchBar || '']: !!classes.searchBar }"
+        @search="(e) => (searchValue !== e ? (searchValue = e) : '')"
+        @clear="() => (searchValue = '')" />
     </template>
     <div
-         :v-if="!!entries && !!entries.length"
+:v-if="!!entries && !!entries.length"
          class="collection-entries grid"
          :class="{ [classes.grid || '']: !!classes && classes.grid }">
       <template v-for="(entry, i) in entries">
@@ -150,6 +150,10 @@ export default Vue.extend({
       type: Boolean,
       default: true
     },
+    initialEntries: {
+      type: Array,
+      default: () => []
+    },
     filters: {
       type: Object,
       default: () => {
@@ -185,8 +189,8 @@ export default Vue.extend({
             ? '1:1'
             : 'auto'
     return {
-      entries: null,
-      nextEntries: null,
+      entries: this.initialEntries.length ? this.initialEntries : [],
+      nextEntries: this.initialEntries?.length > 3 ? this.initialEntries.slice(3) : null,
       searchValue: '',
       lastSearch: '',
       canLoadMore: false,
@@ -253,7 +257,7 @@ export default Vue.extend({
       handler () {
         if (!this.updateUrl) return
         this.queryParams = this.getQueryParams()
-        // this.get()
+        this.get()
       }
     },
     searchValue (val) {
@@ -282,11 +286,20 @@ export default Vue.extend({
   },
   methods: {
     async get (start = 0) {
-      const collection = this.collection
-      if (typeof collection !== 'string') {
+      if (typeof this.collection !== 'string') {
         this.$emit('updateEntries', this.entries)
         return
       }
+
+      /* if entries provided in props */
+      if (this.initialEntries?.length > this.limit && this.nextEntries?.length) {
+        for (let i = 0; i < this.limit || !this.nextEntries?.length; i++) {
+          this.entries.push(this.nextEntries.shift())
+        }
+        this.$emit('updateEntries', this.entries)
+        return this.entries
+      }
+
       const params = this.getQueryParams()
       if (objectsAreTheSame(params, this.queryParams)) {
         if (start === 0) {
@@ -317,7 +330,7 @@ export default Vue.extend({
           this.canLoadMore = res.length === this.limit
           return res
         })
-      if (start === 0 || !this.entries || !this.entries.length) {
+      if (start === 0 || !this.entries?.length) {
         this.entries = this.nextEntries
       } else {
         this.entries = [
@@ -423,7 +436,7 @@ export default Vue.extend({
 
 .load-more-button {
   @apply mt-5 uppercase bg-opacity-5 bg-gray-300 hover:bg-opacity-10 tracking-wide px-3 py-2 w-auto block;
-  color: var(--block-content-color);
+  color:var(--block-content-color);
 }
 </style>
 

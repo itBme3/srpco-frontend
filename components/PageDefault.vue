@@ -21,17 +21,19 @@ v-if="![null, undefined].includes(page)"
              :overlay-classes="entryType === 'solution' ? 'solutions-header-media-overlay' : ''" />
 
     <Media
-v-if="entryType === 'datasheet'"
-           :media="page.file"
-           ratio="8:11"
-           class="h-[calc(100vh-80px)] w-full rounded-md" />
+      v-if="entryType === 'datasheet'"
+      :media="page.file"
+      ratio="8:11"
+      class="h-[calc(100vh-80px)] w-full rounded-md col-span-8" />
 
     <CollectionsOnSupplier
-v-if="![undefined, null].includes(page) && entryType && entryType === 'supplier'"
-                           :entry="page" />
+      v-if="![undefined, null].includes(page) && entryType && entryType === 'supplier'"
+      :entry="page"
+      class="col-span-full"
+    />
 
     <div
-      v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType === 'datasheet')"
+      v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType !== 'datasheet')"
          :class="{
            'blocks grid-cols-12': true,
            'hide-sidebar': entryType !== 'gasket'

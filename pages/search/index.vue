@@ -52,8 +52,8 @@
           <div
             v-if="i >= 2 && ([undefined, null].includes(emptyCollections) || !emptyCollections[collection]) && (activeCollections.includes(collection) || (activeCollections.length === 0))"
             :key="collection + '-' + i"
+            class="collection"
             :class="{
-              'collection': true,
               [collection]: true
             }"
           >

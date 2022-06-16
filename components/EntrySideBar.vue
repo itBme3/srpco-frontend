@@ -5,17 +5,33 @@
   >
     <div
       v-if="Array.isArray(suppliers) && suppliers.length > 0"
-      class="suppliers"
+      class="sidebar-section suppliers"
     >
-      <p class="font-bold mb-2">Suppliers:</p>
-      <template v-for="supplier in suppliers">
+      <h6 class="font-bold mb-2">Suppliers:</h6>
         <CardSupplier
+          v-for="supplier in suppliers"
           :key="'supplier-' + supplier.slug + '-on-single-entry'"
           :supplier="supplier"
           card-style="small"
         />
-      </template>
     </div>
+    <template 
+      v-for="collection in ['materials', 'applications', 'gaskets']"
+    >
+
+    <div 
+      v-if="!hide.includes(collection)"
+      :key="collection"
+      class="sidebar-section p-4 rounded-md shadow-lg border border-gray-900 bg-gray-900 bg-opacity-40">
+      <h6 class="font-bold mb-2 capitalize">{{ collection }}:</h6>
+      <EntriesOnEntry 
+        ref="entriesOnEntry"
+        :collection-type="collection"
+        :entry="entry"
+        @noEntries="() => hide.push(collection)"
+      />
+    </div>
+  </template>
   </div>
 </template>
 
@@ -29,9 +45,11 @@ export default Vue.extend({
       default: () => null
     }
   },
-  // async asyncData () {
-
-  // },
+  data () {
+    return { 
+      hide: []
+     }
+  },
   computed: {
     entryType () {
       return !!this.entry?.type ? this.entry.type : null
@@ -52,5 +70,8 @@ export default Vue.extend({
 .entry-sidebar {
   margin-bottom: auto !important;
   height: auto;
+}
+.sidebar-section {
+  @apply mb-6
 }
 </style>

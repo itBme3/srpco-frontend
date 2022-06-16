@@ -62,7 +62,8 @@
           >
             <h3 class="whitespace-nowrap">{{ section.title }}</h3>
           </scrollbar>
-          <i :class="{
+          <i
+:class="{
             'gicon-angle-down ml-auto mr-0': true,
             [classes.icons]: !!classes.icons,
           }" />
@@ -258,10 +259,10 @@ export default Vue.extend({
     }
     .datasheets {
       .card-title {
-        @apply font-medium text-base;
+        @apply font-normal text-base;
       }
       .icon {
-        @apply text-xl;
+        @apply text-xl mx-2;
       }
     }
   }

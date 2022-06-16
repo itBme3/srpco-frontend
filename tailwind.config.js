@@ -2,7 +2,6 @@
 
 const colors = require('tailwindcss/colors')
 const defaultTheme = require('tailwindcss/defaultTheme')
-require('dotenv').config()
 
 const COLORS = {
   'red-50': '#FEEEEF',

@@ -42,7 +42,7 @@ export default Vue.extend({
     },
     buttonText: {
       type: String,
-      default: 'Submit'
+      default: 'Send'
     },
     buttonClasses: {
       type: String,
@@ -79,14 +79,15 @@ input {
   }
 }
 .form {
+  @apply text-gray-800;
   input,
   textarea,
   select {
-    @apply bg-transparent text-base text-gray-300 border-2 border-gray-700 focus:ring-gray-600 py-3 px-4 focus:outline-none focus:border-gray-700 focus:bg-gray-800 hover:bg-gray-800 #{!important};
+    @apply bg-transparent text-base border-2 border-transparent border-b-gray-700 focus:ring-gray-600 py-3 px-0 focus:px-4 hover:px-2 transition-all ease-quick-in focus:outline-none focus:border-gray-700 hover:bg-gray-50 focus:bg-gray-50 #{!important};
   }
   button {
     &[type='submit'] {
-      @apply bg-green-500 text-green-900 hover:bg-green-400 px-4 shadow hover:shadow-lg ml-0 mr-auto w-auto;
+      @apply bg-green-500 text-green-900 hover:bg-green-400 px-4 shadow hover:shadow-lg mt-2 ml-0 mr-auto w-auto text-lg uppercase font-bold min-w-[140px];
     }
   }
 }

@@ -238,7 +238,7 @@ export default Vue.extend({
     @apply flex overflow-hidden w-full transition-all duration-200 ease-quick-in scale-100;
   }
   &.has-more-links {
-    @apply p-2;
+    @apply bg-transparent;
     .card-link {
       @apply rounded-md transition-all ease-quick-in duration-200 transform shadow-xl bg-gray-700 bg-opacity-20 hover:bg-opacity-30 hover:scale-[1.02] scale-100;
       .button-link {
@@ -280,12 +280,12 @@ export default Vue.extend({
   }
   &:not(.no-media) {
     .card-style-media-left {
-      @apply items-center content-between;
+      @apply items-start content-between;
       .card-content {
-        @apply mr-auto w-2/3 px-4;
+        @apply mr-auto w-2/3 px-2 py-0 my-auto;
       }
       .card-media {
-        @apply mr-4 sm:mr-6 w-[calc(33.333%-.75rem)];
+        @apply my-auto mr-4 sm:mr-6 w-[calc(33.333%-.75rem)];
       }
     }
     .card-style-media-right {
@@ -302,7 +302,7 @@ export default Vue.extend({
     [class*='card-style'] {
       @apply flex-wrap;
       .card-text {
-        @apply order-last mt-2 sm:mt-4;
+        @apply order-last mt-2;
       }
     }
     .card-style-media-above,
@@ -314,7 +314,7 @@ export default Vue.extend({
     .card-style-media-left,
     .card-style-media-right {
       .card-media {
-        @apply h-full my-0;
+        @apply h-full my-auto;
       }
     }
     .card-style-media-left {

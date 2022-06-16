@@ -13,7 +13,7 @@
     <template v-if="![undefined, null].includes(block)">
 
       <gTag
-        v-if="!!title && !!title.length && !['block.hero'].includes(block.__component)"
+        v-if="showTitle && title && title.length && !['block.hero'].includes(block.__component)"
         :tag-name="title.length < 85 ? 'h4' : 'h5' "
         :class="{
           'block-title': true,
@@ -33,7 +33,7 @@
         </div>
       </client-only>
       <component
-        :is="lazy ? 'TransitionGroup' : 'div'"
+        :is="lazy ? 'transition-group' : 'div'"
         class="entry-block-content"
         :name="lazy ? 'up-fade' : undefined">
         <LazyBlockCard
@@ -138,6 +138,10 @@ export default Vue.extend({
     lazy: {
       type: Boolean,
       default: false
+    },
+    showTitle: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
