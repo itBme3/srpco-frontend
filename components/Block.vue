@@ -33,9 +33,10 @@
         </div>
       </client-only>
       <component
-        :is="lazy ? 'transition-group' : 'div'"
+        :is="lazy ? 'TransitionGroup' : 'div'"
         class="entry-block-content"
-        :name="lazy ? 'up-fade' : undefined">
+        :name="lazy ? 'up-fade' : undefined"
+        tag="div">
         <LazyBlockCard
           v-if="seen && block.__component === 'block.card'"
           :key="block.__component"
