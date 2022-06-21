@@ -3,7 +3,7 @@
     class="header ml-auto"
     :class="{ 
       'search-expanded': expanded, 
-      'is-mobile': $store.state.screen.isMobile
+      'is-mobile': $store.state.window.isMobile
     }"
   >
     <div
@@ -13,13 +13,13 @@
     }">
       <div class="top-bar-content">
         <p>
-          <span class="text-gray-500 whitespace-nowrap">{{ $store.state.screen.width >= 480 ? 'Certified ISO' : 'ISO' }}:</span> 9001:2015
+          <span class="text-gray-500 whitespace-nowrap">{{ $store.state.window.width >= 480 ? 'Certified ISO' : 'ISO' }}:</span> 9001:2015
         </p>
 
         <p
 :class="{
             'certified-iso': true,
-            'hidden': $store.state.screen.width < 600
+            'hidden': $store.state.window.width < 600
           }">
           <Icon
             icon-name="location"
@@ -39,10 +39,10 @@
       </div>
 
       <gButton
-        v-if="$store.state.screen.width <= 1200"
+        v-if="$store.state.window.width <= 1200"
         class="transform scale-100 hover:scale-97 py-[.1rem] px-[.25rem] rounded bg-green-400 hover:bg-green-500 w-auto text-green-900 uppercase font-bold whitespace-nowrap text-xs mr-0"
         :class="{
-          'absolute right-3': $store.state.screen.width > 850
+          'absolute right-3': $store.state.window.width > 850
         }"
         @click="$router.push('/contact')"
       >
@@ -95,7 +95,7 @@
           </gButton>
         </SearchInput>
         <gButton
-          v-if="!expanded && $store.state.screen.width > 1200"
+          v-if="!expanded && $store.state.window.width > 1200"
           class="transform scale-95 hover:scale-100 header-contact-button hidden sm:flex rounded-full bg-green-400 w-auto text-green-900 uppercase font-bold whitespace-nowrap mx-2 text-sm py-2"
           @click="$router.push('/contact')"
         >
@@ -154,7 +154,7 @@ export default Vue.extend({
     }
   },
   mounted () {
-    this.$store.commit('screen/set')
+    this.$store.commit('window/set')
     window.addEventListener('resize', this.getDocumentDimensions, { passive: true })
     window.addEventListener('scroll', this.setScrolling, { passive: true })
     window.addEventListener('keyup', this.handleKeyupEsc, {passive: true})
@@ -169,7 +169,7 @@ export default Vue.extend({
       this.$store.commit('scrolling/set')
     },
     getDocumentDimensions: _.debounce(function () {
-      this.$store.commit('screen/set')
+      this.$store.commit('window/set')
     }, 250),
     inputFocused () {
       this.expanded = true

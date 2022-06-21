@@ -1,7 +1,7 @@
 <template>
   <div
     class="site-container w-screen block"
-    :class="{ 'is-mobile': $store.state.screen.isMobile }"
+    :class="{ 'is-mobile': $store.state.window.isMobile }"
   >
     <!-- <SiteHeader />
     <div class="site-wrapper overflow-visible mt-12 sm:mt-0 mx-auto">

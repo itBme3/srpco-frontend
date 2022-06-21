@@ -78,7 +78,6 @@ export const actions: any = {
             return '404'
 
       },
-
       async getEntryUpdates({ }, props: { path: string, slug?: string, params?: { [key: string]: any } }) {
             const { slug = null } = props;
             let { params = {}, path } = props;

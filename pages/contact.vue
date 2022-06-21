@@ -15,7 +15,7 @@
 
       <Form
         ref="form"
-        class="mx-auto max-w-md rounded-md bg-gray-50 shadow-md"
+        class="mx-auto max-w-md rounded-md bg-gray-50 shadow-lg p-4 md:p-6"
         :schema="formSchema"
         :model="model"
         @submit="submit"

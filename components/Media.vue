@@ -133,7 +133,7 @@ export default Vue.extend({
     }
   },
   watch: {
-    '$store.state.screen' () {
+    '$store.state.window' () {
       this.onResize()
     }
   },
