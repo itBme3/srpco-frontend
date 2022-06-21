@@ -24,7 +24,7 @@ v-if="![null, undefined].includes(entry)"
               :text="
                 !showExcerpt || ['gasket'].includes(entry.type)
                   ? null
-                  : entry.description
+                  : entry.description | truncate(150, '...')
               "
               :media="
                 ![null, undefined].includes(entry.file) ? entry.file : entry.media
@@ -189,8 +189,8 @@ export default Vue.extend({
             ? '1:1'
             : 'auto'
     return {
-      entries: this.initialEntries.length ? this.initialEntries : [],
-      nextEntries: this.initialEntries?.length > 3 ? this.initialEntries.slice(3) : null,
+      entries: this.initialEntries.length ? this.initialEntries : null,
+      nextEntries: null,
       searchValue: '',
       lastSearch: '',
       canLoadMore: false,
@@ -202,7 +202,6 @@ export default Vue.extend({
   },
   fetch () {
     const collection = this.collection
-
     if (collection === null) {
       return {}
     }
@@ -257,7 +256,7 @@ export default Vue.extend({
       handler () {
         if (!this.updateUrl) return
         this.queryParams = this.getQueryParams()
-        this.get()
+        // this.get()
       }
     },
     searchValue (val) {
@@ -277,7 +276,12 @@ export default Vue.extend({
           : `${this.$route.path}?${queryString}`
         window.history.pushState({ path }, '', path)
       }
-      this.get().catch(console.error)
+      return this.get().catch(console.error)
+    }
+  },
+  mounted () {
+    if (this.initialEntries?.length > 3) {
+      this.initialEntries.slice(3)
     }
   },
   mounted () {
@@ -286,19 +290,23 @@ export default Vue.extend({
   },
   methods: {
     async get (start = 0) {
+
+
       if (typeof this.collection !== 'string') {
         this.$emit('updateEntries', this.entries)
         return
       }
+        
 
       /* if entries provided in props */
-      if (this.initialEntries?.length > this.limit && this.nextEntries?.length) {
+      if (start === 0 && this.initialEntries?.length > this.limit && this.nextEntries?.length) {
         for (let i = 0; i < this.limit || !this.nextEntries?.length; i++) {
           this.entries.push(this.nextEntries.shift())
         }
         this.$emit('updateEntries', this.entries)
         return this.entries
       }
+
 
       const params = this.getQueryParams()
       if (objectsAreTheSame(params, this.queryParams)) {
@@ -307,6 +315,9 @@ export default Vue.extend({
           return
         }
       }
+
+      console.log('get entries', this.collection)
+
       this.queryParams = params
       const collectionSort = !this.collectionSort
         ? 'publishedAt:desc'
