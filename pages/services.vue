@@ -33,14 +33,13 @@
 <script>
 import Vue from 'vue'
 import { seoHead } from '~/utils/seo'
-import { CollectionType } from '~/models/entry.model'
 import { getPageClasses } from '~/utils/get-classes'
 
 /* eslint-disable no-extra-boolean-cast */
 export default Vue.extend({
   scrollToTop: true,
   async asyncData ({ $content }) {
-    const page = await $content(`${CollectionType.SERVICES}-collection`).fetch()
+    const page = await $content('services-collection').fetch()
     return { page }
   },
   data () {
@@ -73,8 +72,6 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-// .collection.services {
-// }
 .card-link {
   &.nuxt-link-exact-active {
     @apply hidden;

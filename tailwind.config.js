@@ -122,43 +122,57 @@ const minHeight = {
   96: '24rem'
 }
 
+const alwaysSafe = [
+  'mix-blend-multiply',
+      'transition',
+      'transform',
+      'ramp-in',
+      'max-w-thumb',
+      'max-w-thumb-lg',
+      'max-w-thumb-sm',
+      'max-w-thumb-xs',
+      'bg-blend-multiply',
+      'bg-blend-overlay',
+      'bg-blend-saturation',
+      'opacity-30',
+      'grayscale'
+]
+
 module.exports = {
   prefix: '',
   important: true,
   content: [
     'components/**/*.{vue,js,ts}',
+    'content/**/*.{json,md}',
     'layouts/**/*.vue',
     'pages/**/*.vue',
-    'plugins/**/*.{js,ts}',
     'assets/**/*.{scss,css}',
     'nuxt.config.{js,ts}',
-    'tailwind.config.js',
-    'node_modules/vue-tailwind/dist/*.js'
+    'tailwind.config.js'
   ],
-  safelist: [
-    {
-      pattern:
-        /^(m-|p-|mt-|pt-|ml-|pl-|mb-|pb-|mr-|pr-|inset-|top-|bottom-|left-|right-|min-w-|min-h-|max-w-|max-h-|col-span-)/,
-      variants: ['sm', 'md', 'lg']
-    },
-    {
-      pattern: /^(bg-|text-|bg-opacity-|text-opacity-|bg-gradient-)/,
-      variants: ['sm', 'md', 'hover']
-    },
-    {
-      pattern: /^(border-)/,
-      variants: ['hover']
-    },
-    {
-      pattern: /^(font-|to-|from-)/,
-      variants: []
-    },
-    'text-shadow text-shadow-xs text-shadow-none text-shadow-opacity-5 text-shadow-opacity-10',
-    'mix-blend-multiply',
-    'transition',
-    'transform',
-    'ramp-in'
-  ],
+  safelist: process.env.NODE_ENV === 'production'
+    ? alwaysSafe
+    : [
+      {
+        pattern:
+          /^(m-|p-|mt-|pt-|ml-|pl-|mb-|pb-|mr-|pr-|inset-|top-|bottom-|left-|right-|min-w-|min-h-|max-w-|max-h-|col-span-)/,
+        variants: ['sm', 'md', 'lg']
+      },
+      {
+        pattern: /^(bg-|text-|bg-opacity-|text-opacity-|bg-gradient-)/,
+        variants: ['sm', 'md', 'hover']
+      },
+      {
+        pattern: /^(border-)/,
+        variants: ['hover']
+      },
+      {
+        pattern: /^(font-|to-|from-)/,
+        variants: []
+      },
+      'text-shadow text-shadow-xs text-shadow-none text-shadow-opacity-5 text-shadow-opacity-10',
+      ...alwaysSafe
+    ],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     fontSize: {
@@ -210,7 +224,11 @@ module.exports = {
       xs: '480px',
       ...defaultTheme.screens
     },
+    
     extend: {
+      maxWidth: {
+        thumb: '10rem',
+      },
       fontFamily: {
         sans: ['"Source Sans Pro"', 'sans-serif'],
         display: ['"Source Sans Pro"', 'sans-serif']

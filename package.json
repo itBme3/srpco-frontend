@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=dev nuxt",
+    "dev": "nuxt",
     "build": "NODE_ENV=production API_URL=https://srp-admin.herokuapp.com npm run generate",
     "build:dev": "NODE_ENV=dev nuxt generate",
     "prestart:dev": "npm run build:dev",

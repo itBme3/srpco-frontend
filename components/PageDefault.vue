@@ -33,7 +33,7 @@ v-if="![null, undefined].includes(page)"
     />
 
     <div
-      v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType !== 'datasheet')"
+      v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType === 'datasheet')"
          :class="{
            'blocks grid-cols-12': true,
            'hide-sidebar': entryType !== 'gasket'

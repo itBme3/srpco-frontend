@@ -7,6 +7,9 @@
   &:not(.block-hero) {
     @apply p-4 sm:p-8;
   }
+  &.block-collection {
+    @apply px-0;
+  }
   &.block-content {
     @apply p-6 sm:p-8;
   }
@@ -33,10 +36,10 @@
 }
 .single-entry,
 .collection {
-  @apply pt-4 sm:pt-2 md:pt-3 w-[calc(100%-1rem)] max-w-4xl mx-auto;
+  @apply pt-4 sm:pt-2 md:pt-3 w-[calc(100%-1rem)] mx-auto;
 }
 .single-entry {
-  @apply flex flex-wrap py-0 px-0 sm:px-10 md:px-12 lg:px-16 rounded-lg shadow-lg max-w-6xl;
+  @apply flex flex-wrap rounded-lg shadow-lg;
   column-gap: var(--grid-gap);
   row-gap: var(--grid-gap);
   .heading, .blocks, .entry-sidebar {
@@ -181,11 +184,14 @@
       @apply mx-auto px-3 pt-5;
       .entry-block {
         &[class*="block-solutions"] {
-          @apply max-w-prose mx-auto p-3 bg-transparent shadow-none w-full overflow-visible;
+          @apply col-span-12 mx-auto p-3 bg-transparent shadow-none w-full overflow-visible;
           .entry-block-content {
             @apply p-7 rounded-b-md rounded-t-sm bg-gray-800 bg-opacity-50 shadow-xl w-full;
             border-top: 2px solid var(--block-color);
           }
+        }
+        &.block-solutions-challenge, &.block-solutions-solution {
+          @apply lg:col-span-6;
         }
         .block-title {
           @apply mb-0;

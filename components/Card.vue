@@ -2,7 +2,7 @@
   <div
     class="card flex flex-col items-start hover:scale-102"
     :class="{
-      'has-more-links' : Array.isArray(moreLinks) && moreLinks.length > 0,
+      'has-more-links' : hasMoreLinks,
       'has-link' : hasLink,
       'no-media': ([undefined, null].includes(media) || typeof media.url !== 'string' || !media.url.length) && ([undefined, null].includes(youtube) || !youtube.length),
       'has-text': typeof text === 'string' && text.length > 0,
@@ -20,7 +20,7 @@
         'card-style-media-left': cardStyle === 'mediaLeft',
         'card-style-media-right': cardStyle === 'mediaRight',
         'card-style-media-above': cardStyle === 'mediaAbove',
-        'card-more-links': Array.isArray(moreLinks) && moreLinks.length > 0
+        'card-more-links': hasMoreLinks
       }"
       :link="link"
       :modal-data="{ youtube: youtube, media: media, title: title, text:text }"
@@ -66,7 +66,7 @@
     </div>
     </Link>
     <CardMoreLinks
-      :v-if="Array.isArray(moreLinks) && moreLinks.length > 0"
+      :v-if="hasMoreLinks"
       :more-links="moreLinks"
       tag-name="small"
       class="more-links-container mt-3 w-full"
@@ -167,6 +167,9 @@ export default Vue.extend({
       }
       return false;
     },
+    hasMoreLinks () {
+      return this.moreLinks?.length > 0
+    },
     titleClasses () {
       return !!this?.classes?.title ? this.classes.title : ''
     },
@@ -238,9 +241,12 @@ export default Vue.extend({
     @apply flex overflow-hidden w-full transition-all duration-200 ease-quick-in scale-100;
   }
   &.has-more-links {
-    @apply bg-transparent;
+    @apply p-4 rounded-lg hover:border-gray-700 border-2 border-gray-800;
+    &.card-style-media-left {
+      @apply hover:pl-4;
+    }
     .card-link {
-      @apply rounded-md transition-all ease-quick-in duration-200 transform shadow-xl bg-gray-700 bg-opacity-20 hover:bg-opacity-30 hover:scale-[1.02] scale-100;
+      @apply pl-0 rounded-md transition-all ease-quick-in duration-200 transform shadow-xl bg-gray-800 bg-opacity-0 hover:bg-opacity-40 hover:scale-[1.02] scale-100;
       .button-link {
         @apply text-gray-200;
       }
@@ -302,7 +308,7 @@ export default Vue.extend({
     [class*='card-style'] {
       @apply flex-wrap;
       .card-text {
-        @apply order-last mt-2;
+        @apply order-last;
       }
     }
     .card-style-media-above,

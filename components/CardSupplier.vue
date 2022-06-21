@@ -69,7 +69,7 @@
         'opacity-100 max-h-full py-2 rounded-lg m-2': expanded
       }"
     >
-      <a :href="'/suppliers/' + slug">
+      <nuxt-link :to="'/suppliers/' + slug">
         <small
           v-if="!!supplier.totalConverters"
           class="relative -top-2 mr-0 ml-auto font-bold"
@@ -81,9 +81,9 @@
           1 of only {{ supplier.totalConverters }} {{ title }} preferred converters
         </small>
         <p class="description">{{ description }}</p>
-      </a>
+      </nuxt-link>
       <div class="buttons flex items-center justify-start mt-3">
-        <a :href="'/suppliers/' + slug">
+        <nuxt-link :to="'/suppliers/' + slug">
           <button
             class="rounded transform mr-2 px-2 whitespace-nowrap scale-95 hover:scale-100 shadow-sm hover:shadow-lg"
             :class="{ 
@@ -91,12 +91,12 @@
               ['text-' + colors.primary.split('-')[0] + '-900']: true,
             }"
           >Learn More</button>
-        </a>
-        <a :href="'/suppliers/' + slug + '#gaskets'">
+        </nuxt-link>
+        <nuxt-link :to="'/suppliers/' + slug + '#gaskets'">
           <button class="rounded px-2 whitespace-nowrap transform scale-95 hover:scale-100 shadow-sm hover:shadow-lg bg-gray-100 hover:bg-white text-gray-700">
             Gaskets
           </button>
-        </a>
+        </nuxt-link>
       </div>
     </div>
   </div>
