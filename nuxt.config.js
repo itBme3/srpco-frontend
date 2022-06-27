@@ -88,13 +88,18 @@ export default {
     '@nuxtjs/google-analytics',
   ],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
     'nuxt-vuex-localstorage',
     '@nuxt/content',
-    '@nuxtjs/proxy'
+    '@nuxtjs/proxy',
+    '@nuxtjs/sitemap'
   ],
+
+  sitemap: {
+    hostname: process.env.HOST_URL,
+    gzip: true
+  },
 
   googleAnalytics: {
     id: gaId,
