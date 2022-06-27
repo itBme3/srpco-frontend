@@ -226,9 +226,6 @@ module.exports = {
     },
     
     extend: {
-      maxWidth: {
-        thumb: '10rem',
-      },
       fontFamily: {
         sans: ['"Source Sans Pro"', 'sans-serif'],
         display: ['"Source Sans Pro"', 'sans-serif']
@@ -272,7 +269,8 @@ module.exports = {
         'site-sm': '960px',
         'site-md': '1080px',
         'site-lg': '1200px',
-        'site-xl': '1400px'
+        'site-xl': '1400px',
+        'thumb': '10rem',
       },
       borderRadius: {
         xs: '.03em',
@@ -315,5 +313,19 @@ module.exports = {
     }
   },
   plugins: [
-  ]
+        require('postcss-import'),
+        require('tailwindcss'),
+        require('autoprefixer'),
+        require('@tailwindcss/typography'),
+        require('tailwindcss/plugin')(function ({ matchUtilities, theme }) {
+        matchUtilities(
+          {
+            'text-shadow': (value) => ({
+              textShadow: value
+            })
+          },
+          { values: theme('textShadow') }
+        )
+      })
+    ]
 }

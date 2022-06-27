@@ -38,24 +38,6 @@ export default {
   tailwindCss: {
     cssPath: '~/assets/tailwind/tailwind.css',
     exposeConfig: true,
-    config: {
-      plugins: [
-        require('postcss-import'),
-        require('tailwindcss'),
-        require('autoprefixer'),
-        require('@tailwindcss/typography'),
-        require('tailwindcss/plugin')(function ({ matchUtilities, theme }) {
-        matchUtilities(
-          {
-            'text-shadow': (value) => ({
-              textShadow: value
-            })
-          },
-          { values: theme('textShadow') }
-        )
-      })
-      ]
-    },
     injectPosition: 0
   },
   plugins: [
