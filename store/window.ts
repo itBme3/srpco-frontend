@@ -29,7 +29,7 @@ export const mutations = {
             state.width = document.documentElement.clientWidth
             state.height = document.documentElement.clientHeight
             state.isMobile = state.width < MOBILE_WIDTH
-            
+            console.log({ state })
             function browserName () {
                   const GOOGLE_VENDOR_NAME = 'Google Inc.';
                   function isOpera(){
@@ -45,24 +45,24 @@ export const mutations = {
                   const vendor = window.navigator.vendor;
                   switch (true) {
                         case /Edge|Edg|EdgiOS/.test(userAgent):
-                              return 'Edge';
+                              return 'edge';
                         case /OPR|Opera/.test(userAgent) && isOpera():
-                              return 'Opera';
+                              return 'opera';
                         case /CriOS/.test(userAgent):
                         case /Chrome/.test(userAgent) && vendor === GOOGLE_VENDOR_NAME && isChromium():
-                              return 'Chrome';
+                              return 'chrome';
                         case /Vivaldi/.test(userAgent):
-                              return 'Vivaldi';
+                              return 'vivaldi';
                         case /YaBrowser/.test(userAgent):
-                              return 'Yandex';
+                              return 'yandex';
                         case /Firefox|FxiOS/.test(userAgent):
-                              return 'Firefox';
+                              return 'firefox';
                         case /Safari/.test(userAgent):
-                              return 'Safari';
+                              return 'safari';
                         case /MSIE|Trident/.test(userAgent):
-                              return 'Internet Explorer';
+                              return 'ie';
                         default:
-                              return 'Unknown';
+                              return 'unknown';
                         }
             }
             const outer: any = document.createElement('div');

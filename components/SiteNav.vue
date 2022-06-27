@@ -1,6 +1,7 @@
 
 <template>
-  <div :class="{
+  <div
+:class="{
       'site-navigation': true,
       'is-mobile': $store.state.window.isMobile,
       'expanded': navExpanded
@@ -16,17 +17,8 @@
       />
     </gButton>
     <nav name="main navigation">
-      <template :v-if="navLinks && navLinks[0] && navLinks[0].link">
-        <!-- <div
-          class="overlay absolute -inset-1 bg-transparent"
-          :class="{
-            'z-0': navExpanded,
-            'z-1': !navExpanded,
-          }"
-          @click="expandNav()"
-          @mouseenter="navExpanded = true"
-        /> -->
-
+      <template 
+        v-if="navLinks && navLinks[0] && navLinks[0].link">
         <div
           v-for="navLink in navLinks"
           :key="navLink.id"
@@ -50,7 +42,7 @@
               >
               <gButton
                 :class="{
-                    'bg-opacity-100 bg-transparent text-center w-full mr-0 px-2 hover:bg-white': true,
+                    'whitespace-nowrap bg-opacity-100 bg-transparent text-center w-full mr-0 px-2 hover:bg-white': true,
                     'bg-white bg-opacity-95': navLink.link === showNested,
                     'pr-1': Array.isArray(navLink.nested) && navLink.nested.length > 0
                   }"
@@ -62,7 +54,7 @@
             </div>
             <gButton
               v-if="Array.isArray(navLink.nested) && navLink.nested.length > 0"
-              class="toggle-nested px-0 w-8 h-full my-0 ml-px bg-transparent hover:bg-white shadow-none hover:shadow-lg"
+              class="toggle-nested whitespace-nowrap px-0 w-8 h-full my-0 ml-px bg-transparent hover:bg-white shadow-none hover:shadow-lg"
               :class="{ '!bg-white bg-opacity-100': showNested !== null && navLink.link === showNested }"
               :variant="'secondary'"
               @click="toggleNested(navLink.link)"
@@ -81,18 +73,16 @@
             @mouseleave="nestedHovered = false"
           >
             <div class="nested-links">
-              <template v-for="nestedLink in navLink.nested">
-                <Link
-                  :key="nestedLink.id"
-                  :link="nestedLink.link"
-                  :new-tab="!!nestedLink.openNewTab"
-                >
-                <gButton class="w-full mb-1 text-center hover:bg-white px-2">
-                  <!-- <i :class="'my-auto -ml-3 mr-1 icon text-srp-red gicon-' + nestedLink.icon" /> -->
-                  {{ nestedLink.text }}
-                </gButton>
-                </Link>
-              </template>
+              <Link
+                  v-for="nestedLink in navLink.nested"
+                :key="nestedLink.id"
+                :link="nestedLink.link"
+                :new-tab="!!nestedLink.openNewTab"
+              >
+              <gButton class="w-full mb-1 text-center whitespace-nowrap hover:bg-white px-2">
+                {{ nestedLink.text }}
+              </gButton>
+              </Link>
             </div>
           </div>
           <div

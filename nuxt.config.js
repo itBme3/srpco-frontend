@@ -20,14 +20,16 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image', href: '/favicon.png' },
-      // { rel: 'stylesheet', href: 'https://use.typekit.net/jot7ezc.css' },
-      // { src: `https://www.googletagmanager.com/gtag/js?id=${gaId}`, async: true, type: 'text/partytown' },
-    ]
+    ],
+    // script: [
+    //   { src: 'https://polyfill.io/v3/polyfill.min.js' }
+    // ]
   },
 
   server: {
     port: '3001'
   },
+  components: true,
   ssr: true,
   target: 'static',
   css: [
@@ -35,18 +37,27 @@ export default {
   ],
   tailwindCss: {
     cssPath: '~/assets/tailwind/tailwind.css',
-    exposeConfig: false,
+    exposeConfig: true,
     config: {
       plugins: [
         require('postcss-import'),
         require('tailwindcss'),
         require('autoprefixer'),
-        require('@tailwindcss/typography')
+        require('@tailwindcss/typography'),
+        require('tailwindcss/plugin')(function ({ matchUtilities, theme }) {
+        matchUtilities(
+          {
+            'text-shadow': (value) => ({
+              textShadow: value
+            })
+          },
+          { values: theme('textShadow') }
+        )
+      })
       ]
     },
     injectPosition: 0
   },
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/check-view.js',
     '~/plugins/flickity.client.js',
@@ -55,11 +66,8 @@ export default {
     '~/plugins/form-generator.js',
     '~/plugins/truncate.js',
   ],
+  
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
-
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxt/typescript-build',
     [
