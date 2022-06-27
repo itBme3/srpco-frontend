@@ -150,9 +150,7 @@ module.exports = {
     'nuxt.config.{js,ts}',
     'tailwind.config.js'
   ],
-  safelist: process.env.NODE_ENV === 'production'
-    ? alwaysSafe
-    : [
+  safelist: [
       {
         pattern:
           /^(m-|p-|mt-|pt-|ml-|pl-|mb-|pb-|mr-|pr-|inset-|top-|bottom-|left-|right-|min-w-|min-h-|max-w-|max-h-|col-span-)/,
@@ -311,21 +309,5 @@ module.exports = {
       scale: ['hover'],
       order: ['responsive']
     }
-  },
-  plugins: [
-        require('postcss-import'),
-        require('tailwindcss'),
-        require('autoprefixer'),
-        require('@tailwindcss/typography'),
-        require('tailwindcss/plugin')(function ({ matchUtilities, theme }) {
-        matchUtilities(
-          {
-            'text-shadow': (value) => ({
-              textShadow: value
-            })
-          },
-          { values: theme('textShadow') }
-        )
-      })
-    ]
+  }
 }

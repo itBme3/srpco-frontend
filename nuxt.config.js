@@ -38,7 +38,26 @@ export default {
   tailwindCss: {
     cssPath: '~/assets/tailwind/tailwind.css',
     exposeConfig: true,
-    injectPosition: 0
+    injectPosition: 0,
+    config: {
+
+      plugins: [
+        require('postcss-import'),
+        require('tailwindcss'),
+        require('autoprefixer'),
+        require('@tailwindcss/typography'),
+        require('tailwindcss/plugin')(function ({ matchUtilities, theme }) {
+        matchUtilities(
+          {
+            'text-shadow': (value) => ({
+              textShadow: value
+            })
+          },
+          { values: theme('textShadow') }
+        )
+      })
+    ]
+    }
   },
   plugins: [
     '~/plugins/check-view.js',
