@@ -107,6 +107,7 @@ const pathWhitelist = [
       '/contact',
       '/login',
       '/search',
+      '/blog'
 ]
 
 module.exports = {

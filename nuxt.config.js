@@ -153,7 +153,9 @@ export default {
   content: {
     liveEdit: false,
     nestedProperties: [
-      ...['supplier', ...collectionTypes].map(c => `${c}.slug`)
+      ...['supplier', ...collectionTypes].reduce((acc, c) => {
+        return [...acc, `${c}.slug`, `${c}.title`, `${c}.description`]
+      }, [])
     ],
     fullTextSearchFields: ['title', 'slug', 'content', 'description', 'fileContent']
   },
