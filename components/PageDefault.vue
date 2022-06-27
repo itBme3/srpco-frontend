@@ -31,43 +31,15 @@ v-if="![null, undefined].includes(page)"
       :entry="page"
       class="col-span-full"
     />
-
-    <div
-      v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType === 'datasheet')"
-         :class="{
+      
+      <Blocks 
+        v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType === 'datasheet')"
+        :class="{
            'blocks grid-cols-12': true,
            'hide-sidebar': entryType !== 'gasket'
-         }">
-      <div
-        v-if="![undefined, null].includes(page) && typeof page.content === 'string'"
-           class="page-content entry-block col-span-12"
-           :class="{
-             'hidden': page.content.trim().length === 0
-           }">
-        <BlockContent :block="{ content: page.content }" />
-      </div>
-
-      <template v-if="$route.params.slug === 'gaskets'">
-        <TabsWrapper class="col-span-12">
-          <TabPanel 
-            v-for="(block, i) in gasketCollectionBlocks"
-            :key="block.id"
-            :title="block.title">
-            <LazyBlock 
-              v-if="![null, undefined].includes(block)"
-              :key="block.id + '-' + i"
-              :block="block" />
-          </TabPanel>
-        </TabsWrapper>
-      </template>
-
-      <template v-for="(block, index) in pageBlocks">
-        <Block 
-          v-if="![null, undefined].includes(block)"
-          :key="block.id + '-' + index"
-          :block="block" />
-      </template>
-    </div>
+         }"
+        :blocks="page.blocks"
+        :content="page.content" />
 
     <EntrySideBar
 :v-if="!!page && typeof page !== 'string' && ['gasket'].includes(entryType)"
