@@ -7,9 +7,9 @@
     v-if="typeof content === 'string' && content.length"
         class="page-content entry-block col-span-12"
         :class="{
-          'hidden': page.content.trim().length === 0
+          'hidden': content && content.trim().length === 0
         }">
-    <BlockContent :block="{ content: page.content }" />
+    <BlockContent :block="{ content: content }" />
   </div>
   <template
       v-for="(block, i) in pageBlocks"
