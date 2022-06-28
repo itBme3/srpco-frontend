@@ -1,10 +1,16 @@
 <template>
+    
   <nuxt-link
-    v-if="typeof link === 'string' && !!link.indexOf && link.indexOf('/') === 0 && openNewTab !== true"
+    v-if="typeof link === 'string' && !!link.indexOf && link.indexOf('/') === 0 && !openNewTab && !isButton"
     :to="link"
   >
     <slot />
   </nuxt-link>
+  <gButton
+    v-else-if="typeof link === 'string' && !!link.indexOf && link.indexOf('/') === 0 && !openNewTab && isButton"
+    @click="$router.push(link)">
+    <slot />
+  </gButton>
   <a
     v-else-if="typeof link === 'string' && link.length > 0"
     :href="link"
@@ -41,6 +47,10 @@ export default Vue.extend({
     modalData: {
       type: Object,
       default: () => null
+    },
+    isButton: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

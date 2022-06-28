@@ -45,27 +45,29 @@
       <template v-if="![null, undefined].includes(text)">
         <div
           class="hero-text text-sm"
-          :class="{ [classes.text]: classes.text.length > 0 }"
+          :class="{ [classes.text]: classes.text.length }"
           v-html="text"
         />
       </template>
       <div
-        v-if="Array.isArray(buttons) && buttons.length > 0"
+        v-if="Array.isArray(buttons) && buttons.length"
         class="hero-buttons"
-        :class="{}"
+        :class="{
+          [classes.buttons]: classes.buttons.length
+        }"
       >
         <Link
           v-for="btn in buttons"
           :key="btn.id"
           :link="btn.link"
           :open-new-tab="btn.openNewTab"
+          class="inline"
+          :is-button="true"
+          :class="{ 
+            ['' + btn.buttonClasses + '']: typeof btn.buttonClasses === 'string' && btn.buttonClasses.length > 0
+          }"
         >
-        <gButton
-:class="{ 
-          ['' + btn.buttonClasses + '']: typeof btn.buttonClasses === 'string' && btn.buttonClasses.length > 0
-          }">
           {{ btn.text }}
-        </gButton>
         </Link>
       </div>
     </div>
@@ -93,6 +95,7 @@ export default Vue.extend({
               content: '',
               title: '',
               overlay: '',
+              buttons: ''
             }
           }
         }
@@ -132,6 +135,7 @@ export default Vue.extend({
               content: '',
               title: '',
               overlay: '',
+              buttons: ''
             }
           }
     },
@@ -142,6 +146,7 @@ export default Vue.extend({
         text = '',
         content = '',
         overlay = '',
+        buttons = '',
       } = this.block?.heroSettings?.classes || {};
       return {
         media,
@@ -149,6 +154,7 @@ export default Vue.extend({
         text,
         content,
         overlay,
+        buttons
       }
     }
   }
@@ -198,7 +204,7 @@ export default Vue.extend({
   .hero-buttons {
     @apply flex space-x-2 mt-6;
     button {
-      @apply bg-white text-gray-700 hover:bg-srp-red hover:text-white;
+      @apply bg-white text-gray-700 hover:bg-srp-red hover:text-white w-auto;
     }
   }
   &.hero-style {
@@ -229,7 +235,7 @@ export default Vue.extend({
         @apply mx-auto;
       }
       .hero-buttons {
-        @apply content-center justify-center;
+        @apply content-center;
       }
     }
     &-media {

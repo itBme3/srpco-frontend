@@ -18,7 +18,7 @@ v-for="tabTitle in tabTitles"
         <gButton 
           classes="pl-3 pr-2 py-1 rounded w-auto hover:bg-gray-300 hover:text-gray-800 hover:shadow-lg"
           :class="{
-            [`active bg-gray-200 text-gray-800 ${classes.activeTab}`]: activeTitle === tabTitle,
+            [`active ${classes.activeTab}`]: activeTitle === tabTitle,
             [classes.tab]: activeTitle !== tabTitle,
             
           }"
@@ -94,6 +94,14 @@ export default Vue.extend({
 
 <style lang="scss">
 .tabs-wrapper {
-  @apply w-full
+  @apply w-full;
+  .tabs-header {
+    button {
+      @apply border border-gray-600 text-gray-200 hover:border-gray-200;
+      &.active {
+        @apply bg-gray-200 text-gray-800 border-gray-200 hover:scale-100 cursor-default;
+      }
+    }
+  }
 }
 </style>
