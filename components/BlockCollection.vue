@@ -82,7 +82,7 @@ v-if="
         ['button', 'infiniteScroll'].includes(loadingMore) &&
         (!buttonLink || !buttonLink.length)
       "
-               v-view="infiniteScroll ? visibilityHandler : (e) => e"
+               v-view="['infiniteScroll'].includes(loadingMore) ? visibilityHandler : (e) => e"
                :class="{
                  'load-more-button': true
                }"
@@ -353,7 +353,7 @@ export default Vue.extend({
       }
       this.$emit('updateEntries', this.entries)
       try {
-        if (this.infiniteScroll && window !== undefined) {
+        if (['infiniteScroll'].includes(loadingMore) && window !== undefined) {
           setTimeout(() => {
             window.scrollTo({
               top: window.scrollY === 0 ? 1 : window.scrollY + 1

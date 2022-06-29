@@ -4,7 +4,7 @@
     class="entries-on-entry">
     <BlockCollection
       :collection-type="collectionType"
-      :limit="3"
+      :limit="8"
       card-style="mediaLeft"
       :ratio="['datasheets'].includes(collectionType) ? '9:10' : ['services'].includes(collectionType) ? '16:9' : '5:4'"
       :search-bar="false"
@@ -12,8 +12,8 @@
       :update-url="false"
       :entries="entries"
       :classes="{
-        grid: 'w-full grid grid-cols-1 gap-4',
-        card: 'col-span-1 p-1 bg-gray-900',
+        grid: 'w-full grid grid-cols-12 gap-2',
+        card: 'col-span-full sm:col-span-6 p-1 bg-gray-900',
         media: 'rounded',
         title: 'text-xl font-regular tracking-wide',
         text: ''
@@ -24,6 +24,7 @@
 
 <script>
 import Vue from 'vue'
+import { sortCompare } from '~/utils/funcs'
 
 export default Vue.extend({
   props: {
@@ -39,7 +40,7 @@ export default Vue.extend({
   computed: {
     entries () {
       if (this.entry && Array.isArray(this.entry[this.collectionType]) && this.entry[this.collectionType].length) {
-        return this.entry[this.collectionType]
+        return [...this.entry[this.collectionType]].sort(sortCompare('title', 'asc'))
       }
       this.$emit('noEntries', true)
       return []

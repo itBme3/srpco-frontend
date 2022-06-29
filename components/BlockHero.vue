@@ -236,6 +236,14 @@ export default Vue.extend({
       }
       .hero-buttons {
         @apply content-center;
+        button {
+          &:nth-child(1) {
+            @apply ml-auto;
+          }
+          &:nth-last-child(1) {
+            @apply mr-auto;
+          }
+        }
       }
     }
     &-media {

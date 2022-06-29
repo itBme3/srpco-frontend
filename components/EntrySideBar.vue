@@ -3,10 +3,7 @@
     v-if="!!entry"
     class="entry-sidebar"
   >
-    <div
-      v-if="Array.isArray(suppliers) && suppliers.length > 0"
-      class="sidebar-section inquire"
-    >
+    <div class="sidebar-section inquire">
       <h3>Inquire About {{ entry.title }}</h3>
       <Link :to="`/contact?msg=${entry.title}`" :is-button="true">
         Ask Us

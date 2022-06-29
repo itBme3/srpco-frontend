@@ -11,12 +11,14 @@
     
     <TabsWrapper 
       v-if="Array.isArray(block)"
+      ref="collectionTabs"
       :key="block.id"
       class="col-span-12">
       <TabPanel 
         v-for="(collectionBlock) in block"
         :key="collectionBlock.id"
-        :title="collectionBlock.title">
+        :title="collectionBlock.title"
+        :hash="collectionBlock.hash">
         <LazyBlock 
           v-if="![null, undefined].includes(collectionBlock)"
           :key="collectionBlock.id"
@@ -50,18 +52,17 @@ export default Vue.extend({
   },
   computed: {
     pageBlocks () {
-      return this.blocks.reduce((acc, block, i) => {
-        if (block.__component === 'block.collection'
-              && block.title
-              && block.title.length) {
-              if (Array.isArray(acc[i - 1])) {
-                acc[i - 1].push(block);
-                    return acc
-              }
-              if (acc[i - 1]?.__component === 'block.collection' && acc[i - 1]?.title?.length) {
-                    const previous = acc.pop();
-                    return [...acc, [previous, block]]
-              }
+      return [...this.blocks].reduce((acc, block, i) => {
+        if (block.__component === 'block.collection') {
+            const _block = { ...block, title: block?.title?.length ? block.title : block.collectionType }
+            if (Array.isArray(acc[i - 1])) {
+              acc[i - 1].push(_block);
+                  return acc
+            }
+            if (acc[i - 1]?.__component === 'block.collection' && acc[i - 1]?.title?.length) {
+                  const previous = acc.pop();
+                  return [...acc, [previous, _block]]
+            }
         }
         return [...acc, block]
       }, []);

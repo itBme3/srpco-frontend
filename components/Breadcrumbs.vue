@@ -9,7 +9,7 @@
         :key="crumb.link"
         class="text-green-400 hover:text-green-500"
       >
-        <NuxtLink :to="crumb.link">{{ crumb.text }}</NuxtLink>
+        <NuxtLink :to="['applications', 'materials'].includes(crumb.link) ? `/gaskets/#${crumb.link}` : crumb.link">{{ crumb.text }}</NuxtLink>
         <span class="text-gray-600 mr-1">/</span>
       </small>
       <small

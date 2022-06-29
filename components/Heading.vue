@@ -3,7 +3,6 @@
     class="heading flex flex-wrap w-full max-w-full"
     :class="{
       ['heading-' + headingType + ''] : typeof headingType === 'string' && headingType.length > 0,
-      'heading-collection': headingType === 'collection',
       'has-media': (![undefined, null].includes(media) && typeof media.url === 'string') || typeof youtube === 'string' && youtube.length > 0
     }"
   >
@@ -14,10 +13,6 @@
     />
     <div class="heading-content">
 
-      <Breadcrumbs
-        v-if="!!breadcrumbs && headingType !== 'page'"
-        class="heading-breadcrumbs"
-      />
       <Media
         v-if="![null, undefined].includes(media) && typeof media.url === 'string'"
         :media="media"

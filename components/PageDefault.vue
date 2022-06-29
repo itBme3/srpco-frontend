@@ -11,13 +11,13 @@ v-if="![null, undefined].includes(page)"
     <Heading
         v-if="![null, undefined].includes(page)"
         :title="page.title"
-        :heading-type="!!!entryType || !entryTypes.includes(entryType) ? 'collection' : 'page'"
+        :heading-type="!entryType || !entryType.length || !entryTypes.includes(entryType) ? 'collection' : 'page'"
         :description="page.description"
-        :media="(!!!entryType || !entryTypes.includes(entryType)) && page.seo && page.seo.image ? page.seo.image : page.media"
+        :media="(!entryType || !entryTypes.includes(entryType)) && page.seo && page.seo.image ? page.seo.image : page.media"
         :class="{
             [pageClasses.heading]: !!pageClasses.heading && !!pageClasses.heading.length
         }"
-        :divider="!!!entryType || !entryTypes.includes(entryType)"
+        :divider="!entryType || !entryTypes.includes(entryType)"
         :title-classes="pageClasses.title"
         :overlay-classes="entryType === 'solution' ? 'solutions-header-media-overlay' : ''" />
 
@@ -50,14 +50,21 @@ v-if="![null, undefined].includes(page)"
             <BlockContent :block="{ content: page.content }" />
         </div>
 
-        <template #after>
-            <template
+        <!-- <template #after>
+           
+        </template> -->
+    </Blocks>
+    <EntrySideBar
+        v-if="!!page && typeof page !== 'string' && ['gasket', 'material', 'application'].includes(entryType)"
+        :entry="typeof page === 'object' ? page : {}" />
+    
+     <template
                 v-for="collection in ['materials', 'applications', 'gaskets']"
             >
             <section 
                 v-if="page && page[collection] && page[collection].length"
                 :key="collection"
-                class="entries-on-entry-section p-4 col-span-full rounded-md shadow-lg border border-gray-900 bg-gray-900 bg-opacity-40"
+                class="entries-on-entry-section col-span-full "
                 :class="{[collection]: true}">
                 <h6 class="font-bold mb-2 capitalize">Related {{ collection }}:</h6>
                 <EntriesOnEntry 
@@ -67,12 +74,6 @@ v-if="![null, undefined].includes(page)"
                 />
             </section>
             </template>
-        </template>
-    </Blocks>
-
-    <EntrySideBar
-:v-if="!!page && typeof page !== 'string' && ['gasket'].includes(entryType)"
-                  :entry="typeof page === 'object' ? page : {}" />
 
     <NextPreviousEntries v-if="isSingleEntry && ['solution', 'resource'].includes(entryType)" />
 
@@ -98,7 +99,7 @@ export default Vue.extend({
         this.$store.commit("nextPrevious/setEntry", this.pageData);
         return {
             page: this.pageData,
-            slug: !!!slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
+            slug: !slug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : slug,
             collectionType,
             entryType,
             id,
@@ -152,7 +153,7 @@ export default Vue.extend({
         if (!collectionType) {
             collectionType = this.$route.params.collection;
         }
-        const slug = !!!initialSlug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : initialSlug;
+        const slug = !initialSlug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : initialSlug;
         this.$store.dispatch("getEntryUpdates", { slug: this.isSingleEntry ? slug : null, path: !!collectionType ? collectionType : initialSlug }).then((res) => {
             try {
                 this.page = {
