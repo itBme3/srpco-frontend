@@ -59,7 +59,7 @@
         <Link
           v-for="btn in buttons"
           :key="btn.id"
-          :link="btn.link"
+          :to="btn.link"
           :open-new-tab="btn.openNewTab"
           class="inline"
           :is-button="true"

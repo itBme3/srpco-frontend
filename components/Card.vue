@@ -22,7 +22,7 @@
         'card-style-media-above': cardStyle === 'mediaAbove',
         'card-more-links': hasMoreLinks
       }"
-      :link="link"
+      :to="link"
       :modal-data="{ youtube: youtube, media: media, title: title, text:text }"
       :open-new-tab="openNewTab === true"
       @open-modal="(e) => openModal(e)"

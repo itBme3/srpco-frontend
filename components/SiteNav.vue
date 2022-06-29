@@ -36,11 +36,10 @@
           >
             <div class="w-full flex items-center content-start">
               <Link
-                :link="navLink.link"
+                :to="navLink.link"
                 :new-tab="!!navLink.openNewTab"
+                :is-button="true"
                 class="w-full flex content-state items-center"
-              >
-              <gButton
                 :class="{
                     'whitespace-nowrap bg-opacity-100 bg-transparent text-center w-full mr-0 px-2 hover:bg-white': true,
                     'bg-white bg-opacity-95': navLink.link === showNested,
@@ -49,7 +48,6 @@
                 :variant="'light'"
               >
                 {{ navLink.text }}
-              </gButton>
               </Link>
             </div>
             <gButton
@@ -76,12 +74,12 @@
               <Link
                   v-for="nestedLink in navLink.nested"
                 :key="nestedLink.id"
-                :link="nestedLink.link"
+                :to="nestedLink.link"
                 :new-tab="!!nestedLink.openNewTab"
+                :is-button="true"
+                class="w-full mb-1 text-center whitespace-nowrap hover:bg-white px-2"
               >
-              <gButton class="w-full mb-1 text-center whitespace-nowrap hover:bg-white px-2">
                 {{ nestedLink.text }}
-              </gButton>
               </Link>
             </div>
           </div>

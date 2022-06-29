@@ -1,19 +1,19 @@
 <template>
     
   <nuxt-link
-    v-if="typeof link === 'string' && !!link.indexOf && link.indexOf('/') === 0 && !openNewTab && !isButton"
-    :to="link"
+    v-if="typeof to === 'string' && !!to.indexOf && to.indexOf('/') === 0 && !openNewTab && !isButton"
+    :to="to"
   >
     <slot />
   </nuxt-link>
   <gButton
-    v-else-if="typeof link === 'string' && !!link.indexOf && link.indexOf('/') === 0 && !openNewTab && isButton"
-    @click="$router.push(link)">
+    v-else-if="typeof to === 'string' && !!to.indexOf && to.indexOf('/') === 0 && !openNewTab && isButton"
+    @click="$router.push(to)">
     <slot />
   </gButton>
   <a
-    v-else-if="typeof link === 'string' && link.length > 0"
-    :href="link"
+    v-else-if="typeof to === 'string' && to.length > 0"
+    :href="to"
     class="simple-link"
     :target="openNewTab === true ? '_blank' : '_self'"
   >
@@ -40,7 +40,7 @@ export default Vue.extend({
       type: Boolean,
       default: false
     },
-    link: {
+    to: {
       type: String,
       default: null
     },

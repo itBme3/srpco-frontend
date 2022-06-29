@@ -11,15 +11,15 @@
       <Link
         v-for="(btn, i) in buttons"
         :key="'button-' + block.id + '-' + i"
-        :link="btn.link"
+        :to="btn.link"
         :open-new-tab="btn.openNewTab"
-      >
-      <gButton :class="{ 
+        :class="{ 
           ['' + btn.buttonClasses + '']: typeof btn.buttonClasses === 'string' && btn.buttonClasses.length > 0,
           [buttonsClasses]: !!buttonsClasses.length
-        }">
+        }"
+        :is-button="true"
+      >
         {{ btn.text }}
-      </gButton>
       </Link>
     </template>
   </div>
