@@ -29,19 +29,22 @@
         :overlay-classes="overlayClasses"
       />
       <div class="heading-text-content">
-        <gTag
+        <h1
           v-if="title !== null && title.length > 0"
-          :tag-name=" headingType === 'page' ? 'h1' : 'h2'"
           :class="{ 'heading-title': true, [titleClasses]: titleClasses.length > 0 }"
         >
           {{ title }}
-        </gTag>
-        <h5
+          <span  
+            v-if="description !== null && title.length > 0"
+            class="divider h-3 my-2 bg-gray-200 block"
+            :style="{ width: `${title.length * .6}ch` }" />
+        </h1>
+        <h2
           v-if="description !== null && title.length > 0"
           :class="{ 'heading-description': true, [descriptionClasses]: descriptionClasses.length > 0 }"
         >
           {{ description }}
-        </h5>
+        </h2>
       </div>
     </div>
   </div>
@@ -99,7 +102,7 @@ export default Vue.extend({
 </script>
 <style lang="scss">
 .heading {
-  @apply flex items-start content-start py-2 sm:py-0;
+  @apply flex items-start content-start py-2 sm:py-0 relative;
   .heading-content {
     @apply block sm:flex flex-row items-center justify-start w-full;
   }
@@ -111,7 +114,7 @@ export default Vue.extend({
     @apply text-gray-200 mb-2 font-black;
   }
   .heading-description {
-    @apply text-base font-normal tracking-wide text-gray-500 leading-snug mt-4;
+    @apply text-base font-normal tracking-wide text-gray-500 leading-snug;
   }
   .heading-media {
     @apply rounded-md sm:rounded-sm absolute sm:relative z-0 sm:mx-2 shadow-2xl w-full sm:w-5/12 mx-0 sm:ml-auto;
@@ -147,10 +150,18 @@ export default Vue.extend({
       }
     }
   }
-  .single-entry {
-    .heading-content {
-      @apply bg-gray-900 sm:bg-transparent;
+   &.heading-collection {
+    &.has-media {
+      .heading-content {
+      @apply block px-8 py-16;
+        .heading-title, .heading-description {
+          @apply text-gray-100;
+        }
+        .media {
+          @apply absolute inset-0 w-full z-0 grayscale opacity-30 mx-0;
+        }
+      }
     }
-  }
+   }
 }
 </style>

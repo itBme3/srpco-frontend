@@ -13,7 +13,7 @@ v-if="![null, undefined].includes(page)"
              :title="page.title"
              :heading-type="!!!entryType || !entryTypes.includes(entryType) ? 'collection' : 'page'"
              :description="page.description"
-             :media="page.media"
+             :media="(!!!entryType || !entryTypes.includes(entryType)) && page.seo && page.seo.image ? page.seo.image : page.media"
              :class="{
                [pageClasses.heading]: !!pageClasses.heading && !!pageClasses.heading.length
              }"
