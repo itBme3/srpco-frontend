@@ -10,27 +10,28 @@
       @ps-scroll-down="(e) => scrollHandler(e, 'scroll-down')"
     >
     <ul
-      class="tabs-header list-none flex items-center content-start min-w-full space-x-2 p-0 m-0"
+      ref="tabsElem"
+      class="tabs-header list-none flex items-center content-center min-w-full space-x-2 p-0 m-0"
       :class="{ [classes.tabs]: true }">
       <li
-v-for="tabTitle in tabTitles"
-          :key="tabTitle">
+        v-for="(tabTitle, i) in tabTitles"
+        :key="tabTitle"
+        class="a-tab">
         <gButton 
-          classes="pl-3 pr-2 py-1 rounded w-auto hover:bg-gray-300 hover:text-gray-800 hover:shadow-lg"
+          classes="px-3 py-1 rounded text-lg sm:text-xl w-auto hover:bg-gray-300 hover:text-gray-800 hover:shadow-lg"
           :class="{
-            [`active ${classes.activeTab}`]: activeTitle === tabTitle,
-            [classes.tab]: activeTitle !== tabTitle,
-            
+            [`active ${classes.activeTab}`]: activeIndex === i,
+            [classes.tab]: activeIndex !== i,
           }"
-          @click="activeTitle = tabTitle">
+          @click="activeTab = tabTitle">
           {{ tabTitle }}
         </gButton>
       </li>
     </ul>
     </scrollbar>
     <div
-class="tabs-panels"
-    :class="{ [classes.panels]: true }">
+      class="tabs-panels"
+      :class="{ [classes.panels]: true }">
       <slot />
     </div>
   </div>
@@ -38,6 +39,7 @@ class="tabs-panels"
 
 <script>
 import Vue from 'vue'
+import { handleize } from '~/utils/funcs'
 
 export default Vue.extend({
   props: {
@@ -51,11 +53,16 @@ export default Vue.extend({
           panels: '',
         }
       }
+    },
+    active: {
+      type: String,
+      default: ''
     }
   },
   data () {
     return {
-      aTitle: null,
+      activeTitle: handleize(this.$route.hash.replace('#', '')),
+      activeIndex: 0,
       tabTitles: []
     }
   },
@@ -63,26 +70,55 @@ export default Vue.extend({
     tabs () {
       return this.$slots.default.filter(t => !!t.tag)
     },
-    activeTitle: {
+    activeTab: {
       get() {
-        return this.aTitle
+        return this.activeTitle
       },
       set (val) {
-        this.aTitle = val;
-        this.tabs.forEach(tab => {
-          tab.componentInstance.isActive = val === tab.componentInstance.title
+        const previousActiveTitle = this.activeTitle;
+        this.activeTitle = handleize(val);
+        this.tabs.forEach((tab, i) => {
+          const collectionType = tab.componentInstance.$slots.default
+            .filter(c => c.componentInstance.$children
+              .filter(child => child.collection))
+            .map(c => c.componentInstance.$children
+              .map(child => child.collection).filter(c => !!c)[0])[0];
+          tab.componentInstance.isActive = handleize(val) === handleize(tab.componentInstance.title)
+            || handleize(val) === handleize(collectionType);
+          if (tab.componentInstance.isActive) {
+            if (collectionType) {
+              this.activeTitle = collectionType
+            }
+            this.activeIndex = i;
+            if (previousActiveTitle !== this.activeTitle) {
+              console.log(this.$refs.tabsElem);
+              const top = (() => {
+                function addUpOffset(elem, acc = 0) {
+                  if (elem.tagName.toLowerCase() === 'main') {
+                    return acc;
+                  }
+                  return addUpOffset(elem.offsetParent, elem.offsetTop + acc)
+                };
+                return addUpOffset(this.$refs.tabsElem);
+              })();
+              window.scrollTo({top: top - 100, behavior: 'smooth'})
+              history.pushState(
+                {}, '', `${this.$route.path}#${handleize(this.activeTitle)}`,
+              )
+            }
+          }
         });
-        console.log(this.tabs.map(tab => 
-          tab.componentInstance.isActive
-        ))
       }
+    }
+  },
+  watch: {
+    active (val) {
+      this.activeTitle = val
     }
   },
   mounted () {
     this.tabTitles = this.tabs.map(tab => tab?.componentInstance?.title || null).filter(t => !!t) || []
-    if (!this.activeTitle) {
-      this.activeTitle = this.tabTitles[0]
-    }
+    this.activeTab = this.activeTitle.length ? this.activeTitle : this.tabTitles[0]
   },
   methods: {
     scrollHandler (e, eventName) {
@@ -98,6 +134,12 @@ export default Vue.extend({
   .tabs-header {
     button {
       @apply border border-gray-600 text-gray-200 hover:border-gray-200;
+      &:nth-child(1) {
+        @apply ml-auto;
+      }
+      &:nth-last-child(1) {
+        @apply mr-auto;
+      }
       &.active {
         @apply bg-gray-200 text-gray-800 border-gray-200 hover:scale-100 cursor-default;
       }

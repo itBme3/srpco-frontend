@@ -15,6 +15,11 @@ export default async function ({ route, redirect, $content, store: { dispatch },
             redirect(301, { path: `/resources/${route.params.slug}` })
             return
       }
+      if (['materials', 'applications'].includes(route?.params?.slug)) {
+            redirect(301, { path: `/gaskets/#${route.params.slug}` })
+            return
+      }
+      
       try {
             const redirectPath = await dispatch('getEntry', { only: ['slug', 'collectionType', 'type'], route });
             if (typeof redirectPath !== 'string') { return }
