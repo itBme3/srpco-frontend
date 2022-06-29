@@ -3,14 +3,8 @@
     v-if="Array.isArray(blocks) && blocks.length > 0"
     class="blocks"
   >
-  <div
-    v-if="typeof content === 'string' && content.length"
-        class="page-content entry-block col-span-12"
-        :class="{
-          'hidden': content && content.trim().length === 0
-        }">
-    <BlockContent :block="{ content: content }" />
-  </div>
+  <slot />
+  
   <template
       v-for="(block, i) in pageBlocks"
     >
@@ -37,7 +31,7 @@
       :lazy="i >= 3"
     />
   </template>
-  <slot />
+  <slot name="after" />
   </div>
 </template>
 

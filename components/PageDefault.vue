@@ -32,30 +32,41 @@ v-if="![null, undefined].includes(page)"
       :entry="page"
       class="col-span-full"
     />
-      
+
     <Blocks 
         v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType === 'datasheet')"
         :class="{
            'blocks grid-cols-12': true,
            'hide-sidebar': entryType !== 'gasket'
          }"
-        :blocks="page.blocks"
-        :content="page.content">
-        <template
-            v-for="collection in ['materials', 'applications', 'gaskets']"
-        >
-        <section 
-            v-if="page && page[collection] && page[collection].length"
-            :key="collection"
-            class="entries-on-entry-section p-4 col-span-full rounded-md shadow-lg border border-gray-900 bg-gray-900 bg-opacity-40"
-            :class="{[collection]: true}">
-            <h6 class="font-bold mb-2 capitalize">Related {{ collection }}:</h6>
-            <EntriesOnEntry 
-                ref="entriesOnEntry"
-                :collection-type="collection"
-                :entry="page"
-            />
-        </section>
+        :blocks="page.blocks">
+
+        <div
+            v-if="typeof page.content === 'string' && page.content.length"
+                class="page-content entry-block col-span-full"
+                :class="{
+                'hidden': page.content && page.content.trim().length === 0
+                }">
+            <BlockContent :block="{ content: page.content }" />
+        </div>
+
+        <template #after>
+            <template
+                v-for="collection in ['materials', 'applications', 'gaskets']"
+            >
+            <section 
+                v-if="page && page[collection] && page[collection].length"
+                :key="collection"
+                class="entries-on-entry-section p-4 col-span-full rounded-md shadow-lg border border-gray-900 bg-gray-900 bg-opacity-40"
+                :class="{[collection]: true}">
+                <h6 class="font-bold mb-2 capitalize">Related {{ collection }}:</h6>
+                <EntriesOnEntry 
+                    ref="entriesOnEntry"
+                    :collection-type="collection"
+                    :entry="page"
+                />
+            </section>
+            </template>
         </template>
     </Blocks>
 
