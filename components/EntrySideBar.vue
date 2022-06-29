@@ -5,6 +5,15 @@
   >
     <div
       v-if="Array.isArray(suppliers) && suppliers.length > 0"
+      class="sidebar-section inquire"
+    >
+      <h3>Inquire About {{ entry.title }}</h3>
+      <Link :to="`/contact?msg=${entry.title}`" :is-button="true">
+        Ask Us
+      </Link>
+    </div>
+    <div
+      v-if="Array.isArray(suppliers) && suppliers.length > 0"
       class="sidebar-section suppliers"
     >
       <h6 class="font-bold mb-2">Suppliers:</h6>
@@ -15,23 +24,6 @@
           card-style="small"
         />
     </div>
-    <template 
-      v-for="collection in ['materials', 'applications', 'gaskets']"
-    >
-
-    <div 
-      v-if="!hide.includes(collection)"
-      :key="collection"
-      class="sidebar-section p-4 rounded-md shadow-lg border border-gray-900 bg-gray-900 bg-opacity-40">
-      <h6 class="font-bold mb-2 capitalize">{{ collection }}:</h6>
-      <EntriesOnEntry 
-        ref="entriesOnEntry"
-        :collection-type="collection"
-        :entry="entry"
-        @noEntries="() => hide.push(collection)"
-      />
-    </div>
-  </template>
   </div>
 </template>
 
@@ -72,6 +64,13 @@ export default Vue.extend({
   height: auto;
 }
 .sidebar-section {
-  @apply mb-6
+  @apply mb-6;
+  &.inquire {
+    @apply bg-gray-800 bg-opacity-50 p-6 rounded-lg;
+    button {
+      @apply w-auto bg-blue-500 hover:bg-blue-400 text-blue-900 ml-0 mt-3 rounded-full;
+      min-width: 50%;
+    }
+  }
 }
 </style>

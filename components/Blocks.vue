@@ -37,6 +37,7 @@
       :lazy="i >= 3"
     />
   </template>
+  <slot />
   </div>
 </template>
 

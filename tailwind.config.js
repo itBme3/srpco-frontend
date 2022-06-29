@@ -307,7 +307,8 @@ module.exports = {
       zIndex: ['hover'],
       bgOpacity: ['hover', 'active', 'focus'],
       scale: ['hover'],
-      order: ['responsive']
+      order: ['responsive'],
+      whitespace: ['responsive'],
     }
   }
 }

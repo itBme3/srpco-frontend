@@ -1,6 +1,6 @@
 <template>
   <Link
-    :link="link"
+    :to="link"
     class="tag-link"
     :open-new-tab="openNewTab"
   >
