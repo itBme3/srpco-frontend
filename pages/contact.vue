@@ -100,7 +100,7 @@ export default Vue.extend({
         email: '',
         hearAboutUs: '',
         file: '',
-        message: '',
+        message: this.$route.query?.msg || '',
       },
       formState: 'ready',
       errorMessage: null
