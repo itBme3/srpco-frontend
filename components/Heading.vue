@@ -35,7 +35,7 @@
         >
           {{ title }}
           <span  
-            v-if="description !== null && title.length > 0"
+            v-if="divider && description !== null && title.length > 0"
             class="divider h-3 my-2 bg-gray-200 block"
             :style="{ width: `${title.length * .6}ch` }" />
         </h1>
@@ -96,6 +96,10 @@ export default Vue.extend({
     mediaRatio: {
       type: String,
       default: 'auto'
+    },
+    divider: {
+      type: Boolean,
+      default: false
     }
   }
 })
@@ -117,7 +121,7 @@ export default Vue.extend({
     @apply text-base font-normal tracking-wide text-gray-500 leading-snug;
   }
   .heading-media {
-    @apply rounded-md sm:rounded-sm absolute sm:relative z-0 sm:mx-2 shadow-2xl w-full sm:w-5/12 mx-0 sm:ml-auto;
+    @apply rounded-md sm:rounded-sm absolute sm:relative z-0 sm:mx-2 shadow-2xl w-full mx-0 sm:ml-auto;
     @media screen and (max-width: 639px) {
       max-height: 33vw;
     }
@@ -127,11 +131,6 @@ export default Vue.extend({
   }
   .heading-breadcrumbs {
     @apply justify-start w-full mt-2 mb-3;
-  }
-  .heading-page {
-    .heading-title {
-      @apply text-gray-300;
-    }
   }
   .heading-simple {
     .heading-text-content {
@@ -148,6 +147,17 @@ export default Vue.extend({
           box-shadow: 0 -20px 36px 30px rgba(17, 24, 39, 1) !important;
         }
       }
+    }
+  }
+  &.heading-page {
+    .heading-content {
+       @apply whitespace-normal xs:whitespace-pre-line sm:whitespace-normal;
+    }
+    .heading-title {
+      @apply text-gray-300;
+    }
+    .heading-media {
+      @apply w-full xs:w-1/2 sm:w-3/5;
     }
   }
    &.heading-collection {
