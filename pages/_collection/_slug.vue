@@ -1,6 +1,10 @@
 <template>
   <PageDefault
-    v-if="!!pageData && typeof pageData !== 'string'"
+    v-if="!!pageData && typeof pageData !== 'string' && pageData.collectionType !== 'services'"
+    :page-data="typeof pageData === 'string' ? {} : pageData"
+  />
+  <PageService
+     v-else-if="!!pageData && typeof pageData !== 'string' && pageData.collectionType === 'services'"
     :page-data="typeof pageData === 'string' ? {} : pageData"
   />
 </template>
