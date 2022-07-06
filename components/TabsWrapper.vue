@@ -91,7 +91,6 @@ export default Vue.extend({
             }
             this.activeIndex = i;
             if (previousActiveTitle !== this.activeTitle) {
-              console.log(this.$refs.tabsElem);
               const top = (() => {
                 function addUpOffset(elem, acc = 0) {
                   if (elem.tagName.toLowerCase() === 'main') {

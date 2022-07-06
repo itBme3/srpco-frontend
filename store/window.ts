@@ -29,7 +29,6 @@ export const mutations = {
             state.width = document.documentElement.clientWidth
             state.height = document.documentElement.clientHeight
             state.isMobile = state.width < MOBILE_WIDTH
-            console.log({ state })
             function browserName () {
                   const GOOGLE_VENDOR_NAME = 'Google Inc.';
                   function isOpera(){

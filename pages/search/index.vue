@@ -109,7 +109,6 @@ export default Vue.extend({
       this.activeCollections = val
     },
     updatingEntries (e, collection) {
-      console.log({e, collection})
       this.emptyCollections[collection] = e.length === 0
     },
     collectionInView (e, collectionType) {
