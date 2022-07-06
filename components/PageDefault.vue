@@ -50,9 +50,6 @@ v-if="![null, undefined].includes(page)"
             <BlockContent :block="{ content: page.content }" />
         </div>
 
-        <!-- <template #after>
-           
-        </template> -->
     </Blocks>
     <EntrySideBar
         v-if="!!page && typeof page !== 'string' && ['gasket', 'material', 'application'].includes(entryType)"

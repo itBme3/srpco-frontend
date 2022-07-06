@@ -53,6 +53,7 @@
           :infinite-scroll="!!block.collectionSettings && block.collectionSettings.loadingMore === 'infiniteScroll'"
           :update-url="!!block.collectionSettings && block.collectionSettings.updateUrl"
           :card-style="!!block.cardSettings && !!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaLeft'"
+          :description="!!block.collectionSettings && !!block.collectionSettings.showDescription"
           :show-excerpt="!!block.cardSettings && !!block.cardSettings.showExcerpt"
           :show-more-links="!!block.cardSettings && block.cardSettings.showMoreLinks !== false"
           :loading-more="!!block.collectionSettings ? block.collectionSettings.loadingMore : 'button'"

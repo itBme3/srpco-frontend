@@ -175,6 +175,10 @@ export default Vue.extend({
     buttonText: {
       type: String,
       default: null
+    },
+    description: {
+      type: [String,Boolean],
+      default: false
     }
   },
   data () {
@@ -187,7 +191,8 @@ export default Vue.extend({
           ? '16:9'
           : collection === 'suppliers'
             ? '1:1'
-            : 'auto'
+            : 'auto';
+
     return {
       entries: this.initialEntries.length ? this.initialEntries : null,
       nextEntries: null,
@@ -196,6 +201,7 @@ export default Vue.extend({
       canLoadMore: false,
       gridClasses,
       collection,
+      collectionDescription: this.description,
       mediaRatio,
       queryParams: {}
     }
@@ -283,21 +289,18 @@ export default Vue.extend({
     if (this.initialEntries?.length > 3) {
       this.initialEntries.slice(3)
     }
-  },
-  mounted () {
-    if (!Array.isArray(this.entries)) return null
-    this.$emit('updateEntries', this.entries)
+    if (Array.isArray(this.entries)) {
+      this.$emit('updateEntries', this.entries)
+    }
   },
   methods: {
     async get (start = 0) {
-
 
       if (typeof this.collection !== 'string') {
         this.$emit('updateEntries', this.entries)
         return
       }
         
-
       /* if entries provided in props */
       if (start === 0 && this.initialEntries?.length > this.limit && this.nextEntries?.length) {
         for (let i = 0; i < this.limit || !this.nextEntries?.length; i++) {
@@ -307,16 +310,29 @@ export default Vue.extend({
         return this.entries
       }
 
+      if (this.description === true) {
+        this.$content(`${this.collection}-collection`)
+          .only(['description'])
+          .fetch()
+          .then(res => {
+            if (typeof res[0]?.description  === 'string') {
+              this.collectionDescription = res[0]?.description
+            }
+            return res
+          }).catch(err => {
+            console.error(err);
+            return false
+          })
+      }
 
-      const params = this.getQueryParams()
+      const params = this.getQueryParams();
+
       if (objectsAreTheSame(params, this.queryParams)) {
         if (start === 0) {
           this.$emit('updateEntries', this.entries)
           return
         }
       }
-
-      console.log('get entries', this.collection)
 
       this.queryParams = params
       const collectionSort = !this.collectionSort
@@ -340,7 +356,11 @@ export default Vue.extend({
         .then((res) => {
           this.canLoadMore = res.length === this.limit
           return res
-        })
+        });
+      if (this.showDescription) {
+        this.collectionDescription = await this.$content(`${this.collection}-collection`)
+          .only(['description'])
+      }
       if (start === 0 || !this.entries?.length) {
         this.entries = this.nextEntries
       } else {
