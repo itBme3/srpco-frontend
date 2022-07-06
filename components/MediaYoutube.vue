@@ -9,6 +9,7 @@
         ref="iFrame"
         class="w-full h-full"
         :src="embedSrc"
+        allowfullscreen
       />
     </client-only>
   </div>
@@ -38,7 +39,7 @@ export default Vue.extend({
     },
     controls: {
       type: Boolean,
-      default: false
+      default: true
     },
     loop: {
       type: Boolean,
@@ -54,7 +55,7 @@ export default Vue.extend({
     },
     modestbranding: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   data () {

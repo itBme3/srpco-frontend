@@ -59,7 +59,6 @@ export default Vue.extend({
           this.embedSrc = null;
           await asyncDelay(delay);
           this.setSrc(tried + 1)
-          console.log({ tried, iFrame: this.$refs.iFrame })
           this.loading = !this.$refs?.iFrame?.contentWindow?.document?.querySelector('body')?.innerHTML?.length
           return this.loading
         }

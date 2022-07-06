@@ -31,11 +31,15 @@
           @load="imageLoaded"
         >
       </template>
-      <LazyMediaYoutube
+      <MediaYoutube
         v-else-if="typeof youtube === 'string' && youtube.length > 0"
         class="media-youtube"
         :src="youtube"
-        :class="{ 'w-full my-auto height-full': true, 'relative z-0': !!!isBackground, 'absolute z-0 -inset-1': !!isBackground }"
+        :class="{
+          'w-full my-auto height-full': true,
+          'relative z-10': !isBackground,
+          'absolute z-0 -inset-1': !!isBackground
+          }"
         :ratio="'16:9'"
         :mute="!!videoParams.mute"
         :style="{ height: imgHeight }"

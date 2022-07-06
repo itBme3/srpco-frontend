@@ -12,7 +12,8 @@
       :title="modalData.title"
       :text="modalData.text"
       :ratio="[null, undefined, 'auto'].includes(modalData.ratio) ? '16:9' : modalData.ratio"
-      :video-params="modalData.videoParams"
+      :video-params="videoParams"
+      :is-background="false"
       class="h-full w-full rounded-md"
     />
   </gModal>
@@ -27,10 +28,17 @@ export default Vue.extend({
       modalData: null
     }
   },
+  computed: {
+    videoParams () {
+      const paramsFromProps = this.modalData?.videoParams || {};
+      const { mute = true } = paramsFromProps;
+      return {...paramsFromProps, autoplay: true, mute }
+    }
+  },
   watch: {
     '$store.state.modal.modalData' (value) {
       this.showModal = value !== null;
-      this.modalData = value
+      this.modalData = { ...value, videoParams: {...(value?.videoParams || {}), ...this.videoParams}  }
     }
   },
   methods: {
