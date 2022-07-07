@@ -41,6 +41,7 @@
           <li
             v-for="entry in block.entries"
             :key="entry.slug"
+            class="py-0"
           >
             <nuxt-link :to="'/' + block.collectionType + '/' + entry.slug">{{ entry.title }}</nuxt-link>
           </li>
