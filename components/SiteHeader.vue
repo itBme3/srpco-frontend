@@ -120,6 +120,7 @@
 import qs from 'qs'
 import _ from 'lodash'
 import Vue from 'vue'
+import { asyncDelay, scrollToElement } from '~/utils/funcs'
 const searchCollections = ['search', 'gaskets', 'datasheets', 'resources']
 export default Vue.extend({
   data () {
@@ -145,6 +146,27 @@ export default Vue.extend({
       if (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2) {
         this.searchValue = ''
       }
+    },
+    '$route.hash' (val) {
+      let lastOffsetTop = 0;
+      const offset = 50;
+      for (let i = 1; i < 4; i++) {
+        asyncDelay(i * 250).then(() => {
+          if (!window || val?.replace('#', '').length === 0) {
+            return
+          }
+          const matchingEl = document?.querySelector(val);
+          if (!matchingEl) {
+            return
+          }
+          if (lastOffsetTop !== matchingEl.offsetTop - offset) {
+            console.log({lastOffsetTop})
+            scrollToElement(matchingEl)
+            lastOffsetTop = matchingEl.offsetTop - offset
+          }
+        })
+      }
+
     },
     searchValue () {
       if (!this.searchValue?.length && (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2)) {

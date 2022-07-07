@@ -2,6 +2,7 @@
 <template>
   <div
     v-if="![undefined, null].includes(block)"
+    :id="block && block.blockSettings && block.blockSettings.anchor ? block.blockSettings.anchor : undefined"
     :class="{
       'entry-block': true,
       [classes.block]: true,
@@ -59,6 +60,7 @@
           :loading-more="!!block.collectionSettings ? block.collectionSettings.loadingMore : 'button'"
           :button-link="!!block.collectionSettings ? block.collectionSettings.buttonLink : null"
           :button-text="!!block.collectionSettings ? block.collectionSettings.buttonText : null"
+          :search-bar="!!block.collectionSettings ? !!block.collectionSettings.searchBar : false"
           :classes="{...cardClasses}"
         />
 

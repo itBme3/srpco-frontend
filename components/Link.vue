@@ -7,7 +7,7 @@
     <slot />
   </nuxt-link>
   <gButton
-    v-else-if="typeof to === 'string' && !!to.indexOf && to.indexOf('/') === 0 && !openNewTab && isButton"
+    v-else-if="typeof to === 'string' && !!to.indexOf && (to.indexOf('/') === 0 || to.indexOf('#') === 0) && !openNewTab && isButton"
     @click="$router.push(to)">
     <slot />
   </gButton>

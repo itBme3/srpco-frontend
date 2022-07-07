@@ -15,6 +15,23 @@ export const capitalize = (strng: string): string => {
   return strng.split(' ').map(word => word[0].toUpperCase() + word.substring(1)).join(' ')
 }
 
+export const scrollToElement = async (el: HTMLElement, params: { delay?: number; offset?: number; smooth?: boolean; } = {}) => {
+  const { delay = 150, offset = 0, smooth = true } = params || {};
+  if (!el?.parentNode) {
+    return
+  }
+  function getParentOffset(elem:any, x:number = 0):number {
+    if (elem?.tagName && elem.tagName !== 'main' && elem?.parentNode) {
+      return getParentOffset(elem.parentNode, elem.offsetTop > x ? elem.offsetTop : x)
+    }
+    return x
+  }
+  const top = getParentOffset(el) - offset;
+  if (delay) { await asyncDelay(delay) }
+  console.log({ top })
+  window.scrollTo({ top, behavior: smooth ? 'smooth' : undefined})
+}
+
 export const objectsAreTheSame = (_obj1: any, _obj2: any, dblCheck: boolean = true): any => {
 
   const obj1 = (() => {
