@@ -61,7 +61,7 @@
         <div
           class="card-text text-sm opacity-60"
           :class="{ [textClasses]: textClasses.length > 0 }"
-          v-html="text"
+          v-html="cardText"
         />
     </div>
     </Link>
@@ -181,6 +181,9 @@ export default Vue.extend({
     },
     textClasses () {
       return !!this?.classes?.text ? this.classes.text : ''
+    },
+    cardText () {
+      return this.text?.includes('•') ? `<ul>${this.text.split('•').map(item => `<li>${item.trim()}</li>`).join('\n')}</ul>` : this.text
     }
   },
   methods: {

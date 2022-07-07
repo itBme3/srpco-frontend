@@ -6,6 +6,7 @@
     'hero-style-' + heroStyle]: heroStyle,
     'no-media': [undefined, null].includes(media) && [undefined, null].includes(youtube),
     'has-video': typeof youtube === 'string' && youtube,
+    [classes.wrapper]: true
     }"
   >
     <Media
@@ -95,7 +96,8 @@ export default Vue.extend({
               content: '',
               title: '',
               overlay: '',
-              buttons: ''
+              buttons: '',
+              wrapper: ''
             }
           }
         }
@@ -135,7 +137,8 @@ export default Vue.extend({
               content: '',
               title: '',
               overlay: '',
-              buttons: ''
+              buttons: '',
+              wrapper: ''
             }
           }
     },
@@ -147,6 +150,7 @@ export default Vue.extend({
         content = '',
         overlay = '',
         buttons = '',
+        wrapper = '',
       } = this.block?.heroSettings?.classes || {};
       return {
         media,
@@ -154,7 +158,8 @@ export default Vue.extend({
         text,
         content,
         overlay,
-        buttons
+        buttons,
+        wrapper
       }
     }
   }

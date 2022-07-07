@@ -34,12 +34,12 @@
             class="divider h-3 my-2 bg-gray-200 block"
             :style="{ width: `${title.length * .6}ch` }" />
         </h1>
-        <h2
-          v-if="description !== null && title.length > 0"
+        <component 
+          :is="descriptionArray.length > 1 ? 'ul' : 'h2'"
+          v-if="descriptionArray.length > 0 && title.length > 0"
           :class="{ 'heading-description': true, [descriptionClasses]: descriptionClasses.length > 0 }"
-        >
-          {{ description }}
-        </h2>
+          v-html="descriptionArray.length === 1 ? descriptionArray[0] : descriptionArray.map(itm => `<li>${itm}</li>`).join('')"
+        />
       </div>
     </div>
   </div>
@@ -96,6 +96,15 @@ export default Vue.extend({
       type: Boolean,
       default: false
     }
+  },
+  computed: {
+    descriptionArray () {
+      return typeof this.description === 'string'
+        ? this.description.includes('•')
+          ? this.description.split('•').map(item => item.trim())
+          : [this.description]
+      : []
+    }
   }
 })
 </script>
@@ -106,7 +115,7 @@ export default Vue.extend({
     @apply block sm:flex flex-row items-center justify-start w-full;
   }
   .heading-text-content {
-    @apply px-2 my-0 h-full flex w-full sm:order-first order-last flex-col content-start relative z-1 max-w-[75ch];
+    @apply px-2 my-0 h-full flex w-full sm:order-first order-last flex-col content-start relative z-1 max-w-[100ch];
     text-shadow: 3px 4px 14px rgba(7, 14, 32, 0.6), 0 0 60px rgb(7 14 26);
   }
   .heading-title {
