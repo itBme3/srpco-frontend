@@ -22,9 +22,28 @@
     />
 		
     <div
-      v-if="![null, undefined].includes(pageData) && typeof pageData.content === 'string'"
+      v-if="![null, undefined].includes(pageData) && typeof pageData.content === 'string' && pageData.content.length"
       class="page-content"
       v-html="pageData.content"
+    />
+
+    <h2 class="mt-8 sm:mt-12 md:mt-14">Services:</h2>
+    <BlockCollection 
+      collection-type="services"
+      sort="publishedAt:ASC"
+      card-style="mediaLeft"
+      loading-more="infiniteScroll"
+      :limit="6"
+      :update-url="false"
+      :description="false"
+      :show-excerpt="true"
+      class="w-full"
+      :classes="{ card: 'col-span-full' }"
+      :filters="{
+        slug: {
+          $ne: pageData.slug
+        }
+      }"
     />
 
   </div>
