@@ -124,6 +124,12 @@
           :key="block.__component"
           :block="block"
         />
+
+        <LazyBlockForm 
+          v-if="seen && block.__component === 'block.form'"
+          :key="block.__component"
+        />
+
       </component>
     </template>
   </div>
