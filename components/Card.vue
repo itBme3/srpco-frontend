@@ -59,9 +59,10 @@
         {{ title }}
       </gTag>
         <div
+          v-if="cardText"
           class="card-text text-sm opacity-60"
           :class="{ [textClasses]: textClasses.length > 0 }"
-          v-html="cardText"
+          v-html="$md.render(cardText)"
         />
     </div>
     </Link>
@@ -312,6 +313,15 @@ export default Vue.extend({
       @apply flex-wrap;
       .card-text {
         @apply order-last;
+        ul {
+          @apply py-0 my-0;
+          li {
+            @apply pb-0;
+            &:nth-child(1) {
+              @apply pt-0;
+            }
+          }
+        }
       }
     }
     .card-style-media-above,

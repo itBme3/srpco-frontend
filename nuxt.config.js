@@ -2,7 +2,7 @@ import { collectionTypes } from './models/entry.model';
 import 'dotenv/config'
 
 const apiUrl = process.env.API_URL;
-
+const captchaKey = process.env.CAPTCHA_KEY;
 const gaId = process.env.NODE_ENV === 'production' && process.env.GA_ENV !== 'dev' ? process.env.GA : process.env.GA_DEV;
 
 export default {
@@ -21,9 +21,9 @@ export default {
     link: [
       { rel: 'icon', type: 'image', href: '/favicon.png' },
     ],
-    // script: [
-    //   { src: 'https://polyfill.io/v3/polyfill.min.js' }
-    // ]
+    script: [
+      { src: `https://www.google.com/recaptcha/api.js?render=${captchaKey}` }
+    ]
   },
 
   server: {
@@ -85,7 +85,7 @@ export default {
     ],
     '@nuxtjs/tailwindcss',
     '@nuxt/postcss8',
-    '@nuxtjs/google-analytics',
+    '@nuxtjs/google-analytics'
   ],
 
   modules: [
@@ -93,14 +93,20 @@ export default {
     'nuxt-vuex-localstorage',
     '@nuxt/content',
     '@nuxtjs/proxy',
-    '@nuxtjs/sitemap'
+    '@nuxtjs/sitemap',
+    '@nuxtjs/markdownit'
   ],
-
+  recaptcha: {
+    language: 'en',   // Recaptcha language (v2)
+    mode: 'base',       // Mode: 'base', 'enterprise'
+    siteKey: captchaKey,    // Site key for requests
+    version: 3,    // Version
+    size: 'normal' // Size: 'compact', 'normal', 'invisible' (v2)
+  },
   sitemap: {
     hostname: process.env.HOST_URL,
     gzip: true
   },
-
   googleAnalytics: {
     id: gaId,
     layer: 'dataLayer',
@@ -111,6 +117,10 @@ export default {
       trace: false,
       sendHitTask: true
     }
+  },
+  markdownit: {
+    runtime: true,
+    html: true
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -129,7 +139,8 @@ export default {
   env: {
     mapsApiKey: 'AIzaSyAKlNQvaXSHG-CQietQjo0RRtvVNJie30U',
     baseUrl: process.env.BASE_URL || 'http://localhost:3001',
-    apiUrl
+    apiUrl,
+    captchaKey
   },
   router: {
     middleware: 'redirecting'
@@ -148,7 +159,7 @@ export default {
     '/api/': {
       target: apiUrl,
       pathRewrite: { '^/api/': '' },
-    },
+    }
   },
   content: {
     liveEdit: false,

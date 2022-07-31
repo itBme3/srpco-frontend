@@ -26,7 +26,7 @@
           'list-item-text': true, 
            [!!item.classes && item.classes.text ? item.classes.text : '']: true
         }"
-        v-html="item.text"
+        v-html="$md.render(item.text)"
       />
     </li>
   </ul>

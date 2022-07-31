@@ -1,5 +1,6 @@
 <template>
   <footer class="footer">
+
     <div class="footer-preferred-converter-carousel">
       <h3 class="block-title text-gray-600 leading-relaxed px-6">
         Preferred Converter For The Industry's Leading Suppliers
@@ -29,6 +30,9 @@
         </nuxt-link>
       </Carousel>
     </div>
+
+    <SiteFooterForm class="mb-32" />
+
     <div class="footer-blocks">
       <div
         v-for="block in siteMapBlocks"
@@ -146,7 +150,7 @@ export default Vue.extend({
 .footer {
   @apply flex flex-wrap mt-16;
   .footer-preferred-converter-carousel {
-    @apply w-full text-center pt-24 pb-32 px-0 mb-8;
+    @apply w-full text-center py-24 px-0 mb-8;
     .block-title {
       @apply italic max-w-2xl leading-10 m-auto mb-8 font-black font-display tracking-widest block mx-auto;
     }

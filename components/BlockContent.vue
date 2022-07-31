@@ -3,21 +3,19 @@
     class="block-content"
     :v-if="![undefined, null].includes(block)"
   >
-    <Wysiwyg
+    <div
       v-if="content !== null && content !== undefined"
       :class="{
         [contentClasses]: typeof contentClasses === 'string' && contentClasses.length > 0
       }"
-      :content="content"
+      v-html="$md.render(content)"
     />
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import Wysiwyg from './Wysiwyg.vue'
 export default Vue.extend({
-  components: { Wysiwyg },
   props: {
     block: {
       type: Object,

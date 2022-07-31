@@ -23,6 +23,7 @@
             :schema="schema"
             :model="model"
             :options="formOptions"></vue-form-generator>
+
           <gButton
             type="submit"
             :class="{
@@ -46,11 +47,13 @@
         @click="resetForm">RESET</gButton>
     </template>
 
+    <p v-if="captcha && formState !== 'success'" class="recaptcha-message">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.</p>
+
   </div>
 </template>
 
 <script>
-
+import 'dotenv/config'
 import Vue from 'vue'
 export default Vue.extend({
   props: {
@@ -73,6 +76,10 @@ export default Vue.extend({
     successRedirect: {
       type: String,
       default: null
+    },
+    captcha: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -85,7 +92,8 @@ export default Vue.extend({
         validateAfterChanged: true
       },
       initialModel: JSON.parse(JSON.stringify(model)),
-      model: { ...model, file: '' }
+      model: { ...model, file: '' },
+      captchaVerified: false
     }
   },
   methods: {
@@ -104,6 +112,23 @@ export default Vue.extend({
       this.formState = 'ready'
       this.errorMessage = null
     },
+    getCaptchaToken () {
+      console.log({ this: this })
+      if (!window) { return null };
+      return new Promise((resolve) => {
+        window.grecaptcha.ready(async () =>
+          await window.grecaptcha.execute('6LcZu-ggAAAAAK1k6NJ6uf7GfkHA27xucfxVT1Kt', { action: 'contact' })
+            .then(res => {
+              console.log({ res });
+              resolve(res)
+            })
+            .catch(err => {
+              console.error(err);
+              resolve(null)
+            })
+        );
+      });
+    }
   }
 })
 </script>
@@ -114,20 +139,28 @@ input {
     --tw-ring-color: #ccc;
   }
 }
-
-.form {
+.form-wrapper {
   @apply text-gray-800;
+  .form {
+    @apply text-gray-800;
 
-  input,
-  textarea,
-  select {
-    @apply bg-transparent text-base border-2 border-transparent border-b-gray-700 focus:ring-gray-600 py-3 px-0 focus:px-4 hover:px-2 transition-all ease-quick-in focus:outline-none focus:border-gray-700 hover:bg-gray-50 focus:bg-gray-50 #{!important};
-  }
-
-  button {
-    &[type='submit'] {
-      @apply bg-green-500 text-green-900 hover:bg-green-400 px-4 shadow hover:shadow-lg mt-2 ml-0 mr-auto w-auto text-lg uppercase font-bold min-w-[140px];
+    input,
+    textarea,
+    select {
+      @apply bg-transparent text-base border-2 border-transparent border-b-gray-700 focus:ring-gray-600 py-3 px-0 focus:px-4 hover:px-2 transition-all ease-quick-in focus:outline-none focus:border-gray-700 hover:bg-gray-50 focus:bg-gray-50 #{!important};
     }
+
+    button {
+      &[type='submit'] {
+        @apply bg-green-500 text-green-900 hover:bg-green-400 px-4 shadow hover:shadow-lg mt-2 ml-0 mr-auto w-auto text-lg uppercase font-bold min-w-[140px];
+      }
+    }
+  }
+}
+.recaptcha-message {
+  @apply opacity-60 text-sm mt-4;
+  a {
+    @apply text-blue-600 font-bold;
   }
 }
 </style>

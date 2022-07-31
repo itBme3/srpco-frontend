@@ -149,9 +149,9 @@ export default Vue.extend({
     },
     '$route.hash' (val) {
       let lastOffsetTop = 0;
-      const offset = 50;
-      for (let i = 1; i < 4; i++) {
-        asyncDelay(i * 250).then(() => {
+      const offset = 0;
+      for (let i = 1; i < 10; i++) {
+        asyncDelay(i * 200).then(() => {
           if (!window || val?.replace('#', '').length === 0) {
             return
           }

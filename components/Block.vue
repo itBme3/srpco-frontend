@@ -128,6 +128,7 @@
         <LazyBlockForm 
           v-if="seen && block.__component === 'block.form'"
           :key="block.__component"
+          :block="block"
         />
 
       </component>
@@ -170,6 +171,16 @@ export default Vue.extend({
     classes() {
       const { block, title, buttons } = getBlockClasses(this.block);
       return { block, title, buttons }
+    }
+  },
+  watch: {
+    '$route.hash' (val) {
+      const hash = val.replace('#', '');
+      if (this.block?.blockSettings?.anchor 
+          && hash?.length
+          && this.block.blockSettings.anchor === hash) {
+        this.seen = true
+      }
     }
   },
   methods: {

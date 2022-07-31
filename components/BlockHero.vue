@@ -47,7 +47,7 @@
         <div
           class="hero-text text-sm"
           :class="{ [classes.text]: classes.text.length }"
-          v-html="text"
+          v-html="$md.render(text)"
         />
       </template>
       <div
@@ -168,6 +168,7 @@ export default Vue.extend({
 
 <style lang="scss">
 .hero-content {
+  width: 100%;
   * {
     color: inherit;
     text-align: inherit;
@@ -209,7 +210,10 @@ export default Vue.extend({
   .hero-buttons {
     @apply flex space-x-2 mt-6;
     button {
-      @apply bg-white text-gray-700 hover:bg-srp-red hover:text-white w-auto;
+      @apply bg-white text-gray-700 hover:bg-srp-red w-auto;
+      &:hover:not([class*="hover:text-"]) {
+        color: #ffffff;
+      }
     }
   }
   &.hero-style {

@@ -38,7 +38,7 @@
           :is="descriptionArray.length > 1 ? 'ul' : 'h2'"
           v-if="descriptionArray.length > 0 && title.length > 0"
           :class="{ 'heading-description': true, [descriptionClasses]: descriptionClasses.length > 0 }"
-          v-html="descriptionArray.length === 1 ? descriptionArray[0] : descriptionArray.map(itm => `<li>${itm}</li>`).join('')"
+          v-html="$md.render(descriptionArray.length === 1 ? descriptionArray[0] : descriptionArray.map(itm => `<li>${itm}</li>`).join(''))"
         />
       </div>
     </div>

@@ -1,8 +1,8 @@
 <template>
+<div>
 		<Form
 			v-if="block"
 			ref="form"
-			class="mx-auto max-w-md rounded-md bg-gray-50 shadow-lg p-4 md:p-6"
 			:schema="block.formSchema"
 			:button-text="block.submitButton"
 			:button-classes="buttonClasses"
@@ -10,6 +10,7 @@
 			:success-redirect="block.successRedirect"
 			@submit="submit"
 		/>
+  </div>
 </template>
 <script>
 import Vue from 'vue'
@@ -20,14 +21,16 @@ export default Vue.extend({
 			type: Object,
 			default: () => null
 		}
-	},
+  },
+  data () {
+    return {
+      captchaToken: null
+    }  
+  },
 	computed: {
 		buttonClasses () {
 			return this.block?.blockSettings?.classes?.button || ''
 		}
-	},
-	mounted () {
-		console.log(this.$refs.form)
 	},
   methods: {
 		// resetForm () {
@@ -43,12 +46,31 @@ export default Vue.extend({
         reader.onerror = error => reject(error);
       });
     },
+    async getCaptchaToken () {
+      if (!this.$refs.form?.captcha || !this.$refs.form?.getCaptchaToken) {
+        this.captchaToken = null;
+      } else {
+        this.captchaToken = await this.$refs.form.getCaptchaToken();
+        console.log({captchaToken: this.captchaToken})
+      }
+      return this.captchaToken
+    },
     async submit (formModel) {
+      const { captcha = true } = this.block?.advancedSettings || {}
+      if (captcha) {
+        this.captchaToken = await this.getCaptchaToken();
+        if (!this.captchaToken && captcha) {
+          return;
+        }
+      }
       this.$refs.form.formState = 'sending'
 			try {
         const model = JSON.parse(JSON.stringify(formModel));
-        const file = this.$refs.form.$el.querySelector('input[type="file"]').files[0];
-        if (file) {
+        model.token = this.captchaToken;
+        model.captcha = captcha;
+        const fileInput = this.$refs.form.$el.querySelector('input[type="file"]');
+        if (fileInput) {
+          const file = fileInput.files[0];
           const maxSize = 1000000 * 2; // 2mb
           if (file.size > maxSize) {
             this.$refs.form.formState = 'error';

@@ -24,7 +24,7 @@
     <div
       v-if="![null, undefined].includes(pageData) && typeof pageData.content === 'string' && pageData.content.length"
       class="page-content"
-      v-html="pageData.content"
+      v-html="$md.render(pageData.content)"
     />
 
     <h2 class="mt-8 sm:mt-12 md:mt-14">Services:</h2>

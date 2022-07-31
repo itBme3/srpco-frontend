@@ -22,12 +22,12 @@
         :media="slide.media"
         :is-background="true"
       />
-      <Wysiwyg
+      <div
         v-if="slide.content && slide.content.length > 0"
         :class="{
           [slide.classes && slide.classes.content]: slide.classes && slide.classes.content && slide.classes.content.length
         }"
-        :content="slide.content"
+        v-html="$md.render(slide.content)"
       />
     </div>
   </Carousel>

@@ -28,7 +28,6 @@ export const scrollToElement = async (el: HTMLElement, params: { delay?: number;
   }
   const top = getParentOffset(el) - offset;
   if (delay) { await asyncDelay(delay) }
-  console.log({ top })
   window.scrollTo({ top, behavior: smooth ? 'smooth' : undefined})
 }
 
