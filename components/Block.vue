@@ -61,7 +61,7 @@
           :button-link="!!block.collectionSettings ? block.collectionSettings.buttonLink : null"
           :button-text="!!block.collectionSettings ? block.collectionSettings.buttonText : null"
           :search-bar="!!block.collectionSettings ? !!block.collectionSettings.searchBar : false"
-          :classes="{...cardClasses}"
+          :classes="{...cardClasses, buttons: classes.buttons}"
         />
 
         <LazyBlockContent

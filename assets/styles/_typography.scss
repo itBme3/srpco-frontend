@@ -58,7 +58,7 @@ i:not([class*=" gicon-"]) {
         @apply leading-snug tracking-wide font-sans;
 }
 h1 {
-        @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-[.11ch] italic;
+        @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1] tracking-[.11ch] italic;
 }
 h2 {
         @apply text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight tracking-[.11ch] italic;
@@ -164,4 +164,8 @@ ul {
         li {
                 @apply py-3;
         }
+}
+
+.heading-dash {
+        @apply bg-red-600 w-8/12 max-w-[230px] h-3 my-6 mx-auto;
 }

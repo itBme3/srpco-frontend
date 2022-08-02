@@ -216,76 +216,74 @@ export default Vue.extend({
       }
     }
   }
-  &.hero-style {
-    &-overlay,
-    &-overlay-centered {
-      @apply relative px-3 flex items-center justify-center py-16 md:py-24 lg:py-32;
-      .hero-media {
-        @apply absolute inset-0 z-1;
-      }
-      .hero-content {
-        @apply relative z-10;
-      }
-      .hero-title,
-      .hero-text * {
-        text-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
-      }
-      .hero-text {
-        @apply font-normal mt-4;
-      }
+
+  &.hero-style-overlay,
+  &.hero-style-overlay-centered {
+    @apply relative px-3 flex items-center justify-center py-16 md:py-24 lg:py-32;
+    .hero-media {
+      @apply absolute inset-0 z-1;
     }
-    &-overlay-centered {
-      .hero-content,
-      .hero-title,
-      .hero-text {
-        @apply text-center;
-      }
-      .hero-text * {
-        @apply mx-auto;
-      }
-      .hero-buttons {
-        @apply content-center;
-        button {
-          &:nth-child(1) {
-            @apply ml-auto;
-          }
-          &:nth-last-child(1) {
-            @apply mr-auto;
-          }
-        }
-      }
+    .hero-content {
+      @apply relative z-10;
     }
-    &-media {
-      &-left,
-      &-right {
-        @apply mb-[50%] md:mb-0 items-center justify-center flex flex-col md:flex-row overflow-visible;
-        .hero-media {
-          @apply absolute top-0 bottom-0 left-0 right-0 m-0;
-        }
-        .hero-content {
-          @apply w-[calc(100%-2rem)] max-w-md bg-gray-50 text-gray-700 rounded p-4 sm:p-8 my-auto mx-0 -mb-[50%] mt-[30%] md:mt-auto md:mb-auto;
-          .hero-title {
-            @apply mb-3;
-          }
-        }
-      }
-      &-left {
-        .hero-media {
-          @apply md:right-1/3;
-        }
-        .hero-content {
+    .hero-title,
+    .hero-text * {
+      text-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+    }
+    .hero-text {
+      @apply font-normal mt-4;
+    }
+  }
+  &.hero-style-overlay-centered {
+    .hero-content,
+    .hero-title,
+    .hero-text {
+      @apply text-center;
+    }
+    .hero-text * {
+      @apply mx-auto;
+    }
+    .hero-buttons {
+      @apply content-center;
+      button {
+        &:nth-child(1) {
           @apply ml-auto;
         }
-      }
-      &-right {
-        .hero-media {
-          @apply md:order-last md:left-1/3;
-        }
-        .hero-content {
+        &:nth-last-child(1) {
           @apply mr-auto;
         }
       }
     }
   }
+  &.hero-style-media-left,
+  &.hero-style-media-right {
+      @apply mb-[50%] md:mb-0 items-center justify-center flex flex-col md:flex-row overflow-visible;
+      .hero-media {
+        @apply absolute top-0 bottom-0 left-0 right-0 m-0;
+      }
+      .hero-content {
+        @apply w-[calc(100%-2rem)] md:w-8/12 max-w-2xl bg-gray-50 text-gray-700 rounded p-4 sm:p-8 my-auto mx-0 -mb-[50%] mt-[30%] md:mt-auto md:mb-auto;
+        .hero-title {
+          @apply mb-3;
+        }
+      }
+  }
+    &.hero-style-media-left {
+      .hero-media {
+        @apply md:right-1/3;
+      }
+      .hero-content {
+        @apply ml-auto;
+      }
+    }
+    &.hero-style-media--right {
+      .hero-media {
+        @apply md:order-last md:left-1/3;
+      }
+      .hero-content {
+        @apply mr-auto;
+      }
+    }
+
 }
 </style>

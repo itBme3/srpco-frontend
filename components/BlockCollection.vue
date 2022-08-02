@@ -68,6 +68,9 @@ v-if="
       (!!buttonLink && buttonLink.length)
     "
              class="load-more-button"
+             :class="{
+              [classes.buttons]: typeof classes.buttons === 'string'
+             }"
              @click="collectionButtonClicked()">
       <template v-if="!!buttonText && buttonText.length">
         {{ buttonText }}
@@ -84,7 +87,8 @@ v-if="
       "
                v-view="['infiniteScroll'].includes(loadingMore) ? visibilityHandler : (e) => e"
                :class="{
-                 'load-more-button': true
+                  'load-more-button': true,
+                 [classes.buttons]: typeof classes.buttons === 'string'
                }"
                @click="get(entries.length)">
         <template v-if="!!buttonText && buttonText.length">
@@ -126,7 +130,8 @@ export default Vue.extend({
           media: '',
           title: '',
           text: '',
-          searchBar: ''
+          searchBar: '',
+          buttons: ''
         }
       }
     },
