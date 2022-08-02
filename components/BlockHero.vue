@@ -9,26 +9,29 @@
     [classes.wrapper]: true
     }"
   >
+  <Transition
+     name="up-fade">
     <Media
-      v-if="(!!media && !!media.url) || (typeof youtube === 'string' && youtube)"
-      :media="media"
-      :ratio="'auto'"
-      :overlay-classes="classes.overlay"
-      :overlay="typeof classes.overlay === 'string' && classes.overlay.length > 0"
-      :class="{ [classes.media]: classes.media.length > 0 }"
-      :is-background="true"
-      :youtube="youtube"
-      :video-params=" {
-          mute: heroStyle === 'overlay' || heroStyle.includes('overlay'),
-          autoplay: heroStyle === 'overlay' || heroStyle.includes('overlay'),
-          controls: false,
-          loop: !!heroStyle === 'overlay' || heroStyle.includes('overlay'),
-          autohide: true,
-          showInfo: false,
-          modestbranding: true,
-      }"
-      class="hero-media"
-    />
+        v-if="(!!media && !!media.url) || (typeof youtube === 'string' && youtube)"
+        :media="media"
+        :ratio="'auto'"
+        :overlay-classes="classes.overlay"
+        :overlay="typeof classes.overlay === 'string' && classes.overlay.length > 0"
+        :class="{ [classes.media]: classes.media.length > 0 }"
+        :is-background="true"
+        :youtube="youtube"
+        :video-params=" {
+            mute: heroStyle === 'overlay' || heroStyle.includes('overlay'),
+            autoplay: heroStyle === 'overlay' || heroStyle.includes('overlay'),
+            controls: false,
+            loop: !!heroStyle === 'overlay' || heroStyle.includes('overlay'),
+            autohide: true,
+            showInfo: false,
+            modestbranding: true,
+        }"
+        class="hero-media"
+      />
+    </Transition>
     <div
       v-if="(title && title.length > 0) || (text && text.length > 0)"
       :class="{
