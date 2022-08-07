@@ -1,7 +1,6 @@
 <template>
   <div
     class="block-content"
-    :v-if="![undefined, null].includes(block)"
   >
     <div
       v-if="![undefined, null].includes(content)"
@@ -37,16 +36,16 @@ export default Vue.extend({
       const txt = ![undefined,null].includes(this.block) && typeof this.block.content === 'string' && this.block.content?.length > 0
         ? this.block.content
         : ''
-      let res = txt
-      res = txt.split('src="').reduce((acc, text) => {
-        return [
-          ...acc, `${text?.indexOf('/uploads') === 0 ? process.env.apiUrl : ''}${text}`
-        ]
-      }, []).join('src="');
-      res = res.replace('oembed', 'iframe');
-      res = res.replace('url', 'src');
-      res = res.replace('watch?v=', 'embed/');
-      res = res.replace('oembed', 'iframe');
+      const res = txt
+      // res = txt.split('src="').reduce((acc, text) => {
+      //   return [
+      //     ...acc, `${text?.indexOf('/uploads') === 0 ? process.env.apiUrl : ''}${text}`
+      //   ]
+      // }, []).join('src="');
+      // res = res.replace('oembed', 'iframe');
+      // res = res.replace('url', 'src');
+      // res = res.replace('watch?v=', 'embed/');
+      // res = res.replace('oembed', 'iframe');
       return res
     }
   }

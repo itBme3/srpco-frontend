@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="Array.isArray(blocks) && blocks.length > 0"
-    class="blocks"
-  >
+  <div v-if="show" class="blocks">
   <slot />
   
   <template
@@ -44,13 +41,12 @@ export default Vue.extend({
     blocks: {
       type: Array,
       default: () => []
-    },
-    content: {
-      type: String,
-      default: null
     }
   },
   computed: {
+    show () {
+      return this.blocks?.length || this.$slots?.default?.length
+    },
     pageBlocks () {
       return [...this.blocks].reduce((acc, block, i) => {
         if (block.__component === 'block.collection') {
@@ -67,6 +63,9 @@ export default Vue.extend({
         return [...acc, block]
       }, []);
     }
+  },
+  mounted() {
+    console.log(this.$slots)
   }
 })
 </script>

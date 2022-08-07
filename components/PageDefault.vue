@@ -125,15 +125,6 @@ export default Vue.extend({
                 && this.page?.blocks[1].__component === "block.collection"
                 ? this.page?.blocks?.slice(2)
                 : this.page.blocks;
-            // return this.$route.params.slug === 'gaskets'
-            //   ? this.page?.blocks?.slice(0, 2).length === 2
-            //   && this.page?.blocks[0].__component === 'block.collection'
-            //   && this.page?.blocks[1].__component === 'block.collection'
-            //   : [];
-            // if (this.$route.params.slug === 'gaskets') {
-            //   return this.page.blocks(2)
-            // }
-            // return this.page.blocks
         }
     },
     watch: {
