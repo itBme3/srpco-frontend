@@ -8,7 +8,7 @@
     :youtube="youtube"
     :link="link"
     :open-new-tab="openNewTab === true"
-    :ratio="!!youtube.length && (!media || !media.url) ? '16:9' : '5:4'"
+    :ratio="youtube && youtube.length && (!media || !media.url) ? '16:9' : '5:4'"
     :video-params="{
       mute: cardStyle === 'overlay',
       loop: cardStyle === 'overlay',
