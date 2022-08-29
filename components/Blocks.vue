@@ -63,9 +63,6 @@ export default Vue.extend({
         return [...acc, block]
       }, []);
     }
-  },
-  mounted() {
-    console.log(this.$slots)
   }
 })
 </script>

@@ -51,7 +51,6 @@ export default Vue.extend({
         this.captchaToken = null;
       } else {
         this.captchaToken = await this.$refs.form.getCaptchaToken();
-        console.log({captchaToken: this.captchaToken})
       }
       return this.captchaToken
     },

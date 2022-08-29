@@ -113,13 +113,11 @@ export default Vue.extend({
       this.errorMessage = null
     },
     getCaptchaToken () {
-      console.log({ this: this })
       if (!window) { return null };
       return new Promise((resolve) => {
         window.grecaptcha.ready(async () =>
           await window.grecaptcha.execute('6LcZu-ggAAAAAK1k6NJ6uf7GfkHA27xucfxVT1Kt', { action: 'contact' })
             .then(res => {
-              console.log({ res });
               resolve(res)
             })
             .catch(err => {

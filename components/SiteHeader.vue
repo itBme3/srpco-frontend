@@ -74,7 +74,7 @@
           @search="searchValue = $event"
           @blur="storeSearch()"
         >
-          <gButton
+          <!-- <gButton
             v-if="![null, 'search'].includes(searchCollection)"
             :class="{
               'scale-80 text-sm bg-orange-400 text-orange-900 p-1 w-auto mr-8': true,
@@ -92,7 +92,7 @@
               class="my-auto ml-2 text-orange-900"
               icon-name="close"
             />
-          </gButton>
+          </gButton> -->
         </SearchInput>
         <gButton
           v-if="!expanded && $store.state.window.width > 1200"
@@ -121,16 +121,14 @@ import qs from 'qs'
 import _ from 'lodash'
 import Vue from 'vue'
 import { asyncDelay, scrollToElement } from '~/utils/funcs'
-const searchCollections = ['search', 'gaskets', 'datasheets', 'resources']
 export default Vue.extend({
   data () {
     const { q: searchValue = '' } = this.$route.query
-    const searchCollection = searchCollections.includes(this.$route.path.split('/')[1])
-      ? this.$route.path.split('/')[1]
-      : null;
+    // const searchCollection = searchCollections.includes(this.$route.path.split('/')[1])
+    //   ? this.$route.path.split('/')[1]
+    //   : null;
     return {
       placeholder: 'What are you looking for?',
-      searchCollection,
       expanded: false,
       searchValue,
       recentSearches: [],
@@ -140,10 +138,7 @@ export default Vue.extend({
   watch: {
     '$route.path' () {
       this.expanded = false
-      this.searchCollection = searchCollections.includes(this.$route.path.split('/')[1])
-        ? this.$route.path.split('/')[1]
-        : null
-      if (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2) {
+      if (this.$route.path.split('/').length > 2) {
         this.searchValue = ''
       }
     },
@@ -160,7 +155,6 @@ export default Vue.extend({
             return
           }
           if (lastOffsetTop !== matchingEl.offsetTop - offset) {
-            console.log({lastOffsetTop})
             scrollToElement(matchingEl)
             lastOffsetTop = matchingEl.offsetTop - offset
           }
@@ -169,9 +163,9 @@ export default Vue.extend({
 
     },
     searchValue () {
-      if (!this.searchValue?.length && (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2)) {
-        return;
-      }
+      // if (!this.searchValue?.length && (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2)) {
+      //   return;
+      // }
       this.updateSearchValue()
     }
   },
@@ -197,17 +191,18 @@ export default Vue.extend({
       this.expanded = true
     },
     updateSearchValue () {
-      const query = JSON.parse(JSON.stringify(this.$route.query))
-      this.expanded = false
+      const query = JSON.parse(JSON.stringify(this.$route.query));
+      this.expanded = false;
       if ((typeof this.searchValue !== 'string' || this.searchValue.trim().length === 0) && Object.keys(query).includes('q')) {
         delete query.q
       } else if (query.q !== this.searchValue) {
         query.q = this.searchValue
       }
-      const searchCollection = this.searchCollection === null ? 'search' : this.searchCollection
-      const queryString = qs.stringify(query)
-      const path = !queryString?.length ? `/${searchCollection}` : `/${searchCollection}?${queryString}`
-      if (path === this.$route.fullPath) return;
+      const queryString = qs.stringify(query);
+      const path = `/search${queryString?.length ? `?${queryString}` : ''}`;
+      if (path === this.$route.fullPath) {
+        return
+      }
       this.$router.replace(path, success => success, console.error)
     },
     storeSearch () {

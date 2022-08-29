@@ -63,7 +63,7 @@
             >
               {{ collection }}:
             </h3>
-            <BlockCollection
+            <LazyBlockCollection
               v-if="fetchedCollections.includes(collection)"
               :collection-type="collection"
               :limit="6"
@@ -75,7 +75,7 @@
               :update-url="true"
               :classes="{
                 grid: 'w-full grid grid-cols-12 gap-4',
-                card: 'col-span-12 sm:col-span-6 p-4',
+                card: 'col-span-12 sm:col-span-6 p-4 h-full',
                 media: 'rounded',
                 title: 'text-xl font-regular tracking-wide',
                 text: ''
