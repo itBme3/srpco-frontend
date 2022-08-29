@@ -36,6 +36,9 @@
       <component
         :is="lazy ? 'TransitionGroup' : 'div'"
         class="entry-block-content"
+        :class="{
+          [classes.content]: classes.content.length
+        }"
         :name="lazy ? 'up-fade' : undefined"
         tag="div">
         <LazyBlockCard
@@ -169,8 +172,8 @@ export default Vue.extend({
       return { card, title: cardTitle, media: cardMedia, text: cardText }
     },
     classes() {
-      const { block, title, buttons } = getBlockClasses(this.block);
-      return { block, title, buttons }
+      const { block, title, buttons, content } = getBlockClasses(this.block);
+      return { block, title, buttons, content }
     }
   },
   watch: {

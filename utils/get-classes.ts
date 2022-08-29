@@ -5,9 +5,9 @@ export const getPageClasses = (data: any) => {
 }
 
 export const getBlockClasses = (data: any) => {
-      const { classes = { block: '', title: '', buttons: '' } } = !!data?.blockSettings?.classes ? data.blockSettings : {}
-      const { block = '', title = '', buttons = '' } = classes;
-      return { block, title, buttons }
+      const { classes = { block: '', title: '', buttons: '', content: '' } } = !!data?.blockSettings?.classes ? data.blockSettings : {}
+      const { block = '', title = '', buttons = '', content = '' } = classes;
+      return { block, title, buttons, content }
 }
 
 export const getCardClasses = (data: any) => {
