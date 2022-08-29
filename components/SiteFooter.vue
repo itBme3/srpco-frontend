@@ -3,7 +3,7 @@
 
     <div class="footer-preferred-converter-carousel">
       <h3 class="block-title text-gray-600 leading-relaxed px-6">
-        Preferred Converter For The Industry's Leading Suppliers
+        Converter For The Industry's Leading Suppliers
       </h3>
       <Carousel
         v-if="preferredConverter.length"
@@ -16,10 +16,9 @@
           friction: 0.20
         }"
       >
-        <nuxt-link
+        <span
           v-for="entry in preferredConverter"
           :key="entry.slug"
-          :to="'/suppliers/' + entry.slug"
           class="slide group"
         >
           <Media
@@ -27,7 +26,7 @@
             :is-background="true"
             class="rounded-full"
           /> <small class="truncate text-ellipsis">{{ entry.title }}</small>
-        </nuxt-link>
+        </span>
       </Carousel>
     </div>
 
