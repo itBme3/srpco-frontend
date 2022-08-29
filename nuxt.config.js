@@ -137,7 +137,7 @@ export default {
     },
   },
   env: {
-    mapsApiKey: 'AIzaSyAKlNQvaXSHG-CQietQjo0RRtvVNJie30U',
+    mapsApiKey: process.env.G_MAPS_API_KEY,
     baseUrl: process.env.BASE_URL || 'http://localhost:3001',
     apiUrl,
     captchaKey
