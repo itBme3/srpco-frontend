@@ -2,13 +2,15 @@
   <div
     :style="{ 
       height: imgHeight,
-      backgroundImage: isBackground && typeof mediaSrc === 'string' && mediaSrc.length > 0 && !mediaSrc.includes('.pdf') ? 'url(' + mediaSrc + ')' : 'none'
+  backgroundImage: isBackground && typeof mediaSrc === 'string' && mediaSrc.length > 0 && !mediaSrc.includes('.pdf') ? 'url(' + mediaSrc + ')' : 'none',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center',
+      backgroundSize: 'cover'
     }"
     :class="{
       'overflow-hidden': !overlay,
       'media flex items-center justify-center': true
     }"
-    style="background-repeat: no-repeat; background-size: cover; background-position: center;"
   >
     <client-only>
       <div
@@ -165,7 +167,7 @@ export default Vue.extend({
       }, 300)
     },
     setImgSrc () {
-      this.setImgHeight()
+      this.setImgHeight();
       if (![null, undefined].includes(this.media) && ![null, undefined].includes(this.media.mime) && this.media.mime.includes('pdf')) {
         this.mediaSrc = this.media.url
         return
@@ -187,7 +189,7 @@ export default Vue.extend({
       return getStrapiMedia(thumb.url)
     },
     setImgHeight () {
-      if (typeof this.mediaRatio !== 'string' || !this.mediaRatio.includes || !this.mediaRatio.includes(':') || typeof this.$el === 'undefined' || this.$el.offsetWidth < 0) {
+      if (typeof this.mediaRatio !== 'string' || !this.mediaRatio?.includes(':') || typeof this.$el === 'undefined' || this.$el.offsetWidth < 0) {
         return
       }
       const ratio = this.mediaRatio.split(':')

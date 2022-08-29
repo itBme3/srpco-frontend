@@ -41,99 +41,99 @@
         }"
         :name="lazy ? 'up-fade' : undefined"
         tag="div">
-        <LazyBlockCard
-          v-if="seen && block.__component === 'block.card'"
-          :key="block.__component"
-          :class="{ [!!cardClasses &&  !!cardClasses.card ? cardClasses.card : '']: !!cardClasses.card.length }"
-          :block="block"
-        />
+        <template v-if="seen">
+          <LazyBlockCard
+            v-if="block.__component === 'block.card'"
+            key="card"
+            :class="{ [!!cardClasses &&  !!cardClasses.card ? cardClasses.card : '']: !!cardClasses.card.length }"
+            :block="block"
+          />
 
-        <LazyBlockCollection
-          v-if="seen && block.__component === 'block.collection'"
-          :key="block.__component"
-          :collection-type="block.collectionType"
-          :limit="![null, undefined].includes(block.collectionSettings) && block.collectionSettings.limit > 0 ? block.collectionSettings.limit : 6"
-          :sort="!!block.collectionSettings && !!block.collectionSettings.sort ? block.collectionSettings.sort : 'publishedAt:ASC'"
-          :infinite-scroll="!!block.collectionSettings && block.collectionSettings.loadingMore === 'infiniteScroll'"
-          :update-url="!!block.collectionSettings && block.collectionSettings.updateUrl"
-          :card-style="!!block.cardSettings && !!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaLeft'"
-          :description="!!block.collectionSettings && !!block.collectionSettings.showDescription"
-          :show-excerpt="!!block.cardSettings && !!block.cardSettings.showExcerpt"
-          :show-more-links="!!block.cardSettings && block.cardSettings.showMoreLinks !== false"
-          :loading-more="!!block.collectionSettings ? block.collectionSettings.loadingMore : 'button'"
-          :button-link="!!block.collectionSettings ? block.collectionSettings.buttonLink : null"
-          :button-text="!!block.collectionSettings ? block.collectionSettings.buttonText : null"
-          :search-bar="!!block.collectionSettings ? !!block.collectionSettings.searchBar : false"
-          :classes="{...cardClasses, buttons: classes.buttons}"
-        />
+          <LazyBlockCollection
+            v-else-if="block.__component === 'block.collection'"
+            key="collection"
+            :collection-type="block.collectionType"
+            :limit="![null, undefined].includes(block.collectionSettings) && block.collectionSettings.limit > 0 ? block.collectionSettings.limit : 6"
+            :sort="!!block.collectionSettings && !!block.collectionSettings.sort ? block.collectionSettings.sort : 'publishedAt:ASC'"
+            :infinite-scroll="!!block.collectionSettings && block.collectionSettings.loadingMore === 'infiniteScroll'"
+            :update-url="!!block.collectionSettings && block.collectionSettings.updateUrl"
+            :card-style="!!block.cardSettings && !!block.cardSettings && typeof block.cardSettings.style !== 'undefined' && block.cardSettings.style !== null ? block.cardSettings.style : 'mediaLeft'"
+            :description="!!block.collectionSettings && !!block.collectionSettings.showDescription"
+            :show-excerpt="!!block.cardSettings && !!block.cardSettings.showExcerpt"
+            :show-more-links="!!block.cardSettings && block.cardSettings.showMoreLinks !== false"
+            :loading-more="!!block.collectionSettings ? block.collectionSettings.loadingMore : 'button'"
+            :button-link="!!block.collectionSettings ? block.collectionSettings.buttonLink : null"
+            :button-text="!!block.collectionSettings ? block.collectionSettings.buttonText : null"
+            :search-bar="!!block.collectionSettings ? !!block.collectionSettings.searchBar : false"
+            :classes="{...cardClasses, buttons: classes.buttons}"
+          />
 
-        <LazyBlockContent
-          v-if="seen && ['block.content', 'solutions.challenge', 'solutions.solution', 'solutions.results', 'solutions.used'].includes(block.__component)"
-          :key="block.__component"
-          :block="block"
-        />
-        <LazyBlockCarousel
-          v-if="seen && block.__component === 'block.carousel'"
-          :key="block.__component"
-          :block="block"
-        />
-        <LazyBlockHero
-          v-if="seen && block.__component === 'block.hero'"
-          :key="block.__component"
-          :block="block"
-        />
-        <LazyBlockGaskets
-          v-if="seen && block.__component === 'block.gaskets' || (block.__component === 'solutions.used' && block.gaskets)"
-          :key="block.__component"
-          :block="block"
-        />
-        <LazyBlockDatasheets
-          v-if="seen && block.__component === 'block.datasheets' || (block.__component === 'solutions.used' && block.datasheets && block.datasheets.length > 0)"
-          :key="block.__component"
-          :block="block"
-        />
-        <LazyBlockMaterials
-          v-if="seen && block.__component === 'block.materials' || (block.__component === 'solutions.used' && block.materials && block.materials.length > 0)"
-          :key="block.__component"
-          :block="block"
-        />
-        <LazyBlockApplications
-          v-if="seen && block.__component === 'block.applications'"
-          :key="block.__component"
-          :block="block"
-        />
-        <LazyBlockServices
-          v-if="seen && block.__component === 'block.services'"
-          :key="block.__component"
-          :block="block"
-        />
-        <LazyBlockResources
-          v-if="seen && block.__component === 'block.resources'"
-          :key="block.__component"
-          :block="block"
-        />
-        <LazyBlockGroup
-          v-if="seen && ['block.group'].includes(block.__component)"
-          :key="block.__component"
-          :block="block"
-        />
-        <LazyBlockButtons
-          v-if="seen && block.__component === 'block.buttons'"
-          :key="block.__component"
-          :block="block"
-        />
-        <LazyBlockIconList
-          v-if="seen && block.__component === 'block.icon-list'"
-          :key="block.__component"
-          :block="block"
-        />
-
-        <LazyBlockForm 
-          v-if="seen && block.__component === 'block.form'"
-          :key="block.__component"
-          :block="block"
-        />
-
+          <LazyBlockContent
+            v-else-if="['block.content', 'solutions.challenge', 'solutions.solution', 'solutions.results', 'solutions.used'].includes(block.__component)"
+            key="content"
+            :block="block"
+          />
+          <LazyBlockCarousel
+            v-else-if="block.__component === 'block.carousel'"
+            key="carousel"
+            :block="block"
+          />
+          <LazyBlockHero
+            v-else-if="block.__component === 'block.hero'"
+            key="hero"
+            :block="block"
+          />
+          <LazyBlockGaskets
+            v-else-if="block.__component === 'block.gaskets' || (block.__component === 'solutions.used' && block.gaskets)"
+            key="gaskets"
+            :block="block"
+          />
+          <LazyBlockDatasheets
+            v-else-if="block.__component === 'block.datasheets' || (block.__component === 'solutions.used' && block.datasheets && block.datasheets.length > 0)"
+            key="datasheets"
+            :block="block"
+          />
+          <LazyBlockMaterials
+            v-else-if="block.__component === 'block.materials' || (block.__component === 'solutions.used' && block.materials && block.materials.length > 0)"
+            key="materials"
+            :block="block"
+          />
+          <LazyBlockApplications
+            v-else-if="block.__component === 'block.applications'"
+            key="applications"
+            :block="block"
+          />
+          <LazyBlockServices
+            v-else-if="block.__component === 'block.services'"
+            key="services"
+            :block="block"
+          />
+          <LazyBlockResources
+            v-else-if="block.__component === 'block.resources'"
+            key="resources"
+            :block="block"
+          />
+          <LazyBlockGroup
+            v-else-if="['block.group'].includes(block.__component)"
+            key="group"
+            :block="block"
+          />
+          <LazyBlockButtons
+            v-else-if="block.__component === 'block.buttons'"
+            key="buttons"
+            :block="block"
+          />
+          <LazyBlockIconList
+            v-else-if="block.__component === 'block.icon-list'"
+            key="icon-list"
+            :block="block"
+          />
+          <LazyBlockForm 
+            v-else-if="block.__component === 'block.form'"
+            key="form"
+            :block="block"
+          />
+        </template>
       </component>
     </template>
   </div>

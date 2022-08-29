@@ -8,7 +8,7 @@
     :youtube="youtube"
     :link="link"
     :open-new-tab="openNewTab === true"
-    :ratio="youtube && youtube.length && (!media || !media.url) ? '16:9' : '5:4'"
+    :media-ratio="mediaRatio"
     :video-params="{
       mute: cardStyle === 'overlay',
       loop: cardStyle === 'overlay',
@@ -45,6 +45,12 @@ export default Vue.extend({
       cardClasses,
       youtube: block?.youtube?.length > 0 ? block.youtube : null,
       openNewTab: block?.openNewTab === true
+    }
+  },
+  computed: {
+    mediaRatio () {
+      return this.youtube?.length && !this.media?.url ? '16:9'
+        : this.block?.cardSettings?.classes?.mediaRatio || '6:4'
     }
   }
 })
