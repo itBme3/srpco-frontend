@@ -197,6 +197,7 @@ export default Vue.extend({
       }
       const ratio = this.mediaRatio.split(':')
       const width = this.$el.offsetWidth
+      console.log({ width, ratio: this.ratio, youtube: this.youtube  })
       
       const height = Math.floor(width / ratio[0] * ratio[1])
       if (height > 0 && this.imgHeight !== `${height}px`) {

@@ -41,6 +41,7 @@
         }"
         :name="lazy ? 'up-fade' : undefined"
         tag="div">
+
         <template v-if="seen">
           <LazyBlockCard
             v-if="block.__component === 'block.card'"
@@ -66,7 +67,7 @@
             :button-text="block.collectionSettings ? block.collectionSettings.buttonText : null"
             :search-bar="block.collectionSettings ? block.collectionSettings.searchBar : false"
             :classes="{...cardClasses, buttons: classes.buttons}"
-            :media-ratio="block.cardSettings && block.cardSettings.classes && block.cardSettings.classes.mediaRatio ? block.cardSettings.classes.mediaRatio : 'auto'"
+            :ratio="block.cardSettings && block.cardSettings.classes && block.cardSettings.classes.mediaRatio ? block.cardSettings.classes.mediaRatio : 'auto'"
           />
 
           <LazyBlockContent

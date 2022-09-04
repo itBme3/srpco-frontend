@@ -8,6 +8,7 @@
         @search="(e) => (searchValue !== e ? (searchValue = e) : '')"
         @clear="() => (searchValue = '')" />
     </template>
+
     <div
       :v-if="!!entries && !!entries.length"
       class="collection-entries grid"
