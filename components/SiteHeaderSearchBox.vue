@@ -71,13 +71,19 @@
           </a>
         </div>
 
-        <div class="p-6 bg-gray-700 bg-opacity-50 rounded-md">
-          <h3 class="text-gray-400">SRP is a Preferred Converter</h3>
+        <div class="p-6 bg-gray-700 bg-opacity-50 rounded-md flex flex-wrap gap-2">
+          <h3 class="text-gray-400 w-full mb-5">SRP is a Preferred Converter</h3>
           <gButton
-            class="bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-full mt-5 text-sm shadow-lg w-auto mr-auto"
-            @click="$router.push('/suppliers')"
+            class="bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-full text-sm shadow-lg w-auto"
+            @click="$router.push('/suppliers/3m')"
           >
-            why that matters
+            3M Preferred Converter
+          </gButton>
+          <gButton
+            class="bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-full text-sm shadow-lg w-auto mr-auto"
+            @click="$router.push('/suppliers/rogers-corporation')"
+          >
+            Rogers Preferred Converter
           </gButton>
         </div>
       </div>
