@@ -48,14 +48,15 @@ export default Vue.extend({
       return this.blocks?.length || this.$slots?.default?.length
     },
     pageBlocks () {
-      return [...this.blocks].reduce((acc, block, i) => {
+      return [...this.blocks].reduce((acc, block) => {
+        const ln = acc.length;
         if (block.__component === 'block.collection') {
-            const _block = { ...block, title: block?.title?.length ? block.title : block.collectionType }
-            if (Array.isArray(acc[i - 1])) {
-              acc[i - 1].push(_block);
+          const _block = { ...block, title: block?.title?.length ? block.title : block.collectionType }
+          if (Array.isArray(acc[ln - 1])) {
+              acc[ln - 1].push(_block);
                   return acc
             }
-            if (acc[i - 1]?.__component === 'block.collection' && acc[i - 1]?.title?.length) {
+            if (acc[ln - 1]?.__component === 'block.collection' && acc[ln - 1]?.title?.length) {
                   const previous = acc.pop();
                   return [...acc, [previous, _block]]
             }
