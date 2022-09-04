@@ -39,6 +39,7 @@ export default Vue.extend({
   },
   computed: {
     entries () {
+      console.log(this.entry)
       if (this.entry && Array.isArray(this.entry[this.collectionType]) && this.entry[this.collectionType].length) {
         return [...this.entry[this.collectionType]].sort(sortCompare('title', 'asc'))
       }

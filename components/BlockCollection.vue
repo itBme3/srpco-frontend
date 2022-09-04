@@ -10,10 +10,10 @@
     </template>
 
     <div
-      :v-if="!!entries && !!entries.length"
+      :v-if="!!collectionEntries && !!collectionEntries.length"
       class="collection-entries grid"
       :class="{ [classes.grid || '']: !!classes && classes.grid }">
-      <template v-for="(entry, i) in entries">
+      <template v-for="(entry, i) in collectionEntries">
         <Card
             v-if="![null, undefined].includes(entry)"
               :key="entry.type + '-' + entry.id + '-' + i"
@@ -81,7 +81,7 @@ v-if="
                   'load-more-button': true,
                  [classes.buttons]: typeof classes.buttons === 'string'
                }"
-               @click="get(entries.length)">
+               @click="get(collectionEntries.length)">
         <template v-if="!!buttonText && buttonText.length">
           {{ buttonText }}
         </template>
@@ -146,7 +146,7 @@ export default Vue.extend({
       type: Boolean,
       default: true
     },
-    initialEntries: {
+    entries: {
       type: Array,
       default: () => []
     },
@@ -181,7 +181,7 @@ export default Vue.extend({
     const { grid: gridClasses = '' } = !!this.classes ? this.classes : {}
     const collection = this?.collectionType ? this.collectionType : null
     return {
-      entries: this.initialEntries.length ? this.initialEntries : null,
+      fetchedEntries: null,
       nextEntries: null,
       searchValue: '',
       lastSearch: '',
@@ -193,6 +193,9 @@ export default Vue.extend({
     }
   },
   fetch () {
+    if (this.entries?.length) {
+      return
+    }
     const collection = this.collection
     if (collection === null) {
       return {}
@@ -202,6 +205,9 @@ export default Vue.extend({
     return this.get(0).catch(console.error)
   },
   computed: {
+    collectionEntries() {
+      return this.entries.length ? this.entries : this.fetchedEntries
+    },
     cardClasses () {
       const {
         title = '',
@@ -282,28 +288,28 @@ export default Vue.extend({
     }
   },
   mounted () {
-    if (this.initialEntries?.length > 3) {
-      this.initialEntries.slice(3)
+    if (this.entries?.length > 3) {
+      this.entries.slice(3)
     }
-    if (Array.isArray(this.entries)) {
-      this.$emit('updateEntries', this.entries)
+    if (Array.isArray(this.fetchedEntries)) {
+      this.$emit('updateEntries', this.fetchedEntries)
     }
   },
   methods: {
     async get (start = 0) {
 
       if (typeof this.collection !== 'string') {
-        this.$emit('updateEntries', this.entries)
+        this.$emit('updateEntries', this.fetchedEntries)
         return
       }
         
       /* if entries provided in props */
-      if (start === 0 && this.initialEntries?.length > this.limit && this.nextEntries?.length) {
+      if (start === 0 && this.entries?.length > this.limit && this.nextEntries?.length) {
         for (let i = 0; i < this.limit || !this.nextEntries?.length; i++) {
-          this.entries.push(this.nextEntries.shift())
+          this.fetchedEntries.push(this.nextEntries.shift())
         }
-        this.$emit('updateEntries', this.entries)
-        return this.entries
+        this.$emit('updateEntries', this.fetchedEntries)
+        return this.fetchedEntries
       }
 
       if (this.description === true) {
@@ -325,7 +331,7 @@ export default Vue.extend({
 
       if (objectsAreTheSame(params, this.queryParams)) {
         if (start === 0) {
-          this.$emit('updateEntries', this.entries)
+          this.$emit('updateEntries', this.fetchedEntries)
           return
         }
       }
@@ -357,17 +363,17 @@ export default Vue.extend({
         this.collectionDescription = await this.$content(`${this.collection}-collection`)
           .only(['description'])
       }
-      if (start === 0 || !this.entries?.length) {
-        this.entries = this.nextEntries
+      if (start === 0 || !this.fetchedEntries?.length) {
+        this.fetchedEntries = this.nextEntries
       } else {
-        this.entries = [
-          ...this.entries,
+        this.fetchedEntries = [
+          ...this.fetchedEntries,
           ...this.nextEntries.filter(
-            (e) => !this.entries.map((c) => c.slug).includes(e.slug)
+            (e) => !this.fetchedEntries.map((c) => c.slug).includes(e.slug)
           )
         ]
       }
-      this.$emit('updateEntries', this.entries)
+      this.$emit('updateEntries', this.fetchedEntries)
       try {
         if (['infiniteScroll'].includes(loadingMore) && window !== undefined) {
           setTimeout(() => {
@@ -377,9 +383,9 @@ export default Vue.extend({
             window.scrollTo({ top: window.scrollY - 1 })
           }, 100)
         }
-        return this.entries
+        return this.fetchedEntries
       } catch {
-        return this.entries
+        return this.fetchedEntries
       }
     },
     getQueryParams () {
@@ -414,7 +420,7 @@ export default Vue.extend({
         return this.$router.push({ path: `/${this.collectionType}` })
       }
       const resourceTypes = [
-        ...new Set(this.entries.map((e) => e.resourceType))
+        ...new Set(this.fetchedEntries.map((e) => e.resourceType))
       ]
       if (resourceTypes.length > 1) {
         return this.$router.push({
@@ -427,7 +433,7 @@ export default Vue.extend({
       if (this.loadingMore !== 'infiniteScroll') return
       if (e.percentInView > 0.2) {
         this.canLoadMore = false
-        this.get(this.entries.length).catch(console.error)
+        this.get(this.fetchedEntries.length).catch(console.error)
       }
     },
     storeFromCollection (entry) {

@@ -1,80 +1,76 @@
 <template>
-  <div
-v-if="![null, undefined].includes(page)"
-       :class="{
-         'single-entry': isSingleEntry,
-         [entryType]: isSingleEntry,
-         'collection': !isSingleEntry,
-         [entryType + 's']: !!entryType && entryType.includes('Collection'),
-         [pageClasses.container]: !!pageClasses.container
-       }">
-    <Heading
+    <div
         v-if="![null, undefined].includes(page)"
-        :title="page.title"
-        :heading-type="!entryType || !entryType.length || !entryTypes.includes(entryType) ? 'collection' : 'page'"
-        :description="page.description"
-        :media="(!entryType || !entryTypes.includes(entryType)) && page.seo && page.seo.image ? page.seo.image : page.media"
-        :class="{
-            [pageClasses.heading]: !!pageClasses.heading && !!pageClasses.heading.length
-        }"
-        :divider="!entryType || !entryTypes.includes(entryType)"
-        :title-classes="pageClasses.title"
-        :overlay-classes="entryType === 'solution' ? 'solutions-header-media-overlay' : ''" />
+         :class="{
+             'single-entry': isSingleEntry,
+             [entryType]: isSingleEntry,
+             'collection': !isSingleEntry,
+             [entryType + 's']: !!entryType && entryType.includes('Collection'),
+             [pageClasses.container]: !!pageClasses.container
+         }">
+        <Heading
+            v-if="![null, undefined].includes(page)"
+            :title="page.title"
+            :heading-type="!entryType || !entryType.length || !entryTypes.includes(entryType) ? 'collection' : 'page'"
+            :description="page.description"
+            :media="(!entryType || !entryTypes.includes(entryType)) && page.seo && page.seo.image ? page.seo.image : page.media"
+            :class="{
+                [pageClasses.heading]: !!pageClasses.heading && !!pageClasses.heading.length
+            }"
+            :divider="!entryType || !entryTypes.includes(entryType)"
+            :title-classes="pageClasses.title"
+            :overlay-classes="entryType === 'solution' ? 'solutions-header-media-overlay' : ''" />
 
-    <Media
-      v-if="entryType === 'datasheet'"
-      :media="page.file"
-      ratio="8:11"
-      class="h-[calc(100vh-80px)] w-full rounded-md col-span-8" />
+        <Media 
+            v-if="entryType === 'datasheet'"
+            :media="page.file"
+            ratio="8:11"
+            class="h-[calc(100vh-80px)] w-full rounded-md col-span-8" />
 
-    <CollectionsOnSupplier
-      v-if="![undefined, null].includes(page) && entryType && entryType === 'supplier'"
-      :entry="page"
-      class="col-span-full"
-    />
+        <CollectionsOnSupplier
+            v-if="![undefined, null].includes(page) && entryType && entryType === 'supplier'"
+            :entry="page"
+            class="col-span-full" />
 
-    <Blocks 
-        v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType === 'datasheet')"
-        :class="{
-           'blocks grid-cols-12': true,
-           'hide-sidebar': entryType !== 'gasket'
-         }"
-        :blocks="page.blocks">
+        <Blocks 
+            v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType === 'datasheet')"
+            :class="{
+                'blocks grid-cols-12': true,
+                'hide-sidebar': entryType !== 'gasket'
+            }"
+            :blocks="page.blocks">
 
-        <div
-            v-if="typeof page.content === 'string' && page.content.length"
-                class="page-content entry-block col-span-full"
-                :class="{
-                'hidden': page.content && page.content.trim().length === 0
-                }">
-            <BlockContent :block="{ content: page.content }" />
-        </div>
+            <div 
+                v-if="typeof page.content === 'string' && page.content.length"
+                 class="page-content entry-block col-span-full"
+                 :class="{
+                     'hidden': page.content && page.content.trim().length === 0
+                 }">
+                <BlockContent :block="{ content: page.content }" />
+            </div>
 
-    </Blocks>
-    <EntrySideBar
-        v-if="!!page && typeof page !== 'string' && ['gasket', 'material', 'application'].includes(entryType)"
-        :entry="typeof page === 'object' ? page : {}" />
-    
-     <template
-                v-for="collection in ['materials', 'applications', 'gaskets']"
-            >
-            <section 
+        </Blocks>
+        <EntrySideBar
+                v-if="!!page && typeof page !== 'string' && ['gasket', 'material', 'application'].includes(entryType)"
+                :entry="typeof page === 'object' ? page : {}" />
+
+        <template v-for="collection in ['materials', 'applications', 'gaskets']">
+            <section
                 v-if="page && page[collection] && page[collection].length"
                 :key="collection"
                 class="entries-on-entry-section col-span-full "
-                :class="{[collection]: true}">
-                <h6 class="font-bold mb-2 capitalize">Related {{ collection }}:</h6>
-                <EntriesOnEntry 
-                    ref="entriesOnEntry"
-                    :collection-type="collection"
-                    :entry="page"
-                />
+                :class="{ [collection]: true }">
+                <h6 class="font-bold mb-2 capitalize">Related {{  collection  }}:</h6>
+                <EntriesOnEntry
+ref="entriesOnEntry"
+                                :collection-type="collection"
+                                :entry="page" />
             </section>
-            </template>
+        </template>
 
-    <NextPreviousEntries v-if="isSingleEntry && ['solution', 'resource'].includes(entryType)" />
+        <NextPreviousEntries v-if="isSingleEntry && ['solution', 'resource'].includes(entryType)" />
 
-  </div>
+    </div>
 </template>
 
 <script>
@@ -90,7 +86,7 @@ export default Vue.extend({
             default: () => null
         }
     },
-    data() {
+    data () {
         const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
         this.$store.commit("nextPrevious/setCollectionType", collectionType);
         this.$store.commit("nextPrevious/setEntry", this.pageData);
@@ -104,13 +100,13 @@ export default Vue.extend({
         };
     },
     computed: {
-        isSingleEntry() {
+        isSingleEntry () {
             return !!this?.page?.type && this.entryTypes.includes(this.entryType);
         },
-        pageClasses() {
+        pageClasses () {
             return getPageClasses(this.page);
         },
-        gasketCollectionBlocks() {
+        gasketCollectionBlocks () {
             return this.$route.params.slug === "gaskets"
                 && this.page?.blocks?.length >= 2
                 && this.page?.blocks[0].__component === "block.collection"
@@ -118,7 +114,7 @@ export default Vue.extend({
                 ? this.page?.blocks?.slice(0, 2)
                 : [];
         },
-        pageBlocks() {
+        pageBlocks () {
             return this.$route.params.slug === "gaskets"
                 && this.page?.blocks?.length >= 2
                 && this.page?.blocks[0].__component === "block.collection"
@@ -128,14 +124,14 @@ export default Vue.extend({
         }
     },
     watch: {
-        pageData() {
+        pageData () {
             this.page = this.pageData;
             const { collectionType = null } = this.pageData;
             this.$store.commit("nextPrevious/setCollectionType", collectionType);
             this.$store.commit("nextPrevious/setEntry", this.pageData);
         }
     },
-    mounted() {
+    mounted () {
         const { slug: initialSlug = null } = this.pageData;
         let { collectionType = null } = this.pageData;
         if (!collectionType) {
