@@ -1,5 +1,5 @@
-const defaultSort = 'publishedAt:desc'
 import { CollectionType } from '~/models/entry.model';
+const defaultSort = 'publishedAt:desc'
 
 const INITIAL_STATE = {
       next: null,
@@ -51,8 +51,10 @@ export const actions: any = {
                   return;
             }
             const sort = Array.isArray(initialSort) ? initialSort[0] : initialSort;
+            const sortField = sort?.split(':')[0] || 'publishedAt';
+            const sortDirection = sort?.split(':')[1]?.toLowerCase() || 'desc';
             const [previous, next] = await this.$content(collection)
-                  .sortBy(sort)
+                  .sortBy(sortField, sortDirection)
                   .surround(entry.slug)
                   .fetch()
             commit('setPrevious', previous)

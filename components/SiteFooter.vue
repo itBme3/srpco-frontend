@@ -128,17 +128,21 @@ export default Vue.extend({
         order: 7,
         limit: 6
       },
-      ].map(item => this.$content(item.collectionType)
+      ].map(item => {
+        const sortField = item.sort?.split(':')[0] || 'publishedAt';
+        const sortDirection = item.sort?.split(':')[1] || 'desc';
+        return this.$content(item.collectionType)
         .limit(item?.limit || 7)
         .only(['slug', 'title'])
-        .sortBy(item?.sort || 'createdAt:desc')
+        .sortBy(sortField, sortDirection)
         .where(item?.filters || {})
         .fetch().then(entries => {
           this.siteMapBlocks.push({
             ...item,
             entries
           })
-        }))
+        })
+      })
     ]
     return Promise.all(promises).catch(console.error)
   }

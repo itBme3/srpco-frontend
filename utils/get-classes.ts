@@ -11,9 +11,9 @@ export const getBlockClasses = (data: any) => {
 }
 
 export const getCardClasses = (data: any) => {
-      const { classes = { card: '', title: '', text: '', content: '', media: '' } } = !!data?.cardSettings?.classes ? data.cardSettings : {}
-      const { card = '', title = '', text = '', content = '', media = '' } = classes;
-      return { card, title, text, media, content }
+      const { classes = { card: '', title: '', text: '', content: '', media: '', link: '' } } = !!data?.cardSettings?.classes ? data.cardSettings : {}
+      const { card = '', title = '', text = '', content = '', media = '', link = "" } = classes;
+      return { card, title, text, media, content, link }
 }
 
 export const getHeroClasses = (data: any) => {

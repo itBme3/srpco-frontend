@@ -24,7 +24,6 @@ export const mutations = {
                   state = INITIAL_STATE
                   return
             }
-
             state.browserName = browserName()
             state.width = document.documentElement.clientWidth
             state.height = document.documentElement.clientHeight

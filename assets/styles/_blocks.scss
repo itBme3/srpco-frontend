@@ -72,6 +72,12 @@
       --block-content-color: rgba(239, 95, 101, var(--tw-text-opacity)) !important;
       @apply rounded-md border-0;
     }
+    &.block-datasheets {
+      @apply col-span-12 #{!important};
+      .entries.datasheets .datasheet {
+        @apply col-span-12 sm:col-span-6 #{!important};
+      }
+    }
     &:nth-child(7n + 1) {
       --block-content-color: rgba(192, 132, 252, var(--tw-text-opacity));
     }

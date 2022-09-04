@@ -9,12 +9,12 @@
         @clear="() => (searchValue = '')" />
     </template>
     <div
-:v-if="!!entries && !!entries.length"
-         class="collection-entries grid"
-         :class="{ [classes.grid || '']: !!classes && classes.grid }">
+      :v-if="!!entries && !!entries.length"
+      class="collection-entries grid"
+      :class="{ [classes.grid || '']: !!classes && classes.grid }">
       <template v-for="(entry, i) in entries">
         <Card
-v-if="![null, undefined].includes(entry)"
+            v-if="![null, undefined].includes(entry)"
               :key="entry.type + '-' + entry.id + '-' + i"
               :lazy="i > 6"
               :card-style="
@@ -26,18 +26,8 @@ v-if="![null, undefined].includes(entry)"
                   ? null
                   : entry.description | truncate(150, '...')
               "
-              :media="
-                ![null, undefined].includes(entry.file) ? entry.file : entry.media
-              "
-              :media-ratio="
-                ['materials', 'applications', 'suppliers'].includes(collectionType)
-                  ? '1:1'
-                  : collectionType === 'gaskets'
-                    ? '4:3'
-                    : collectionType === 'datasheets'
-                      ? '8:ll'
-                      : mediaRatio
-              "
+              :media="![null, undefined].includes(entry.file) ? entry.file : entry.media"
+              :media-ratio="mediaRatio"
               :link="'/' + collectionType + '/' + entry.slug"
               :open-new-tab="false"
               class="collection-entry"
@@ -189,15 +179,6 @@ export default Vue.extend({
   data () {
     const { grid: gridClasses = '' } = !!this.classes ? this.classes : {}
     const collection = this?.collectionType ? this.collectionType : null
-    const mediaRatio =
-      this.ratio !== null && this.ratio?.indexOf(':') > -1
-        ? this.ratio
-        : ['services', 'materials', 'applications'].includes(collection)
-          ? '16:9'
-          : collection === 'suppliers'
-            ? '1:1'
-            : 'auto';
-
     return {
       entries: this.initialEntries.length ? this.initialEntries : null,
       nextEntries: null,
@@ -207,7 +188,6 @@ export default Vue.extend({
       gridClasses,
       collection,
       collectionDescription: this.description,
-      mediaRatio,
       queryParams: {}
     }
   },
@@ -227,9 +207,10 @@ export default Vue.extend({
         card = '',
         media = '',
         text = '',
-        content = ''
+        content = '',
+        link = ''
       } = this.classes || {}
-      return { title, card, media, text, content }
+      return { title, card, media, text, content, link }
     },
     constantFilters () {
       try {
@@ -253,12 +234,21 @@ export default Vue.extend({
         }
         let sortDirection = sort?.split(':')[0]?.toUpperCase()
         if (!['asc', 'desc'].includes(sortDirection?.toLowerCase())) {
-          sortDirection = ['created', 'updated', 'published'].includes(sortKey)
+          sortDirection = ['createdAt', 'updatedAt', 'publishedAt'].includes(sortKey)
             ? 'DESC'
             : 'ASC'
         }
         return `${sortKey}:${sortDirection}`
       })
+    }, 
+    mediaRatio () {
+      return this.ratio?.includes(':')
+        ? this.ratio
+        : ['services', 'materials', 'applications', 'gaskets'].includes(this.collection)
+          ? '16:9'
+          : this.collection === 'suppliers'
+            ? '1:1'
+            : 'auto';
     }
   },
   watch: {
@@ -346,7 +336,7 @@ export default Vue.extend({
           ? this.collectionSort[0]
           : this.collectionSort
       const sortField = collectionSort.split(':')[0] || 'publishedAt'
-      const sortDirection = collectionSort.split(':')[1] || 'desc'
+      const sortDirection = collectionSort.split(':')[1]?.toLowerCase() || 'desc'
       this.nextEntries = await this.$content(this.collection)
         .where({ ...(this.queryParams?.filters || {}) })
         .sortBy(sortField, sortDirection)

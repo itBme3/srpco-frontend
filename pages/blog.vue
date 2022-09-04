@@ -26,26 +26,12 @@ import Vue from 'vue'
 
 export default Vue.extend({
   scrollToTop: true,
-  // async asyncData ({ $content }) {
-  //   const page = await $content('homepage').fetch()
-  //   return { page }
-  // },
-	data() {
+	data () {
 		return {
 			page: {
 				title: 'Blog'
 			}
 		}
-	},
-  // head () {
-  //   return seoHead(this.page)
-  // },
-  // mounted() {
-  //   this.$store.dispatch('getEntryUpdates', { path: '/' })
-  //     .then(res => {
-  //       this.page = {...this.page, ...res}
-  //     }).catch(console.error);
-  // }
-
+	}
 })
 </script>

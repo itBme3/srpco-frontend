@@ -30,7 +30,7 @@
     <h2 class="mt-8 sm:mt-12 md:mt-14">Services:</h2>
     <BlockCollection 
       collection-type="services"
-      sort="publishedAt:ASC"
+      sort="publishedAt:DESC"
       card-style="mediaLeft"
       loading-more="infiniteScroll"
       :limit="6"

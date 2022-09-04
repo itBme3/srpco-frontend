@@ -130,16 +130,19 @@ export default Vue.extend({
   },
   data () {
     const mediaSrc = typeof this.mediaSrc !== 'undefined' ? this.mediaSrc : this.getImgSrc(this.media, typeof this.$el !== 'undefined' ? this.$el : { offsetWidth: 300, offsetHeight: 300 })
-    const mediaRatio = this.youtube?.length && !this.ratio?.includes(':') ? '16:9' : this.ratio;
     return {
       mediaSrc,
       imgHeight: 'auto',
-      mediaRatio,
       seen: !this.lazy
     }
   },
+  computed: {
+    mediaRatio () {
+      return this.youtube?.length && !this.ratio?.includes(':') ? '16:9' : this.ratio;
+    }
+  },
   watch: {
-    '$store.state.window' () {
+    '$store.state.window.width' () {
       this.onResize()
     }
   },
@@ -194,6 +197,7 @@ export default Vue.extend({
       }
       const ratio = this.mediaRatio.split(':')
       const width = this.$el.offsetWidth
+      
       const height = Math.floor(width / ratio[0] * ratio[1])
       if (height > 0 && this.imgHeight !== `${height}px`) {
         this.imgHeight = `${height}px`

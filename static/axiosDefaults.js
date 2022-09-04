@@ -97,6 +97,8 @@ const parseResponse = (_obj) => {
                   }
                   if (isJsonObject(obj[key])) {
                         return { ...acc, [key]: parseResponse(obj[key]) }
+                  } else if (['publishedAt', 'createdAt', 'updatedAt'].includes(key)) {
+                        return {...acc, [key]: new Date(obj[key]).getTime(), [`${key}String`]: obj[key]}
                   }
                   return { ...acc, [key]: obj[key] };
             }, {})

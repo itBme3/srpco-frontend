@@ -15,7 +15,7 @@
     <Link
       class="card-link"
       :class="{
-        [classes.card]: !!classes && !!classes.card && !!classes.card.length,
+        [classes.link]: !!classes && !!classes.link && !!classes.link.length,
         'card-style-overlay': cardStyle === 'overlay',
         'card-style-media-left': cardStyle === 'mediaLeft',
         'card-style-media-right': cardStyle === 'mediaRight',
@@ -25,6 +25,7 @@
       :to="link"
       :modal-data="{ youtube: youtube, media: media, title: title, text:text }"
       :open-new-tab="openNewTab === true"
+      :style="`height: ${cardLinkHeight}`"
       @open-modal="(e) => openModal(e)"
     >
     <template v-if="!!media && typeof media.url === 'string' && media.url.includes('.pdf') && !showPdfPreview">
@@ -33,6 +34,7 @@
     
     <Media
       v-else-if="(!!media && !!media.url) || (typeof youtube === 'string' && youtube.length > 0)"
+      ref="cardMediaEl"
       :lazy="lazy"
       :media="media"
       :ratio="mediaRatio"
@@ -155,6 +157,11 @@ export default Vue.extend({
       default: null
     }
   },
+  data() {
+    return {
+      cardLinkHeight: '100%'
+    }
+  },
   computed: {
     hasLink () {
       if (
@@ -185,11 +192,27 @@ export default Vue.extend({
     },
     cardText () {
       return this.text?.includes('•') ? `<ul>${this.text.split('•').map(item => `<li>${item.trim()}</li>`).join('\n')}</ul>` : this.text
+    },
+    cardLinkHeightComputed () {
+      return this.$refs?.cardMediaEl?.imgHeight || '100%'
     }
+  },
+  watch: {
+    '$store.state.window.width' () {
+      this.setLinkHeight();
+    }
+  },
+  mounted () {
+    this.setLinkHeight();
   },
   methods: {
     openModal (modalData) {
       this.$store.commit('modal/open', modalData)
+    },
+    setLinkHeight () {
+      if (this.$refs.cardMediaEl && this.cardStyle === "overlay") {
+        this.cardLinkHeight = this.$refs.cardMediaEl.imgHeight
+      }
     }
   },
 });
