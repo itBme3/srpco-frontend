@@ -61,10 +61,10 @@
                 class="entries-on-entry-section col-span-full "
                 :class="{ [collection]: true }">
                 <h6 class="font-bold mb-2 capitalize">Related {{  collection  }}:</h6>
-                <EntriesOnEntry
-ref="entriesOnEntry"
-                                :collection-type="collection"
-                                :entry="page" />
+                <EntriesOnEntry 
+                    ref="entriesOnEntry"
+                    :collection-type="collection"
+                    :entry="page" />
             </section>
         </template>
 

@@ -34,12 +34,18 @@
       </scrollbar>
     </client-only>
 
-    <div class="panels">
+    <div
+      class="panels"
+      :class="{
+        [classes.panels]: !!classes.panels
+      }">
       <div
         v-for="(section, i) in sections"
         :key="i + '-' + handleize(section.title) + '-2'"
-        :class="{ 'expanded': activeIndex === i }"
-        class="panel"
+        :class="{
+          'expanded': activeIndex === i,
+          [classes.panel]: !!classes.panel
+        }"
       >
         <gButton
           v-if="groupStyle === 'accordion' && ![undefined, null].includes(section) && typeof section.title === 'string'"
@@ -63,18 +69,18 @@
             <h3 class="whitespace-nowrap">{{ section.title }}</h3>
           </scrollbar>
           <i
-:class="{
+            :class="{
             'gicon-angle-down ml-auto mr-0': true,
             [classes.icons]: !!classes.icons,
           }" />
         </gButton>
         <div
-          v-if="hasExpanded.includes(i)"
+          v-if="hasExpanded.includes(i) || block.groupStyle === 'grid'"
           :class="{
             'panel-content space-y-4': true,
             [classes.content]: !!classes.content,
             'expanded transition-all ease-quick-in duration-200 opacity-100 translate-y-0 animate-fade-in-down': i === activeIndex,
-            'opacity-0 hidden -translate-y-full': i !== activeIndex
+            'opacity-0 hidden -translate-y-full': i !== activeIndex && block.groupStyle !== 'grid'
           }"
         >
 
@@ -82,7 +88,7 @@
             v-if="![undefined, null].includes(section) && typeof section.content === 'string' && section.content.length > 0"
             class="wysiwyg-content"
             :block="{
-              title: null,
+              title: section.title,
               content: section.content
             }"
           />
@@ -136,6 +142,7 @@
 <script>
 import Vue from 'vue'
 import { handleize } from '~/utils/funcs'
+import { getBlockClasses } from '~/utils/get-classes'
 export default Vue.extend({
   props: {
     block: {
@@ -148,15 +155,7 @@ export default Vue.extend({
     }
   },
   data () {
-    const classes = ['buttons', 'icons', 'content'].reduce((acc, key) => {
-      try {
-        return {
-          ...acc, [key]: this.block?.blockSettings?.classes[key] || null
-        }
-      } catch (e) {
-        return { ...acc, [key]: null }
-      }
-    }, {});
+    const classes = getBlockClasses(this.block);
     return {
       active: this.initialIndex,
       groupStyle: ![undefined, null].includes(this.block) && typeof this.block.groupStyle === 'string' ? this.block.groupStyle : 'tabs',
@@ -170,7 +169,8 @@ export default Vue.extend({
   computed: {
     activeIndex () {
       return this.active
-    }
+    },
+
   },
   mounted () {
     if (typeof this.activeIndex !== 'number' && this.block.groupStyle === 'tabs') {
@@ -264,6 +264,15 @@ export default Vue.extend({
       .icon {
         @apply text-xl mx-2;
       }
+    }
+  }
+  &.group-style-grid {
+    @apply p-0;
+    .panels {
+      @apply grid grid-cols-2 sm:grid-cols-3 gap-4 p-0;
+    }
+    .panel {
+      @apply col-span-1;
     }
   }
 }

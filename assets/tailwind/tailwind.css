@@ -50,3 +50,8 @@
     --text-shadow-opacity: 0.6;
   }
 } */
+/* 
+.whitelist {
+  @apply sm:flex-row;
+} 
+*/

@@ -2,10 +2,16 @@
   <div
     class="block-content"
   >
+    <h3 
+      v-if="title.length"
+      class="block-title"
+      :class="{
+        [classes.title]: !!classes.title.length
+      }">{{ title }}</h3>
     <div
       v-if="![undefined, null].includes(content)"
       :class="{
-        [contentClasses]: contentClasses.length > 0
+        [classes.content]: !!classes.content.length
       }"
       v-html="$md.render(content)"
     />
@@ -14,12 +20,18 @@
 
 <script>
 import Vue from 'vue'
+import { getCardClasses } from '~/utils/get-classes'
 export default Vue.extend({
   props: {
     block: {
       type: Object,
       default: () => null
     }
+  },
+  data () {
+    return {
+      classes: getCardClasses(this.block)
+    }  
   },
   computed: {
     title () {
@@ -28,24 +40,13 @@ export default Vue.extend({
         : ''
     },
     contentClasses () {
-      return ![undefined, null].includes(this.block?.blockSettings) && typeof this.block.blockSettings?.classes?.content === 'string'
-        ? this.block.blockSettings?.classes?.content
-        : ''
+      return this.block?.blockSettings?.classes?.content || ''
     },
     content () {
       const txt = ![undefined,null].includes(this.block) && typeof this.block.content === 'string' && this.block.content?.length > 0
         ? this.block.content
         : ''
       const res = txt
-      // res = txt.split('src="').reduce((acc, text) => {
-      //   return [
-      //     ...acc, `${text?.indexOf('/uploads') === 0 ? process.env.apiUrl : ''}${text}`
-      //   ]
-      // }, []).join('src="');
-      // res = res.replace('oembed', 'iframe');
-      // res = res.replace('url', 'src');
-      // res = res.replace('watch?v=', 'embed/');
-      // res = res.replace('oembed', 'iframe');
       return res
     }
   }
@@ -58,4 +59,5 @@ export default Vue.extend({
     @apply text-blue;
   }
 }
+
 </style>

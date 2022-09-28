@@ -1,0 +1,5 @@
+ul {
+	&.grid, &.flex {
+		@apply list-none p-0;
+	}
+}

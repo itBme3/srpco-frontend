@@ -73,7 +73,7 @@
           <LazyBlockContent
             v-else-if="['block.content', 'solutions.challenge', 'solutions.solution', 'solutions.results', 'solutions.used'].includes(block.__component)"
             key="content"
-            :block="block"
+            :block="{...block, title: null}"
           />
           <LazyBlockCarousel
             v-else-if="block.__component === 'block.carousel'"
