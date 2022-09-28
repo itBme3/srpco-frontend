@@ -124,18 +124,18 @@ const minHeight = {
 
 const alwaysSafe = [
   'mix-blend-multiply',
-      'transition',
-      'transform',
-      'ramp-in',
-      'max-w-thumb',
-      'max-w-thumb-lg',
-      'max-w-thumb-sm',
-      'max-w-thumb-xs',
-      'bg-blend-multiply',
-      'bg-blend-overlay',
-      'bg-blend-saturation',
-      'opacity-30',
-      'grayscale'
+  'transition',
+  'transform',
+  'ramp-in',
+  'max-w-thumb',
+  'max-w-thumb-lg',
+  'max-w-thumb-sm',
+  'max-w-thumb-xs',
+  'bg-blend-multiply',
+  'bg-blend-overlay',
+  'bg-blend-saturation',
+  'opacity-30',
+  'grayscale'
 ]
 
 module.exports = {
