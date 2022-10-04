@@ -6,7 +6,6 @@
 		width="20" 
 		height="20" 
 		viewBox="0 0 20 20"
-    :style="`--icon-fill: ${fill}`"
 		v-html="icons[iconName]">
 	</svg>
 </template>

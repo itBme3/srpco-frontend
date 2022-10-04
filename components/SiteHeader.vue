@@ -56,7 +56,7 @@
         href="/"
         class="header-logo my-auto sm:my-0 mr-2"
       >
-        <Logo class="h-[38px] ml-1 top-0 w-auto my-auto mr-auto" />
+        <Logo class="h-[38px] top-0 w-auto my-auto mr-auto" />
       </a>
 
       <SiteNav :class="{'hidden': expanded}" />
