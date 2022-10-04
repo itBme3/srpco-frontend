@@ -1,6 +1,6 @@
 <template>
   <svg
-		class="svg-icon"
+		class="icon"
 		version="1.1" 
 		xmlns="http://www.w3.org/2000/svg" 
 		width="20" 
@@ -29,7 +29,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-  .svg-icon {
+  .icon {
     @apply fill-gray-50 inline-block h-4 w-auto;
     path {
       fill: inherit;

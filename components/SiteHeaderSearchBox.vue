@@ -13,22 +13,12 @@
         <div class="custom-gaskets section col-span-6 border-gray-900 rounded-md border-2 border-opacity-25 p-6 flex flex-wrap mt-4">
           <h3 class="section-title w-full mb-4">Custom Gaskets</h3>
           <gButton
-            class="bg-opacity-50 w-[calc(33.33%-.25rem)] mr-1"
-            @click="$router.push('/applications')"
+            v-for="item in [['By Application', '/applications'], ['By Materials', '/materials'], ['All Gaskets', '/gaskets']]"
+            :key="item[0]"
+            class="bg-opacity-50 w-full md:w-[calc(33.33%-.25rem)] mr-1"
+            @click="$router.push(item[1])"
           >
-            By Application
-          </gButton>
-          <gButton
-            class="bg-opacity-50 w-[calc(33.33%-.25rem)] mr-1"
-            @click="$router.push('/materials')"
-          >
-            By Material
-          </gButton>
-          <gButton
-            class="bg-opacity-50 w-[calc(33.33%-.25rem)]"
-            @click="$router.push('/gaskets')"
-          >
-            All Gaskets
+            {{item[0]}}
           </gButton>
         </div>
         <div class="resources section col-span-6 flex flex-wrap px-0 mt-4">

@@ -66,10 +66,10 @@ export default Vue.extend({
   list-style: none;
   @apply sm:text-[150%];
   .list-item {
-    @apply mb-5 relative pl-8;
+    @apply mb-5 relative pl-8 pt-0;
     .icon {
       @apply text-xl absolute -left-1 top-2;
-      color: var(--block-content-color);
+      fill: var(--block-content-color);
     }
   }
 }

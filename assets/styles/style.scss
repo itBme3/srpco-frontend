@@ -12,8 +12,8 @@
         --site-bg: #070e1a;
 }
 
-[class^="gicon-"]:before,
-[class*=" gicon-"]:before {
+.icon:before,
+.icon:before {
         position: relative;
         top: 0.05em !important;
 }

@@ -1,12 +1,12 @@
 .site-container {
 	main {
-		@apply min-h-[80vh] pt-2 md:pt-0 mt-24 px-3 mx-auto inline-block h-auto overflow-y-visible;
+		@apply min-h-[80vh] mt-24 mx-auto inline-block h-auto overflow-y-visible;
 		max-width: var(--site-max-width);
 	}
 	.header {
 		@apply fixed z-999999 top-0 left-auto right-auto w-screen;
 		.top-bar {
-			@apply flex flex-nowrap items-center justify-center h-9 px-4 mb-2 relative top-0 overflow-hidden w-full text-xs bg-gray-800 bg-opacity-60 text-gray-400;
+			@apply flex flex-nowrap items-center justify-center h-9 px-4 relative top-0 overflow-hidden w-full text-xs bg-gray-800 bg-opacity-60 text-gray-400;
 			.top-bar-content {
 				@apply flex items-center justify-between w-full max-w-lg mx-auto pr-4;
 				> * {
@@ -16,8 +16,12 @@
 			}
 		}
 		.header-content {
-			@apply py-1 px-3 mx-auto;
+			@apply p-2 mx-auto;
 			max-width: var(--site-max-width);
+			@media screen and (min-width: 1530px) {
+				padding-left: 0 !important;
+				padding-right: 0 !important;
+			}
 			.site-navigation {
 				nav {
 					@apply rounded shadow-xl flex flex-nowrap items-start content-start relative;
@@ -73,8 +77,8 @@
 			max-width: var(--site-max-width);
 			.search-input {
 				@apply bg-transparent #{!important};
-				i[class*="gicon-"] {
-					@apply text-gray-300;
+				.icon {
+					@apply fill-gray-300;
 				}
 				.action-button {
 					@apply px-2 bg-transparent;
