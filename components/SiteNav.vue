@@ -11,10 +11,10 @@
       class="mobile-menu-trigger flex items-center justify-center h-full mr-px px-3 py-3 ml-auto bg-gray-800 bg-opacity-50 hover:bg-opacity-100 hover:text-gray-900"
       @click="navExpanded = !navExpanded"
     >
-      <i
-        class="text-gray-400"
-        :class="{ 'gicon-menu': !navExpanded, 'gicon-close': navExpanded }"
-      />
+      <Icon
+        class="text-gray-400" 
+        :icon-name="navExpanded ? 'close' : 'menu'"
+        />
     </gButton>
     <nav name="main navigation">
       <template 
@@ -57,7 +57,11 @@
               :variant="'secondary'"
               @click="toggleNested(navLink.link)"
             >
-              <i :class="{ 'gicon-angle-down': showNested !== navLink.link, 'gicon-angle-up': showNested === navLink.link }" />
+              <Icon
+                :icon-name="showNested === navLink.link ? 'angleUp' : 'angleDown'"
+                :class="{
+                  'fill-gray-900': showNested === navLink.link || $store.state.window.isMobile
+                }" />
             </gButton>
           </div>
           <div

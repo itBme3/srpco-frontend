@@ -14,7 +14,7 @@
         @click="previous()"
       >
         <Icon
-          icon-name="angle-left"
+          icon-name="angleLeft"
           class="m-auto"
         />
       </button>
@@ -23,7 +23,7 @@
         @click="next()"
       >
         <Icon
-          icon-name="angle-right"
+          icon-name="angleRight"
           class="m-auto"
         />
       </button>

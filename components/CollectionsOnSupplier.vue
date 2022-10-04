@@ -16,7 +16,7 @@
       >
         {{ collectionType }}
         <Icon
-          :icon-name="showingCollection === collectionType ? 'close' : 'angle-down'"
+          :icon-name="showingCollection === collectionType ? 'close' : 'angleDown'"
           class="transform scale-80 ml-1"
         />
       </gButton>

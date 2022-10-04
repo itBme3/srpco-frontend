@@ -65,7 +65,7 @@
             class="flex items-center justify-start whitespace-nowrap text-xl"
           >
             <Icon
-              icon-name="phone"
+              icon-name="call"
               class="mr-2 text-red-400"
             /> <span>Call Us</span>
           </a>
@@ -108,7 +108,7 @@
       classes="rounded-md px-3 py-2 bg-transparent hover:bg-gray-200 hover:bg-opacity-5 absolute right-1 -top-1 w-12"
       @click="isExpanded = false; $emit('close')"
     >
-      <i class="gicon-close text-red-400" />
+      <Icon icon-name="close" class="fill-red-400" />
     </gButton>
   </div>
 </template>

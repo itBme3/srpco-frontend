@@ -24,7 +24,7 @@
         class="flex items-center content-center mr-2 hover:rounded hover:border-b-0 hover:bg-gray-800 text-gray-400 hover:text-gray-300 w-auto"
         @click="showCount = -1"
       >
-        <i class="gicon-angle-down my-auto mr-auto ml-0" />
+        <Icon class="angle-down my-auto mr-auto ml-0" icon-name="angleDown" />
         <span class="my-auto ml-2">MORE</span>
       </gButton>
     </div>

@@ -17,24 +17,25 @@
         </p>
 
         <p
-:class="{
-            'certified-iso': true,
+          class="certified-iso flex"
+          :class="{
             'hidden': $store.state.window.width < 600
           }">
           <Icon
             icon-name="location"
-            class="text-gray-600 relative top-px"
+            class="text-gray-600 relative top-px mr-2 h-[.9rem]"
           /> Elk Grove Village, IL, USA
         </p>
 
         <a
           href="tel:+18003336322"
-          class="self-center"
+          class="self-center flex"
         >
           <Icon
             icon-name="call"
-            class="text-gray-600 relative top-[.1rem]"
-          /> 800.333.6322
+            class="text-gray-600 relative top-[.1rem] mr-2 h-[.9rem]"
+          />
+          800.333.6322
         </a>
       </div>
 
@@ -74,25 +75,6 @@
           @search="searchValue = $event"
           @blur="storeSearch()"
         >
-          <!-- <gButton
-            v-if="![null, 'search'].includes(searchCollection)"
-            :class="{
-              'scale-80 text-sm bg-orange-400 text-orange-900 p-1 w-auto mr-8': true,
-              'hidden': !expanded
-              }"
-            @click="() => {
-              searchCollection = 'search';
-              if(!!searchValue && !!searchValue.length) {
-                updateSearchValue()
-              }
-            }"
-          >
-            <span class="my-auto">{{ searchCollection }}</span>
-            <Icon
-              class="my-auto ml-2 text-orange-900"
-              icon-name="close"
-            />
-          </gButton> -->
         </SearchInput>
         <gButton
           v-if="!expanded && $store.state.window.width > 1200"

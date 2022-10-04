@@ -53,14 +53,15 @@
         >{{ description }}</p>
       </div>
     </div>
-    <i
-      v-if="cardStyle === 'small'"
-      class="gicon-close absolute top-1 right-2 transition-sll ease-in-out duration-300 hover:opacity-100 opacity-50"
+    <Icon
+      v-if="cardStyle === 'small'" 
+      icon-name="close"
+      class="close absolute top-1 right-2 transition-sll ease-in-out duration-300 hover:opacity-100 opacity-50"
       :class="{
         'opacity-0 scale-0': !expanded,
         'opacity-50 scale-100': expanded,
       }"
-    ></i>
+    />
     <div
       class="card-info transition-all ease-in duration-200"
       :class="{

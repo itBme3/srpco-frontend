@@ -1,5 +1,13 @@
 <template>
   <div class="page contact mx-auto max-w-lg">
+
+     
+    <div class="flex flex-wrap gap-4">
+      <Icon v-for="key in Object.keys(icons)" :key="key" class="fill-gray-50" :svg="true" :icon-name="key" />
+    </div>
+
+
+
     <h1 class="text-center pb-8 pt-14">Contact Us</h1>
     
     <BlockForm
@@ -11,12 +19,14 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import Vue from 'vue';
+import Icons from '../components/SvgIcons';
 export default Vue.extend({
   scrollToTop: true,
 
   data () {
     return {
+      icons: Icons,
       formSchema: {
         fields: [
           {

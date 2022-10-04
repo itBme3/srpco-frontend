@@ -16,13 +16,11 @@
         classes="pl-3 pr-2 py-1 rounded w-auto"
         @click="toggleValue(item.value)"
       >
-        {{ item.value }} <i
+        {{ item.value }} 
+        <Icon 
+          :icon-name="Array.isArray(activeValues) && activeValues.includes(item.value) ? 'close' : 'add'"
+          class="my-auto mr-0 ml-2 relative -top-px text-xs" 
           style="color: inherit"
-          :class="{
-            'my-auto mr-0 ml-2 relative -top-px text-xs': true,
-            'gicon-close': Array.isArray(activeValues) && activeValues.includes(item.value),
-            'gicon-add': !Array.isArray(activeValues) || !activeValues.includes(item.value)
-          }"
         />
       </gButton>
     </scrollbar>

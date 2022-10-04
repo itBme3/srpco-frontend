@@ -1,8 +1,10 @@
 <template>
-  <Blocks
-    v-if="!!page && Array.isArray(page.blocks) && !!page.blocks.length"
-    :blocks="page.blocks"
-  />
+  <div>
+    <Blocks
+      v-if="!!page && Array.isArray(page.blocks) && !!page.blocks.length"
+      :blocks="page.blocks"
+    />
+  </div>
 </template>
 
 <script>

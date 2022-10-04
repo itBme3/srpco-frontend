@@ -68,11 +68,13 @@
           >
             <h3 class="whitespace-nowrap">{{ section.title }}</h3>
           </scrollbar>
-          <i
+          <Icon 
+            icon-name="angleDown"
+            class="angle-down ml-auto mr-0"
             :class="{
-            'gicon-angle-down ml-auto mr-0': true,
-            [classes.icons]: !!classes.icons,
-          }" />
+              [classes.icons]: !!classes.icons,
+            }" 
+          />
         </gButton>
         <div
           v-if="hasExpanded.includes(i) || block.groupStyle === 'grid'"
@@ -211,7 +213,7 @@ export default Vue.extend({
 <style lang="scss">
 .panel-heading {
   @apply text-center w-full rounded p-3 bg-gray-800 bg-opacity-95 hover:bg-opacity-100 text-gray-300 relative z-10 transform transition scale-98 hover:scale-100 ease-quick-in flex items-center justify-between;
-  .gicon-angle-down {
+  .angle-down {
     @apply transition ease-quick-in duration-200 delay-100 transform rotate-0;
   }
   .ps__rail-x {
@@ -285,7 +287,7 @@ export default Vue.extend({
 .expanded {
   .tabs,
   .panel-heading {
-    .gicon-angle-down {
+    .angle-down {
       @apply rotate-180;
     }
   }
