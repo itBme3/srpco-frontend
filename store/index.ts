@@ -26,7 +26,7 @@ export const actions: any = {
                   entry = await dispatch('getCollectionPage', collectionType).catch(console.error)
             } else {
                   let entryCall = this.$content(collectionType)
-                        .where({ slug: slug })
+                        .where({ slug })
                         .limit(1);
                   if (only?.length) { entryCall = entryCall.only(only) }
                   entry = await entryCall
@@ -60,12 +60,12 @@ export const actions: any = {
                   ? [...priorityCollectionTypes[collectionType], ..._collectionTypes.filter(t => !priorityCollectionTypes[collectionType].includes(t))]
                   : _collectionTypes;
 
-            let foundRedirect: any = await this.$content('redirects').where({ old: path }).limit(1).fetch()
+            const foundRedirect: any = await this.$content('redirects').where({ old: path }).limit(1).fetch()
                   .then((res: any) => Array.isArray(res) ? res[0] : null);
             if (foundRedirect?.new) {
                   return foundRedirect.new
             }
-            const entriesWithMatchingSlug: any[] = await this.$content({ deep: true }).where({ slug: slug }).only(['slug', 'collectionType']).fetch()
+            const entriesWithMatchingSlug: any[] = await this.$content({ deep: true }).where({ slug }).only(['slug', 'collectionType']).fetch()
             let foundMatch: any = null;
             for (let i = 0; i < collectionTypes.length && !foundMatch; i++) {
                   foundMatch = entriesWithMatchingSlug.filter(entry => entry.collectionType === collectionTypes[i])[0]
@@ -106,7 +106,7 @@ export const actions: any = {
                         params.filters.slug = slug
                   }
                   const callParams = {
-                        ...(params ? params : {})
+                        ...(params || {})
                   }
                   const contentEntry = slug
                         ? await this.$content(path, slug)
@@ -117,6 +117,7 @@ export const actions: any = {
                         ...callParams,
                         fields: ['updatedAt']
                   }, { encodeValuesOnly: true });
+                  console.log({queryString})
                   const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`).then((res: any) => {
                         const entry = Array.isArray(res.data) && res.data[0]?.attributes
                               ? res.data[0]?.attributes

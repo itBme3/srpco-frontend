@@ -29,7 +29,7 @@
       @open-modal="(e) => openModal(e)"
     >
     <template v-if="!!media && typeof media.url === 'string' && media.url.includes('.pdf') && !showPdfPreview">
-      <Icon icon-name="datasheets" />
+      <Icon icon-name="datasheet" />
     </template>
     
     <Media
@@ -230,14 +230,24 @@ export default Vue.extend({
 .card-content {
   @apply order-1 py-3;
 }
+.card-media {
+  .overlay {
+    .icon {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      transform: scale(.9);
+    }
+  }
+}
 .datasheets .card,
 .card.datasheet {
   .card-title {
     @apply text-gray-300 text-2xl;
   }
   .icon {
-    @apply text-2xl m-3 mr-4 relative -top-[.14rem] text-opacity-80;
-    color: var(--block-content-color);
+    @apply m-auto mr-1 ml-0;
+    fill: var(--block-content-color);
   }
   .media {
     @apply max-w-[100px];

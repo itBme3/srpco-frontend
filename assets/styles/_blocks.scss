@@ -4,6 +4,7 @@
 }
 .entry-block {
   @apply col-span-12;
+  --block-content-color: rgba(253, 230, 130, var(--tw-text-opacity));
   &:not(.block-hero) {
     @apply p-4 sm:p-8;
   }
@@ -13,7 +14,6 @@
   &.block-content {
     @apply p-6 sm:p-8;
   }
-  --block-content-color: rgba(253, 230, 130, var(--tw-text-opacity));
   .block-title {
     @apply capitalize pb-2 mb-2;
     border-bottom: 0.075em solid rgba(0, 0, 0, 0.15);

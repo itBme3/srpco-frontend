@@ -56,12 +56,7 @@
         v-if="overlay || (typeof youtube === 'string' && youtube.length > 0)"
         class="overlay absolute inset-0 z-1"
         :class="{[overlayClasses]: typeof overlayClasses === 'string' && overlayClasses.length > 0 }"
-      >
-        <Icon
-          v-if="!!mediaSrc && !!youtube && !!youtube.length"
-          :icon-name="'play'"
-        />
-      </div>
+      />
       <template #placeholder>
         <div
           v-if="!seen"
@@ -197,7 +192,6 @@ export default Vue.extend({
       }
       const ratio = this.mediaRatio.split(':')
       const width = this.$el.offsetWidth
-      console.log({ width, ratio: this.ratio, youtube: this.youtube  })
       
       const height = Math.floor(width / ratio[0] * ratio[1])
       if (height > 0 && this.imgHeight !== `${height}px`) {

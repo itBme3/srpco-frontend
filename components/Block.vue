@@ -70,11 +70,16 @@
             :ratio="block.cardSettings && block.cardSettings.classes && block.cardSettings.classes.mediaRatio ? block.cardSettings.classes.mediaRatio : 'auto'"
           />
 
+          <LazyBlockDatasheetsCollection
+            v-else-if="block.__component === 'block.datasheets-collection'"
+            :block="block" />
+
           <LazyBlockContent
             v-else-if="['block.content', 'solutions.challenge', 'solutions.solution', 'solutions.results', 'solutions.used'].includes(block.__component)"
             key="content"
             :block="{...block, title: null}"
           />
+
           <LazyBlockCarousel
             v-else-if="block.__component === 'block.carousel'"
             key="carousel"

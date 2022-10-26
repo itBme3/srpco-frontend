@@ -31,7 +31,7 @@
             v-if="![undefined, null].includes(page) && entryType && entryType === 'supplier'"
             :entry="page"
             class="col-span-full" />
-
+        
         <Blocks 
             v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType === 'datasheet')"
             :class="{
@@ -86,7 +86,7 @@ export default Vue.extend({
             default: () => null
         }
     },
-    data () {
+    data() {
         const { slug = null, collectionType = null, type: entryType = null, id } = this.pageData;
         this.$store.commit("nextPrevious/setCollectionType", collectionType);
         this.$store.commit("nextPrevious/setEntry", this.pageData);
@@ -100,13 +100,13 @@ export default Vue.extend({
         };
     },
     computed: {
-        isSingleEntry () {
+        isSingleEntry() {
             return !!this?.page?.type && this.entryTypes.includes(this.entryType);
         },
-        pageClasses () {
+        pageClasses() {
             return getPageClasses(this.page);
         },
-        gasketCollectionBlocks () {
+        gasketCollectionBlocks() {
             return this.$route.params.slug === "gaskets"
                 && this.page?.blocks?.length >= 2
                 && this.page?.blocks[0].__component === "block.collection"
@@ -114,7 +114,7 @@ export default Vue.extend({
                 ? this.page?.blocks?.slice(0, 2)
                 : [];
         },
-        pageBlocks () {
+        pageBlocks() {
             return this.$route.params.slug === "gaskets"
                 && this.page?.blocks?.length >= 2
                 && this.page?.blocks[0].__component === "block.collection"
@@ -124,7 +124,7 @@ export default Vue.extend({
         }
     },
     watch: {
-        pageData () {
+        pageData() {
             this.page = this.pageData;
             const { collectionType = null } = this.pageData;
             this.$store.commit("nextPrevious/setCollectionType", collectionType);
@@ -132,18 +132,22 @@ export default Vue.extend({
         }
     },
     mounted () {
+        console.log({pageData:this.pageData})
         const { slug: initialSlug = null } = this.pageData;
         let { collectionType = null } = this.pageData;
         if (!collectionType) {
             collectionType = this.$route.params.collection;
         }
         const slug = !initialSlug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : initialSlug;
+        console.log({blocks: this.pageBlocks})
         this.$store.dispatch("getEntryUpdates", { slug: this.isSingleEntry ? slug : null, path: !!collectionType ? collectionType : initialSlug }).then((res) => {
+            console.log(res);
             try {
                 this.page = {
                     ...this.page,
                     ...res
                 };
+                setTimeout(() => console.log("blocks: ", this.pageBlocks), 500)
             }
             catch { }
         });
