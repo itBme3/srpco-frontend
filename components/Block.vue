@@ -54,6 +54,7 @@
             v-else-if="block.__component === 'block.collection'"
             key="collection"
             :collection-type="block.collectionType"
+            :filters="block.collectionSettings ? block.collectionSettings.filters || {} : {}"
             :limit="![null, undefined].includes(block.collectionSettings) && block.collectionSettings.limit > 0 ? block.collectionSettings.limit : 6"
             :sort="block.collectionSettings && block.collectionSettings.sort ? block.collectionSettings.sort : 'publishedAt:DESC'"
             :infinite-scroll="block.collectionSettings && block.collectionSettings.loadingMore === 'infiniteScroll'"

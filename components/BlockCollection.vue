@@ -345,7 +345,7 @@ export default Vue.extend({
       const sortField = collectionSort.split(':')[0] || 'publishedAt'
       const sortDirection = collectionSort.split(':')[1]?.toLowerCase() || 'desc'
       this.nextEntries = await this.$content(this.collection)
-        .where({ ...(this.queryParams?.filters || {}) })
+        .where({ ...(this.queryParams?.filters || {}), ...(this.filters || {}) })
         .sortBy(sortField, sortDirection)
         .skip(start)
         .search(

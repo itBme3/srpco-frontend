@@ -2,6 +2,7 @@ import { Media, MediaFormat } from '~/models/media.model'
 
 /* eslint-disable no-extra-boolean-cast */
 export const handleize = (strng: string, reaplceSpacesWith: string = '-'): string => {
+  if(typeof strng !== "string") {return ""}
   return strng.toLowerCase().trim().replace(/ /g, reaplceSpacesWith).replace(/[^a-z0-9]+/g, reaplceSpacesWith).replace(/-$/, '').replace(/^-/, '').replace(/--/, reaplceSpacesWith)
 }
 

@@ -50,13 +50,13 @@ export default Vue.extend({
     pageBlocks () {
       return [...this.blocks].reduce((acc, block) => {
         const ln = acc.length;
-        if (block.__component === 'block.collection') {
-          const _block = { ...block, title: block?.title?.length ? block.title : block.collectionType }
+        if (['block.collection', 'block.datasheets-collection'].includes(block.__component)) {
+          const _block = { ...block, title: block?.title?.length ? block.title : block.collectionType || 'Datasheets' }
           if (Array.isArray(acc[ln - 1])) {
               acc[ln - 1].push(_block);
                   return acc
             }
-            if (acc[ln - 1]?.__component === 'block.collection' && acc[ln - 1]?.title?.length) {
+            if (['block.collection', 'block.datasheets-collection'].includes(acc[ln - 1]?.__component) && acc[ln - 1]?.title?.length) {
                   const previous = acc.pop();
                   return [...acc, [previous, _block]]
             }

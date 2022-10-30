@@ -86,9 +86,6 @@ export default Vue.extend({
           tab.componentInstance.isActive = handleize(val) === handleize(tab.componentInstance.title)
             || handleize(val) === handleize(collectionType);
           if (tab.componentInstance.isActive) {
-            if (collectionType) {
-              this.activeTitle = collectionType
-            }
             this.activeIndex = i;
             if (previousActiveTitle !== this.activeTitle) {
               const top = (() => {
@@ -100,7 +97,7 @@ export default Vue.extend({
                 };
                 return addUpOffset(this.$refs.tabsElem);
               })();
-              window.scrollTo({top: top - 100, behavior: 'smooth'})
+              window.scrollTo({ top: top - 100, behavior: 'smooth' });
               history.pushState(
                 {}, '', `${this.$route.path}#${handleize(this.activeTitle)}`,
               )

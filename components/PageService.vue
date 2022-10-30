@@ -6,7 +6,6 @@
     <Heading
       v-if="$route.path.split('/').length > 2"
       :title="pageData.title"
-      :description="pageData.description"
       heading-type="page"
       :class="{
         [pageClasses.heading]: !!pageClasses && !!pageClasses.heading && !!pageClasses.heading.length
@@ -60,28 +59,11 @@ export default Vue.extend({
 			default: () => null
 		}
 	},
-  // async asyncData ({ route, params, redirect, store }) {
-  //   const slug = params.slug
-  //   const page = await store.dispatch('getEntry', { route })
-  //   return { slug, page, redirect }
-  // },
-  // head () {
-  //   return seoHead(this.pageData)
-  // },
   computed: {
     pageClasses () {
       return getPageClasses(this.pageData)
     }
-  },
-  // watch: {
-  //   $route: {
-  //     immediate: false,
-  //     async handler () {
-  //       this.pageData = await store.dispatch('getEntry', { route: this.$route })
-  //       return this.pageData;
-  //     }
-  //   }
-  // }
+  }
 })
 </script>
 
