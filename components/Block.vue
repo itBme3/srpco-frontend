@@ -176,8 +176,8 @@ export default Vue.extend({
       return ![null, undefined].includes(this.block) && (!this.block.__component || !this.block.__component.includes('card')) ? this.block.title : null
     },
     cardClasses() {
-      const { card = '', title: cardTitle = '', text: cardText = '', media: cardMedia = '' } = getCardClasses(this.block)
-      return { card, title: cardTitle, media: cardMedia, text: cardText }
+      const { card = '', title = '', text = '', media = '', subtitle = '' } = getCardClasses(this.block)
+      return { card, title, media, text, subtitle }
     },
     classes() {
       const { block, title, buttons, content } = getBlockClasses(this.block);

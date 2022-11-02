@@ -2,7 +2,7 @@ import { Media, MediaFormat } from '~/models/media.model'
 
 /* eslint-disable no-extra-boolean-cast */
 export const handleize = (strng: string, reaplceSpacesWith: string = '-'): string => {
-  if(typeof strng !== "string") {return ""}
+  if (typeof strng !== "string") { return "" }
   return strng.toLowerCase().trim().replace(/ /g, reaplceSpacesWith).replace(/[^a-z0-9]+/g, reaplceSpacesWith).replace(/-$/, '').replace(/^-/, '').replace(/--/, reaplceSpacesWith)
 }
 
@@ -21,7 +21,7 @@ export const scrollToElement = async (el: HTMLElement, params: { delay?: number;
   if (!el?.parentNode) {
     return
   }
-  function getParentOffset(elem:any, x:number = 0):number {
+  function getParentOffset(elem: any, x: number = 0): number {
     if (elem?.tagName && elem.tagName !== 'main' && elem?.parentNode) {
       return getParentOffset(elem.parentNode, elem.offsetTop > x ? elem.offsetTop : x)
     }
@@ -29,7 +29,7 @@ export const scrollToElement = async (el: HTMLElement, params: { delay?: number;
   }
   const top = getParentOffset(el) - offset;
   if (delay) { await asyncDelay(delay) }
-  window.scrollTo({ top, behavior: smooth ? 'smooth' : undefined})
+  window.scrollTo({ top, behavior: smooth ? 'smooth' : undefined })
 }
 
 export const objectsAreTheSame = (_obj1: any, _obj2: any, dblCheck: boolean = true): any => {
@@ -200,4 +200,13 @@ export const isJsonObject = (item: any) => {
 }
 
 export const asyncDelay = (ms: number) =>
-  new Promise(resolve => setTimeout(() => resolve(null), ms))
+  new Promise(resolve => setTimeout(() => resolve(null), ms));
+
+const months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+export const formatDate = (date: Date) => {
+  const monthNum = date.getMonth();
+  const month = months[monthNum];
+  const day = date.getDay();
+  const year = date.getFullYear();
+  return `${month} ${day}, ${year}`
+}

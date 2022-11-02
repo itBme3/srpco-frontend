@@ -18,26 +18,29 @@
         :media="media"
         class="order-0 h-full"
         :is-background="true"
-        :class="{ 'heading-media': true, [mediaClasses]: mediaClasses.length > 0 }"
+        :class="{ 'heading-media': true, [classes.media]: !!classes.media }"
         :ratio="mediaRatio"
-        :overlay="typeof overlayClasses === 'string' && overlayClasses.length > 0"
-        :overlay-classes="overlayClasses"
+        :overlay="typeof classes.overlay === 'string' && !!classes.overlay"
+        :overlay-classes="classes.overlay"
       />
       <div class="heading-text-content">
         <h1
           v-if="title !== null && title.length > 0"
-          :class="{ 'heading-title': true, [titleClasses]: titleClasses.length > 0 }"
+          :class="{ 'heading-title': true, [classes.title]: !!classes.title }"
         >
           {{ title }}
           <span  
             v-if="divider && description !== null && title.length > 0"
             class="divider h-3 my-2 bg-gray-200 block"
+            :class="{
+              [classes.description]: !!classes.description
+            }"
             :style="{ width: `${title.length * .6}ch` }" />
         </h1>
         <component 
           :is="descriptionArray.length > 1 ? 'ul' : 'h2'"
           v-if="descriptionArray.length > 0 && title.length > 0"
-          :class="{ 'heading-description': true, [descriptionClasses]: descriptionClasses.length > 0 }"
+          :class="{ 'heading-description': true, [classes.description]: !!classes.description }"
           v-html="$md.render(descriptionArray.length === 1 ? descriptionArray[0] : descriptionArray.map(itm => `<li>${itm}</li>`).join(''))"
         />
       </div>
@@ -68,21 +71,14 @@ export default Vue.extend({
       type: String,
       default: null
     },
-    titleClasses: {
-      type: String,
-      default: ''
-    },
-    descriptionClasses: {
-      type: String,
-      default: ''
-    },
-    mediaClasses: {
-      type: String,
-      default: ''
-    },
-    overlayClasses: {
-      type: String,
-      default: ''
+    classes: {
+      type: Object,
+      default: () => ({
+        title: '',
+        description: '',
+        media: '',
+        overlay: ''
+      })
     },
     breadcrumbs: {
       type: Boolean,
@@ -115,7 +111,7 @@ export default Vue.extend({
     @apply block sm:flex flex-row items-center justify-start w-full;
   }
   .heading-text-content {
-    @apply px-2 my-0 h-full flex w-full sm:order-first order-last flex-col content-start relative z-1 max-w-[100ch];
+    @apply px-2 my-0 h-full flex w-full sm:order-first order-last flex-col content-start relative z-1;
     text-shadow: 3px 4px 14px rgba(7, 14, 32, 0.6), 0 0 60px rgb(7 14 26);
   }
   .heading-title {
@@ -123,15 +119,6 @@ export default Vue.extend({
   }
   .heading-description {
     @apply text-base font-normal tracking-wide text-gray-500 leading-snug;
-  }
-  .heading-media {
-    @apply rounded-md sm:rounded-sm absolute sm:relative z-0 sm:mx-2 shadow-2xl w-full mx-0 sm:ml-auto;
-    @media screen and (max-width: 639px) {
-      max-height: 33vw;
-    }
-    @media screen and (max-width: 479px) {
-      max-height: 50vw;
-    }
   }
   .heading-breadcrumbs {
     @apply justify-start w-full mt-2 mb-3;
@@ -161,7 +148,7 @@ export default Vue.extend({
       @apply text-gray-300;
     }
     .heading-media {
-      @apply w-full xs:w-1/2 sm:w-3/5;
+      @apply w-full xs:w-1/2 sm:w-3/5 mr-2;
     }
   }
    &.heading-collection {
@@ -175,6 +162,11 @@ export default Vue.extend({
           @apply absolute inset-0 w-full z-0 grayscale opacity-30 mx-0;
         }
       }
+    }
+   }
+   &.has-media {
+    .heading-text-content {
+      @apply max-w-[100ch];
     }
    }
 }

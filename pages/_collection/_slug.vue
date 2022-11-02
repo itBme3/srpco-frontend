@@ -1,10 +1,10 @@
 <template>
-  <PageDefault
-    v-if="!!pageData && typeof pageData !== 'string' && pageData.collectionType !== 'services'"
+  <PageSingleService
+     v-if="pageReady && pageData.collectionType === 'services'"
     :page-data="typeof pageData === 'string' ? {} : pageData"
   />
-  <PageService
-     v-else-if="!!pageData && typeof pageData !== 'string' && pageData.collectionType === 'services'"
+  <PageDefault
+    v-else-if="pageReady"
     :page-data="typeof pageData === 'string' ? {} : pageData"
   />
 </template>
@@ -20,6 +20,11 @@ export default Vue.extend({
   },
   head () {
     return seoHead(this.pageData)
+  },
+  computed: {
+    pageReady () {
+      return !!this.pageData && typeof this.pageData !== 'string'
+    }
   }
 })
 </script>

@@ -52,6 +52,12 @@
         [classes.content]: !!classes && !!classes.content && !!classes.content.length
       }"
     >
+      <h4 
+        v-if="subtitle"
+        class="subtitle"
+        :class="{ [subtitleClasses]: !!subtitleClasses }">
+        {{ subtitle }}
+      </h4>
       <gTag
         v-if="title && title.length > 0"
         :tag-name="titleTag ? titleTag : cardStyle === 'overlay' ? 'h3' : 'h4'"
@@ -94,6 +100,10 @@ export default Vue.extend({
       type: String,
       default: null,
     },
+    subtitle: {
+      type: String,
+      default: null,
+    },
     youtube: {
       type: String,
       default: null,
@@ -129,8 +139,10 @@ export default Vue.extend({
           card: '',
           media: '',
           title: '',
+          subtitle: '',
           text: '',
-          content: ''
+          content: '',
+          subtitleClasses: ''
         }
       },
     },
@@ -190,6 +202,9 @@ export default Vue.extend({
     textClasses () {
       return !!this?.classes?.text ? this.classes.text : ''
     },
+    subtitleClasses () {
+      return !!this?.classes?.subtitle ? this.classes.subtitle : ''
+    },
     cardText () {
       return this.text?.includes('•') ? `<ul>${this.text.split('•').map(item => `<li>${item.trim()}</li>`).join('\n')}</ul>` : this.text
     },
@@ -225,6 +240,9 @@ export default Vue.extend({
     color: inherit;
     text-align: inherit;
   }
+}
+.subtitle {
+  @apply text-sm sm:text-base opacity-50 mb-2;
 }
 .card-media,
 .card-content {

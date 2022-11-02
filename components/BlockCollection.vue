@@ -22,6 +22,7 @@
                 collectionType === 'datasheets' ? 'mediaLeft' : cardStyle
               "
               :title="entry.title"
+              :subtitle="entry.type === 'resource' ? formatDate(new Date(entry.createdAt)) : undefined"
               :text="
                 !showExcerpt || ['gasket'].includes(entry.type)
                   ? null
@@ -92,11 +93,11 @@ v-if="
 </template>
 
 <script>
-import qs from 'qs'
-import Vue from 'vue'
-import { objectsAreTheSame } from '~/utils/funcs'
-import { strapiFilterParams } from '~/utils/search-params'
-import { CardStyle } from '~/models/blocks.model.ts'
+import qs from 'qs';
+import Vue from 'vue';
+import { objectsAreTheSame, formatDate } from '~/utils/funcs';
+import { strapiFilterParams } from '~/utils/search-params';
+import { CardStyle } from '~/models/blocks.model.ts';
 
 export default Vue.extend({
   props: {
@@ -215,9 +216,10 @@ export default Vue.extend({
         media = '',
         text = '',
         content = '',
-        link = ''
+        link = '',
+        subtitle = ''
       } = this.classes || {}
-      return { title, card, media, text, content, link }
+      return { title, card, media, text, content, link, subtitle }
     },
     constantFilters () {
       try {
@@ -297,7 +299,6 @@ export default Vue.extend({
   },
   methods: {
     async get (start = 0) {
-
       if (typeof this.collection !== 'string') {
         this.$emit('updateEntries', this.fetchedEntries)
         return
@@ -443,7 +444,8 @@ export default Vue.extend({
         sort: this.sort,
         filters: this.filters
       })
-    }
+    },
+    formatDate
   }
 })
 </script>

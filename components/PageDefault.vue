@@ -15,10 +15,15 @@
             :description="page.description"
             :media="(!entryType || !entryTypes.includes(entryType)) && page.seo && page.seo.image ? page.seo.image : page.media"
             :class="{
-                [pageClasses.heading]: !!pageClasses.heading && !!pageClasses.heading.length
+                [pageClasses.heading]: !!pageClasses.heading
             }"
             :divider="!entryType || !entryTypes.includes(entryType)"
-            :title-classes="pageClasses.title"
+            :classes="{
+                title: pageClasses.title,
+                description: pageClasses.description,
+                media: pageClasses.media,
+                overlay: pageClasses.overlay,
+            }"
             :overlay-classes="entryType === 'solution' ? 'solutions-header-media-overlay' : ''" />
 
         <Media 
@@ -27,10 +32,10 @@
             ratio="8:11"
             class="h-[calc(100vh-80px)] w-full rounded-md col-span-8" />
 
-        <CollectionsOnSupplier
+        <!-- <CollectionsOnSupplier
             v-if="![undefined, null].includes(page) && entryType && entryType === 'supplier'"
             :entry="page"
-            class="col-span-full" />
+            class="col-span-full" /> -->
         
         <Blocks 
             v-if="![null, undefined].includes(page) && ((Array.isArray(page.blocks) && page.blocks.length > 0) || !!page.content || entryType === 'datasheet')"
@@ -44,7 +49,8 @@
                 v-if="typeof page.content === 'string' && page.content.length"
                  class="page-content entry-block col-span-full"
                  :class="{
-                     'hidden': page.content && page.content.trim().length === 0
+                    'hidden': page.content && page.content.trim().length === 0,
+                     [pageClasses.content]: !!pageClasses.content
                  }">
                 <BlockContent :block="{ content: page.content }" />
             </div>
@@ -139,7 +145,6 @@ export default Vue.extend({
             collectionType = this.$route.params.collection;
         }
         const slug = !initialSlug && collectionTypes.includes(this.pageData?.title?.toLowerCase()) ? this.pageData.title.toLowerCase() : initialSlug;
-        console.log({blocks: this.pageBlocks})
         this.$store.dispatch("getEntryUpdates", { slug: this.isSingleEntry ? slug : null, path: !!collectionType ? collectionType : initialSlug }).then((res) => {
             console.log(res);
             try {

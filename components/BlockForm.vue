@@ -1,11 +1,11 @@
 <template>
-<div>
+  <div>
 		<Form
 			v-if="block"
 			ref="form"
 			:schema="block.formSchema"
 			:button-text="block.submitButton"
-			:button-classes="buttonClasses"
+			:button-classes="classes.button"
 			:success-message="block.successMessage"
 			:success-redirect="block.successRedirect"
 			@submit="submit"
@@ -27,10 +27,11 @@ export default Vue.extend({
       captchaToken: null
     }  
   },
-	computed: {
-		buttonClasses () {
-			return this.block?.blockSettings?.classes?.button || ''
-		}
+  computed: {
+    classes () {
+      const { button, content } = this.block?.blockSettings?.classes || {};
+      return { button, content }
+    }
 	},
   methods: {
 		// resetForm () {
