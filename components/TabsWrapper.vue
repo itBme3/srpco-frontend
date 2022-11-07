@@ -129,7 +129,7 @@ export default Vue.extend({
   @apply w-full;
   .tabs-header {
     button {
-      @apply border border-gray-600 text-gray-200 hover:border-gray-200;
+      @apply border border-gray-600 text-gray-200 hover:border-gray-200 whitespace-nowrap;
       &:nth-child(1) {
         @apply ml-auto;
       }

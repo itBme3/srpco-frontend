@@ -203,10 +203,14 @@ export const asyncDelay = (ms: number) =>
   new Promise(resolve => setTimeout(() => resolve(null), ms));
 
 const months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-export const formatDate = (date: Date) => {
+export const formatDate = (date: Date, forHtmlTag = false):string => {
   const monthNum = date.getMonth();
-  const month = months[monthNum];
-  const day = date.getDay();
   const year = date.getFullYear();
+  const day = date.getDay();
+  if (forHtmlTag) {
+    const month = `${monthNum < 10 ? '0' : ''}0${monthNum}`;
+    return `${year}-${month}-${day < 10 ? '0' : ''}${day} ${date.getHours()}:${date.getMinutes()}`
+  }
+  const month = months[monthNum];
   return `${month} ${day}, ${year}`
 }

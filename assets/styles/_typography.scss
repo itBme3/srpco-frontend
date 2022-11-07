@@ -80,6 +80,9 @@ p {
         @apply text-base tracking-wider font-normal;
 }
 .block-content {
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-black;
+    }
     h1, h2, h3, h4, h5, h6, p, ul, ol, table, img, pre {
       &:not(:last-child) {
         @apply mb-4;
@@ -87,7 +90,7 @@ p {
     }
     h1, h2, h3, h4 {
         &:not(:first-child) {
-                @apply mt-2;
+                @apply mt-10;
         }
     }
 }

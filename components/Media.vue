@@ -56,7 +56,9 @@
         v-if="overlay || (typeof youtube === 'string' && youtube.length > 0)"
         class="overlay absolute inset-0 z-1"
         :class="{[overlayClasses]: typeof overlayClasses === 'string' && overlayClasses.length > 0 }"
-      />
+      >
+        <slot name="overlayContent" />
+      </div>
       <template #placeholder>
         <div
           v-if="!seen"

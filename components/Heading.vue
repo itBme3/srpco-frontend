@@ -2,19 +2,22 @@
   <div
     class="heading flex flex-wrap w-full max-w-full"
     :class="{
-      ['heading-' + headingType + ''] : typeof headingType === 'string' && headingType.length > 0,
-      'has-media': (![undefined, null].includes(media) && typeof media.url === 'string') || typeof youtube === 'string' && youtube.length > 0
+      ['heading-' + headingType + '']:
+        typeof headingType === 'string' && headingType.length > 0,
+      'has-media':
+        (![undefined, null].includes(media) && typeof media.url === 'string') ||
+        (typeof youtube === 'string' && youtube.length > 0)
     }"
   >
-
     <Breadcrumbs
       v-if="!!breadcrumbs && headingType === 'page'"
       class="heading-breadcrumbs"
     />
     <div class="heading-content">
-
       <Media
-        v-if="![null, undefined].includes(media) && typeof media.url === 'string'"
+        v-if="
+          ![null, undefined].includes(media) && typeof media.url === 'string'
+        "
         :media="media"
         class="order-0 h-full"
         :is-background="true"
@@ -24,24 +27,35 @@
         :overlay-classes="classes.overlay"
       />
       <div class="heading-text-content">
+        <slot name="preTitle"></slot>
         <h1
           v-if="title !== null && title.length > 0"
           :class="{ 'heading-title': true, [classes.title]: !!classes.title }"
         >
           {{ title }}
-          <span  
+          <span
             v-if="divider && description !== null && title.length > 0"
             class="divider h-3 my-2 bg-gray-200 block"
             :class="{
               [classes.description]: !!classes.description
             }"
-            :style="{ width: `${title.length * .6}ch` }" />
+            :style="{ width: `${title.length * 0.6}ch` }"
+          />
         </h1>
-        <component 
+        <component
           :is="descriptionArray.length > 1 ? 'ul' : 'h2'"
           v-if="descriptionArray.length > 0 && title.length > 0"
-          :class="{ 'heading-description': true, [classes.description]: !!classes.description }"
-          v-html="$md.render(descriptionArray.length === 1 ? descriptionArray[0] : descriptionArray.map(itm => `<li>${itm}</li>`).join(''))"
+          :class="{
+            'heading-description': true,
+            [classes.description]: !!classes.description
+          }"
+          v-html="
+            $md.render(
+              descriptionArray.length === 1
+                ? descriptionArray[0]
+                : descriptionArray.map((itm) => `<li>${itm}</li>`).join('')
+            )
+          "
         />
       </div>
     </div>
@@ -91,15 +105,16 @@ export default Vue.extend({
     divider: {
       type: Boolean,
       default: false
-    }
+    },
+    
   },
   computed: {
-    descriptionArray () {
+    descriptionArray() {
       return typeof this.description === 'string'
         ? this.description.includes('•')
-          ? this.description.split('•').map(item => item.trim())
+          ? this.description.split('•').map((item) => item.trim())
           : [this.description]
-      : []
+        : []
     }
   }
 })
@@ -121,14 +136,14 @@ export default Vue.extend({
     @apply text-base font-normal tracking-wide text-gray-500 leading-snug;
   }
   .heading-breadcrumbs {
-    @apply justify-start w-full mt-2 mb-3;
+    @apply justify-start w-full;
   }
   .heading-simple {
     .heading-text-content {
       @apply w-full text-center self-center;
     }
     .heading-breadcrumbs {
-      @apply whitespace-nowrap ml-0 mr-0 mb-3 mt-0 order-first flex-shrink;
+      @apply whitespace-nowrap order-first flex-shrink;
     }
     &.gasket,
     &.materials,
@@ -142,7 +157,7 @@ export default Vue.extend({
   }
   &.heading-page {
     .heading-content {
-       @apply whitespace-normal xs:whitespace-pre-line sm:whitespace-normal;
+      @apply whitespace-normal xs:whitespace-pre-line sm:whitespace-normal;
     }
     .heading-title {
       @apply text-gray-300;
@@ -151,11 +166,12 @@ export default Vue.extend({
       @apply w-full xs:w-1/2 sm:w-3/5 mr-2;
     }
   }
-   &.heading-collection {
+  &.heading-collection {
     &.has-media {
       .heading-content {
-      @apply block px-8 py-16;
-        .heading-title, .heading-description {
+        @apply block px-8 py-16;
+        .heading-title,
+        .heading-description {
           @apply text-gray-100;
         }
         .media {
@@ -163,11 +179,84 @@ export default Vue.extend({
         }
       }
     }
-   }
-   &.has-media {
+  }
+  &.has-media {
     .heading-text-content {
       @apply max-w-[100ch];
     }
-   }
+  }
+}
+.single-entry {
+  &.solution, &.resource {
+    .heading {
+      @apply max-w-6xl mx-auto #{!important};
+      .heading-content {
+        @apply relative mt-4;
+        .heading-text-content {
+          @apply z-10 relative;
+          > * {
+            @apply text-white;
+          }
+        }
+      }
+      &.has-media {
+        .heading-content {
+          @apply py-10;
+          .heading-text-content {
+            @apply p-8;
+          }
+        }
+        .heading-media {
+          @apply absolute w-full max-w-full inset-0 opacity-30 z-0 max-h-full;
+        }
+      }
+    }
+  }
+  &.resource {
+    .heading {
+      .heading-media {
+        @apply rounded;
+      }
+      .heading-text-content {
+        @apply mt-auto mb-0 h-auto;
+        h1 {
+          @apply lg:text-4xl;
+        }
+      }
+    }
+    &.resource-article {
+      .heading {
+        .heading-content {
+          @apply flex justify-end h-[70vw] max-h-[30rem];
+        }
+        .heading-text-content {
+          @apply mb-0;
+        }
+      }
+    }
+    &.resource-video {
+      .heading {
+        .heading-content {
+          @apply rounded-lg overflow-hidden;
+        }
+        .heading-media {
+          @apply blur-sm;
+        }
+      }
+    }
+  }
+  &.supplier {
+    .heading-media {
+      max-width: 200px;
+      max-height: 200px;
+    }
+  }
+  &.service {
+    .heading {
+      .heading-text-content {
+        @apply px-0 py-6;
+      }
+    }
+  }
 }
 </style>

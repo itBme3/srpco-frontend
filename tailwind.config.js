@@ -222,7 +222,6 @@ module.exports = {
       xs: '480px',
       ...defaultTheme.screens
     },
-    
     extend: {
       fontFamily: {
         sans: ['"Source Sans Pro"', 'sans-serif'],

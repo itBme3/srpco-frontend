@@ -1,22 +1,19 @@
-export const getPageClasses = (data: any) => {
-      const { classes = { heading: '', title: '', text: '', container: '', content: '', description: '' } } = !!data?.pageSettings?.classes ? data.pageSettings : {}
-      const { heading = '', title = '', text = '', container = '', content = '', description = '' } = classes;
-      return { heading, title, text, container, content, description }
+export const getPageClasses = (data: Record<string, any>, defaults: Record<string, string> = {}) => {
+      const { heading = '', title = '', text = '', container = '', content = '', description = '', overlay = '' } = {...defaults, ...(data?.pageSettings?.classes || {})};
+      return { heading, title, text, container, content, description, overlay }
 }
 
-export const getBlockClasses = (data: any) => {
-      const { classes = { block: '', title: '', buttons: '', content: '', panels: "", panel: "" } } = !!data?.blockSettings?.classes ? data.blockSettings : {}
-      const { block = '', title = '', buttons = '', content = '', panels = '', panel = '' } = classes;
+export const getBlockClasses = (data: any, defaults: Record<string, string> = {}) => {
+      const { block = '', title = '', buttons = '', content = '', panels = '', panel = '' } = {...defaults, ...(data?.blockSettings?.classes || {})};
       return { block, title, buttons, content, panels, panel }
 }
 
-export const getCardClasses = (data: any) => {
-      const { classes = { card: '', title: '', text: '', content: '', media: '', link: '', subtitle: '' } } = !!data?.cardSettings?.classes ? data.cardSettings : {}
-      const { card = '', title = '', text = '', content = '', media = '', link = "", subtitle = "" } = classes;
+export const getCardClasses = (data: any, defaults: Record<string, string> = {}) => {
+      const { card = '', title = '', text = '', content = '', media = '', link = "", subtitle = "" } = {...defaults, ...(data?.cardSettings?.classes || {})};
       return { card, title, text, media, content, link, subtitle }
 }
 
-export const getHeroClasses = (data: any) => {
-      const { content = '', buttons = '', title = '', text = '', media = '', overlay = '' } = !!data?.heroSettings?.classes ? data.heroSettings.classes : {}
+export const getHeroClasses = (data: any, defaults: Record<string, string> = {}) => {
+      const { content = '', buttons = '', title = '', text = '', media = '', overlay = '' } = {...defaults, ...(data?.heroSettings?.classes || {})};
       return { content, buttons, title, text, media, overlay }
 }

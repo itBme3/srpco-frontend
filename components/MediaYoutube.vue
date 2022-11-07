@@ -59,11 +59,14 @@ export default Vue.extend({
     }
   },
   data () {
+    const paramsFromSrc = qs.parse((this.src?.split("?")[1] || ''));
+    console.log({ paramsFromSrc });
+    const videoId = paramsFromSrc.v || this.src?.split('/').pop()?.split('?')[0] || null;
+    delete paramsFromSrc.v;
     return {
       // origin: null,
-      videoId: typeof this.src === 'string' && this.src.length
-        ? this.src.split('/').pop().split('?')[0]
-        : null,
+      paramsFromSrc, 
+      videoId,
       videoHeight: 'auto',
       host: 'https://www.youtube-nocookie.com',
       embedSrc: null,
@@ -89,7 +92,7 @@ export default Vue.extend({
   methods: {
     setSrc () {
       this.playerVars.origin = this.origin;
-      this.embedSrc = `${this.host}/embed/${this.videoId}?${qs.stringify(this.playerVars)}`
+      this.embedSrc = `${this.host}/embed/${this.videoId}?${qs.stringify({...this.playerVars, ...(this.paramsFromSrc || {})})}`
     },
     setVideoHeight () {
       const elWidth = typeof this.$el !== 'undefined' && this.$el.offsetWidth > 0 ? this.$el.offsetWidth : null
