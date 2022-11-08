@@ -48,16 +48,12 @@
       </template>
     </Heading>
 
-    <div class="resource-media">
+    <div v-if="secondaryMedia" class="resource-media">
         <Media
-            :youtube="page.youtube"
-            class="rounded-md w-full"
-            >
-            <template #overlayContent>
-                <Icon name="play" />
-            </template>
-        </Media>
-        <h6 class="description">{{page.description}}</h6>
+            :file="typeof secondaryMedia !== 'string' ? secondaryMedia : null"
+            :youtube="typeof secondaryMedia === 'string' ? secondaryMedia : null"
+            class="rounded-md w-full" />
+        <h6 v-if="resourceType === 'video'" class="description">{{page.description}}</h6>
     </div>
 
     <Media
@@ -162,6 +158,12 @@ export default Vue.extend({
   computed: {
     isSingleEntry() {
       return !!this.page?.type && this.entryTypes.includes(this.entryType)
+      },
+      secondaryMedia () {
+          if (this.page.media) {
+            return this.page?.youtube || this.page?.file || null
+          }
+          return null
     },
     pageClasses() {
       const defaults = {}
