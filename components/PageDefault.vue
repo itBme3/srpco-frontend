@@ -167,7 +167,7 @@ export default Vue.extend({
       return !!this.page?.type && this.entryTypes.includes(this.entryType)
     },
     pageMedia() {
-      if (!this.page?.media) {
+      if (!this.page?.media || (!this.page?.youtube && !this.page?.file)) {
         return null
       }
       return {
