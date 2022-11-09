@@ -8,6 +8,10 @@
   &:not(.block-hero) {
     @apply p-4 sm:p-8;
   }
+  &.block-hero:first-child {
+    margin-left: calc(var(--grid-gap) * -1);
+    margin-right: calc(var(--grid-gap) * -1);
+  }
   &.block-collection,
   &.block-datasheets-collection {
     @apply px-0;
@@ -168,8 +172,7 @@
       @apply mx-auto px-3 pt-5;
       .entry-block {
         &[class*="block-solutions-"] {
-          @apply col-span-12 mx-auto p-3 bg-transparent shadow-none w-full overflow-visible;
-          // --block-color: rgb(244 63 94 / var(--tw-text-opacity));
+          @apply col-span-12 mx-auto p-3 bg-transparent shadow-none w-full overflow-visible border-0;
           &.color-red,
           &:nth-child(6n + 1) {
             --block-color: rgba(239, 95, 101, var(--tw-text-opacity));
@@ -216,6 +219,6 @@
     }
   }
   &.resource {
-    @apply max-w-3xl mx-auto;
+    @apply max-w-5xl mx-auto;
   }
 }

@@ -1,29 +1,38 @@
 <template>
   <div
-    v-if="![null, undefined].includes(pageData)"
+    v-if="![null, undefined].includes(page)"
     class="single-entry service mb-10"
   >
     <Heading
       v-if="$route.path.split('/').length > 2"
-      :title="pageData.title"
+      :title="page.title"
       heading-type="page"
       :class="{
         [pageClasses.heading]: !!pageClasses && !!pageClasses.heading && !!pageClasses.heading.length
       }"
-    />
+    >
+      <template #Breadcrumbs>
+        <Breadcrumbs 
+          :links="[
+            {href:'/services' , label: 'services'},
+            {label: page.slug}
+          ]" 
+        />
+      </template>
+    </Heading>
 
     <MediaYoutube
-      v-if="![null, undefined].includes(pageData) && typeof pageData.youtube === 'string' && pageData.youtube !== null"
-      :src="pageData.youtube"
+      v-if="![null, undefined].includes(page) && typeof page.youtube === 'string' && page.youtube !== null"
+      :src="page.youtube"
       :autoplay="true"
       :loop="true"
       :mute="true"
     />
 		
     <div
-      v-if="![null, undefined].includes(pageData) && typeof pageData.content === 'string' && pageData.content.length"
+      v-if="![null, undefined].includes(page) && typeof page.content === 'string' && page.content.length"
       class="page-content"
-      v-html="$md.render(pageData.content)"
+      v-html="$md.render(page.content)"
     />
 
     <h2 class="mt-8 sm:mt-12 md:mt-14">Services:</h2>
@@ -40,7 +49,7 @@
       :classes="{ card: 'col-span-full' }"
       :filters="{
         slug: {
-          $ne: pageData.slug
+          $ne: page.slug
         }
       }"
     />
@@ -53,16 +62,40 @@ import Vue from 'vue'
 import { getPageClasses } from '~/utils/get-classes'
 
 export default Vue.extend({
-	props: {
-		pageData: {
-			type: Object,
-			default: () => null
-		}
-	},
-  computed: {
-    pageClasses () {
-      return getPageClasses(this.pageData)
+    props: {
+        pageData: {
+            type: Object,
+            default: () => null
+        }
+    },
+  data () {
+    return {
+      page: null
     }
+  },
+    computed: {
+        pageClasses() {
+            return getPageClasses(this.page);
+        }
+  },
+  watch: {
+    pageData (val) {
+      this.page = val
+    }
+  },
+  mounted () {
+    this.page = this.pageData
+    this.$store
+      .dispatch('getEntryUpdates', {
+        slug: this.pageData.slug,
+        path: "services"
+      })
+      .then((res) => {
+        this.page = {
+          ...this.page,
+          ...(res || {})
+        }
+      })   
   }
 })
 </script>

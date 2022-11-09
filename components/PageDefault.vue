@@ -37,6 +37,9 @@
         overlay: pageClasses.overlay
       }"
     >
+      <template #breadcrumbs>
+        <Breadcrumbs :links="breadcrumbs" />
+      </template>
       <template #preTitle>
         <time
           v-if="resourceType"
@@ -48,16 +51,20 @@
       </template>
     </Heading>
 
-    <div v-if="secondaryMedia" class="resource-media">
-        <Media
-            :file="typeof secondaryMedia !== 'string' ? secondaryMedia : null"
-            :youtube="typeof secondaryMedia === 'string' ? secondaryMedia : null"
-            class="rounded-md w-full" />
-        <h6 v-if="resourceType === 'video'" class="description">{{page.description}}</h6>
+    <div v-if="pageMedia" class="page-media">
+      <Media
+        :media="pageMedia.file"
+        :youtube="pageMedia.youtube"
+        :ratio="pageMedia.ratio"
+        class="rounded-md w-full"
+      />
+      <h6 v-if="resourceType === 'video'" class="description">
+        {{ page.description }}
+      </h6>
     </div>
 
     <Media
-      v-if="entryType === 'datasheet'"
+      v-if="entryType === 'datasheet' || resourceType === 'ebook'"
       :media="page.file"
       ratio="8:11"
       class="h-[calc(100vh-80px)] w-full rounded-md col-span-full"
@@ -158,12 +165,16 @@ export default Vue.extend({
   computed: {
     isSingleEntry() {
       return !!this.page?.type && this.entryTypes.includes(this.entryType)
-      },
-      secondaryMedia () {
-          if (this.page.media) {
-            return this.page?.youtube || this.page?.file || null
-          }
-          return null
+    },
+    pageMedia() {
+      if (!this.page?.media) {
+        return null
+      }
+      return {
+        youtube: this.page?.youtube || null,
+        file: this.page?.file || null,
+        ratio: this.page?.file ? '8:11' : null
+      }
     },
     pageClasses() {
       const defaults = {}
@@ -214,7 +225,7 @@ export default Vue.extend({
         path: !!collectionType ? collectionType : initialSlug
       })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         try {
           this.page = {
             ...this.page,
@@ -244,16 +255,14 @@ export default Vue.extend({
   @apply flex flex-wrap rounded-lg shadow-lg;
   column-gap: var(--grid-gap);
   &.resource {
+    .page-media {
+      @apply mx-6 -mt-12;
+      .description {
+        @apply mt-4;
+      }
+    }
     .blocks {
       @apply bg-gray-900 rounded shadow;
-    }
-    .heading {
-      + .resource-media {
-        @apply mx-6 -mt-12;
-        .description {
-            @apply mt-4;
-        }
-      }
     }
   }
 }

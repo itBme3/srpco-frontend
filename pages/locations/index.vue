@@ -1,16 +1,19 @@
 <template>
-  <div class="page locations flex flex-col justify-start items-stretch py-20 sm:py-24 gap-12 sm:gap-20 text-center">
+  <div class="page locations flex flex-col justify-start items-stretch py-12 sm:py-16 gap-12 text-center px-4 w-[calc(100%-1rem)]">
     <h1 class="w-full px-4">We'd love to hear from you!</h1>
-    <div class="location-list grid grid-cols-2 sm:grid-cols-2">
+    <div class="location-list grid grid-cols-2 sm:grid-cols-2 gap-2">
       <div
         v-for="location in locations"
         :key="location.title"
-        class="col-span-1 p-4 min-h-64 flex flex-col justify-around"
+        class="col-span-1 p-6 bg-gray-900 min-h-64 flex flex-col gap-2 justify-around rounded-md"
       >
         <h3 class="mt-auto">{{ location.title }}</h3>
-        <a class="mb-auto" href="#" target="_blank">
-          <address>{{ location.address }}</address>
-        </a>
+        <div class="flex flex-col gap-4 py-6">
+          <h5 class="opacity-60">{{ location.description }}</h5>
+          <a class="text-blue border border-t-0 border-l-0 border-r-0 w-auto mx-auto border-gray-800 pb-px" :href="`tel:+${location.phone}`">{{location.phone}}</a>
+          <a class="text-blue border border-t-0 border-l-0 border-r-0 w-auto mx-auto border-gray-800 pb-px" :href="`mailto:+${location.email}`">{{location.email}}</a>
+        </div>
+        <address>{{ location.address }}</address>
       </div>
     </div>
     <Link
@@ -41,8 +44,9 @@ import Vue from 'vue'
 import Link from '~/components/Link.vue'
 const locations = [
   {
-    title: 'STANDARD RUBBER PRODUCTS CO. (SRP)',
-    address: '120 Seegers Avenue Elk Grove Village, IL 60007',
+    title: 'Standard Rubber Products Co. (SRP)',
+    description: "U.S. Headquarters",
+    address: '120 Seegers Avenue, Elk Grove Village, IL 60007',
     phone: '(847) 593-5630',
     fax: '(847) 593-5634',
     email: 'info@srpco.com',
@@ -52,7 +56,8 @@ const locations = [
   },
   {
     title: 'SRP ZHUHAI COMPANY LIMITED',
-    address: 'Hanzhong Industrial Park, South Hubin Road Sanzao Town, Zhuhai, Guangdong, China, 519041',
+    description: "China Headquarters",
+    address: 'No. 252 Yuanquan Road, Sanzao Town, Jinwan District, Zhuhai, Guangdong, China 519041',
     phone: '86-756-751-6898',
     fax: '86-756-751-6896',
     email: 'ivyy@srpco.com.cn',
@@ -83,15 +88,7 @@ export default Vue.extend({
         initializeMap() {
             const mapContainer = this.$refs.googleMap;
             this.map = new this.google.maps.Map(mapContainer, this.mapConfig);
-            this.locations.push({
-                title: "SRP ZHUHAI COMPANY LIMITED",
-                address: "Hanzhong Industrial Park, South Hubin Road Sanzao Town, Zhuhai, Guangdong, China, 519041",
-                phone: "86-756-751-6898",
-                fax: "86-756-751-6896",
-                email: "ivyy@srpco.com.cn",
-                lat: 22.3643969,
-                lng: 113.536515
-            });
+            
         },
         configFromLocation(location) {
             return {
@@ -103,8 +100,3 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
-  .location-list > div:nth-child(2n + 1) {
-    @apply border-2 border-l-0 border-b-0 border-t-0 border-gray-400;
-  }
-</style>

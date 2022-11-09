@@ -4,8 +4,6 @@ const path = require('path')
 const axios = require('axios');
 const apiUrl = process.env.NODE_ENV === 'production' && typeof process.env.API_URL === 'string' && process.env.API_URL.length > 0
   ? process.env.API_URL
-      : typeof process.env.NGROK === 'string' && process.env.NGROK.length > 0
-  ? `https://${process.env.NGROK}.ngrok.io` 
     : 'http://localhost:1337';
 
 const { collectionTypes, populate, parseResponse } = require('../static/axiosDefaults')

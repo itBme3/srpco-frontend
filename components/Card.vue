@@ -330,7 +330,7 @@ export default Vue.extend({
   .card-style-media-above {
     @apply flex-col;
     .card-content {
-      @apply pt-2 px-4 pb-3;
+      @apply py-4 px-4;
     }
     .card-text {
       @apply px-4;

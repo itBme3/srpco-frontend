@@ -9,10 +9,8 @@
         (typeof youtube === 'string' && youtube.length > 0)
     }"
   >
-    <Breadcrumbs
-      v-if="!!breadcrumbs && headingType === 'page'"
-      class="heading-breadcrumbs"
-    />
+    <slot name="breadcrumbs" class="heading-breadcrumbs" />
+    
     <div class="heading-content">
       <Media
         v-if="
@@ -93,10 +91,6 @@ export default Vue.extend({
         media: '',
         overlay: ''
       })
-    },
-    breadcrumbs: {
-      type: Boolean,
-      default: true
     },
     mediaRatio: {
       type: String,
@@ -186,6 +180,14 @@ export default Vue.extend({
     }
   }
 }
+.collection, .single-entry.page {
+  .heading.has-media {
+    margin-left: calc(var(--grid-gap) * -1);
+    margin-right: calc(var(--grid-gap) * -1);
+    width: calc(calc(var(--grid-gap) * 2) + 100%) !important;
+    max-width: none !important;
+  }
+}
 .single-entry {
   &.solution, &.resource {
     .heading {
@@ -214,23 +216,27 @@ export default Vue.extend({
   }
   &.resource {
     .heading {
-      .heading-media {
-        @apply rounded;
-      }
-      .heading-text-content {
-        @apply mt-auto mb-0 h-auto;
-        h1 {
-          @apply lg:text-4xl;
+      &.has-media {
+        .heading-media {
+          @apply rounded;
+        }
+        .heading-text-content {
+          @apply mt-auto mb-0 h-auto;
+          h1 {
+            @apply lg:text-4xl;
+          }
         }
       }
     }
     &.resource-article {
       .heading {
-        .heading-content {
-          @apply flex justify-end h-[70vw] max-h-[30rem];
-        }
-        .heading-text-content {
-          @apply mb-0;
+        &.has-media {
+          .heading-content {
+            @apply flex justify-end h-[70vw] max-h-[30rem];
+          }
+          .heading-text-content {
+            @apply mb-0;
+          }
         }
       }
     }

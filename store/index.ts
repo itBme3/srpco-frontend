@@ -117,7 +117,7 @@ export const actions: any = {
                         ...callParams,
                         fields: ['updatedAt']
                   }, { encodeValuesOnly: true });
-                  console.log({queryString})
+                  console.log(`${process.env.apiUrl}/api/${path}?${queryString}`);
                   const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`).then((res: any) => {
                         const entry = Array.isArray(res.data) && res.data[0]?.attributes
                               ? res.data[0]?.attributes
