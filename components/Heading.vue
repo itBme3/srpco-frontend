@@ -113,6 +113,7 @@ export default Vue.extend({
   }
 })
 </script>
+
 <style lang="scss">
 .heading {
   @apply flex items-start content-start py-2 sm:py-0 relative;
@@ -180,14 +181,6 @@ export default Vue.extend({
     }
   }
 }
-.collection, .single-entry.page {
-  .heading.has-media {
-    margin-left: calc(var(--grid-gap) * -1);
-    margin-right: calc(var(--grid-gap) * -1);
-    width: calc(calc(var(--grid-gap) * 2) + 100%) !important;
-    max-width: none !important;
-  }
-}
 .single-entry {
   &.solution, &.resource {
     .heading {
@@ -247,6 +240,11 @@ export default Vue.extend({
         }
         .heading-media {
           @apply blur-sm;
+        }
+        .page-media {
+          .description {
+            @apply mt-6;
+          }
         }
       }
     }
