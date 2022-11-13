@@ -1,11 +1,11 @@
 <template>
   <div
-    v-if="Array.isArray(links) && links.length > 1"
+    v-if="Array.isArray(crumbs) && crumbs.length > 1"
     class="breadcrumbs truncate text-gray-400"
   >
-    <template v-for="(crumb, index) in links">
+    <template v-for="(crumb, index) in crumbs">
       <small
-        v-if="index < links.length - 1"
+        v-if="index < crumbs.length - 1"
         :key="`${crumb.href}-if`"
         class="text-green-400 hover:text-green-500"
       >
@@ -60,7 +60,7 @@ export default Vue.extend({
       this.crumbs = crumbs.reduce((acc, slug) => {
         acc.push({
           href: i === 0 ? `/${slug}` : `${crumbs[i - 1].href}/${slug}`,
-          text: slug
+          label: slug
         })
         i++
         return acc
