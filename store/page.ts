@@ -1,8 +1,49 @@
 import qs from "qs";
-import { CollectionType, EntryType } from "~/models/entry.model";
+import { CollectionType, EntryType, EntryItem } from "~/models/entry.model";
 import { parseResponse, populate } from '~/static/axiosDefaults'
 
-export const state = () => ({})
+const defaultSort = 'publishedAt:desc';
+
+interface State {
+	entry: EntryItem | null;
+	collectionType: CollectionType | null;
+	next: EntryItem[];
+	filters: Record<string, any>;
+	sort: string;
+}
+const INITIAL_STATE: State = {
+	next: [],
+	collectionType: null,
+	sort: defaultSort,
+	entry: null,
+	filters: {},
+};
+
+export const state = () => (INITIAL_STATE);
+
+export const mutations = {
+      setEntry(state: any, entry: any) {
+            state.entry = entry
+	},
+	setNext(state: any, val: EntryItem[] | null = null) {
+            state.next = val
+      },
+	setCollectionType(state: any, collectionType: CollectionType | null) {
+            state.collectionType = collectionType
+	},
+	/** used on single entries to determine where user came from */
+	setCollectionInfo(state: any, val: { sort: string, entry: number, collection: CollectionType, filters?: any }) {
+            const { sort: initialSort = defaultSort, entry = null, filters = {}, collection = null } = val;
+            let sort = Array.isArray(initialSort) ? initialSort[0] : initialSort;
+            if (!sort.includes(':')) {
+                  sort = ['published', 'created', 'updated'].includes(sort) ? `${sort}At:desc` : `${sort}:desc`
+            }
+            state.sort = sort;
+            state.entry = entry;
+            state.filters = filters;
+            state.collection = collection;
+      },
+}
 
 export const actions: any = {
       async getEntry({ dispatch }: any, props: { route: any, only?: string[] }): Promise<{ [key: string]: any } | string> {
@@ -23,7 +64,7 @@ export const actions: any = {
             const slug = route?.params?.slug ? route.params.slug : route.path.split('/').pop();
             let entry: any;
             if (slug === collectionType) {
-                  entry = await dispatch('getCollectionPage', collectionType).catch(console.error)
+                  entry = await dispatch('getCollectionEntry', collectionType).catch(console.error)
             } else {
                   let entryCall = this.$content(collectionType)
                         .where({ slug })
@@ -33,21 +74,20 @@ export const actions: any = {
                         .fetch()
                         .then((e: any) => Array.isArray(e) ? e[0] : null)
             }
-            if (!!entry) {
-                  return entry
-            } else {
-                  return await dispatch('getRedirectPath', { entryType, slug })
-                        .catch((err: any) => {
-                              console.error(err);
-                              return '404';
-                        });
-            }
+		if (entry) {
+			return entry;
+		}
+		return await dispatch('getRedirect', { entryType, slug })
+			.catch((err: any) => {
+				console.error(err);
+				return '404';
+			});
       },
-      async getCollectionPage({ }, collectionType: CollectionType) {
+      async getCollectionEntry(_stuff: any, collectionType: CollectionType) {
             return await this.$content(`${collectionType}-collection`).fetch()
                   .catch(console.error)
       },
-      async getRedirectPath({ }, { entryType, slug }: { entryType: EntryType, slug: string }) {
+      async getRedirect(_stuff: any, { entryType, slug }: { entryType: EntryType, slug: string }) {
             const _collectionTypes = Object.values(CollectionType).map(t => `${t}`);
             const collectionType = `${entryType}s`
             const path = `${collectionType === 'pages' ? '' : `/${collectionType}`}/${slug}`
@@ -78,9 +118,10 @@ export const actions: any = {
             return '404'
 
       },
-      async getEntryUpdates({ }, props: { path: string, slug?: string, params?: { [key: string]: any } }) {
+      async getUpdates(_stuff:any, props: { path: string, slug?: string, params?: { [key: string]: any } }) {
             const { slug = null } = props;
-            let { params = {}, path } = props;
+            const { params = {} } = props;
+            let { path } = props;
             if (!path) {
                   return
             }
@@ -88,15 +129,8 @@ export const actions: any = {
                   if (path === '/') {
                         path = 'homepage'
                   } else {
-                        path = path.substring(1, path.length)
+                        path = path.substring(1)
                   }
-            }
-            try {
-                  if (Object.keys(params).length === 0) {
-                        params = {}
-                  }
-            } catch {
-                  params = {}
             }
             try {
                   if (slug) {
@@ -105,19 +139,15 @@ export const actions: any = {
                         }
                         params.filters.slug = slug
                   }
-                  const callParams = {
-                        ...(params || {})
-                  }
                   const contentEntry = slug
                         ? await this.$content(path, slug)
                               .fetch()
                         : await this.$content(path)
                               .fetch();
                   const queryString = qs.stringify({
-                        ...callParams,
+                        ...params,
                         fields: ['updatedAt']
                   }, { encodeValuesOnly: true });
-                  console.log(`${process.env.apiUrl}/api/${path}?${queryString}`);
                   const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`).then((res: any) => {
                         const entry = Array.isArray(res.data) && res.data[0]?.attributes
                               ? res.data[0]?.attributes
@@ -126,9 +156,9 @@ export const actions: any = {
                         const updatedAt = new Date(entry?.updatedAt || Date.now()).getTime();
                         return !contentEntry?.updatedAt || updatedAt > contentEntryUpdated
                   });
-                  callParams.populate = populate;
+                  params.populate = populate;
                   if (shouldFetchUpdates) {
-                        const queryString = qs.stringify(callParams, { encodeValuesOnly: true })
+                        const queryString = qs.stringify(params, { encodeValuesOnly: true })
                         return this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`)
                               .then((res: any) => res?.data ? parseResponse(Array.isArray(res.data) ? res.data[0] : res.data) : {})
                   }
@@ -137,5 +167,42 @@ export const actions: any = {
                   console.error(err);
                   return {}
             }
-      }
+	},
+	async getNextEntries({ commit, state }: any) {
+		console.log("getNextEntries");
+		const { sort: initialSort = defaultSort, collectionType = '', entry = null }: { sort: string[] | string, collectionType: string, filters: any, entry: any } = state;
+            let { filters: initialFilters = {} } = state;
+            if (!!!initialFilters) {
+                  initialFilters = {}
+            }
+            if (!['resources', 'solutions'].includes(collectionType)) {
+                  state = INITIAL_STATE;
+                  return;
+            }
+            const sort = Array.isArray(initialSort) ? initialSort[0] : initialSort;
+            const sortField = sort?.split(':')[0] || 'publishedAt';
+		const sortDirection = sort?.split(':')[1]?.toLowerCase() || 'desc';
+		const limit = 6;
+		const where = entry?.resourceType?.length ? { resourceType: entry.resourceType } : {};
+		const nextEntries = await this.$content(collectionType)
+			.sortBy(sortField, sortDirection)
+			.where({
+				...where,
+				[sortField]: {
+					[sortDirection === 'desc' ? '$lt' : '$gt']: entry[sortField]
+				}
+			})
+			.limit(limit)
+			.fetch();
+		if (nextEntries.length < limit) {
+			await this.$content(collectionType)
+				.sortBy(sortField, sortDirection)
+				.where(where)
+				.limit(limit - nextEntries.length)
+				.fetch()
+				.then((res:EntryItem[]) => res?.forEach(entry => nextEntries.push(entry)));
+		}
+		console.log(nextEntries)
+		commit('setNext', nextEntries);
+	}
 }

@@ -1,6 +1,6 @@
 import { pathWhitelist } from '~/static/axiosDefaults';
 
-export default async function ({ route, redirect, $content, store: { dispatch }, error }: any) {
+export default async function ({ route, redirect, store: { dispatch }, error }: any) {
       if (pathWhitelist.includes(route.path)) {
             return;
       }
@@ -21,7 +21,7 @@ export default async function ({ route, redirect, $content, store: { dispatch },
       }
       
       try {
-            const redirectPath = await dispatch('getEntry', { only: ['slug', 'collectionType', 'type'], route });
+            const redirectPath = await dispatch('page/getEntry', { only: ['slug', 'collectionType', 'type'], route });
             if (typeof redirectPath !== 'string') { return }
             if (redirectPath === '404') {
                   return error({ statusCode: 404, message: 'Page Not Found' })

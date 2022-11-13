@@ -438,7 +438,7 @@ export default Vue.extend({
       }
     },
     storeFromCollection (entry) {
-      this.$store.commit('nextPrevious/setFromCollection', {
+      this.$store.commit('page/setCollectionInfo', {
         entry,
         collection: this.collection,
         sort: this.sort,

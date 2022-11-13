@@ -11,7 +11,7 @@
         [pageClasses.heading]: !!pageClasses && !!pageClasses.heading && !!pageClasses.heading.length
       }"
     >
-      <template #Breadcrumbs>
+      <template #breadcrumbs>
         <Breadcrumbs 
           :links="[
             {href:'/services' , label: 'services'},
@@ -86,7 +86,7 @@ export default Vue.extend({
   mounted () {
     this.page = this.pageData
     this.$store
-      .dispatch('getEntryUpdates', {
+      .dispatch('page/getUpdates', {
         slug: this.pageData.slug,
         path: "services"
       })

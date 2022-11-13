@@ -232,7 +232,7 @@ export default Vue.extend({
       .heading {
         &.has-media {
           .heading-content {
-            @apply flex justify-end h-[70vw] max-h-[30rem];
+            @apply flex h-[70vw] max-h-[30rem];
           }
           .heading-text-content {
             @apply mb-0;

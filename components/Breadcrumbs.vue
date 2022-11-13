@@ -33,33 +33,40 @@ export default Vue.extend({
       default: () => []
     }
   },
-  // fetch () {
-  //   // this.fullPath = this.$route.fullPath
-  //   this.setCrumbs()
-  // },
-  // watch: {
-  //   '$route.fullPath' () {
-  //     this.setCrumbs()
-  //   }
-  // },
-  // methods: {
-  //   setCrumbs () {
-  //     const path = this.$route.fullPath.split('#')[0]
-  //     if (path === null || path === undefined) {
-  //       return
-  //     }
-  //     const crumbs = path.split('/').slice(1, path.split('/').length)
-  //     let i = 0
-  //     this.links = crumbs.reduce((acc, slug) => {
-  //       acc.push({
-  //         href: i === 0 ? `/${slug}` : `${crumbs[i - 1].href}/${slug}`,
-  //         text: slug
-  //       })
-  //       i++
-  //       return acc
-  //     }, [])
-  //   }
-  // }
+  data () {
+    return {
+      crumbs: []
+    }
+  },
+  fetch () {
+    this.setCrumbs()
+  },
+  watch: {
+    '$route.fullPath' () {
+      this.setCrumbs()
+    }
+  },
+  methods: {
+    setCrumbs () {
+      if (this.links?.length) {
+        return;
+      }
+      const path = this.$route.fullPath.split('#')[0];
+      if (path === null || path === undefined) {
+        return
+      }
+      const crumbs = path.split('/').slice(1, path.split('/').length)
+      let i = 0
+      this.crumbs = crumbs.reduce((acc, slug) => {
+        acc.push({
+          href: i === 0 ? `/${slug}` : `${crumbs[i - 1].href}/${slug}`,
+          text: slug
+        })
+        i++
+        return acc
+      }, [])
+    }
+  }
 })
 </script>
 

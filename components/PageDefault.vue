@@ -38,7 +38,7 @@
       }"
     >
       <template #breadcrumbs>
-        <Breadcrumbs :links="breadcrumbs" />
+        <Breadcrumbs />
       </template>
       <template #preTitle>
         <time
@@ -147,8 +147,8 @@ export default Vue.extend({
       id,
       resourceType
     } = this.pageData
-    this.$store.commit('nextPrevious/setCollectionType', collectionType)
-    this.$store.commit('nextPrevious/setEntry', this.pageData)
+    this.$store.commit('page/setCollectionType', collectionType)
+    this.$store.commit('page/setEntry', this.pageData)
     return {
       page: this.pageData,
       slug:
@@ -204,8 +204,8 @@ export default Vue.extend({
     pageData() {
       this.page = this.pageData
       const { collectionType = null } = this.pageData
-      this.$store.commit('nextPrevious/setCollectionType', collectionType)
-      this.$store.commit('nextPrevious/setEntry', this.pageData)
+      this.$store.commit('page/setCollectionType', collectionType)
+      this.$store.commit('page/setEntry', this.pageData)
     }
   },
   mounted() {
@@ -220,7 +220,7 @@ export default Vue.extend({
         ? this.pageData.title.toLowerCase()
         : initialSlug
     this.$store
-      .dispatch('getEntryUpdates', {
+      .dispatch('page/getUpdates', {
         slug: this.isSingleEntry ? slug : null,
         path: !!collectionType ? collectionType : initialSlug
       })

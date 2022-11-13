@@ -21,7 +21,7 @@ export default Vue.extend({
     return seoHead(this.page)
   },
   mounted() {
-    this.$store.dispatch('getEntryUpdates', { path: '/' })
+    this.$store.dispatch('page/getUpdates', { path: '/' })
       .then(res => {
         this.page = {...this.page, ...res}
       }).catch(console.error);

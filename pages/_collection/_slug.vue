@@ -15,7 +15,7 @@ import { seoHead } from '~/utils/seo';
 export default Vue.extend({
   scrollToTop: true,
   async asyncData ({ route, store }) {
-    const pageData = await store.dispatch('getEntry', { route });
+    const pageData = await store.dispatch('page/getEntry', { route });
     return { pageData }
   },
   head () {
