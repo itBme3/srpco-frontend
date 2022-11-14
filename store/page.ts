@@ -151,16 +151,19 @@ export const actions: any = {
                   const shouldFetchUpdates = await this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`).then((res: any) => {
                         const entry = Array.isArray(res.data) && res.data[0]?.attributes
                               ? res.data[0]?.attributes
-                              : res.data?.attributes;
+					: res.data?.attributes;
                         const contentEntryUpdated = new Date(contentEntry?.updatedAt || 0).getTime();
-                        const updatedAt = new Date(entry?.updatedAt || Date.now()).getTime();
+				const updatedAt = new Date(entry?.updatedAt || Date.now()).getTime();
                         return !contentEntry?.updatedAt || updatedAt > contentEntryUpdated
-                  });
-                  params.populate = populate;
+			});
+			params.populate = populate;
                   if (shouldFetchUpdates) {
-                        const queryString = qs.stringify(params, { encodeValuesOnly: true })
-                        return this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`)
-                              .then((res: any) => res?.data ? parseResponse(Array.isArray(res.data) ? res.data[0] : res.data) : {})
+				const queryString = qs.stringify(params, { encodeValuesOnly: true });
+				console.log(queryString)
+                        const entry = await this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`)
+					.then((res: any) => res?.data ? parseResponse(Array.isArray(res.data) ? res.data[0] : res.data) : {})
+				console.log({ entry });
+				return entry;
                   }
                   return {}
             } catch (err) {

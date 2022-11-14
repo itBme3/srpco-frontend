@@ -75,6 +75,11 @@
             v-else-if="block.__component === 'block.datasheets-collection'"
             :block="block" />
 
+          <LazyBlockMedia
+            v-else-if="block.__component === 'block.media'"
+            :block="block"
+          />
+
           <LazyBlockContent
             v-else-if="['block.content', 'solutions.challenge', 'solutions.solution', 'solutions.results', 'solutions.used'].includes(block.__component)"
             key="content"
