@@ -73,10 +73,12 @@
 
           <LazyBlockDatasheetsCollection
             v-else-if="block.__component === 'block.datasheets-collection'"
+            key="datasheets-collection"
             :block="block" />
 
           <LazyBlockMedia
             v-else-if="block.__component === 'block.media'"
+            key="media"
             :block="block"
           />
 

@@ -260,7 +260,7 @@ export default Vue.extend({
   }
   &.hero-style-media-left,
   &.hero-style-media-right {
-      @apply mb-[50%] md:mb-0 items-center justify-center flex flex-col md:flex-row overflow-visible;
+      @apply mb-[50%] md:mb-0 items-center justify-start flex flex-col md:flex-row overflow-visible;
       .hero-media {
         @apply absolute top-0 bottom-0 left-0 right-0 m-0;
       }
@@ -281,10 +281,10 @@ export default Vue.extend({
     }
     &.hero-style-media--right {
       .hero-media {
-        @apply md:order-last md:left-1/3;
+        @apply md:order-last md:left-1/3 ml-auto;
       }
       .hero-content {
-        @apply mr-auto;
+        @apply ml-0 mr-auto;
       }
     }
 

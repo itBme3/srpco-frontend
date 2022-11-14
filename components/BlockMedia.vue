@@ -1,6 +1,6 @@
 <template>
 	<Link
-		v-if="link"
+		v-if="media && link"
 		:to="link"
 		:open-new-tab="!!block.linkNewTab"
 		:class="{
@@ -19,7 +19,7 @@
 		/>
 	</Link>
 	<Media
-		v-else
+		v-else-if="media"
 		:media="media"
 		:youtube="youtube"
 		:overlay-classes="props.overlayClasses"
@@ -40,6 +40,7 @@ export default Vue.extend({
       default: null
     }
 	},
+	
 	computed: {
 		media () {
 			return this.block?.media || null
@@ -58,7 +59,12 @@ export default Vue.extend({
 		link() {
 			return this.block?.link
 		}
-	}
+	},
+	mounted () {
+		setTimeout(() => {
+			console.log(this.block)
+		}, 2000)
+	},
 })
 </script>
 
