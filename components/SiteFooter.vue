@@ -32,23 +32,43 @@
 
     <SiteFooterForm class="mb-32" />
 
+    <ul class="footer-links w-full">
+      <li v-for="link in links" :key="link.to">
+        <Link :to="link.to" :is-button="true">
+          {{link.label}}
+        </Link>
+      </li>
+    </ul>
+
     <div class="footer-blocks">
-      <div
-        v-for="block in siteMapBlocks"
-        :key="block.title"
-        class="footer-block sitemap"
-        :class="{ [block.classes]: !!block.classes }"
-      >
-        <h4 class="block-title">{{ block.title }}</h4>
-        <ul>
-          <li
-            v-for="entry in block.entries"
-            :key="entry.slug"
-            class="py-0"
-          >
-            <nuxt-link :to="'/' + block.collectionType + '/' + entry.slug">{{ entry.title }}</nuxt-link>
+
+      <div class="left">
+        <Logo class="h-[38px] top-0 w-auto mb-6 mr-auto" />
+        <address>120 Seegers Avenue,<br>Elk Grove Village,<br>IL 60007</address>
+      </div>
+
+      <div class="right col-span-1">
+         <ul class="social-links">
+          <li v-for="socialLink in socialLinks" :key="socialLink.to">
+            <Link 
+              :to="socialLink.to"
+              :open-new-tab="true"
+              :is-button="true">
+              <Icon :icon-name="socialLink.label" /> {{socialLink.label}}
+            </Link>
           </li>
         </ul>
+      </div>
+
+      <div class="bottom col-span-full">
+        <p class="copyright">
+          Copyright © {{year}} Standard Rubber Products  Co.  All rights reserved.
+        </p>
+        <p class="text-center">
+          <Link to="/privacy-policy">Privacy Policy</Link>
+          <Link to="mailto:info@srpco.com">info@srpco.com</Link>
+          <a href="tel:+18475935630">(847) 593-5630</a>
+        </p>
       </div>
     </div>
   </footer>
@@ -61,90 +81,33 @@ export default Vue.extend({
   data () {
     return {
       preferredConverter: [],
-      siteMapBlocks: []
+      siteMapBlocks: [],
+      links: [
+        {label: "Custom Gaskets", to: "/gaskets"},
+        {label: "Our Capabilities", to: "/services"},
+        {label: "Why SRP?", to: "/about-us"},
+        {label: "Resources", to: "/resources"},
+        {label: "Contact Us", to: "/contact"}
+      ],
+      socialLinks: [
+        {label: "Facebook", to: "https://www.facebook.com/standardrubberproducts/"},
+        {label: "Twitter", to: "https://twitter.com/SRP_CO"},
+        {label: "YouTube", to: "https://www.youtube.com/channel/UCu_bAN6SQdiSWVR5TGJ1ELQ/videos"},
+      ]
     }
   },
   fetch () {
-    const promises = [
-      this.$content('suppliers')
-        .only(['slug', 'title', 'media', 'totalConverters'])
-        .fetch().then(entries => {
-          this.preferredConverter = entries
-          return entries
-        }),
-      ...[{
-        title: 'Converting 3M',
-        collectionType: 'gaskets',
-        sort: 'order:asc',
-        filters: {
-          'suppliers.slug': { $contains: '3m' }
-        },
-        order: 0,
-      },
-      {
-        title: 'Converting Rogers',
-        collectionType: 'gaskets',
-        sort: 'order:asc',
-        filters: {
-          'suppliers.slug': { $contains: 'rogers-corporation' }
-        },
-        order: 1,
-      },
-      {
-        title: 'Gaskets By Material',
-        collectionType: 'materials',
-        sort: 'order:asc',
-        order: 4
-      },
-      {
-        title: 'Gaskets By Application',
-        collectionType: 'applications',
-        sort: 'order:asc',
-        order: 5
-      },
-      {
-        title: 'Suppliers',
-        collectionType: 'suppliers',
-        sort: 'order:asc',
-        order: 2
-      },
-      {
-        title: 'Services',
-        collectionType: 'services',
-        sort: 'order:asc',
-        order: 3
-      },
-      {
-        title: 'Solutions',
-        collectionType: 'solutions',
-        sort: 'publishedAt:desc',
-        order: 6,
-        limit: 4
-      },
-      {
-        title: 'Resources',
-        collectionType: 'resources',
-        sort: 'publishedAt:desc',
-        order: 7,
-        limit: 6
-      },
-      ].map(item => {
-        const sortField = item.sort?.split(':')[0] || 'publishedAt';
-        const sortDirection = item.sort?.split(':')[1] || 'desc';
-        return this.$content(item.collectionType)
-        .limit(item?.limit || 7)
-        .only(['slug', 'title'])
-        .sortBy(sortField, sortDirection)
-        .where(item?.filters || {})
-        .fetch().then(entries => {
-          this.siteMapBlocks.push({
-            ...item,
-            entries
-          })
-        })
-      })
-    ]
-    return Promise.all(promises).catch(console.error)
+    return this.$content('suppliers')
+      .only(['slug', 'title', 'media', 'totalConverters'])
+      .fetch().then(entries => {
+        this.preferredConverter = entries
+        return entries
+      });
+  },
+  computed: {
+    year () {
+      return (new Date()).getFullYear();
+    }
   }
 })
 </script>
@@ -195,23 +158,33 @@ export default Vue.extend({
       }
     }
   }
+  .footer-links {
+    @apply flex flex-wrap content-center items-start list-none py-2 bg-gray-900 px-0 m-auto;
+    li {
+      @apply p-0 m-auto;
+      &:not(:last-child) {
+        @apply border border-gray-800 border-l-0 border-r-0 border-b-0 border-t-0;
+      }
+    }
+    button {
+      @apply text-gray-200 hover:bg-gray-800 w-full py-4 px-3 rounded shadow-sm hover:shadow;
+    }
+  }
   .footer-blocks {
-    @apply w-full grid grid-cols-12 p-6 gap-6 sm:p-10 sm:gap-10 md:p-14 md:gap-14 content-end;
-    .footer-block {
-      @apply col-span-12 xs:col-span-6 sm:col-span-4 md:col-span-3;
-      &.sitemap {
-        .block-title {
-          @apply text-base border-2 border-gray-700 border-t-0 border-x-0 pb-3 font-semibold text-gray-200 hover:text-white;
-        }
-        ul {
-          @apply list-none pl-0;
-          li {
-            a {
-              @apply leading-snug text-gray-400 hover:text-white py-2 block font-normal tracking-wider;
-              font-size: 0.75rem;
-            }
-          }
-        }
+    @apply bg-gray-800 w-full grid grid-cols-1 sm:grid-cols-2 p-6 gap-6 sm:p-10 sm:gap-10 md:p-14 md:gap-14;
+    .top, .bottom {
+      @apply col-span-full content-center items-center m-auto;
+    }
+    .left, .right {
+      @apply col-span-1;
+    }
+    .right {
+      @apply sm:ml-auto w-auto;
+    }
+    .social-links {
+      @apply list-none;
+      .icon {
+        @apply mr-2;
       }
     }
   }

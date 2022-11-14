@@ -6,6 +6,7 @@
 		width="20" 
 		height="20" 
 		viewBox="0 0 20 20"
+    fill="none"
 		v-html="icons[iconName]">
 	</svg>
 </template>
@@ -30,8 +31,10 @@ export default Vue.extend({
 
 <style lang="scss">
   .icon {
-    @apply fill-gray-50 inline-block h-4 w-auto;
+    @apply fill-gray-300 inline-block h-4 w-auto;
+    fill-opacity: 0;
     path {
+      fill-opacity: 1;
       fill: inherit;
     }
   }
