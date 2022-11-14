@@ -279,9 +279,9 @@ export default Vue.extend({
         @apply ml-auto;
       }
     }
-    &.hero-style-media--right {
+    &.hero-style-media-right {
       .hero-media {
-        @apply md:order-last md:left-1/3 ml-auto;
+        @apply md:order-last md:left-1/3;
       }
       .hero-content {
         @apply ml-0 mr-auto;
