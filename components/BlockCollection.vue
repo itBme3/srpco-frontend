@@ -471,7 +471,7 @@ export default Vue.extend({
 
 .load-more-button {
   @apply mt-5 uppercase bg-opacity-5 bg-gray-300 hover:bg-opacity-10 tracking-wide px-3 py-2 w-auto block;
-  color:var(--block-content-color);
+  color:var(--block-color);
 }
 </style>
 

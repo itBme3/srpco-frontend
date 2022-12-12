@@ -1,4 +1,5 @@
 <template>
+	<!-- <pre><code>{{JSON.stringify(block, null, 2)}}</code></pre> -->
 	<Link
 		v-if="media && link"
 		:to="link"
@@ -19,12 +20,13 @@
 		/>
 	</Link>
 	<Media
-		v-else-if="media"
+		v-else-if="media || youtube"
 		:media="media"
 		:youtube="youtube"
 		:overlay-classes="props.overlayClasses"
 		:overlay="props.overlay"
 		:video-params="props.videoParams"
+		:ratio="props.ratio"
 		:class="{
 			[classes.media]: !!classes.link
 		}"

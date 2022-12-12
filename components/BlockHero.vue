@@ -182,7 +182,7 @@ export default Vue.extend({
   @apply order-1;
 }
 .hero {
-  @apply transition-all ease-quick-in duration-200 shadow-md overflow-visible relative px-4 py-8 md:px-8 md:py-16 min-h-[50vh];
+  @apply transition-all ease-quick-in duration-200 overflow-visible relative px-4 py-8 md:px-8 md:py-16 min-h-[50vh];
   * {
     &:not(.overlay) {
       &:not(iframe) {

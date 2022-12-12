@@ -116,7 +116,7 @@ export default Vue.extend({
 
 <style lang="scss">
 .heading {
-  @apply flex items-start content-start py-2 sm:py-0 relative;
+  @apply flex items-start content-start py-2 sm:py-0 relative mb-2 sm:mb-4;
   .heading-content {
     @apply block sm:flex flex-row items-center justify-start w-full;
   }
@@ -183,8 +183,8 @@ export default Vue.extend({
 }
 .single-entry {
   &.solution, &.resource {
+    @apply max-w-6xl mx-auto;
     .heading {
-      @apply max-w-6xl mx-auto #{!important};
       .heading-content {
         @apply relative mt-4;
         .heading-text-content {

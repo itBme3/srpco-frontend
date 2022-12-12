@@ -97,9 +97,6 @@ p {
         @apply my-4;
     }
 }
-a {
-        text-decoration: inherit;
-}
 ul {
         list-style: disc;
         @apply my-2 pl-4 list-disc;

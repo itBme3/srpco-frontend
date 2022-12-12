@@ -55,8 +55,15 @@ export default Vue.extend({
 
 <style lang="scss">
 .block-content {
+  .block-title {
+    color: var(--block-color, inherit);
+  }
   a {
-    @apply text-blue;
+    @apply inline-block border border-t-0 border-l-0 border-r-0 text-opacity-80 hover:text-opacity-100;
+    border-color: var(--block-color, inherit);
+    &:hover {
+      color: var(--block-color, inherit);
+    }
   }
 }
 

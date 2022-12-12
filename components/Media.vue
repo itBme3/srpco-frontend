@@ -2,9 +2,9 @@
   <div
     :style="{ 
       height: imgHeight,
-  backgroundImage: isBackground && typeof mediaSrc === 'string' && mediaSrc.length > 0 && !mediaSrc.includes('.pdf') ? 'url(' + mediaSrc + ')' : 'none',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'center',
+      backgroundImage: isBackground && typeof mediaSrc === 'string' && mediaSrc.length > 0 && !mediaSrc.includes('.pdf') ? 'url(' + mediaSrc + ')' : 'none',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
       backgroundSize: 'cover'
     }"
     :class="{
@@ -42,7 +42,7 @@
           'relative z-10': !isBackground,
           'absolute z-0 -inset-1': !!isBackground
           }"
-        :ratio="'16:9'"
+        :ratio="!ratio || ratio === 'auto' ? '16:9' : ratio"
         :mute="!!videoParams.mute"
         :style="{ height: imgHeight }"
         :autoplay="!!videoParams.autoplay"

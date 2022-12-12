@@ -31,7 +31,7 @@
 						<h4 class="py-2 text-gray-300">{{group.title}}</h4>
 						<div
 							class="datasheets flex flex-col gap-1"
-							style="--block-content-color: rgba(96, 165, 250, var(--tw-text-opacity))">
+							style="--block-color: rgba(96, 165, 250, var(--tw-text-opacity))">
 							<template v-for="entry in group.datasheets">
 								<Card
 									v-if="![null, undefined].includes(entry)"

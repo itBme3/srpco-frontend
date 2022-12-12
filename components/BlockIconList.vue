@@ -39,11 +39,6 @@ export default Vue.extend({
     block: {
       type: Object,
       default: () => null
-      /*
-      title icon
-      items { icon classes text }
-      blockSettings
-      */
     }
   },
   computed: {
@@ -69,7 +64,7 @@ export default Vue.extend({
     @apply mb-5 relative pl-8 pt-0;
     .icon {
       @apply text-xl absolute -left-1 top-2;
-      fill: var(--block-content-color);
+      fill: var(--block-color, rgb(74 222 128 / var(--tw-text-opacity)));
     }
   }
 }

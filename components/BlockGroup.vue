@@ -7,10 +7,9 @@
       ['group-style-' + groupStyle]: true
     }"
   >
-
     <client-only>
       <scrollbar
-        v-if="groupStyle === 'tabs'"
+        v-if="groupStyle === 'tabs' && sections.length > 1"
         ref="scrollTabs"
         class="tabs items-center space-x-2 relative z-2 flex flex-nowrap max-w-full pb-2"
         :options="{ suppressScrollY: true, suppressScrollX: false }"
@@ -43,12 +42,12 @@
         v-for="(section, i) in sections"
         :key="i + '-' + handleize(section.title) + '-2'"
         :class="{
-          'expanded': activeIndex === i,
+          'expanded': activeIndex === i || (sections.length < 2 && groupStyle !== 'expand'),
           [classes.panel]: !!classes.panel
         }"
       >
         <gButton
-          v-if="groupStyle === 'accordion' && ![undefined, null].includes(section) && typeof section.title === 'string'"
+          v-if="groupStyle === 'accordion' && !!section && typeof section.title === 'string' && sections.length > 1"
           :class="{
             'panel-heading': true,
             [classes.buttons]: !!classes.buttons,
@@ -77,12 +76,12 @@
           />
         </gButton>
         <div
-          v-if="hasExpanded.includes(i) || block.groupStyle === 'grid'"
+          v-if="hasExpanded.includes(i) || block.groupStyle === 'grid' || (sections.length < 2 && groupStyle !== 'expand')"
           :class="{
             'panel-content space-y-4': true,
             [classes.content]: !!classes.content,
             'expanded transition-all ease-quick-in duration-200 opacity-100 translate-y-0 animate-fade-in-down': i === activeIndex,
-            'opacity-0 hidden -translate-y-full': i !== activeIndex && block.groupStyle !== 'grid'
+            'opacity-0 hidden -translate-y-full': i !== activeIndex && block.groupStyle !== 'grid' && sections.length > 1
           }"
         >
 
@@ -99,43 +98,24 @@
             v-if="Array.isArray(section.datasheets) && section.datasheets.length > 0"
             :block="{ datasheets: section.datasheets, title: null }"
           />
-          <div
-            v-if="Array.isArray(section.gaskets) && section.gaskets.length > 0"
-            class='gaskets entries flex flex-col justify-content-start items-center space-y-1'
-          >
-            <template v-for="entry in section.gaskets">
-              <Card
-                :key="entry.id"
-                :card-style="'mediaLeft'"
-                :title="entry.title"
-                :text="null"
-                :media="![null, undefined].includes(entry.file) ? entry.file : entry.media"
-                :media-ratio="'4:2'"
-                :link="'/' + entry.collectionType + '/' + entry.slug"
-                :open-new-tab="false"
-                class="collection-entry w-full"
-                :is-background="true"
-              />
-            </template>
-          </div>
-          <BlockMaterials
-            v-if="Array.isArray(section.materials) && section.materials.length > 0"
-            class="w-full flex flex-col justify-content-start items-center space-y-1"
-            :block="{ entries: section.materials, title: null }"
+
+          <BlockEntries
+            class='w-full'
+            :block="{ ...block, cardSettings, entries: materialsAndGaskets(section), title: null }"
           />
+
           <BlockApplications
             v-if="Array.isArray(section.applications) && section.applications.length > 0"
             class="w-full flex flex-col justify-content-start items-center space-y-1"
-            :block="{ entries: section.applications, title: null }"
+            :block="{ ...block, entries: section.applications, title: null }"
           />
+
           <BlockResources
             v-if="Array.isArray(section.resources) && section.resources.length > 0"
             class="w-full flex flex-col justify-content-start items-center space-y-1"
-            :block="{ entries: section.resources, title: null }"
+            :block="{ ...block, entries: section.resources, title: null }"
           />
-
         </div>
-
       </div>
     </div>
   </div>
@@ -172,7 +152,9 @@ export default Vue.extend({
     activeIndex () {
       return this.active
     },
-
+    cardSettings () {
+      return this.block?.cardSettings || { cardStyle: 'mediaLeft', classes: { media: 'h-full py-0' } }
+    }
   },
   mounted () {
     if (typeof this.activeIndex !== 'number' && this.block.groupStyle === 'tabs') {
@@ -180,16 +162,12 @@ export default Vue.extend({
       this.hasExpanded.push(0)
     }
   },
-  // mounted () {
-  //   return {
-  //     activeIndex: 0,
-  //     groupStyle: ![undefined, null].includes(this.block) && typeof this.block.groupStyle === 'string' ? this.block.groupStyle : 'tabs',
-  //     sections: ![undefined, null].includes(this.block) && Array.isArray(this.block.sections) && this.block.sections.length > 0 ? this.block.sections : null,
-  //     title: ![undefined, null].includes(this.block) && typeof this.block.title === 'string' ? this.block.title : null
-  //   }
-  // },
   methods: {
     handleize,
+    materialsAndGaskets (section) {
+      const { materials = [], gaskets = [] } = section || {};
+      return (materials || []).concat((gaskets || []))
+    },
     toggleSections (indx) {
       setTimeout(() => {
         window.scroll({ left: 0, top: this.$refs.container.offsetTop - 50, behavior: 'smooth' })
@@ -229,11 +207,11 @@ export default Vue.extend({
 .tab {
   @apply whitespace-nowrap bg-white bg-opacity-5 text-gray-400 w-auto hover:bg-opacity-100 hover:text-black hover:text-opacity-75;
   &:hover {
-    background-color: var(--block-content-color);
+    background-color: var(--block-color);
   }
   &.active {
     @apply text-black text-opacity-75;
-    background-color: var(--block-content-color);
+    background-color: var(--block-color);
   }
 }
 .group-container {
@@ -241,7 +219,7 @@ export default Vue.extend({
   &.group-style-tabs {
     @apply shadow-lg mt-4 p-3 bg-white bg-opacity-5;
     .panels {
-      @apply p-2;
+      @apply p-2 pt-8;
     }
   }
   &.group-style-accordion {
@@ -254,7 +232,10 @@ export default Vue.extend({
       }
     }
     .panel-content {
-      @apply p-3 bg-gray-800 rounded-b;
+      @apply p-3;
+      .block-content {
+        @apply mb-8;
+      }
     }
     .panels {
       @apply p-0;
@@ -271,7 +252,8 @@ export default Vue.extend({
   &.group-style-grid {
     @apply p-0;
     .panels {
-      @apply grid grid-cols-2 sm:grid-cols-3 gap-4 p-0;
+      @apply grid gap-4 p-0;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     }
     .panel {
       @apply col-span-1;

@@ -265,7 +265,7 @@ export default Vue.extend({
   }
   .icon {
     @apply m-auto mr-1 ml-0;
-    fill: var(--block-content-color);
+    fill: var(--block-color);
   }
   .media {
     @apply max-w-[100px];

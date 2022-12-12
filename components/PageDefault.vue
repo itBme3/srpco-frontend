@@ -243,7 +243,7 @@ export default Vue.extend({
 
 <style lang="scss">
 .page-content {
-  @apply bg-gray-600 bg-opacity-5 rounded py-8 px-6 h-auto;
+  @apply bg-gray-900 rounded py-8 px-6 h-auto;
 }
 .single-entry,
 .collection {

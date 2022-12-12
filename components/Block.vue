@@ -8,6 +8,7 @@
       [classes.block]: true,
       ['block-' + block.__component.split('.').filter(w => w !== 'block').join('-')]: true
     }"
+    :style="styles"
   >
 
 
@@ -15,7 +16,7 @@
 
       <gTag
         v-if="showTitle && title && title.length && !['block.hero'].includes(block.__component)"
-        :tag-name="title.length < 85 ? 'h4' : 'h5' "
+        :tag-name="title.length < 85 ? 'h3' : 'h4' "
         :class="{
           'block-title': true,
           [classes.title]: !!classes.title.length
@@ -98,9 +99,10 @@
             key="hero"
             :block="block"
           />
-          <LazyBlockGaskets
+          <LazyBlockEntries
             v-else-if="block.__component === 'block.gaskets' || (block.__component === 'solutions.used' && block.gaskets)"
             key="gaskets"
+            collection-top="gaskets"
             :block="block"
           />
           <LazyBlockDatasheets
@@ -108,9 +110,10 @@
             key="datasheets"
             :block="block"
           />
-          <LazyBlockMaterials
+          <LazyBlockEntries
             v-else-if="block.__component === 'block.materials' || (block.__component === 'solutions.used' && block.materials && block.materials.length > 0)"
             key="materials"
+            collection-top="materials"
             :block="block"
           />
           <LazyBlockApplications
@@ -189,6 +192,9 @@ export default Vue.extend({
     classes() {
       const { block, title, buttons, content } = getBlockClasses(this.block);
       return { block, title, buttons, content }
+    },
+    styles() {
+      return this.block?.blockSettings?.classes?.style || ""
     }
   },
   watch: {
