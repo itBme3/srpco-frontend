@@ -341,12 +341,12 @@ export default Vue.extend({
   }
   &:not(.no-media) {
     .card-style-media-left {
-      @apply items-start content-between;
+      @apply items-start content-between gap-2 sm:gap-3 md:gap-4;
       .card-content {
         @apply mr-auto w-2/3 px-2 py-0 my-auto;
       }
       .card-media {
-        @apply my-auto mr-4 sm:mr-6 w-[calc(33.333%-.75rem)];
+        @apply my-auto w-[calc(33.333%-.75rem)];
       }
     }
     .card-style-media-right {
@@ -355,7 +355,7 @@ export default Vue.extend({
         @apply mr-auto w-2/3 text-center;
       }
       .card-media {
-        @apply ml-4 sm:ml-6 order-2 w-1/3;
+        @apply order-2 w-1/3;
       }
     }
   }

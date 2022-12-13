@@ -178,7 +178,7 @@ export default Vue.extend({
     },
     pageClasses() {
       const defaults = {}
-      if (this.page?.type === 'resource') {
+      if (['page', 'resource'].includes(this.page?.type)) {
         defaults.overlay = 'bg-gradient-to-b from-transparent to-gray-900'
       }
       return getPageClasses(this.page, defaults)

@@ -10,7 +10,7 @@
     }"
   >
     <slot name="breadcrumbs" class="heading-breadcrumbs" />
-    
+
     <div class="heading-content">
       <Media
         v-if="
@@ -37,7 +37,7 @@
             :class="{
               [classes.description]: !!classes.description
             }"
-            :style="{ width: `${title.length * 0.6}ch` }"
+            :style="{ width: `${title.length * 0.6}ch`, maxWidth: '80%' }"
           />
         </h1>
         <component
@@ -99,8 +99,7 @@ export default Vue.extend({
     divider: {
       type: Boolean,
       default: false
-    },
-    
+    }
   },
   computed: {
     descriptionArray() {
@@ -182,7 +181,9 @@ export default Vue.extend({
   }
 }
 .single-entry {
-  &.solution, &.resource {
+  &.solution,
+  &.resource,
+  &.page {
     @apply max-w-6xl mx-auto;
     .heading {
       .heading-content {
@@ -202,11 +203,12 @@ export default Vue.extend({
           }
         }
         .heading-media {
-          @apply absolute w-full max-w-full inset-0 opacity-30 z-0 max-h-full;
+          @apply pt-0 absolute w-full max-w-full inset-0 opacity-30 z-0 max-h-full #{!important};
         }
       }
     }
   }
+  &.page,
   &.resource {
     .heading {
       &.has-media {
@@ -221,19 +223,20 @@ export default Vue.extend({
         }
       }
     }
-    &.resource-article {
-      .heading {
-        &.has-media {
-          .heading-content {
-            @apply flex h-[70vw] max-h-[30rem];
-          }
-          .heading-text-content {
-            @apply mb-0;
-          }
+  }
+  &.page,
+  &.resource.resource-article {
+    .heading {
+      &.has-media {
+        .heading-content {
+          @apply py-4 sm:py-6 md:py-8 flex h-auto sm:h-[50vw] md:h-[30vw] max-h-[40rem] min-h-[13rem] overflow-hidden;
+        }
+        .heading-text-content {
+          @apply mb-0;
         }
       }
     }
-    &.resource-video {
+    &.resource.resource-video {
       .heading {
         .heading-content {
           @apply rounded-lg overflow-hidden;
@@ -250,10 +253,11 @@ export default Vue.extend({
     }
   }
   &.supplier {
+    
     .heading-media {
-      max-width: 200px;
-      max-height: 200px;
+      @apply max-w-[100px] max-w-[100px] ;
     }
+    
   }
   &.service {
     .heading {

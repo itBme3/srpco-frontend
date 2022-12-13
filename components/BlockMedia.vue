@@ -1,5 +1,4 @@
 <template>
-	<!-- <pre><code>{{JSON.stringify(block, null, 2)}}</code></pre> -->
 	<Link
 		v-if="media && link"
 		:to="link"
@@ -69,7 +68,3 @@ export default Vue.extend({
 	},
 })
 </script>
-
-<style lang="scss">
-
-</style>

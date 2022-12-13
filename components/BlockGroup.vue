@@ -41,6 +41,7 @@
       <div
         v-for="(section, i) in sections"
         :key="i + '-' + handleize(section.title) + '-2'"
+        class="panel"
         :class="{
           'expanded': activeIndex === i || (sections.length < 2 && groupStyle !== 'expand'),
           [classes.panel]: !!classes.panel
@@ -253,7 +254,7 @@ export default Vue.extend({
     @apply p-0;
     .panels {
       @apply grid gap-4 p-0;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
     .panel {
       @apply col-span-1;

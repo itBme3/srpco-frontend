@@ -59,7 +59,7 @@ export default Vue.extend({
     color: var(--block-color, inherit);
   }
   a {
-    @apply inline-block border border-t-0 border-l-0 border-r-0 text-opacity-80 hover:text-opacity-100;
+    @apply underline underline-offset-1 text-opacity-80 hover:text-opacity-100 decoration-blue-300 hover:text-blue-300;
     border-color: var(--block-color, inherit);
     &:hover {
       color: var(--block-color, inherit);
