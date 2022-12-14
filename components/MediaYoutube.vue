@@ -60,7 +60,6 @@ export default Vue.extend({
   },
   data () {
     const paramsFromSrc = qs.parse((this.src?.split("?")[1] || ''));
-    console.log({ paramsFromSrc });
     const videoId = paramsFromSrc.v || this.src?.split('/').pop()?.split('?')[0] || null;
     delete paramsFromSrc.v;
     return {

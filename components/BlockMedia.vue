@@ -60,11 +60,6 @@ export default Vue.extend({
 		link() {
 			return this.block?.link
 		}
-	},
-	mounted () {
-		setTimeout(() => {
-			console.log(this.block)
-		}, 2000)
-	},
+	}
 })
 </script>

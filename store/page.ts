@@ -159,10 +159,8 @@ export const actions: any = {
 			params.populate = populate;
                   if (shouldFetchUpdates) {
 				const queryString = qs.stringify(params, { encodeValuesOnly: true });
-				console.log(queryString)
                         const entry = await this.$axios.$get(`${process.env.apiUrl}/api/${path}?${queryString}`)
 					.then((res: any) => res?.data ? parseResponse(Array.isArray(res.data) ? res.data[0] : res.data) : {})
-				console.log({ entry });
 				return entry;
                   }
                   return {}
@@ -172,7 +170,6 @@ export const actions: any = {
             }
 	},
 	async getNextEntries({ commit, state }: any) {
-		console.log("getNextEntries");
 		const { sort: initialSort = defaultSort, collectionType = '', entry = null }: { sort: string[] | string, collectionType: string, filters: any, entry: any } = state;
             let { filters: initialFilters = {} } = state;
             if (!!!initialFilters) {
@@ -205,7 +202,6 @@ export const actions: any = {
 				.fetch()
 				.then((res:EntryItem[]) => res?.forEach(entry => nextEntries.push(entry)));
 		}
-		console.log(nextEntries)
 		commit('setNext', nextEntries);
 	}
 }

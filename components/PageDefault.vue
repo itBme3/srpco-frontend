@@ -225,14 +225,10 @@ export default Vue.extend({
         path: !!collectionType ? collectionType : initialSlug
       })
       .then((res) => {
-        console.log(res);
-        try {
-          this.page = {
-            ...this.page,
-            ...res
-          }
-          setTimeout(() => console.log('blocks: ', this.pageBlocks), 500)
-        } catch {}
+        this.page = {
+          ...this.page,
+          ...(res || {})
+        }
       })
   },
   methods: {
