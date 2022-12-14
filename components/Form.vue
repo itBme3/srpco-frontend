@@ -48,12 +48,11 @@
     </template>
 
     <p v-if="captcha && formState !== 'success'" class="recaptcha-message">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.</p>
-
+    <div id="recaptcha-container"></div>
   </div>
 </template>
 
 <script>
-import 'dotenv/config'
 import Vue from 'vue'
 export default Vue.extend({
   props: {
@@ -113,18 +112,18 @@ export default Vue.extend({
       this.errorMessage = null
     },
     getCaptchaToken () {
+      console.log(process.env.captchaKey);
+      console.log({window});
       if (!window) { return null };
       return new Promise((resolve) => {
-        window.grecaptcha.ready(async () =>
-          await window.grecaptcha.execute('6LcZu-ggAAAAAK1k6NJ6uf7GfkHA27xucfxVT1Kt', { action: 'contact' })
-            .then(res => {
-              resolve(res)
-            })
+        window.grecaptcha?.ready(function () {
+          return window.grecaptcha.execute(process.env.captchaKey, { action: 'contact' })
+            .then(resolve)
             .catch(err => {
               console.error(err);
               resolve(null)
             })
-        );
+        });
       });
     }
   }

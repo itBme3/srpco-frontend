@@ -105,7 +105,8 @@ export default {
   },
   sitemap: {
     hostname: process.env.HOST_URL,
-    gzip: true
+    gzip: true,
+    captchaKey
   },
   googleAnalytics: {
     id: gaId,

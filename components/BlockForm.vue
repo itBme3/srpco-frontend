@@ -34,11 +34,6 @@ export default Vue.extend({
     }
 	},
   methods: {
-		// resetForm () {
-		// 	console.log(this.$refs.form.componentInstance)
-		// 	this.$refs.form.componentInstance.resetForm()
-		// },
-    
     toBase64 (file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
