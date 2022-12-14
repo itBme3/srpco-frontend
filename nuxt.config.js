@@ -112,10 +112,9 @@ export default {
     id: gaId,
     layer: 'dataLayer',
     pageTracking: true,
-    disableScriptLoader: true,
+    checkDuplicatedScript: true,
     debug: {
       enabled: false,
-      trace: false,
       sendHitTask: true
     }
   },
