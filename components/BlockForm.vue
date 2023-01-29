@@ -64,10 +64,10 @@ export default Vue.extend({
         model.token = this.captchaToken;
         model.captcha = captcha;
         const fileInput = this.$refs.form.$el.querySelector('input[type="file"]');
-        if (fileInput) {
+        if (fileInput && fileInput.files?.[0]) {
           const file = fileInput.files[0];
           const maxSize = 1000000 * 2; // 2mb
-          if (file.size > maxSize) {
+          if (file?.size > maxSize) {
             this.$refs.form.formState = 'error';
             this.$refs.form.errorMessage = 'error';
             return alert('File exceeds max file size (2MB).');
