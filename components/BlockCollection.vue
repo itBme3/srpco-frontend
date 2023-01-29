@@ -264,9 +264,8 @@ export default Vue.extend({
     '$route.query': {
       immediate: true,
       handler () {
-        if (!this.updateUrl) return
-        this.queryParams = this.getQueryParams()
-        // this.get()
+        if (!this.updateUrl) return;
+        this.queryParams = this.getQueryParams();
       }
     },
     searchValue (val) {

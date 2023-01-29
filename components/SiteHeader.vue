@@ -114,14 +114,17 @@ export default Vue.extend({
       expanded: false,
       searchValue,
       recentSearches: [],
-      isMobile: false
+      isMobile: false,
+      shouldUpdateSearch: true
     }
   },
   watch: {
     '$route.path' () {
       this.expanded = false
       if (this.$route.path.split('/').length > 2) {
-        this.searchValue = ''
+        this.shouldUpdateSearch = false;
+        this.searchValue = '';
+        setTimeout(() => (this.shouldUpdateSearch = true));
       }
     },
     '$route.hash' (val) {
@@ -148,7 +151,9 @@ export default Vue.extend({
       // if (!this.searchValue?.length && (!searchCollections.includes(this.searchCollection) || this.$route.path.split('/').length > 2)) {
       //   return;
       // }
-      this.updateSearchValue()
+      if (this.shouldUpdateSearch) {
+        this.updateSearchValue()
+      }
     }
   },
   mounted () {
@@ -177,11 +182,12 @@ export default Vue.extend({
       this.expanded = false;
       if ((typeof this.searchValue !== 'string' || this.searchValue.trim().length === 0) && Object.keys(query).includes('q')) {
         delete query.q
-      } else if (query.q !== this.searchValue) {
+      } else if (this.searchValue.trim().length > 0 && query.q !== this.searchValue) {
         query.q = this.searchValue
       }
       const queryString = qs.stringify(query);
-      const path = `/search${queryString?.length ? `?${queryString}` : ''}`;
+      const path = `/search${queryString.length > 1 ? `?${queryString}` : ''}`;
+      console.log({ path, "$route.fullPath": this.$route.fullPath }, path === this.$route.fullPath);
       if (path === this.$route.fullPath) {
         return
       }
