@@ -66,6 +66,7 @@ export default {
     '~/plugins/tailwind-components.js',
     '~/plugins/form-generator.js',
     '~/plugins/truncate.js',
+    '~/plugins/gtag.js',
   ],
   
 
@@ -85,7 +86,6 @@ export default {
     ],
     '@nuxtjs/tailwindcss',
     '@nuxt/postcss8',
-    '@nuxtjs/google-analytics'
   ],
 
   modules: [
@@ -107,16 +107,6 @@ export default {
     hostname: process.env.HOST_URL,
     gzip: true,
     captchaKey
-  },
-  googleAnalytics: {
-    id: gaId,
-    layer: 'dataLayer',
-    pageTracking: true,
-    checkDuplicatedScript: true,
-    debug: {
-      enabled: false,
-      sendHitTask: true
-    }
   },
   markdownit: {
     runtime: true,
@@ -140,7 +130,8 @@ export default {
     mapsApiKey: process.env.G_MAPS_API_KEY,
     baseUrl: process.env.BASE_URL || 'http://localhost:3001',
     apiUrl,
-    captchaKey
+    captchaKey,
+    GA: gaId
   },
   router: {
     middleware: 'redirecting'
