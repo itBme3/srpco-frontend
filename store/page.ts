@@ -100,7 +100,7 @@ export const actions: any = {
                   ? [...priorityCollectionTypes[collectionType], ..._collectionTypes.filter(t => !priorityCollectionTypes[collectionType].includes(t))]
                   : _collectionTypes;
 
-            const foundRedirect: any = await this.$content('redirects').where({ old: path }).limit(1).fetch()
+            const foundRedirect: any = await this.$content('redirects').where({ old: {$in: [path, `${path}/`]} }).limit(1).fetch()
                   .then((res: any) => Array.isArray(res) ? res[0] : null);
             if (foundRedirect?.new) {
                   return foundRedirect.new

@@ -112,8 +112,6 @@ export default Vue.extend({
       this.errorMessage = null
     },
     getCaptchaToken () {
-      console.log(process.env.captchaKey);
-      console.log({window});
       if (!window) { return null };
       return new Promise((resolve) => {
         window.grecaptcha?.ready(function () {

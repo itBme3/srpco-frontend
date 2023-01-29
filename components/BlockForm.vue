@@ -76,7 +76,7 @@ export default Vue.extend({
           model.file = fileBase64;
         }
         let res = null;
-        res = await this.$axios.post(`${process.env.apiUrl}/api/email-contact`, model)
+        res = await this.$axios.post(`${process.env.apiUrl}/api/email-contact`, model);
         if (res.error?.length) {
           this.$refs.form.formState = 'error';
           this.$refs.form.errorMessage = `<h2>Error</h2><p>${res.error}</p>`
