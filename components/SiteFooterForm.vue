@@ -37,6 +37,13 @@ export default Vue.extend({
 					placeholder: 'Message...',
 					required: true
 				},
+				{
+					type: "input",
+					label: "Send file",
+					model: "file",
+					inputType: "file",
+					placeholder: "upload your file..."
+				},
 			]
 		}
 	}),
