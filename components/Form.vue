@@ -124,7 +124,7 @@ export default Vue.extend({
     handleSubmit(e){
       e.preventDefault();
       this.$emit('submit', this.model);
-      this.$gtag('generate_lead', {
+      this.$gtag.event('generate_lead', {
         event_category: 'contact us',
         value: 100,
         event_label: this.$route.path,

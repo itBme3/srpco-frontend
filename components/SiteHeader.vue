@@ -30,7 +30,7 @@
         <Link
           to="tel:+18003336322"
           class="self-center flex"
-          @click="$gtag('button_click_call', {
+          @click="$gtag.event('button_click_call', {
               event_category: 'contact us', 
               value: '18003336322', 
               event_label: $route.path,

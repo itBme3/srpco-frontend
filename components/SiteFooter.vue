@@ -68,7 +68,7 @@
           <Link to="/privacy-policy">Privacy Policy</Link>
           <Link
             to="mailto:info@srpco.com" 
-            @click="$gtag('click', {
+            @click="$gtag.event('button_click_email', {
               event_category: 'contact us', 
               value: 'info@srpco.com', 
               event_label: $route.path
@@ -77,7 +77,7 @@
           </Link>
           <Link 
             to="tel:+18475935630"
-            @click="$gtag('button_click_call', {
+            @click="$gtag.event('button_click_call', {
               event_category: 'contact us', 
               value: '18475935630',
               click_destination: '18475935630',
