@@ -3,7 +3,8 @@ import 'dotenv/config'
 
 const apiUrl = process.env.API_URL;
 const captchaKey = process.env.CAPTCHA_KEY;
-const gaId = process.env.NODE_ENV === 'production' && process.env.GA_ENV !== 'dev' ? process.env.GA : process.env.GA_DEV;
+const ga4 = process.env.NODE_ENV === 'production' && process.env.GA_ENV !== 'dev' ? process.env.GA : process.env.GA_DEV;
+const gaU = process.env.GAU;
 
 export default {
 
@@ -131,7 +132,8 @@ export default {
     baseUrl: process.env.BASE_URL || 'http://localhost:3001',
     apiUrl,
     captchaKey,
-    GA: gaId
+    GA: ga4,
+    GAU: gaU
   },
   router: {
     middleware: 'redirecting'

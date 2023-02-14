@@ -1,18 +1,18 @@
 <template>
     
   <nuxt-link
-    v-if="typeof to === 'string' && !!to.indexOf && (to.indexOf('/') === 0 || to.indexOf('#') === 0) && !openNewTab && !isButton"
+    v-if="linkType === 'nuxt'"
     :to="to"
   >
     <slot />
   </nuxt-link>
   <gButton
-    v-else-if="typeof to === 'string' && !!to.indexOf && (to.indexOf('/') === 0 || to.indexOf('#') === 0) && !openNewTab && isButton"
+    v-else-if="linkType === 'button'"
     @click="$router.push(to)">
     <slot />
   </gButton>
   <a
-    v-else-if="typeof to === 'string' && to.length > 0"
+    v-else-if="linkType === 'link'"
     :href="to"
     class="simple-link"
     :target="openNewTab === true ? '_blank' : '_self'"
@@ -20,7 +20,7 @@
     <slot />
   </a>
   <button
-    v-else-if="![undefined, null].includes(mData)"
+    v-else-if="linkType === 'modal'"
     :tag-name="mData === null ? 'div' : 'gButton'"
     @click="handleModal()"
   >
@@ -66,6 +66,23 @@ export default Vue.extend({
       mData.videoParams = Object.keys(videoParams).length ? { ...defaultParams, ...videoParams } : defaultParams
     }
     return { showModal: false, mData }
+  },
+  computed: {
+    linkType() {
+      if(typeof this.to === 'string' && !!this.to.indexOf && (this.to.indexOf('/') === 0 || this.to.indexOf('#') === 0) && !this.openNewTab && !this.isButton) {
+        return "nuxt"
+      }
+      if (typeof this.to === 'string' && !!this.to.indexOf && (this.to.indexOf('/') === 0 || this.to.indexOf('#') === 0) && !this.openNewTab && this.isButton) {
+        return "button"
+      }
+      if(![undefined, null].includes(this.mData)) {
+        return "modal"
+      }
+      if(typeof this.to === 'string' && this.to.length > 0) {
+        return "link"
+      }
+      return "span";
+    }
   },
   methods: {
     toggleModal () {

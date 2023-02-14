@@ -1,6 +1,6 @@
 <template>
 	 <Block
-	 	v-if="show"
+			v-if="show"
       class="mx-auto max-w-md rounded-md bg-gray-50"
       :block="{ formSchema: formSchema, __component: 'block.form' }"
 			:lazy="true"

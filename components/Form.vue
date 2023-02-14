@@ -15,10 +15,7 @@
           ref="form"
           class="form"
           :class="{ 'hidden': ['success', 'sending'].includes(formState) }"
-          @submit="(e) => {
-            e.preventDefault()
-            $emit('submit', model)
-          }">
+          @submit="handleSubmit">
           <vue-form-generator
             :schema="schema"
             :model="model"
@@ -122,6 +119,16 @@ export default Vue.extend({
               resolve(null)
             })
         });
+      });
+    },
+    handleSubmit(e){
+      e.preventDefault();
+      this.$emit('submit', this.model);
+      this.$gtag('generate_lead', {
+        event_category: 'contact us',
+        value: 100,
+        event_label: this.$route.path,
+        currency: 'USD'
       });
     }
   }

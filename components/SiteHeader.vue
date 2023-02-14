@@ -27,16 +27,22 @@
           /> Elk Grove Village, IL, USA
         </p>
 
-        <a
-          href="tel:+18003336322"
+        <Link
+          to="tel:+18003336322"
           class="self-center flex"
+          @click="$gtag('button_click_call', {
+              event_category: 'contact us', 
+              value: '18003336322', 
+              event_label: $route.path,
+              click_destination: '18003336322',
+            })"
         >
           <Icon
             icon-name="call"
             class="text-gray-600 relative top-[.1rem] mr-2 h-[.9rem]"
           />
           800.333.6322
-        </a>
+        </Link>
       </div>
 
       <gButton

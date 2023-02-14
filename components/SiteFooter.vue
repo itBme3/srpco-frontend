@@ -66,8 +66,23 @@
         </p>
         <p class="text-center">
           <Link to="/privacy-policy">Privacy Policy</Link>
-          <Link to="mailto:info@srpco.com">info@srpco.com</Link>
-          <a href="tel:+18475935630">(847) 593-5630</a>
+          <Link
+            to="mailto:info@srpco.com" 
+            @click="$gtag('click', {
+              event_category: 'contact us', 
+              value: 'info@srpco.com', 
+              event_label: $route.path
+            })">
+            info@srpco.com
+          </Link>
+          <Link 
+            to="tel:+18475935630"
+            @click="$gtag('button_click_call', {
+              event_category: 'contact us', 
+              value: '18475935630',
+              click_destination: '18475935630',
+              event_label: $route.path
+            })">(847) 593-5630</Link>
         </p>
       </div>
     </div>
