@@ -72,6 +72,7 @@ export default {
   
 
   buildModules: [
+    '@nuxtjs/dotenv',
     '@nuxt/typescript-build',
     [
       '@nuxtjs/google-fonts',
@@ -132,6 +133,10 @@ export default {
     baseUrl: process.env.BASE_URL || 'http://localhost:3001',
     apiUrl,
     captchaKey,
+    GA: ga4,
+    GAU: gaU
+  },
+  publicRuntimeConfig: {
     GA: ga4,
     GAU: gaU
   },

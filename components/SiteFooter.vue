@@ -68,21 +68,17 @@
           <Link to="/privacy-policy">Privacy Policy</Link>
           <Link
             to="mailto:info@srpco.com" 
-            @click="$gtag.event('button_click_email', {
-              event_category: 'contact us', 
-              value: 'info@srpco.com', 
-              event_label: $route.path
-            })">
+            @click="() => {
+              console.log('some'); 
+              tack('info@srpco.com', { category: 'Email', label: $route.path }, { gu: $config.GAU, g4: $config.GA }, $gtag)
+              }">
             info@srpco.com
           </Link>
           <Link 
             to="tel:+18475935630"
-            @click="$gtag.event('button_click_call', {
-              event_category: 'contact us', 
-              value: '18475935630',
-              click_destination: '18475935630',
-              event_label: $route.path
-            })">(847) 593-5630</Link>
+            @click="() => tack('847.593.5630', { category: 'Phone', label: $route.path }, { gu: $config.GAU, g4: $config.GA }, $gtag)">
+            (847) 593-5630
+          </Link>
         </p>
       </div>
     </div>
@@ -91,7 +87,7 @@
 
 <script>
 import Vue from 'vue'
-
+import { track } from '~/utils/gtag-tracking';
 export default Vue.extend({
   data () {
     return {
@@ -123,6 +119,9 @@ export default Vue.extend({
     year () {
       return (new Date()).getFullYear();
     }
+  },
+  methods: {
+    tack: track
   }
 })
 </script>

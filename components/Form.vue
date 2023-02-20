@@ -50,7 +50,8 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import Vue from 'vue';
+import { track } from '~/utils/gtag-tracking';
 export default Vue.extend({
   props: {
     schema: {
@@ -124,12 +125,7 @@ export default Vue.extend({
     handleSubmit(e){
       e.preventDefault();
       this.$emit('submit', this.model);
-      this.$gtag.event('generate_lead', {
-        event_category: 'contact us',
-        value: 100,
-        event_label: this.$route.path,
-        currency: 'USD'
-      });
+      track("form submit", { category: "contact us form", label: this.$route.path, value: 100, currency: 'USD' }, { gu: this.$config.GAU, g4: this.$config.GA }, this.$gtag);
     }
   }
 })

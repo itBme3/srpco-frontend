@@ -3,12 +3,13 @@
   <nuxt-link
     v-if="linkType === 'nuxt'"
     :to="to"
+    @click="(e) => $emit('click', e)"
   >
     <slot />
   </nuxt-link>
   <gButton
     v-else-if="linkType === 'button'"
-    @click="$router.push(to)">
+    @click="(e) =>{$router.push(to); $emit('click', e)}">
     <slot />
   </gButton>
   <a
@@ -16,13 +17,14 @@
     :href="to"
     class="simple-link"
     :target="openNewTab === true ? '_blank' : '_self'"
+    @click="(e) => $emit('click', e)"
   >
     <slot />
   </a>
   <button
     v-else-if="linkType === 'modal'"
     :tag-name="mData === null ? 'div' : 'gButton'"
-    @click="handleModal()"
+    @click="(e) => {handleModal(); $emit('click', e)}"
   >
     <slot />
   </button>

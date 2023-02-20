@@ -30,12 +30,7 @@
         <Link
           to="tel:+18003336322"
           class="self-center flex"
-          @click="$gtag.event('button_click_call', {
-              event_category: 'contact us', 
-              value: '18003336322', 
-              event_label: $route.path,
-              click_destination: '18003336322',
-            })"
+          @click="() => tack('800.333.6322', { category: 'Phone', label: $route.path }, { gu: $config.GAU, g4: $config.GA }, $gtag)"
         >
           <Icon
             icon-name="call"
@@ -76,16 +71,16 @@
           class="site-search-input bg-gray-800 hover:bg-opacity-100 z-[1005] flex items-center"
           :class="{ 'bg-opacity-70': !expanded }"
           variant="header"
-          @clear="searchValue = ''"
+          @clear="() => searchValue = ''"
           @focus="inputFocused"
-          @search="searchValue = $event"
-          @blur="storeSearch()"
+          @search="() => searchValue = $event"
+          @blur="() => storeSearch()"
         >
         </SearchInput>
         <gButton
           v-if="!expanded && $store.state.window.width > 1200"
           class="transform scale-95 hover:scale-100 header-contact-button hidden sm:flex rounded-full bg-green-400 w-auto text-green-900 uppercase font-bold whitespace-nowrap mx-2 text-sm py-2"
-          @click="$router.push('/contact')"
+          @click="() => $router.push('/contact')"
         >
           get a quote
         </gButton>
@@ -109,6 +104,7 @@ import qs from 'qs'
 import _ from 'lodash'
 import Vue from 'vue'
 import { asyncDelay, scrollToElement } from '~/utils/funcs'
+import { track } from '~/utils/gtag-tracking';
 export default Vue.extend({
   data () {
     const { q: searchValue = '' } = this.$route.query
@@ -174,6 +170,7 @@ export default Vue.extend({
     window.removeEventListener('keyup', this.handleKeyupEsc)
   },
   methods: {
+    track,
     setScrolling () {
       this.$store.commit('scrolling/set')
     },
