@@ -19,7 +19,7 @@
           : 'page'
       "
       :description="resourceType === 'video' && page.youtube ? null : page.description"
-      :media="
+      :media="resourceType === 'ebook' ? null :
         (!entryType || !entryTypes.includes(entryType)) &&
         page.seo &&
         page.seo.image
@@ -51,7 +51,7 @@
       </template>
     </Heading>
 
-    <div v-if="pageMedia" class="page-media">
+    <!-- <div v-if="pageMedia" class="page-media">
       <Media
         :media="pageMedia.file"
         :youtube="pageMedia.youtube"
@@ -61,11 +61,11 @@
       <h6 v-if="resourceType === 'video'" class="description">
         {{ page.description }}
       </h6>
-    </div>
+    </div> -->
 
     <Media
-      v-if="entryType === 'datasheet' || resourceType === 'ebook'"
-      :media="page.file"
+      v-if="page && page.media && (entryType === 'datasheet' || resourceType === 'ebook')"
+      :media="page.media"
       ratio="8:11"
       class="h-[calc(100vh-80px)] w-full rounded-md col-span-full"
     />
@@ -172,7 +172,7 @@ export default Vue.extend({
       }
       return {
         youtube: this.page?.youtube || null,
-        file: this.page?.file || null,
+        file: this.page?.file || this.page?.media || null,
         ratio: this.page?.file ? '8:11' : null
       }
     },
