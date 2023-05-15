@@ -51,17 +51,16 @@
       </template>
     </Heading>
 
-    <!-- <div v-if="pageMedia" class="page-media">
+    <div v-if="pageMedia && resourceType === 'video'" class="page-media">
       <Media
-        :media="pageMedia.file"
         :youtube="pageMedia.youtube"
         :ratio="pageMedia.ratio"
         class="rounded-md w-full"
       />
-      <h6 v-if="resourceType === 'video'" class="description">
+      <h6 class="description">
         {{ page.description }}
       </h6>
-    </div> -->
+    </div>
 
     <Media
       v-if="page && page.media && (entryType === 'datasheet' || resourceType === 'ebook')"
